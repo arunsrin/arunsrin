@@ -4,13 +4,6 @@ tags:
   - games
   - shooter
   - fps
-years:
-  - "2023"
-  - "2022"
-  - "2021"
-  - "2020"
-  - "2019"
-  - "2016"
 ---
 
 # :material-target:{ .anim-rotate } Shooters (FPS)

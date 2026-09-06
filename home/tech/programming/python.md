@@ -3,8 +3,6 @@ title: "Python"
 tags:
   - python
   - programming
-years:
-  - "2026"
 ---
 
 # :material-language-python:{ .anim-heart } Python

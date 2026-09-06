@@ -4,10 +4,6 @@ tags:
   - books
   - fiction
   - mystery
-years:
-  - "2025"
-  - "2024"
-  - "2023"
 ---
 
 # :material-incognito:{ .anim-bounce } Mystery & Thriller

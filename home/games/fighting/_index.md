@@ -3,9 +3,6 @@ title: "Fighting Games"
 tags:
   - games
   - fighting
-years:
-  - "2022"
-  - "2020"
 ---
 
 # :material-boxing-glove:{ .anim-bounce } Fighting Games

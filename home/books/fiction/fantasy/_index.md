@@ -4,13 +4,6 @@ tags:
   - books
   - fiction
   - fantasy
-years:
-  - "2026"
-  - "2025"
-  - "2024"
-  - "2023"
-  - "2022"
-  - "2021"
 ---
 
 # :material-auto-fix:{ .anim-rotate } Fantasy

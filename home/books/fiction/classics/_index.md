@@ -4,15 +4,6 @@ tags:
   - books
   - fiction
   - classics
-years:
-  - "2026"
-  - "2025"
-  - "2024"
-  - "2023"
-  - "2022"
-  - "2021"
-  - "2020"
-  - "2006"
 ---
 
 # :material-view-column:{ .anim-bounce } Classics

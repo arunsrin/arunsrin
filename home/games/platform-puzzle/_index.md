@@ -4,12 +4,6 @@ tags:
   - games
   - platformer
   - puzzle
-years:
-  - "2026"
-  - "2023"
-  - "2022"
-  - "2021"
-  - "2019"
 ---
 
 # :material-puzzle:{ .anim-heart } Platformers & Puzzles

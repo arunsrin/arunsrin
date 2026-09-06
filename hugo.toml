@@ -17,7 +17,6 @@ publishDir = 'public'
 
 [taxonomies]
   tag = 'tags'
-  year = 'years'
 
 [related]
   includeNewer = true
@@ -26,9 +25,6 @@ publishDir = 'public'
   [[related.indices]]
     name = 'tags'
     weight = 100
-  [[related.indices]]
-    name = 'years'
-    weight = 60
 
 [markup]
   [markup.goldmark]

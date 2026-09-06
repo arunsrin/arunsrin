@@ -1,16 +1,9 @@
 {{ define "main" }}
 <article>
-  {{ if or .Params.tags .Params.year }}
+  {{ with .Params.tags }}
     <div style="margin-bottom: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.35rem;">
-      {{ with .Params.tags }}
-        {{ range . }}
-          <a href="/tags/{{ . | urlize }}/" class="tag-pill">🏷️ {{ . }}</a>
-        {{ end }}
-      {{ end }}
-      {{ with .Params.year }}
-        {{ range . }}
-          <a href="/years/{{ . }}/" class="tag-pill" style="border-color: #0284c7; color: var(--link-color);">📅 {{ . }}</a>
-        {{ end }}
+      {{ range . }}
+        <a href="/tags/{{ . | urlize }}/" class="tag-pill">🏷️ {{ . }}</a>
       {{ end }}
     </div>
   {{ end }}

@@ -4,10 +4,6 @@ tags:
   - books
   - fiction
   - historical
-years:
-  - "2025"
-  - "2024"
-  - "2020"
 ---
 
 # :material-timer-sand:{ .anim-rotate } Historical Fiction

@@ -1,10 +1,7 @@
 {{ define "main" }}
 <article>
   <header>
-    {{ if eq .Data.Singular "year" }}
-      <h1>📅 Content from {{ .Title }}</h1>
-      <p style="color: var(--text-muted);">All book reviews, game notes, and articles referencing {{ .Title }}.</p>
-    {{ else if eq .Data.Singular "tag" }}
+    {{ if eq .Data.Singular "tag" }}
       <h1>🏷️ Tag: {{ .Title }}</h1>
     {{ else }}
       {{ if not .Content }}
@@ -12,17 +9,10 @@
       {{ end }}
     {{ end }}
 
-    {{ if or .Params.tags .Params.year }}
+    {{ with .Params.tags }}
       <div style="margin-bottom: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.35rem;">
-        {{ with .Params.tags }}
-          {{ range . }}
-            <a href="/tags/{{ . | urlize }}/" class="tag-pill">🏷️ {{ . }}</a>
-          {{ end }}
-        {{ end }}
-        {{ with .Params.year }}
-          {{ range . }}
-            <a href="/years/{{ . }}/" class="tag-pill" style="border-color: #0284c7; color: var(--link-color);">📅 {{ . }}</a>
-          {{ end }}
+        {{ range . }}
+          <a href="/tags/{{ . | urlize }}/" class="tag-pill">🏷️ {{ . }}</a>
         {{ end }}
       </div>
     {{ end }}
@@ -36,7 +26,7 @@
 
   {{ if .Pages }}
     <section class="section-pages" style="margin-top: 2rem;">
-      <h2>{{ if eq .Data.Singular "year" }}Articles & Notes{{ else }}Pages in this section{{ end }}</h2>
+      <h2>Pages in this section</h2>
       <ul style="list-style: none; padding-left: 0;">
         {{ range .Pages.ByWeight }}
           <li style="margin: 0.75rem 0; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-color);">
@@ -44,13 +34,6 @@
               {{ if .IsSection }}📁{{ else }}📄{{ end }} {{ .Title }}
             </a>
             {{ with .Description }}<p style="margin: 0.2rem 0; font-size: 0.9rem; color: var(--text-muted);">{{ . }}</p>{{ end }}
-            {{ with .Params.year }}
-              <div style="margin-top: 0.25rem;">
-                {{ range . }}
-                  <span class="tag-pill" style="font-size: 0.75rem; padding: 0.1rem 0.4rem;">📅 {{ . }}</span>
-                {{ end }}
-              </div>
-            {{ end }}
           </li>
         {{ end }}
       </ul>
