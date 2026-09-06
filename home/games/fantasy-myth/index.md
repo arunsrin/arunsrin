@@ -9,6 +9,12 @@ tags:
 
 Legendary creatures, magical realms, and mythological epics.
 
+### Resonance: A Plague Tale (2026)
+
+I never did complete the earlier games in the series, but I really liked this one. There's more combat than
+in those, and it feels like an excellent mix of Indiana Jones and Tomb Raider. The graphics are really really
+nice and so is the setting of the game.
+
 ### ❤️ Clair Obscur: Expedition 33 (2025)
 A rare masterpiece. It hooks you right from the intriguing prologue with an air of melancholy throughout. Every part of the game feels crafted with love. My GOTY.
 
