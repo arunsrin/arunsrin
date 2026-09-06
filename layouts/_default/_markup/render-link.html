@@ -1,7 +1,38 @@
 {{- $dest := .Destination -}}
-{{- if not (or (hasPrefix $dest "http://") (hasPrefix $dest "https://") (hasPrefix $dest "mailto:") (hasPrefix $dest "#")) -}}
-  {{- $dest = replace $dest "_index.md" "" -}}
-  {{- $dest = replace $dest "index.md" "" -}}
-  {{- $dest = replace $dest ".md" "/" -}}
+{{- $isRemote := or (hasPrefix $dest "http://") (hasPrefix $dest "https://") (hasPrefix $dest "mailto:") (hasPrefix $dest "#") -}}
+{{- if not $isRemote -}}
+  {{- $url := urls.Parse $dest -}}
+  {{- $path := $url.Path -}}
+  {{- $fragment := $url.Fragment -}}
+
+  {{- $cleanPath := strings.TrimSuffix ".md" $path -}}
+  {{- $cleanPath = strings.TrimSuffix "/index" $cleanPath -}}
+  {{- $cleanPath = strings.TrimSuffix "/_index" $cleanPath -}}
+
+  {{- $page := .Page.GetPage $path -}}
+  {{- if not $page }}{{ $page = .Page.GetPage $cleanPath }}{{ end -}}
+  {{- if not $page }}{{ with .Page.Parent }}{{ $page = .GetPage $path }}{{ end }}{{ end -}}
+  {{- if not $page }}{{ with .Page.Parent }}{{ $page = .GetPage $cleanPath }}{{ end }}{{ end -}}
+  {{- if not $page }}{{ $page = site.GetPage $path }}{{ end -}}
+  {{- if not $page }}{{ $page = site.GetPage $cleanPath }}{{ end -}}
+  {{- if not $page }}{{ $page = site.GetPage (printf "/%s" (strings.TrimPrefix "/" $path)) }}{{ end -}}
+  {{- if not $page }}{{ $page = site.GetPage (printf "/%s" (strings.TrimPrefix "/" $cleanPath)) }}{{ end -}}
+
+  {{- if $page -}}
+    {{- $dest = $page.RelPermalink -}}
+    {{- if $fragment -}}
+      {{- $dest = printf "%s#%s" $dest $fragment -}}
+    {{- end -}}
+  {{- else -}}
+    {{- if hasPrefix $dest "static/" -}}
+      {{- $dest = printf "/%s" $dest -}}
+    {{- else if hasPrefix $dest "../static/" -}}
+      {{- $dest = replace $dest "../static/" "/static/" -}}
+    {{- else -}}
+      {{- $dest = replace $dest "_index.md" "" -}}
+      {{- $dest = replace $dest "index.md" "" -}}
+      {{- $dest = replace $dest ".md" "/" -}}
+    {{- end -}}
+  {{- end -}}
 {{- end -}}
 <a href="{{ $dest | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}>{{ .Text | safeHTML }}</a>
