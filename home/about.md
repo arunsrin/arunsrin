@@ -30,4 +30,8 @@ There are some tiny easter eggs here and there.. look around!
 
 These days I primarily write content using vim on a terminal.
 
+## 📖 Books I own
 
+This is not up to date and I've stowed most of them away. But it is a good representation of my tastes.
+
+![Books I own](/static/mybooks.png)
