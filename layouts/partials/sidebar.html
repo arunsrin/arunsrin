@@ -4,14 +4,23 @@
     <li><a href="/" class="{{ if .IsHome }}active{{ end }}">🏠 Home</a></li>
   </ul>
 
+  {{ $currentPage := . }}
   {{ range .Site.Sections.ByWeight }}
-  <div class="nav-section-title">{{ .Title }}</div>
-  <ul>
-    {{ partial "sidebar-tree.html" . }}
-  </ul>
+    {{ $isCurrentSection := or (eq $currentPage.RelPermalink .RelPermalink) (hasPrefix $currentPage.RelPermalink .RelPermalink) }}
+    <details class="nav-section-details" {{ if $isCurrentSection }}open{{ end }}>
+      <summary class="nav-section-summary">
+        <a href="{{ .RelPermalink }}" class="{{ if eq $currentPage.RelPermalink .RelPermalink }}active{{ end }}">{{ .Title }}</a>
+      </summary>
+      <ul>
+        <li>
+          <a href="{{ .RelPermalink }}" class="{{ if eq $currentPage.RelPermalink .RelPermalink }}active{{ end }}">📌 Overview</a>
+        </li>
+        {{ partial "sidebar-tree.html" (dict "context" . "currentPage" $currentPage) }}
+      </ul>
+    </details>
   {{ end }}
 
-  <div class="nav-section-title">Site</div>
+  <div class="nav-section-title" style="margin-top: 1.5rem;">Site</div>
   <ul>
     <li><a href="/about/" class="{{ if eq .RelPermalink "/about/" }}active{{ end }}">ℹ️ About</a></li>
   </ul>

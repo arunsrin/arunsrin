@@ -6,6 +6,7 @@ publishDir = 'public'
 
 [outputs]
   home = ['HTML', 'RSS', 'JSON']
+  section = ['HTML', 'RSS']
 
 [params]
   description = "The truth shall make ye fret."
@@ -16,6 +17,14 @@ publishDir = 'public'
 
 [taxonomies]
   tag = 'tags'
+
+[related]
+  includeNewer = true
+  threshold = 20
+  toLower = true
+  [[related.indices]]
+    name = 'tags'
+    weight = 100
 
 [markup]
   [markup.goldmark]

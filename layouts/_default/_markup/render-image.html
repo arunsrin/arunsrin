@@ -1,0 +1,9 @@
+{{- $src := .Destination -}}
+{{- if not (or (hasPrefix $src "http://") (hasPrefix $src "https://") (hasPrefix $src "/")) -}}
+  {{- if hasPrefix $src "static/" -}}
+    {{- $src = printf "/%s" $src -}}
+  {{- else if hasPrefix $src "../static/" -}}
+    {{- $src = replace $src "../static/" "/static/" -}}
+  {{- end -}}
+{{- end -}}
+<img src="{{ $src | safeURL }}" alt="{{ .Text }}"{{ with .Title }} title="{{ . }}"{{ end }} loading="lazy">

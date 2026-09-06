@@ -1,7 +1,7 @@
 {{ define "main" }}
 <article>
   {{ with .Params.tags }}
-    <div style="margin-bottom: 1rem;">
+    <div style="margin-bottom: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.35rem;">
       {{ range . }}
         <a href="/tags/{{ . | urlize }}/" class="tag-pill">🏷️ {{ . }}</a>
       {{ end }}
@@ -11,5 +11,26 @@
   <div class="content">
     {{ .Content }}
   </div>
+
+  {{ $related := site.RegularPages.Related . | first 5 }}
+  {{ with $related }}
+    <section class="related-content" style="margin-top: 3.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
+      <h3 style="margin-bottom: 0.75rem;">🔗 Related Notes</h3>
+      <ul style="list-style: none; padding-left: 0;">
+        {{ range . }}
+          <li style="margin: 0.5rem 0;">
+            <a href="{{ .RelPermalink }}" style="text-decoration: none; color: var(--link-color); font-weight: 500;">
+              {{ if .IsSection }}📁{{ else }}📄{{ end }} {{ .Title }}
+            </a>
+            {{ with .Params.tags }}
+              <span style="font-size: 0.8rem; color: var(--text-muted); margin-left: 0.5rem;">
+                {{ range . }}#{{ . }} {{ end }}
+              </span>
+            {{ end }}
+          </li>
+        {{ end }}
+      </ul>
+    </section>
+  {{ end }}
 </article>
 {{ end }}

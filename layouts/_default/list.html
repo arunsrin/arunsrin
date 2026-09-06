@@ -1,22 +1,36 @@
 {{ define "main" }}
 <article>
+  <header>
+    {{ if eq .Data.Singular "tag" }}
+      <h1>🏷️ Tag: {{ .Title }}</h1>
+    {{ else }}
+      {{ if not .Content }}
+        <h1>{{ .Title }}</h1>
+      {{ end }}
+    {{ end }}
+
+    {{ with .Params.tags }}
+      <div style="margin-bottom: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.35rem;">
+        {{ range . }}
+          <a href="/tags/{{ . | urlize }}/" class="tag-pill">🏷️ {{ . }}</a>
+        {{ end }}
+      </div>
+    {{ end }}
+  </header>
+
   {{ if .Content }}
     <div class="content" style="margin-bottom: 2rem;">
       {{ .Content }}
     </div>
-  {{ else }}
-    <header>
-      <h1>{{ .Title }}</h1>
-    </header>
   {{ end }}
 
   {{ if .Pages }}
-    <section class="section-pages">
+    <section class="section-pages" style="margin-top: 2rem;">
       <h2>Pages in this section</h2>
-      <ul>
-        {{ range .Pages }}
-          <li style="margin: 0.5rem 0;">
-            <a href="{{ .RelPermalink }}" style="font-weight: 500; text-decoration: none; color: var(--link-color);">
+      <ul style="list-style: none; padding-left: 0;">
+        {{ range .Pages.ByWeight }}
+          <li style="margin: 0.75rem 0; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-color);">
+            <a href="{{ .RelPermalink }}" style="font-weight: 600; text-decoration: none; color: var(--link-color); font-size: 1.05rem;">
               {{ if .IsSection }}📁{{ else }}📄{{ end }} {{ .Title }}
             </a>
             {{ with .Description }}<p style="margin: 0.2rem 0; font-size: 0.9rem; color: var(--text-muted);">{{ . }}</p>{{ end }}

@@ -14,6 +14,10 @@
 <!-- Custom Extra CSS -->
 <link rel="stylesheet" href="/css/extra.css">
 
+<!-- RSS Feed Auto-Discovery -->
+<link rel="alternate" type="application/rss+xml" href="{{ "/index.xml" | absURL }}" title="{{ .Site.Title }}">
+
+
 <style>
 :root {
   --font-family-sans: 'Ubuntu', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -211,6 +215,85 @@ code, pre {
   margin-top: 1.25rem;
   margin-bottom: 0.5rem;
 }
+.nav-section-title a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+.nav-section-title a:hover, .nav-section-title a.active {
+  color: var(--link-color);
+}
+
+/* Collapsible navigation tree */
+details.nav-section-details {
+  margin-top: 1rem;
+}
+details.nav-section-details > summary {
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: 0.35rem;
+  padding: 0.2rem 0;
+}
+details.nav-section-details > summary::-webkit-details-marker {
+  display: none;
+}
+details.nav-section-details > summary::before {
+  content: '▸';
+  display: inline-block;
+  margin-right: 0.4rem;
+  transition: transform 0.2s ease;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+details.nav-section-details[open] > summary::before {
+  transform: rotate(90deg);
+}
+details.nav-section-details > summary a {
+  color: inherit;
+  text-decoration: none;
+  flex: 1;
+}
+details.nav-section-details > summary a:hover,
+details.nav-section-details > summary a.active {
+  color: var(--link-color);
+}
+
+details.nav-sub-details {
+  margin: 0.15rem 0;
+}
+details.nav-sub-details > summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+details.nav-sub-details > summary::-webkit-details-marker {
+  display: none;
+}
+details.nav-sub-details > summary::before {
+  content: '▸';
+  display: inline-block;
+  margin-right: 0.35rem;
+  font-size: 0.75rem;
+  transition: transform 0.2s ease;
+  color: var(--text-muted);
+}
+details.nav-sub-details[open] > summary::before {
+  transform: rotate(90deg);
+}
+details.nav-sub-details > summary a {
+  flex: 1;
+}
+
+
 
 .toc-title {
   font-weight: 700;
@@ -265,9 +348,24 @@ code, pre {
   margin: 1.5rem 0;
   border-radius: 0 0.375rem 0.375rem 0;
 }
+.admonition.warning {
+  border-left-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.08);
+}
+.admonition.tip {
+  border-left-color: #10b981;
+  background: rgba(16, 185, 129, 0.08);
+}
+.admonition.note, .admonition.info {
+  border-left-color: #0284c7;
+  background: rgba(2, 132, 199, 0.08);
+}
 .admonition-title {
   font-weight: 700;
   margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 /* Footer & Quotes */
@@ -309,6 +407,15 @@ footer .container {
   border-radius: 0.25rem;
   font-size: 0.75rem;
   cursor: pointer;
+}
+
+.content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  display: block;
+  margin: 1.5rem 0;
 }
 
 @media (max-width: 992px) {
@@ -385,7 +492,23 @@ footer .container {
     'material-earth': '🌐',
     'material-pencil': '📝',
     'material-pen-nib': '✍️',
-    'material-chess-knight': '♟️'
+    'material-chess-knight': '♟️',
+    'material-bird': '🐦',
+    'material-book-open-variant': '📖',
+    'material-boxing-glove': '🥊',
+    'material-calculator': '🧮',
+    'material-cash-multiple': '💵',
+    'material-controller-classic': '🎮',
+    'material-currency-btc': '🪙',
+    'material-file-document-outline': '📄',
+    'material-lock-check': '🔒',
+    'material-medal': '🏅',
+    'material-microscope': '🔬',
+    'material-skull': '💀',
+    'material-television': '📺',
+    'material-thermometer': '🌡️',
+    'material-unicorn-variant': '🦄',
+    'material-virus': '🦠'
   };
 
   function getIconifyName(rawName) {
@@ -445,10 +568,42 @@ footer .container {
     }
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', transformIcons);
-  } else {
+  function transformAdmonitions() {
+    const ICONS = {
+      note: 'ℹ️ Note',
+      tip: '💡 Tip',
+      warning: '⚠️ Warning',
+      caution: '🛑 Caution',
+      info: 'ℹ️ Info',
+      important: '❗ Important'
+    };
+
+    document.querySelectorAll('.content p, article p').forEach(p => {
+      const text = p.innerHTML.trim();
+      const match = text.match(/^!!!\s*([a-zA-Z]+)(?:\s+"([^"]+)")?\s*(?:<br\s*\/?>|\n)?\s*([\s\S]*)$/);
+      if (match) {
+        const type = match[1].toLowerCase();
+        const customTitle = match[2];
+        const restContent = match[3];
+        const titleText = customTitle || ICONS[type] || (type.charAt(0).toUpperCase() + type.slice(1));
+
+        const adm = document.createElement('div');
+        adm.className = `admonition ${type}`;
+        adm.innerHTML = `<div class="admonition-title">${titleText}</div><div class="admonition-content">${restContent}</div>`;
+        p.parentNode.replaceChild(adm, p);
+      }
+    });
+  }
+
+  function initPage() {
+    transformAdmonitions();
     transformIcons();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPage);
+  } else {
+    initPage();
   }
 })();
 </script>
