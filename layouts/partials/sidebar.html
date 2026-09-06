@@ -5,8 +5,13 @@
   </ul>
 
   {{ range .Site.Sections.ByWeight }}
-  <div class="nav-section-title">{{ .Title }}</div>
+  <div class="nav-section-title">
+    <a href="{{ .RelPermalink }}" class="{{ if eq $.RelPermalink .RelPermalink }}active{{ end }}">{{ .Title }}</a>
+  </div>
   <ul>
+    <li>
+      <a href="{{ .RelPermalink }}" class="{{ if eq $.RelPermalink .RelPermalink }}active{{ end }}">📌 {{ .Title }} Overview</a>
+    </li>
     {{ partial "sidebar-tree.html" . }}
   </ul>
   {{ end }}
