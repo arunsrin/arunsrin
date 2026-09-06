@@ -9,3 +9,183 @@
 </footer>
 
 <script src="/static/quotes.js" defer></script>
+<script src="/static/iconify-icon.min.js" defer></script>
+
+{{ if .Store.Get "hasMermaid" }}
+<!-- Conditional Mermaid JS for diagram rendering -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" defer></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  });
+</script>
+{{ end }}
+
+<!-- Iconify & Admonitions Post-Processor -->
+<script>
+(function() {
+  const EMOJI_MAP = {
+    'material-home-variant': '🏡',
+    'material-arrow-down-bold-circle-outline': '⬇️',
+    'material-console': '💻',
+    'material-brain': '🧠',
+    'simple-ansible': '⚙️',
+    'material-cloud': '☁️',
+    'material-web': '🌐',
+    'material-database': '🗄️',
+    'simple-docker': '🐳',
+    'material-keyboard-outline': '⌨️',
+    'material-magnify': '🔍',
+    'material-chart-bell-curve': '📈',
+    'material-ladybug': '🐞',
+    'material-kubernetes': '☸️',
+    'material-penguin': '🐧',
+    'material-lan': '🌐',
+    'material-lock': '🔒',
+    'material-code-tags': '💻',
+    'simple-go': '🐹',
+    'material-language-java': '☕',
+    'material-powershell': '⚡',
+    'material-language-python': '🐍',
+    'material-fire': '🔥',
+    'material-microsoft-windows': '🪟',
+    'material-book': '📚',
+    'material-weather-night': '🌌',
+    'material-view-column': '🏛️',
+    'material-library': '📖',
+    'material-auto-fix': '🪄',
+    'material-timer-sand': '⏳',
+    'material-incognito': '🕵️',
+    'material-dna': '🧬',
+    'material-thought-bubble': '💭',
+    'material-history': '📜',
+    'material-math-compass': '📐',
+    'fontawesome-solid-pen-nib': '✒️',
+    'material-controller': '🎮',
+    'fontawesome-brands-xbox': '🎮',
+    'material-sword': '⚔️',
+    'material-chip': '💾',
+    'material-target': '🎯',
+    'material-drama-masks': '🎭',
+    'material-puzzle': '🧩',
+    'material-sprout': '🪴',
+    'material-television-classic': '📺',
+    'material-check-circle': '✅',
+    'material-earth': '🌐',
+    'material-pencil': '📝',
+    'material-pen-nib': '✍️',
+    'material-chess-knight': '♟️',
+    'material-bird': '🐦',
+    'material-book-open-variant': '📖',
+    'material-boxing-glove': '🥊',
+    'material-calculator': '🧮',
+    'material-cash-multiple': '💵',
+    'material-controller-classic': '🎮',
+    'material-currency-btc': '🪙',
+    'material-file-document-outline': '📄',
+    'material-lock-check': '🔒',
+    'material-medal': '🏅',
+    'material-microscope': '🔬',
+    'material-skull': '💀',
+    'material-television': '📺',
+    'material-thermometer': '🌡️',
+    'material-unicorn-variant': '🦄',
+    'material-virus': '🦠'
+  };
+
+  function getIconifyName(rawName) {
+    if (rawName.startsWith('material-')) return 'mdi:' + rawName.slice(9);
+    if (rawName.startsWith('simple-')) return 'simple-icons:' + rawName.slice(7);
+    if (rawName.startsWith('fontawesome-brands-')) return 'fa6-brands:' + rawName.slice(19);
+    if (rawName.startsWith('fontawesome-solid-')) return 'fa6-solid:' + rawName.slice(18);
+    if (rawName.startsWith('octicons-')) return 'octicon:' + rawName.slice(9);
+    return 'mdi:' + rawName;
+  }
+
+  function transformIcons() {
+    const regexWithAttrs = /:([a-z0-9_-]+):\s*\{\s*([^}]+)\s*\}/gi;
+    const regexPlain = /:([a-z0-9_-]+):/gi;
+
+    function processTextNode(node) {
+      if (!node.nodeValue || !node.nodeValue.includes(':')) return;
+
+      const text = node.nodeValue;
+      if (!regexWithAttrs.test(text) && !regexPlain.test(text)) return;
+      regexWithAttrs.lastIndex = 0;
+      regexPlain.lastIndex = 0;
+
+      const span = document.createElement('span');
+      let html = text.replace(regexWithAttrs, (match, iconName, attrStr) => {
+        const classes = attrStr.split(/\s+/).map(c => c.startsWith('.') ? c.slice(1) : c).join(' ');
+        const iconifyAttr = getIconifyName(iconName);
+        const fallback = EMOJI_MAP[iconName] || '🏷️';
+        return `<span class="${classes}" style="display:inline-block; margin-right:0.35rem;"><iconify-icon icon="${iconifyAttr}" inline="true">${fallback}</iconify-icon></span>`;
+      });
+
+      html = html.replace(regexPlain, (match, iconName) => {
+        const iconifyAttr = getIconifyName(iconName);
+        const fallback = EMOJI_MAP[iconName] || '🏷️';
+        return `<span style="display:inline-block; margin-right:0.35rem;"><iconify-icon icon="${iconifyAttr}" inline="true">${fallback}</iconify-icon></span>`;
+      });
+
+      span.innerHTML = html;
+      node.parentNode.replaceChild(span, node);
+    }
+
+    function walkNodes(element) {
+      if (!element) return;
+      const childNodes = Array.from(element.childNodes);
+      for (const node of childNodes) {
+        if (node.nodeType === Node.TEXT_NODE) {
+          processTextNode(node);
+        } else if (node.nodeType === Node.ELEMENT_NODE && !['SCRIPT', 'STYLE', 'CODE', 'PRE', 'INPUT', 'TEXTAREA'].includes(node.tagName)) {
+          walkNodes(node);
+        }
+      }
+    }
+
+    walkNodes(document.body);
+    if (document.title) {
+      document.title = document.title.replace(regexWithAttrs, '$1').replace(regexPlain, '$1');
+    }
+  }
+
+  function transformAdmonitions() {
+    const ICONS = {
+      note: 'ℹ️ Note',
+      tip: '💡 Tip',
+      warning: '⚠️ Warning',
+      caution: '🛑 Caution',
+      info: 'ℹ️ Info',
+      important: '❗ Important'
+    };
+
+    document.querySelectorAll('.content p, article p').forEach(p => {
+      const text = p.innerHTML.trim();
+      const match = text.match(/^!!!\s*([a-zA-Z]+)(?:\s+"([^"]+)")?\s*(?:<br\s*\/?>|\n)?\s*([\s\S]*)$/);
+      if (match) {
+        const type = match[1].toLowerCase();
+        const customTitle = match[2];
+        const restContent = match[3];
+        const titleText = customTitle || ICONS[type] || (type.charAt(0).toUpperCase() + type.slice(1));
+
+        const adm = document.createElement('div');
+        adm.className = `admonition ${type}`;
+        adm.innerHTML = `<div class="admonition-title">${titleText}</div><div class="admonition-content">${restContent}</div>`;
+        p.parentNode.replaceChild(adm, p);
+      }
+    });
+  }
+
+  function initPage() {
+    transformAdmonitions();
+    transformIcons();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPage);
+  } else {
+    initPage();
+  }
+})();
+</script>

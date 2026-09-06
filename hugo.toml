@@ -50,3 +50,7 @@ publishDir = 'public'
 [[module.mounts]]
   source = 'home/css'
   target = 'static/css'
+
+[[module.mounts]]
+  source = 'static_root'
+  target = 'static'
