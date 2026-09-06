@@ -1,0 +1,29 @@
+{{ define "main" }}
+<article>
+  {{ if .Content }}
+    <div class="content" style="margin-bottom: 2rem;">
+      {{ .Content }}
+    </div>
+  {{ else }}
+    <header>
+      <h1>{{ .Title }}</h1>
+    </header>
+  {{ end }}
+
+  {{ if .Pages }}
+    <section class="section-pages">
+      <h2>Pages in this section</h2>
+      <ul>
+        {{ range .Pages }}
+          <li style="margin: 0.5rem 0;">
+            <a href="{{ .RelPermalink }}" style="font-weight: 500; text-decoration: none; color: var(--link-color);">
+              {{ if .IsSection }}📁{{ else }}📄{{ end }} {{ .Title }}
+            </a>
+            {{ with .Description }}<p style="margin: 0.2rem 0; font-size: 0.9rem; color: var(--text-muted);">{{ . }}</p>{{ end }}
+          </li>
+        {{ end }}
+      </ul>
+    </section>
+  {{ end }}
+</article>
+{{ end }}

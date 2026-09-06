@@ -1,4 +1,5 @@
 ---
+title: "Noam Chomsky"
 tags:
   - people
   - linguistics

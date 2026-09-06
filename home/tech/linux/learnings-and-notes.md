@@ -1,4 +1,5 @@
 ---
+title: "Learnings/Notes"
 tags:
   - linux
   - tips

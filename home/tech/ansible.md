@@ -1,4 +1,5 @@
 ---
+title: "Ansible"
 tags:
   - ansible
   - automation

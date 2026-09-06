@@ -1,4 +1,5 @@
 ---
+title: "Elastic Stack"
 tags:
   - elastic
   - search

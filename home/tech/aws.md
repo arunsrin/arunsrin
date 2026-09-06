@@ -1,4 +1,5 @@
 ---
+title: "AWS"
 tags:
   - aws
   - cloud

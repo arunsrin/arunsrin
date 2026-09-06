@@ -1,4 +1,5 @@
 ---
+title: "Xbox Series X"
 tags:
   - games
   - xbox

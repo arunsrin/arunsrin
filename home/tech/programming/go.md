@@ -1,4 +1,5 @@
 ---
+title: "Go"
 tags:
   - go
   - programming

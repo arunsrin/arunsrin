@@ -1,0 +1,454 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} - {{ .Site.Title }}{{ end }}</title>
+<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+
+<!-- Google Fonts: Ubuntu & Ubuntu Mono -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
+
+<!-- Favicon -->
+<link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+
+<!-- Custom Extra CSS -->
+<link rel="stylesheet" href="/css/extra.css">
+
+<style>
+:root {
+  --font-family-sans: 'Ubuntu', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-mono: 'Ubuntu Mono', monospace;
+  
+  --bg-color: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-sidebar: #f1f5f9;
+  --text-color: #1e293b;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+  --link-color: #0284c7;
+  --header-bg: linear-gradient(#40E0D0,#2fa4e7 75%,#2c9ad9);
+  --header-text: #ffffff;
+  --card-bg: #ffffff;
+  --code-bg: #f8fafc;
+  --admonition-bg: #f0f9ff;
+  --admonition-border: #0284c7;
+}
+
+[data-theme="dark"] {
+  --bg-color: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-sidebar: #1e293b;
+  --text-color: #f1f5f9;
+  --text-muted: #94a3b8;
+  --border-color: #334155;
+  --link-color: #38bdf8;
+  --header-bg: #1e293b;
+  --header-text: #f8fafc;
+  --card-bg: #1e293b;
+  --code-bg: #0f172a;
+  --admonition-bg: #1e293b;
+  --admonition-border: #38bdf8;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family-sans);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+code, pre {
+  font-family: var(--font-family-mono);
+}
+
+.site-header {
+  background: var(--header-bg);
+  color: var(--header-text);
+  padding: 0.75rem 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.site-header a {
+  color: var(--header-text);
+  text-decoration: none;
+}
+
+.brand-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.theme-toggle-btn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.4);
+  color: #fff;
+  border-radius: 0.375rem;
+  padding: 0.35rem 0.65rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.theme-toggle-btn:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+.search-container {
+  position: relative;
+}
+
+.search-input {
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff;
+  padding: 0.4rem 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.9rem;
+  outline: none;
+  width: 180px;
+  transition: width 0.3s ease;
+}
+.search-input::placeholder {
+  color: rgba(255,255,255,0.7);
+}
+.search-input:focus {
+  width: 260px;
+  background: rgba(255,255,255,0.3);
+}
+
+.layout-container {
+  display: flex;
+  flex: 1;
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.sidebar-left {
+  width: 280px;
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border-color);
+  padding: 1.5rem 1rem;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  overflow-y: auto;
+  max-height: calc(100vh - 60px);
+  position: sticky;
+  top: 60px;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem 2.5rem;
+  max-width: 900px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+.sidebar-right {
+  width: 240px;
+  padding: 1.5rem 1rem;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  font-size: 0.875rem;
+  position: sticky;
+  top: 60px;
+  max-height: calc(100vh - 60px);
+  overflow-y: auto;
+}
+
+.nav-tree ul {
+  list-style: none;
+  padding-left: 1rem;
+  margin: 0.25rem 0;
+}
+.nav-tree > ul {
+  padding-left: 0;
+}
+.nav-tree li {
+  margin: 0.35rem 0;
+}
+.nav-tree a {
+  color: var(--text-color);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.925rem;
+}
+.nav-tree a:hover, .nav-tree a.active {
+  background: rgba(2, 132, 199, 0.1);
+  color: var(--link-color);
+  font-weight: 500;
+}
+.nav-section-title {
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.toc-title {
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+}
+.sidebar-right nav#TableOfContents ul {
+  list-style: none;
+  padding-left: 0.75rem;
+  margin: 0;
+}
+.sidebar-right nav#TableOfContents > ul {
+  padding-left: 0;
+}
+.sidebar-right nav#TableOfContents a {
+  color: var(--text-muted);
+  text-decoration: none;
+  display: block;
+  padding: 0.2rem 0;
+}
+.sidebar-right nav#TableOfContents a:hover {
+  color: var(--link-color);
+}
+
+.tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: var(--bg-sidebar);
+  color: var(--link-color);
+  border: 1px solid var(--border-color);
+  padding: 0.2rem 0.5rem;
+  border-radius: 1rem;
+  font-size: 0.8rem;
+  margin-right: 0.35rem;
+  margin-bottom: 0.35rem;
+  text-decoration: none;
+}
+.tag-pill:hover {
+  background: var(--link-color);
+  color: #fff;
+}
+
+/* Admonitions styling matching MkDocs */
+.admonition, blockquote {
+  background: var(--admonition-bg);
+  border-left: 4px solid var(--admonition-border);
+  padding: 0.75rem 1.25rem;
+  margin: 1.5rem 0;
+  border-radius: 0 0.375rem 0.375rem 0;
+}
+.admonition-title {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+/* Footer & Quotes */
+footer.site-footer {
+  border-top: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  padding: 1.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: auto;
+}
+footer .container {
+  margin-top: 0.75rem;
+}
+#quote {
+  font-style: italic;
+  display: inline-block;
+  margin-top: 0.25rem;
+}
+#quote-author {
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+/* Code block container & copy button */
+.code-container {
+  position: relative;
+}
+.copy-code-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: var(--bg-sidebar);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+@media (max-width: 992px) {
+  .sidebar-right { display: none; }
+  .sidebar-left { width: 220px; }
+}
+@media (max-width: 768px) {
+  .layout-container { flex-direction: column; }
+  .sidebar-left { width: 100%; position: static; max-height: none; }
+  .main-content { padding: 1.25rem; }
+}
+</style>
+
+<!-- Mermaid JS -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  });
+</script>
+
+<!-- Iconify Script for Material / Simple / FontAwesome icons -->
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+
+<script>
+(function() {
+  const EMOJI_MAP = {
+    'material-home-variant': '🏡',
+    'material-arrow-down-bold-circle-outline': '⬇️',
+    'material-console': '💻',
+    'material-brain': '🧠',
+    'simple-ansible': '⚙️',
+    'material-cloud': '☁️',
+    'material-web': '🌐',
+    'material-database': '🗄️',
+    'simple-docker': '🐳',
+    'material-keyboard-outline': '⌨️',
+    'material-magnify': '🔍',
+    'material-chart-bell-curve': '📈',
+    'material-ladybug': '🐞',
+    'material-kubernetes': '☸️',
+    'material-penguin': '🐧',
+    'material-lan': '🌐',
+    'material-lock': '🔒',
+    'material-code-tags': '💻',
+    'simple-go': '🐹',
+    'material-language-java': '☕',
+    'material-powershell': '⚡',
+    'material-language-python': '🐍',
+    'material-fire': '🔥',
+    'material-microsoft-windows': '🪟',
+    'material-book': '📚',
+    'material-weather-night': '🌌',
+    'material-view-column': '🏛️',
+    'material-library': '📖',
+    'material-auto-fix': '🪄',
+    'material-timer-sand': '⏳',
+    'material-incognito': '🕵️',
+    'material-dna': '🧬',
+    'material-thought-bubble': '💭',
+    'material-history': '📜',
+    'material-math-compass': '📐',
+    'fontawesome-solid-pen-nib': '✒️',
+    'material-controller': '🎮',
+    'fontawesome-brands-xbox': '🎮',
+    'material-sword': '⚔️',
+    'material-chip': '💾',
+    'material-target': '🎯',
+    'material-drama-masks': '🎭',
+    'material-puzzle': '🧩',
+    'material-sprout': '🪴',
+    'material-television-classic': '📺',
+    'material-check-circle': '✅',
+    'material-earth': '🌐',
+    'material-pencil': '📝',
+    'material-pen-nib': '✍️',
+    'material-chess-knight': '♟️'
+  };
+
+  function getIconifyName(rawName) {
+    if (rawName.startsWith('material-')) return 'mdi:' + rawName.slice(9);
+    if (rawName.startsWith('simple-')) return 'simple-icons:' + rawName.slice(7);
+    if (rawName.startsWith('fontawesome-brands-')) return 'fa6-brands:' + rawName.slice(19);
+    if (rawName.startsWith('fontawesome-solid-')) return 'fa6-solid:' + rawName.slice(18);
+    if (rawName.startsWith('octicons-')) return 'octicon:' + rawName.slice(9);
+    return 'mdi:' + rawName;
+  }
+
+  function transformIcons() {
+    const regexWithAttrs = /:([a-z0-9_-]+):\s*\{\s*([^}]+)\s*\}/gi;
+    const regexPlain = /:([a-z0-9_-]+):/gi;
+
+    function processTextNode(node) {
+      if (!node.nodeValue || !node.nodeValue.includes(':')) return;
+
+      const text = node.nodeValue;
+      if (!regexWithAttrs.test(text) && !regexPlain.test(text)) return;
+      regexWithAttrs.lastIndex = 0;
+      regexPlain.lastIndex = 0;
+
+      const span = document.createElement('span');
+      let html = text.replace(regexWithAttrs, (match, iconName, attrStr) => {
+        const classes = attrStr.split(/\s+/).map(c => c.startsWith('.') ? c.slice(1) : c).join(' ');
+        const iconifyAttr = getIconifyName(iconName);
+        const fallback = EMOJI_MAP[iconName] || '🏷️';
+        return `<span class="${classes}" style="display:inline-block; margin-right:0.35rem;"><iconify-icon icon="${iconifyAttr}" inline="true">${fallback}</iconify-icon></span>`;
+      });
+
+      html = html.replace(regexPlain, (match, iconName) => {
+        const iconifyAttr = getIconifyName(iconName);
+        const fallback = EMOJI_MAP[iconName] || '🏷️';
+        return `<span style="display:inline-block; margin-right:0.35rem;"><iconify-icon icon="${iconifyAttr}" inline="true">${fallback}</iconify-icon></span>`;
+      });
+
+      span.innerHTML = html;
+      node.parentNode.replaceChild(span, node);
+    }
+
+    function walkNodes(element) {
+      if (!element) return;
+      const childNodes = Array.from(element.childNodes);
+      for (const node of childNodes) {
+        if (node.nodeType === Node.TEXT_NODE) {
+          processTextNode(node);
+        } else if (node.nodeType === Node.ELEMENT_NODE && !['SCRIPT', 'STYLE', 'CODE', 'PRE', 'INPUT', 'TEXTAREA'].includes(node.tagName)) {
+          walkNodes(node);
+        }
+      }
+    }
+
+    walkNodes(document.body);
+    if (document.title) {
+      document.title = document.title.replace(regexWithAttrs, '$1').replace(regexPlain, '$1');
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', transformIcons);
+  } else {
+    transformIcons();
+  }
+})();
+</script>

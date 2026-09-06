@@ -1,4 +1,5 @@
 ---
+title: "About"
 tags:
   - about
   - profile
@@ -21,15 +22,12 @@ I occassionally like to draw -- but not as well as I'd like.
 
 I have an adorable little daughter (Update Mar-2016 — and son!).
 
-## 🐍About this site
+## 🚀 About this site
 
-I use [mkdocs](https://www.mkdocs.org/) - a lovely python-based static site
-generator - for this website. I write content in markdown and push it to a
-[github repo](https://github.com/arunsrin/arunsrin.mkdocs), and a trigger there
-builds and pushes the site to [Cloudflare
-Pages](https://pages.cloudflare.com/). 
+I use [Hugo](https://gohugo.io/) - a fast static site generator - for this website. I write content in markdown and push it to a [github repo](https://github.com/arunsrin/arunsrin), and a trigger there builds and pushes the site to [Cloudflare Pages](https://pages.cloudflare.com/). 
 
 There are some tiny easter eggs here and there.. look around!
 
 These days I primarily write content using vim on a terminal.
+
 

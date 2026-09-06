@@ -1,4 +1,5 @@
 ---
+title: "Browsers"
 tags:
   - browsers
   - web

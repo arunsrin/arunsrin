@@ -1,4 +1,5 @@
 ---
+title: "Scepticism"
 tags:
   - research
   - science
