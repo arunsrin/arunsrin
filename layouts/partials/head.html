@@ -220,6 +220,76 @@ code, pre {
   color: var(--link-color);
 }
 
+/* Collapsible navigation tree */
+details.nav-section-details {
+  margin-top: 1rem;
+}
+details.nav-section-details > summary {
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: 0.35rem;
+  padding: 0.2rem 0;
+}
+details.nav-section-details > summary::-webkit-details-marker {
+  display: none;
+}
+details.nav-section-details > summary::before {
+  content: '▸';
+  display: inline-block;
+  margin-right: 0.4rem;
+  transition: transform 0.2s ease;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+details.nav-section-details[open] > summary::before {
+  transform: rotate(90deg);
+}
+details.nav-section-details > summary a {
+  color: inherit;
+  text-decoration: none;
+  flex: 1;
+}
+details.nav-section-details > summary a:hover,
+details.nav-section-details > summary a.active {
+  color: var(--link-color);
+}
+
+details.nav-sub-details {
+  margin: 0.15rem 0;
+}
+details.nav-sub-details > summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+details.nav-sub-details > summary::-webkit-details-marker {
+  display: none;
+}
+details.nav-sub-details > summary::before {
+  content: '▸';
+  display: inline-block;
+  margin-right: 0.35rem;
+  font-size: 0.75rem;
+  transition: transform 0.2s ease;
+  color: var(--text-muted);
+}
+details.nav-sub-details[open] > summary::before {
+  transform: rotate(90deg);
+}
+details.nav-sub-details > summary a {
+  flex: 1;
+}
+
+
 
 .toc-title {
   font-weight: 700;

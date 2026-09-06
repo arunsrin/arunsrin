@@ -1,14 +1,20 @@
-{{ range .Pages.ByWeight }}
+{{ $currentPage := .currentPage }}
+{{ range .context.Pages.ByWeight }}
   {{ if .IsSection }}
+    {{ $isCurrentSub := or (eq $currentPage.RelPermalink .RelPermalink) (hasPrefix $currentPage.RelPermalink .RelPermalink) }}
     <li>
-      <a href="{{ .RelPermalink }}" class="{{ if eq $.RelPermalink .RelPermalink }}active{{ end }}">📁 {{ .Title }}</a>
-      <ul>
-        {{ partial "sidebar-tree.html" . }}
-      </ul>
+      <details class="nav-sub-details" {{ if $isCurrentSub }}open{{ end }}>
+        <summary class="nav-sub-summary">
+          <a href="{{ .RelPermalink }}" class="{{ if eq $currentPage.RelPermalink .RelPermalink }}active{{ end }}">📁 {{ .Title }}</a>
+        </summary>
+        <ul>
+          {{ partial "sidebar-tree.html" (dict "context" . "currentPage" $currentPage) }}
+        </ul>
+      </details>
     </li>
   {{ else }}
     <li>
-      <a href="{{ .RelPermalink }}" class="{{ if eq $.RelPermalink .RelPermalink }}active{{ end }}">📄 {{ .Title }}</a>
+      <a href="{{ .RelPermalink }}" class="{{ if eq $currentPage.RelPermalink .RelPermalink }}active{{ end }}">📄 {{ .Title }}</a>
     </li>
   {{ end }}
 {{ end }}
