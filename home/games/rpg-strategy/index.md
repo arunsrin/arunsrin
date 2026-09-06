@@ -4,6 +4,11 @@ tags:
   - games
   - rpg
   - strategy
+years:
+  - "2025"
+  - "2024"
+  - "2023"
+  - "2021"
 ---
 
 # :material-chess-knight:{ .anim-flip } RPG & Strategy

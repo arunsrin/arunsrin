@@ -4,6 +4,9 @@ tags:
   - books
   - non-fiction
   - math
+years:
+  - "2025"
+  - "2020"
 ---
 
 # :material-calculator:{ .anim-bounce } Mathematics

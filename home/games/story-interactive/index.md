@@ -4,6 +4,14 @@ tags:
   - games
   - story
   - interactive
+years:
+  - "2026"
+  - "2025"
+  - "2024"
+  - "2023"
+  - "2022"
+  - "2021"
+  - "2019"
 ---
 
 # :material-drama-masks:{ .anim-flip } Story-Driven & Interactive

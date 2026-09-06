@@ -4,6 +4,14 @@ tags:
   - books
   - non-fiction
   - history
+years:
+  - "2026"
+  - "2025"
+  - "2024"
+  - "2023"
+  - "2022"
+  - "2021"
+  - "2019"
 ---
 
 # :material-history:{ .anim-heart } History

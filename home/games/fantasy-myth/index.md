@@ -4,6 +4,12 @@ tags:
   - games
   - fantasy
   - myth
+years:
+  - "2026"
+  - "2025"
+  - "2023"
+  - "2022"
+  - "2021"
 ---
 
 # :material-auto-fix:{ .anim-pulse } Fantasy & Myth

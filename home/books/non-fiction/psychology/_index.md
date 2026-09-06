@@ -4,6 +4,12 @@ tags:
   - books
   - non-fiction
   - psychology
+years:
+  - "2025"
+  - "2024"
+  - "2023"
+  - "2021"
+  - "2020"
 ---
 
 # :material-brain:{ .anim-flip } Psychology & Neuroscience

@@ -4,6 +4,14 @@ tags:
   - books
   - non-fiction
   - writing
+years:
+  - "2025"
+  - "2024"
+  - "2022"
+  - "2021"
+  - "2020"
+  - "2019"
+  - "2017"
 ---
 
 # :fontawesome-solid-pen-nib:{ .anim-flip } Literature & Writing
