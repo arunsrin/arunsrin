@@ -1,6 +1,6 @@
 baseURL = 'https://www.arunsr.in/'
 title = "arunsrin's notes"
-locale = 'en-us'
+languageCode = 'en-us'
 contentDir = 'home'
 publishDir = 'public'
 
@@ -33,7 +33,6 @@ publishDir = 'public'
 [[module.mounts]]
   source = 'home'
   target = 'content'
-  files = ['**', '!static/**', '!css/**']
 
 [[module.mounts]]
   source = 'home/static'
