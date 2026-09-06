@@ -1,0 +1,7 @@
+{{- $dest := .Destination -}}
+{{- if not (or (hasPrefix $dest "http://") (hasPrefix $dest "https://") (hasPrefix $dest "mailto:") (hasPrefix $dest "#")) -}}
+  {{- $dest = replace $dest "_index.md" "" -}}
+  {{- $dest = replace $dest "index.md" "" -}}
+  {{- $dest = replace $dest ".md" "/" -}}
+{{- end -}}
+<a href="{{ $dest | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}>{{ .Text | safeHTML }}</a>

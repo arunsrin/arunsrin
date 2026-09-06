@@ -1,4 +1,5 @@
 ---
+title: "Grafana"
 tags:
   - grafana
   - monitoring

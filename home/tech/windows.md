@@ -1,4 +1,5 @@
 ---
+title: "Windows"
 tags:
   - windows
   - wsl

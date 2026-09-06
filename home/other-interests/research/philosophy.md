@@ -1,4 +1,5 @@
 ---
+title: "Philosophy / Morality"
 tags:
   - research
   - philosophy

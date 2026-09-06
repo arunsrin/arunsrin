@@ -1,4 +1,5 @@
 ---
+title: "The Thinking Person's Guide to Climate Change"
 tags:
   - books
   - science

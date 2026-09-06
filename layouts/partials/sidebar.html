@@ -1,0 +1,18 @@
+<nav class="nav-tree">
+  <div class="nav-section-title">Navigation</div>
+  <ul>
+    <li><a href="/" class="{{ if .IsHome }}active{{ end }}">🏠 Home</a></li>
+  </ul>
+
+  {{ range .Site.Sections.ByWeight }}
+  <div class="nav-section-title">{{ .Title }}</div>
+  <ul>
+    {{ partial "sidebar-tree.html" . }}
+  </ul>
+  {{ end }}
+
+  <div class="nav-section-title">Site</div>
+  <ul>
+    <li><a href="/about/" class="{{ if eq .RelPermalink "/about/" }}active{{ end }}">ℹ️ About</a></li>
+  </ul>
+</nav>

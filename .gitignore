@@ -2,3 +2,8 @@ site/*
 .venv/*
 public/*
 .vscode/*
+.gemini/
+gha-creds-*.json
+.hugo_build.lock
+resources/
+

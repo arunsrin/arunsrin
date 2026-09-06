@@ -1,0 +1,14 @@
+{{ range .Pages.ByWeight }}
+  {{ if .IsSection }}
+    <li>
+      <a href="{{ .RelPermalink }}" class="{{ if eq $.RelPermalink .RelPermalink }}active{{ end }}">📁 {{ .Title }}</a>
+      <ul>
+        {{ partial "sidebar-tree.html" . }}
+      </ul>
+    </li>
+  {{ else }}
+    <li>
+      <a href="{{ .RelPermalink }}" class="{{ if eq $.RelPermalink .RelPermalink }}active{{ end }}">📄 {{ .Title }}</a>
+    </li>
+  {{ end }}
+{{ end }}

@@ -1,4 +1,5 @@
 ---
+title: "Hate Inc."
 tags:
   - books
   - history

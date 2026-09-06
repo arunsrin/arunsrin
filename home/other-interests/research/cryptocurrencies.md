@@ -1,4 +1,5 @@
 ---
+title: "Cryptocurrencies"
 tags:
   - research
   - tech

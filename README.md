@@ -1,17 +1,14 @@
-# arunsrin.mkdocs
+# arunsrin
 
-Static site for all my snippets, notes, etc. Powered by the excellent [mkdocs](http://www.mkdocs.org/).
+Static site for all my snippets, notes, etc. Powered by [Hugo](https://gohugo.io/).
 
 Currently hosted using Cloudflare Pages, at [https://www.arunsr.in](https://www.arunsr.in).
 
-# Installation / Usage
+## Installation / Usage
 
-``` sh
-git clone git@github.com:arunsrin/arunsrin.mkdocs.git
-cd arunsrin.mkdocs
-python -m venv .venv
-. .venv/bin/activate
-pip install -r requirements.txt
-mkdocs serve # test
-mkdocs build # publishes to ./public/
+```sh
+git clone git@github.com:arunsrin/arunsrin.git
+cd arunsrin
+hugo server # test locally
+hugo build  # builds site to ./public/
 ```

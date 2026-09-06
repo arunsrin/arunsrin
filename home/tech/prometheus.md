@@ -1,4 +1,5 @@
 ---
+title: "Prometheus"
 tags:
   - prometheus
   - monitoring

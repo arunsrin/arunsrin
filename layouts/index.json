@@ -1,0 +1,12 @@
+[
+  {{- $pages := where site.Pages "Kind" "in" (slice "page" "section" "home") -}}
+  {{- range $i, $e := $pages -}}
+  {{- if $i }},{{ end -}}
+  {
+    "title": {{ $e.Title | jsonify }},
+    "permalink": {{ $e.RelPermalink | jsonify }},
+    "content": {{ $e.Plain | jsonify }},
+    "tags": {{ $e.Params.tags | jsonify }}
+  }
+  {{- end -}}
+]

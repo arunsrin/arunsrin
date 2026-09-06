@@ -1,4 +1,5 @@
 ---
+title: "Richard Stallman"
 tags:
   - people
   - tech

@@ -1,4 +1,5 @@
 ---
+title: "The Art of the Infinite"
 tags:
   - books
   - math

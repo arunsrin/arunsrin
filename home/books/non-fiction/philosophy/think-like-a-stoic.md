@@ -1,4 +1,5 @@
 ---
+title: "Think Like A Stoic, by Massimo Pigliucci"
 tags:
   - books
   - philosophy
