@@ -14,9 +14,6 @@ Exploring the natural world, from the depths of the ocean to the complexities of
 A thoroughly rewarding difficult look into the immune system by the guy who makes the Kurzgesagt YouTube channel.
 [Detailed Review](immune.md)
 
-### Archimedes' Revenge, by Paul Hoffman (2025)
-An excellent assortment of maths curiosities. Fascinating to see how far the industry has grown since the days of room-sized computers.
-
 ### Being Human: Life Lessons from the Frontiers of Science, by Robert Sapolsky (2025)
 An introduction to interesting topics in anthropology or biology, such as the fascinating one on brain parasites.
 

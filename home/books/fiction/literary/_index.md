@@ -42,9 +42,6 @@ Time weaves its way through several interconnecting stories. Reminded me a bit o
 ### The Dead, by James Joyce (2020)
 Short and bitter-sweet story.
 
-### Nabokov: The Mystery of Literary Structures, by Leona Toker (2020)
-A detailed look at several of Nabokov's books. A fruitful area to get lost in.
-
 ### ❤️Luzhin's Defense, by Vladimir Nabokov (2020, 2026)
 What can I say? It's Nabokov and Chess and obsession, in language and form that only he can create.
 
@@ -53,9 +50,6 @@ What can I say? It's Nabokov and Chess and obsession, in language and form that 
 
 ### Olive Kitteridge, by Elizabeth Strout (2020)
 Well-written, poignant stories of old age, depression, families and so on, centered around an outspoken, strict school teacher.
-
-### Shakespeare, by Bill Bryson (2021)
-A slim book, what I liked most was how the times and place were brought to life.
 
 ### One Hundred Years of Solitude, by Gabriel García Márquez (2023)
 A dreamy, looping novel. Found the recurring names confusing -- but it was clear this was intentional.
@@ -74,9 +68,6 @@ A thoughtful look at how history remembers its heroes. In the near future, a his
 
 ### Blood Meridian, by Cormac McCarthy (2022)
 A mercilessly bleak book that I’m glad I read but intend to never read again.
-
-### The Stranger, by Albert Camus (2022)
-A murderer is judged by a society he cannot relate to. Told from the perspective of an indifferent, apathetic character.
 
 ### Look at the Harlequins!, by Vladimir Nabokov (2022)
 Nabokov’s last published novel. The protagonist feels like the closest imitation of the author. Beautiful, lyrical prose.
@@ -111,14 +102,8 @@ A bleak book to end a bleak year. McCarthy heaps one misery upon another on a fa
 ### Post Office, by Charles Bukowski (2023)
 Trash. I'm not sure why Bukowski is rated so highly. Certainly not for this pointless book.
 
-### I Used To Know That, by Alan Joyce (2023)
-A short read. A collection of anecdotes about famous authors.
-
 ### Glory, by Vladimir Nabokov (2023)
 One of his russian books, translated by his son. The writing is as always, luminous in places. The protagonist is a lot more decent than the usual odd characters Nabokov writes about.
-
-### Our Man in Havana, by Graham Greene (2023)
-An enjoyable satire of the incompetent people running the government's secret service.
 
 ### The Bell Jar, by Sylvia Plath (2023)
 The story of a bright girl dealing with mental illness. Appears to be semi-autobiographical, which is quite sad.
@@ -126,47 +111,11 @@ The story of a bright girl dealing with mental illness. Appears to be semi-autob
 ### No Country for Old Men, by Cormac McCarthy (2023)
 I was already going through this when the great writer passed away. This one is more straight-forward than his earlier books like Blood Meridien, but is still a very great read.
 
-### The Glass Palace, by Amitav Ghosh (2024)
-Amitav Ghosh is at his best when he is writing historical fiction like this. A sprawling multi-generational story across Burma and India during the pre-independence period. Brings that era to vivid life.
-
-### The Double Tongue, by William Golding (2024)
-A short novel, Golding's last one before his death. The story of an oracle and her cynical priest, set in Delphi during Greece's twilight years.
-
 ### The End of the Affair, by Graham Greene (2024)
 A fine, powerful, bitter novel about a turbulent affair during the second World War.
-
-### The Iron King, by Maurice Druon (2024)
-An excellent historical novel based on King Philip the Fair. I don't know enough French history to discern fact from fiction but the book was very enjoyable.
-
-### Make Me, by Lee Child (2024)
-My first Jack Reacher book. Enjoyable and moves at a good pace. Recommended as a light read.
-
-### The Miniaturist, by Kunal Basu (2024)
-About a painter in Mughal India. A pleasant evening's read.
 
 ### Mother Mary Comes To Me, by Arundhati Roy (2025)
 Not an easy read. The author revisits her life, from her difficult childhood to her years as an architect, a foray into films, her writing career and her activism. The complex relationship she had with her mother is approached frankly but with nuance and compassion.
 
-### Fatherland, by Robert Harris (2025)
-The fifth book I've read of this excellent author, and as always a unique blend of history and speculation. This time the author imagines an alternate history where Germany won the Second World War.
-
-### The Hunting Party, by Lucy Foley (2025)
-A thriller to change the pace a bit. A bunch of snobbish rich couples spend the New Year in a remote, snowy retreat and things start to fall apart as one of the guests is killed.
-
-### Second Sleep, by Robert Harris (2025)
-My third consecutive book by this author. This one is purely fictional, and it is better to go in blind with this one. A priest goes to a remote town after his predecessor passes away, and has to solve the mystery of his death.
-
-### Dictator, by Robert Harris (2025)
-A gloomy conclusion to the trilogy as Cicero chased out of Rome, and returns, but to unpredictable allies. No decision seems straightforward here and Rome's decline to dictatorship seems inevitable.
-
-### ❤️Lustrum, by Robert Harris (2025)
-It turns out this is book two of a trilogy. It covers the life of Cicero when he joins the Roman Senate and watches the rise of Caesar and his triumverate. As my first literary exposure to this period of history, it was fascinating to see the story from the 'other' side, i.e. not Caesar's.
-
-### I, Claudius, by Robert Graves (2025)
-A sprawling history of several Roman emperors from Augustus to Tiberius and Caligula, ending with the author himself: a stuttering, limping Claudius who preferred to be a historian.
-
 ### The Interpreter of Maladies, by Jhumpa Lahiri (2019)
 I didn't like this all that much. It seemed like a slightly foreign view of Indian life, so the characters didn't seem to feel natural.
-
-### Circe, by Madeline Miller (2020)
-Lovely book.
