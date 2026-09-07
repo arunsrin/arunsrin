@@ -16,6 +16,12 @@ A fantastic analysis of literature that helps a reader go beneath the surface of
 ### The Mother Tongue: English and How It Got That Way, by Bill Bryson (2019)
 A light look at the history and quirks of the English language.
 
+### Shakespeare, by Bill Bryson (2021)
+A slim book, what I liked most was how the times and place were brought to life.
+
+### I Used To Know That, by Alan Joyce (2023)
+A short read. A collection of anecdotes about famous authors.
+
 ### Nabokov: The Mystery of Literary Structures, by Leona Toker (2020)
 A detailed look at several of Nabokov's books. A fruitful area to get lost in.
 

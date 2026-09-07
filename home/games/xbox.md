@@ -23,3 +23,4 @@ I love my Xbox because this is the console where I have formed memories of:
 - [🎭 Story-Driven & Interactive](story-interactive/index.md)
 - [🧩 Platformers & Puzzles](platform-puzzle/index.md)
 - [♟️ RPG & Strategy](rpg-strategy/index.md)
+- [🥊 Fighting Games](fighting/index.md)
