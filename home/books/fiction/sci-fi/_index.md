@@ -10,6 +10,15 @@ tags:
 
 A collection of notes and reviews on authors who explore the boundaries of physics, consciousness, and the future.
 
+### Extremophile, by Ian Green (2026)
+
+A bleak, occassional hopeful bio-punk story. The world is falling apart from
+the ripple effects of climate change. The power struggles are between
+for-profit corporates (the Blues), the eco-hopefuls (Greens) and the nihilists
+(Blacks). The protagonists are pulled into a mission that could tip the
+balance. The book is fast-paced, has interesting characters and paints a
+depressingly accurate picture of where the world is headed.
+
 ### Hyperion, by Dan Simmons (2026)
 
 Alas, Dan Simmons has passed away. I decided to read his most famous book in his memory. TBH I prefer Ilium more, but this is a good book too. 7 travelers on a
