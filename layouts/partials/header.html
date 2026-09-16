@@ -121,6 +121,12 @@
              (item.tags && item.tags.some(t => t.toLowerCase().includes(query)));
     }).slice(0, 10);
 
+    function escapeHtml(str) {
+      return String(str || '').replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[c]));
+    }
+
     if (matches.length === 0) {
       searchResults.innerHTML = '<div style="padding:0.5rem; color:var(--text-muted); font-size:0.85rem;">No results found</div>';
     } else {
@@ -136,10 +142,13 @@
             snippet = m.content.substring(0, 80) + '...';
           }
         }
+        const safeLink = encodeURI(m.permalink);
+        const safeTitle = escapeHtml(m.title || m.permalink);
+        const safeSnippet = escapeHtml(snippet);
         return `
           <div style="padding:0.4rem; border-bottom:1px solid var(--border-color);">
-            <a href="${m.permalink}" style="font-weight:600; text-decoration:none; color:var(--link-color); font-size:0.9rem;">${m.title || m.permalink}</a>
-            <div style="font-size:0.75rem; color:var(--text-muted); text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">${snippet}</div>
+            <a href="${safeLink}" style="font-weight:600; text-decoration:none; color:var(--link-color); font-size:0.9rem;">${safeTitle}</a>
+            <div style="font-size:0.75rem; color:var(--text-muted); text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">${safeSnippet}</div>
           </div>
         `;
       }).join('');

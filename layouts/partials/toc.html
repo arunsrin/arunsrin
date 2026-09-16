@@ -33,7 +33,10 @@
 
         tocLinks.forEach(l => l.classList.remove('active'));
         if (activeHeading) {
-          const activeLink = document.querySelector(`.sidebar-right nav#TableOfContents a[href="#${encodeURIComponent(activeHeading.id)}"], .sidebar-right nav#TableOfContents a[href="#${activeHeading.id}"]`);
+          const activeLink = tocLinks.find(l => {
+            const h = l.getAttribute('href');
+            return h === '#' + activeHeading.id || h === '#' + encodeURIComponent(activeHeading.id) || decodeURIComponent(h.slice(1)) === activeHeading.id;
+          });
           if (activeLink) activeLink.classList.add('active');
         }
       }
