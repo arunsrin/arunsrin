@@ -1,12 +1,22 @@
 <footer class="site-footer">
   <div>
-    &copy; {{ now.Format "2006" }} {{ .Site.Params.author }}. Powered by Hugo. &bull; <a href="/index.xml" style="color: var(--link-color); text-decoration: none;">📡 RSS Feed</a>
+    &copy; {{ now.Format "2006" }} {{ .Site.Params.author }}. Powered by Hugo.
   </div>
-  <div class="container">
-    <i>📜 Random fortune:<div id="quote"></div></i>
-    <div id="quote-author"></div>
+  <div class="container fortune-card" id="quote-container">
+    <div class="fortune-body">
+      <span class="fortune-label">📜 Random fortune:</span>
+      <span id="quote"></span>
+      <span id="quote-author" class="fortune-author"></span>
+    </div>
+    <button id="fortune-reroll-btn" class="fortune-reroll-btn" onclick="rerollQuote()" title="Roll another fortune" aria-label="Roll another fortune">
+      <span class="dice-icon">🎲</span> Roll another
+    </button>
   </div>
 </footer>
+
+<button id="back-to-top-btn" class="back-to-top-btn" aria-label="Back to top" title="Back to top">
+  <span>🚀</span>
+</button>
 
 <script src="/static/quotes.js" defer></script>
 <script src="/static/iconify-icon.min.js" defer></script>
@@ -177,9 +187,86 @@
     });
   }
 
+  function setupCodeCopyButtons() {
+    document.querySelectorAll('.content pre').forEach((pre) => {
+      if (pre.closest('.mermaid') || (pre.parentElement && pre.parentElement.classList.contains('code-container'))) return;
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'code-container';
+      pre.parentNode.insertBefore(wrapper, pre);
+      wrapper.appendChild(pre);
+
+      const button = document.createElement('button');
+      button.className = 'copy-code-btn';
+      button.setAttribute('aria-label', 'Copy code to clipboard');
+      button.title = 'Copy code';
+      button.innerHTML = '📋 Copy';
+
+      button.addEventListener('click', async () => {
+        const codeElement = pre.querySelector('code');
+        const textToCopy = codeElement ? codeElement.innerText : pre.innerText;
+        try {
+          await navigator.clipboard.writeText(textToCopy);
+          button.innerHTML = '✓ Copied!';
+          button.classList.add('copied');
+          setTimeout(() => {
+            button.innerHTML = '📋 Copy';
+            button.classList.remove('copied');
+          }, 2000);
+        } catch (err) {
+          button.innerHTML = '❌ Failed';
+          setTimeout(() => {
+            button.innerHTML = '📋 Copy';
+          }, 2000);
+        }
+      });
+
+      wrapper.appendChild(button);
+    });
+  }
+
+  function setupBackToTopAndProgress() {
+    const bttBtn = document.getElementById('back-to-top-btn');
+    const progressBar = document.getElementById('reading-progress');
+
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+      if (bttBtn) {
+        if (scrollY > 300) {
+          bttBtn.classList.add('visible');
+        } else {
+          bttBtn.classList.remove('visible');
+        }
+      }
+
+      if (progressBar && docHeight > 0) {
+        const progress = (scrollY / docHeight) * 100;
+        progressBar.style.width = Math.min(100, Math.max(0, progress)) + '%';
+      }
+    }, { passive: true });
+
+    if (bttBtn) {
+      bttBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+  }
+
   function initPage() {
     transformAdmonitions();
     transformIcons();
+    setupCodeCopyButtons();
+    setupBackToTopAndProgress();
+
+    // DevTools Easter Egg
+    console.log(
+      "%c📜 arunsrin's notes\n%c\"If a man has reported to you, that a certain person speaks ill of you, do not make any defense to what has been told you: but reply, The man did not know the rest of my faults, for he would not have mentioned these only.\"\n%c— Epictetus",
+      "color: #0284c7; font-weight: bold; font-size: 13px;",
+      "font-style: italic; color: #64748b; font-size: 12px; line-height: 1.5;",
+      "color: #0284c7; font-weight: 600; font-size: 11px;"
+    );
   }
 
   if (document.readyState === 'loading') {

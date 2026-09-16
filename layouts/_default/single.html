@@ -1,12 +1,37 @@
 {{ define "main" }}
 <article>
-  {{ with .Params.tags }}
-    <div style="margin-bottom: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.35rem;">
-      {{ range . }}
-        <a href="/tags/{{ . | urlize }}/" class="tag-pill">🏷️ {{ . }}</a>
+  {{ if not .IsHome }}
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="/">🏠 Home</a></li>
+        {{ range .Ancestors.Reverse }}
+          {{ if not .IsHome }}
+            <li><span class="breadcrumb-separator">/</span> <a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+          {{ end }}
+        {{ end }}
+        <li><span class="breadcrumb-separator">/</span> <span class="breadcrumb-current">{{ .Title }}</span></li>
+      </ol>
+    </nav>
+  {{ end }}
+
+  <div class="page-meta">
+    <div class="meta-stats">
+      <span>⏱️ {{ .ReadingTime }} min read</span>
+      <span>•</span>
+      <span>📝 {{ .WordCount }} words</span>
+      {{ if not .Lastmod.IsZero }}
+        <span>•</span>
+        <span>📅 Updated {{ .Lastmod.Format "Jan 02, 2006" }}</span>
       {{ end }}
     </div>
-  {{ end }}
+    {{ with .Params.tags }}
+      <div class="meta-tags">
+        {{ range . }}
+          <a href="/tags/{{ . | urlize }}/" class="tag-pill">🏷️ {{ . }}</a>
+        {{ end }}
+      </div>
+    {{ end }}
+  </div>
 
   <div class="content">
     {{ .Content }}

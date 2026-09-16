@@ -3,4 +3,43 @@
     <div class="toc-title">On this page</div>
     {{ .TableOfContents }}
   </div>
+  <script>
+    (function() {
+      const tocLinks = Array.from(document.querySelectorAll('.sidebar-right nav#TableOfContents a'));
+      if (!tocLinks.length) return;
+
+      const headings = [];
+      tocLinks.forEach(link => {
+        const id = decodeURIComponent(link.getAttribute('href').slice(1));
+        const heading = document.getElementById(id);
+        if (heading) headings.push(heading);
+      });
+
+      if (!headings.length) return;
+
+      function updateActiveToc() {
+        let activeHeading = null;
+        for (const heading of headings) {
+          const rect = heading.getBoundingClientRect();
+          if (rect.top <= 120) {
+            activeHeading = heading;
+          } else {
+            break;
+          }
+        }
+        if (!activeHeading) {
+          activeHeading = headings[0];
+        }
+
+        tocLinks.forEach(l => l.classList.remove('active'));
+        if (activeHeading) {
+          const activeLink = document.querySelector(`.sidebar-right nav#TableOfContents a[href="#${encodeURIComponent(activeHeading.id)}"], .sidebar-right nav#TableOfContents a[href="#${activeHeading.id}"]`);
+          if (activeLink) activeLink.classList.add('active');
+        }
+      }
+
+      window.addEventListener('scroll', updateActiveToc, { passive: true });
+      updateActiveToc();
+    })();
+  </script>
 {{ end }}

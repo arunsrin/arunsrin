@@ -108,7 +108,7 @@ reference.
 # :material-penguin:{ .anim-flip .anim-fade } About
 
 See [About](about.md) for more about me. This site is built using the
-lovely [MkDocs](http://www.mkdocs.org), a python-based static site
+lovely [Hugo](https://gohugo.io/), a fast static site
 generator. The content is written in markdown using GNU Emacs. It is
 hosted on [Cloudflare](https://cloudflare.com/).
 
@@ -116,7 +116,7 @@ hosted on [Cloudflare](https://cloudflare.com/).
 
 - :material-skull:{ .anim-pulse }[My Blog](https://arunsrin.wordpress.com) - I used to cross-post my
   content here too; there were times when I liked WordPress (to post
-  my artwork) and times when I liked this MkDocs site. Structurally,
+  my artwork) and times when I liked this Hugo site. Structurally,
   I prefer the digital-garden feel of this site over the
   chronological format of a blog. Abandoned at this point.
 

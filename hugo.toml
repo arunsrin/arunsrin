@@ -1,12 +1,12 @@
 baseURL = 'https://www.arunsr.in/'
 title = "arunsrin's notes"
-languageCode = 'en-us'
+locale = 'en-US'
 contentDir = 'home'
 publishDir = 'public'
 
 [outputs]
-  home = ['HTML', 'RSS', 'JSON']
-  section = ['HTML', 'RSS']
+  home = ['HTML', 'JSON']
+  section = ['HTML']
 
 [params]
   description = "The truth shall make ye fret."

@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html lang="{{ or .Site.LanguageCode .Site.Language.Lang "en" }}">
+<html lang="{{ or .Site.Language.Lang "en" }}">
 <head>
   {{ partial "head.html" . }}
 </head>
 <body>
+  <div id="reading-progress" class="reading-progress-bar"></div>
   {{ partial "header.html" . }}
 
-  <div class="layout-container">
-    <aside class="sidebar-left">
+  {{ $hasTOC := and .TableOfContents (strings.Contains .TableOfContents "<li>") }}
+  <div class="layout-container{{ if not $hasTOC }} no-toc{{ end }}">
+    <aside class="sidebar-left" id="sidebar-left">
       {{ partial "sidebar.html" . }}
     </aside>
 
@@ -15,9 +17,11 @@
       {{ block "main" . }}{{ end }}
     </main>
 
+    {{ if $hasTOC }}
     <aside class="sidebar-right">
       {{ partial "toc.html" . }}
     </aside>
+    {{ end }}
   </div>
 
   {{ partial "footer.html" . }}

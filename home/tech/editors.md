@@ -10,7 +10,7 @@ tags:
 
 My heart lies with GNU Emacs. It is probably my most used tool at work
 because I take a crapload of notes. The pages on this site are written
-in Emacs in markdown (because *mkdocs* supports it well). Some other
+in Emacs in markdown (because *Hugo* supports it well). Some other
 notes are in *org* format. And the bulk of my work-related notes
 (dating back to 2007) are in one big fat plain text file that is, as of
 December 2017, *26252* lines long.

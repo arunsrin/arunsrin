@@ -1,0 +1,21 @@
+{{ define "main" }}
+<div class="error-page" style="text-align: center; padding: 4rem 1rem 5rem;">
+  <div class="error-emoji anim-bounce" style="font-size: 4.5rem; margin-bottom: 1.25rem;">🐎</div>
+  <h1 style="font-size: 2.25rem; margin-bottom: 0.75rem; color: var(--text-color); font-style: italic;">&ldquo;Not all those who wander are lost...&rdquo;</h1>
+  <p style="font-size: 1.15rem; color: var(--text-muted); max-width: 540px; margin: 0.75rem auto 2.5rem; line-height: 1.6;">
+    ...but this page certainly took a wrong turn at the crossroads.
+  </p>
+
+  <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+    <a href="/" class="btn" style="background: var(--link-color); color: #fff; padding: 0.65rem 1.4rem; text-decoration: none; font-weight: 600; border-radius: 0.5rem; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.25);">
+      🏠 Return Home
+    </a>
+    <a href="/tech/" class="btn" style="background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-color); padding: 0.65rem 1.25rem; text-decoration: none; font-weight: 500; border-radius: 0.5rem;">
+      💻 Tech Notes
+    </a>
+    <a href="/books/" class="btn" style="background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-color); padding: 0.65rem 1.25rem; text-decoration: none; font-weight: 500; border-radius: 0.5rem;">
+      📚 Books
+    </a>
+  </div>
+</div>
+{{ end }}

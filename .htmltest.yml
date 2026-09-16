@@ -1,0 +1,6 @@
+DirectoryPath: public
+CheckExternal: false
+CheckInternal: true
+CheckInternalHash: false
+CheckDoctype: false
+EnforceHTTPS: false

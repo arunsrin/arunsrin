@@ -1,8 +1,3 @@
-/* Change header color */
-.bg-primary {
-    background-image: linear-gradient(#40E0D0,#2fa4e7 75%,#2c9ad9) !important;
-}
-
 /* Smooth scrolling */
 html {
     scroll-behavior: smooth;
@@ -13,27 +8,115 @@ html {
 }
 
 /* Enhanced buttons */
-.md-button {
+.btn, .button {
     border-radius: var(--base-border-radius);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.md-button:hover {
+.btn:hover, .button:hover {
     transform: translateY(-1px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 /* Better code blocks */
-.md-typeset pre {
+.content pre {
     border-radius: var(--base-border-radius);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border: 1px solid var(--border-color);
+    background-color: var(--code-bg);
+    padding: 1rem 1.25rem;
+    overflow-x: auto;
 }
 
 /* Enhanced tables */
-.md-typeset table:not([class]) {
+.content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
     border-radius: var(--base-border-radius);
     overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+}
+
+.content th {
+    background: var(--bg-sidebar);
+    color: var(--text-color);
+    font-weight: 600;
+    text-align: left;
+    padding: 0.65rem 1rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.content td {
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.content tr:nth-child(even) td {
+    background: var(--bg-secondary);
+}
+
+/* Modern Card Grid for Digital Garden hubs */
+.grid.cards > ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    gap: 1.25rem;
+    list-style: none;
+    padding: 0;
+    margin: 1.75rem 0;
+}
+
+.grid.cards > ul > li {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.grid.cards > ul > li:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(2, 132, 199, 0.12);
+    border-color: var(--link-color);
+}
+
+.grid.cards > ul > li hr {
+    border: 0;
+    border-top: 1px solid var(--border-color);
+    margin: 0.75rem 0;
+}
+
+.grid.cards > ul > li > p:first-child {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 0.4rem;
+    color: var(--text-color);
+}
+
+.grid.cards > ul > li ul {
+    list-style: none;
+    padding-left: 0.5rem;
+    margin: 0.5rem 0 0 0;
+    flex: 1;
+}
+
+.grid.cards > ul > li ul li {
+    margin: 0.35rem 0;
+}
+
+.grid.cards > ul > li ul li a {
+    color: var(--link-color);
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.grid.cards > ul > li ul li a:hover {
+    text-decoration: underline;
 }
 
 /* Custom Icon Animations */
@@ -91,18 +174,5 @@ html {
 .anim-rotate {
   animation: rotate-slow 8s linear infinite;
   display: inline-block;
-}
-
-@keyframes fade {
-...
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
-@keyframes pulse {
-  0%, 100% { transform: scale(1);}
-  50% { transform: scale(1.15);}
-}
-.md-header__button.md-logo:hover svg {
-  animation: fade 1.5s infinite alternate, pulse 1.5s infinite alternate;
 }
 
