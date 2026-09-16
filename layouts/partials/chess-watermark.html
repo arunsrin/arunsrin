@@ -1,103 +1,64 @@
 {{ $corner := .Site.Params.chess_corner | default "top-right" }}
 {{ $cx := "100%" }}
 {{ $cy := "0%" }}
-{{ $pieceX := "260" }}
-{{ $pieceY := "20" }}
+{{ $pieceX := "416" }}
+{{ $pieceY := "32" }}
 {{ $piece := "♞" }}
 
 {{ if eq $corner "top-left" }}
   {{ $cx = "0%" }}
   {{ $cy = "0%" }}
-  {{ $pieceX = "60" }}
-  {{ $pieceY = "20" }}
+  {{ $pieceX = "96" }}
+  {{ $pieceY = "32" }}
   {{ $piece = "♞" }}
 {{ else if eq $corner "bottom-right" }}
   {{ $cx = "100%" }}
   {{ $cy = "100%" }}
-  {{ $pieceX = "260" }}
-  {{ $pieceY = "300" }}
+  {{ $pieceX = "416" }}
+  {{ $pieceY = "480" }}
   {{ $piece = "♘" }}
 {{ else if eq $corner "bottom-left" }}
   {{ $cx = "0%" }}
   {{ $cy = "100%" }}
-  {{ $pieceX = "60" }}
-  {{ $pieceY = "300" }}
+  {{ $pieceX = "96" }}
+  {{ $pieceY = "480" }}
   {{ $piece = "♘" }}
 {{ end }}
 
 <div class="chess-watermark corner-{{ $corner }}" aria-hidden="true" title="Chess watermark">
-  <svg viewBox="0 0 350 350" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+  <svg viewBox="0 0 512 512" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <pattern id="chess-tile-pattern" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
-        <rect x="0" y="0" width="40" height="40" class="chess-sq-light" />
-        <rect x="40" y="0" width="40" height="40" class="chess-sq-dark" />
-        <rect x="0" y="40" width="40" height="40" class="chess-sq-dark" />
-        <rect x="40" y="40" width="40" height="40" class="chess-sq-light" />
-        <path d="M0,0 h80 M0,40 h80 M0,0 v80 M40,0 v80" class="chess-grid-line" />
+      <!-- 2x2 squares pattern (each square is 64x64) -->
+      <pattern id="chess-tile-pattern" x="0" y="0" width="128" height="128" patternUnits="userSpaceOnUse">
+        <rect x="0" y="0" width="64" height="64" class="chess-sq-light" />
+        <rect x="64" y="0" width="64" height="64" class="chess-sq-dark" />
+        <rect x="0" y="64" width="64" height="64" class="chess-sq-dark" />
+        <rect x="64" y="64" width="64" height="64" class="chess-sq-light" />
+        <path d="M0,0 h128 M0,64 h128 M0,0 v128 M64,0 v128" class="chess-grid-line" />
       </pattern>
-      <radialGradient id="chess-radial-fade" cx="{{ $cx }}" cy="{{ $cy }}" r="95%">
-        <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
-        <stop offset="35%" stop-color="#ffffff" stop-opacity="0.5" />
-        <stop offset="65%" stop-color="#ffffff" stop-opacity="0.15" />
+      <!-- Smooth extended radial gradient fading deep into the screen -->
+      <radialGradient id="chess-radial-fade" cx="{{ $cx }}" cy="{{ $cy }}" r="115%">
+        <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95" />
+        <stop offset="25%" stop-color="#ffffff" stop-opacity="0.75" />
+        <stop offset="50%" stop-color="#ffffff" stop-opacity="0.45" />
+        <stop offset="75%" stop-color="#ffffff" stop-opacity="0.18" />
+        <stop offset="92%" stop-color="#ffffff" stop-opacity="0.04" />
         <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
       </radialGradient>
       <mask id="chess-fade-mask">
-        <rect width="350" height="350" fill="url(#chess-radial-fade)" />
+        <rect width="512" height="512" fill="url(#chess-radial-fade)" />
       </mask>
     </defs>
 
     <g mask="url(#chess-fade-mask)">
-      <!-- 8x8 Checkered Chessboard (320x320) -->
-      <g transform="translate(15, 10)">
-        <rect width="320" height="320" rx="3" fill="url(#chess-tile-pattern)" />
-        <rect width="320" height="320" rx="3" fill="none" class="chess-board-frame" />
-        
-        <!-- Subtle Knight Piece Watermark in corner square -->
-        <text x="{{ $pieceX }}" y="{{ $pieceY }}" font-size="28" text-anchor="middle" dominant-baseline="central" class="chess-piece">{{ $piece }}</text>
-      </g>
+      <!-- 8x8 Checkered Chessboard (512x512) -->
+      <rect width="512" height="512" fill="url(#chess-tile-pattern)" />
+      <rect width="512" height="512" fill="none" class="chess-board-frame" />
 
-      <!-- Rank & File Coordinate Labels -->
-      <g class="chess-coord-labels" text-anchor="middle" dominant-baseline="central">
-        <!-- Left ranks (8 to 1) -->
-        <text x="7.5" y="30">8</text>
-        <text x="7.5" y="70">7</text>
-        <text x="7.5" y="110">6</text>
-        <text x="7.5" y="150">5</text>
-        <text x="7.5" y="190">4</text>
-        <text x="7.5" y="230">3</text>
-        <text x="7.5" y="270">2</text>
-        <text x="7.5" y="310">1</text>
-
-        <!-- Right ranks (8 to 1) -->
-        <text x="342.5" y="30">8</text>
-        <text x="342.5" y="70">7</text>
-        <text x="342.5" y="110">6</text>
-        <text x="342.5" y="150">5</text>
-        <text x="342.5" y="190">4</text>
-        <text x="342.5" y="230">3</text>
-        <text x="342.5" y="270">2</text>
-        <text x="342.5" y="310">1</text>
-
-        <!-- Top files (a to h) -->
-        <text x="35" y="5">a</text>
-        <text x="75" y="5">b</text>
-        <text x="115" y="5">c</text>
-        <text x="155" y="5">d</text>
-        <text x="195" y="5">e</text>
-        <text x="235" y="5">f</text>
-        <text x="275" y="5">g</text>
-        <text x="315" y="5">h</text>
-
-        <!-- Bottom files (a to h) -->
-        <text x="35" y="340">a</text>
-        <text x="75" y="340">b</text>
-        <text x="115" y="340">c</text>
-        <text x="155" y="340">d</text>
-        <text x="195" y="340">e</text>
-        <text x="235" y="340">f</text>
-        <text x="275" y="340">g</text>
-        <text x="315" y="340">h</text>
-      </g>
+      {{ if .Site.Params.chess_show_piece }}
+      <!-- Optional Knight Piece Watermark in corner square (disabled by default) -->
+      <text x="{{ $pieceX }}" y="{{ $pieceY }}" font-size="44" text-anchor="middle" dominant-baseline="central" class="chess-piece">{{ $piece }}</text>
+      {{ end }}
     </g>
   </svg>
 </div>

@@ -33,12 +33,11 @@
   --admonition-bg: #f0f9ff;
   --admonition-border: #0284c7;
 
-  /* Chess Watermark */
-  --chess-dark-sq: rgba(2, 132, 199, 0.07);
-  --chess-light-sq: rgba(2, 132, 199, 0.012);
-  --chess-border: rgba(2, 132, 199, 0.12);
-  --chess-coord: rgba(2, 132, 199, 0.45);
-  --chess-piece: rgba(2, 132, 199, 0.22);
+  /* Chess Watermark (Header Cyan: #40E0D0 / Sky Blue: #2fa4e7) */
+  --chess-dark-sq: rgba(64, 224, 208, 0.26);
+  --chess-light-sq: rgba(64, 224, 208, 0.03);
+  --chess-border: rgba(47, 164, 231, 0.28);
+  --chess-piece: rgba(47, 164, 231, 0.55);
 }
 
 [data-theme="dark"] {
@@ -57,11 +56,10 @@
   --admonition-border: #38bdf8;
 
   /* Chess Watermark */
-  --chess-dark-sq: rgba(56, 189, 248, 0.08);
-  --chess-light-sq: rgba(56, 189, 248, 0.015);
-  --chess-border: rgba(56, 189, 248, 0.14);
-  --chess-coord: rgba(56, 189, 248, 0.45);
-  --chess-piece: rgba(56, 189, 248, 0.25);
+  --chess-dark-sq: rgba(64, 224, 208, 0.18);
+  --chess-light-sq: rgba(64, 224, 208, 0.02);
+  --chess-border: rgba(56, 189, 248, 0.22);
+  --chess-piece: rgba(56, 189, 248, 0.50);
 }
 
 body {
@@ -824,9 +822,9 @@ footer.site-footer {
   z-index: 0;
   pointer-events: none;
   user-select: none;
-  width: 350px;
-  height: 350px;
-  opacity: 0.9;
+  width: 512px;
+  height: 512px;
+  opacity: 0.95;
   transition: opacity 0.3s ease;
 }
 
@@ -868,13 +866,6 @@ footer.site-footer {
   stroke-width: 1px;
 }
 
-.chess-coord-labels text {
-  fill: var(--chess-coord);
-  font-family: var(--font-family-mono);
-  font-size: 8px;
-  font-weight: 600;
-}
-
 .chess-piece {
   fill: var(--chess-piece);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -883,17 +874,17 @@ footer.site-footer {
 
 @media (max-width: 768px) {
   .chess-watermark {
-    width: 220px;
-    height: 220px;
-    opacity: 0.6;
+    width: 300px;
+    height: 300px;
+    opacity: 0.65;
   }
 }
 
 @media (max-width: 480px) {
   .chess-watermark {
-    width: 170px;
-    height: 170px;
-    opacity: 0.45;
+    width: 220px;
+    height: 220px;
+    opacity: 0.5;
   }
 }
 
