@@ -177,9 +177,48 @@
     });
   }
 
+  function setupCodeCopyButtons() {
+    document.querySelectorAll('.content pre').forEach((pre) => {
+      if (pre.closest('.mermaid') || (pre.parentElement && pre.parentElement.classList.contains('code-container'))) return;
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'code-container';
+      pre.parentNode.insertBefore(wrapper, pre);
+      wrapper.appendChild(pre);
+
+      const button = document.createElement('button');
+      button.className = 'copy-code-btn';
+      button.setAttribute('aria-label', 'Copy code to clipboard');
+      button.title = 'Copy code';
+      button.innerHTML = '📋 Copy';
+
+      button.addEventListener('click', async () => {
+        const codeElement = pre.querySelector('code');
+        const textToCopy = codeElement ? codeElement.innerText : pre.innerText;
+        try {
+          await navigator.clipboard.writeText(textToCopy);
+          button.innerHTML = '✓ Copied!';
+          button.classList.add('copied');
+          setTimeout(() => {
+            button.innerHTML = '📋 Copy';
+            button.classList.remove('copied');
+          }, 2000);
+        } catch (err) {
+          button.innerHTML = '❌ Failed';
+          setTimeout(() => {
+            button.innerHTML = '📋 Copy';
+          }, 2000);
+        }
+      });
+
+      wrapper.appendChild(button);
+    });
+  }
+
   function initPage() {
     transformAdmonitions();
     transformIcons();
+    setupCodeCopyButtons();
   }
 
   if (document.readyState === 'loading') {
