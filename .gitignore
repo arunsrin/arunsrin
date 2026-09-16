@@ -5,4 +5,5 @@ public/*
 gha-creds-*.json
 .hugo_build.lock
 resources/
+.worktrees/
 
