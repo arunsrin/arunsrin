@@ -23,13 +23,14 @@ This repository contains **arunsrin's notes**, a personal digital garden and tec
 Always test your changes locally before submitting or committing!
 
 ```bash
-# Run the complete test suite (strict build, JSON validation, internal link audit)
+# Run the complete test suite (strict build, JSON validation, link audit, JS & Cloudflare safety)
 ./scripts/test.sh
 
 # Or execute individual steps:
 hugo --gc --minify --panicOnWarning          # Build with zero warnings
 jq . public/index.json > /dev/null          # Validate search index
 jq . public/static/quotes.json > /dev/null  # Validate quotes database
+node scripts/test_js.js                     # Validate JS, Cloudflare caching & Rocket Loader safety
 
 # Start local preview server (bind 0.0.0.0, port 1313)
 hugo server --bind 0.0.0.0 --port 1313 -b http://localhost:1313/
@@ -37,8 +38,11 @@ hugo server --bind 0.0.0.0 --port 1313 -b http://localhost:1313/
 
 ## 4. Rules of Thumb for Changes
 1. **Never commit breaking deprecations:** Hugo builds in CI use `--panicOnWarning` with Hugo v0.147.7 for exact parity with Cloudflare Pages' default build image. Ensure config uses modern Hugo settings (e.g., `locale` instead of `languageCode`), and templates maintain compatibility with Cloudflare Pages' Hugo runner (e.g., use `.Site.Language.Lang` rather than `.Site.Language.Locale` which was only introduced in v0.158+ and fails on older runners).
-2. **Search Index Integrity:** The client search (`layouts/index.json`) loads on `Ctrl+K`. Keep it lean and ensure generated JSON stays strictly valid.
-3. **DOM Execution Order:** Always wrap DOM queries in `document.addEventListener('DOMContentLoaded', ...)` when elements may be declared across different partials (e.g. `header.html` referencing `#sidebar-left`).
-4. **Link Handling:** Internal links should use Hugo relative permalinks. External links are handled by `layouts/_default/_markup/render-link.html` which adds `target="_blank" rel="noopener noreferrer"` and an external indicator `↗`.
-5. **Git Practices:** Create feature branches for larger sets of changes, make clean atomic commits with conventional commit messages, and test before opening pull requests.
-6. **Sacred Prose Principle:** You can freely iterate on layout containers, HTML templates, CSS classes, and metadata. But do NOT alter the author's writing, phrasing, tone, or opinions in markdown content files. (Simple search/replace for outdated tooling names such as 'mkdocs' -> 'hugo' is permitted).
+2. **Cloudflare Rocket Loader & Zero Inline Handlers:** NEVER use inline HTML event handlers (e.g., `onclick="..."`, `onchange="..."`, `onload="..."`). Cloudflare Rocket Loader is enabled on the domain and intercepts inline handlers, silently suppressing events until its async script queue completes. Always attach event listeners unobtrusively in JavaScript via `addEventListener()`.
+3. **Static Asset Caching & Cache-Busting:** Never mark unhashed asset paths (like `/css/*` or `/static/*`) as `immutable` in `static_root/_headers` — browsers will permanently cache stale files on disk for up to a year. Use `stale-while-revalidate` for mutable static assets, and always add cache-busting query strings to external asset links in templates (e.g., `href="/css/extra.css?v={{ now.Unix }}"`). Prefer inlining critical, lightweight client styles and scripts (<2KB) directly in partials (`head.html`, `footer.html`) so they deploy atomically with page HTML.
+4. **HTML Tag Balance in Markdown:** When using custom container blocks in markdown content (e.g. `<div class="grid cards" markdown>`), always ensure the matching closing `</div>` tag is present to prevent DOM nesting leaks.
+5. **Search Index Integrity:** The client search (`layouts/index.json`) loads on `Ctrl+K`. Keep it lean and ensure generated JSON stays strictly valid.
+6. **DOM Execution Order:** Always wrap DOM queries in `document.addEventListener('DOMContentLoaded', ...)` when elements may be declared across different partials (e.g. `header.html` referencing `#sidebar-left`).
+7. **Link Handling:** Internal links should use Hugo relative permalinks. External links are handled by `layouts/_default/_markup/render-link.html` which adds `target="_blank" rel="noopener noreferrer"` and an external indicator `↗`.
+8. **Git Practices:** Create feature branches for larger sets of changes, make clean atomic commits with conventional commit messages, and test before opening pull requests.
+9. **Sacred Prose Principle:** You can freely iterate on layout containers, HTML templates, CSS classes, and metadata. But do NOT alter the author's writing, phrasing, tone, or opinions in markdown content files. (Simple search/replace for outdated tooling names such as 'mkdocs' -> 'hugo' is permitted).

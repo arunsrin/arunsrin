@@ -5,6 +5,9 @@ on:
     branches:
       - master
       - site-enhancements
+      - fix-fortune-reroll
+      - 'fix/**'
+      - 'feat/**'
   pull_request:
     branches:
       - master
@@ -36,3 +39,7 @@ jobs:
         uses: wjdp/htmltest-action@master
         with:
           config: .htmltest.yml
+
+      - name: Run JavaScript & Cloudflare Anti-Pattern Tests
+        run: node scripts/test_js.js
+
