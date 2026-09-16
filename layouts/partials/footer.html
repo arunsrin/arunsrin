@@ -2,11 +2,21 @@
   <div>
     &copy; {{ now.Format "2006" }} {{ .Site.Params.author }}. Powered by Hugo. &bull; <a href="/index.xml" style="color: var(--link-color); text-decoration: none;">📡 RSS Feed</a>
   </div>
-  <div class="container">
-    <i>📜 Random fortune:<div id="quote"></div></i>
-    <div id="quote-author"></div>
+  <div class="container fortune-card" id="quote-container">
+    <div class="fortune-body">
+      <span class="fortune-label">📜 Random fortune:</span>
+      <span id="quote"></span>
+      <span id="quote-author" class="fortune-author"></span>
+    </div>
+    <button id="fortune-reroll-btn" class="fortune-reroll-btn" onclick="rerollQuote()" title="Roll another fortune" aria-label="Roll another fortune">
+      <span class="dice-icon">🎲</span> Roll another
+    </button>
   </div>
 </footer>
+
+<button id="back-to-top-btn" class="back-to-top-btn" aria-label="Back to top" title="Back to top">
+  <span>🚀</span>
+</button>
 
 <script src="/static/quotes.js" defer></script>
 <script src="/static/iconify-icon.min.js" defer></script>
@@ -215,10 +225,49 @@
     });
   }
 
+  function setupBackToTopAndProgress() {
+    const bttBtn = document.getElementById('back-to-top-btn');
+    const progressBar = document.getElementById('reading-progress');
+
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+      if (bttBtn) {
+        if (scrollY > 300) {
+          bttBtn.classList.add('visible');
+        } else {
+          bttBtn.classList.remove('visible');
+        }
+      }
+
+      if (progressBar && docHeight > 0) {
+        const progress = (scrollY / docHeight) * 100;
+        progressBar.style.width = Math.min(100, Math.max(0, progress)) + '%';
+      }
+    }, { passive: true });
+
+    if (bttBtn) {
+      bttBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+  }
+
   function initPage() {
     transformAdmonitions();
     transformIcons();
     setupCodeCopyButtons();
+    setupBackToTopAndProgress();
+
+    // DevTools Easter Egg
+    console.log(
+      "%c📜 arunsrin's notes %c| %c\"The truth shall make ye fret.\"\n%c🧙‍♂️ x-lotr: One Header to Rule Them All",
+      "color: #0284c7; font-weight: bold; font-size: 13px;",
+      "color: #94a3b8;",
+      "font-style: italic; color: #64748b; font-size: 12px;",
+      "color: #0ea5e9; font-size: 11px; margin-top: 4px;"
+    );
   }
 
   if (document.readyState === 'loading') {

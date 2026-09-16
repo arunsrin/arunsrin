@@ -4,6 +4,7 @@
   {{ partial "head.html" . }}
 </head>
 <body>
+  <div id="reading-progress" class="reading-progress-bar"></div>
   {{ partial "header.html" . }}
 
   {{ $hasTOC := and .TableOfContents (strings.Contains .TableOfContents "<li>") }}
