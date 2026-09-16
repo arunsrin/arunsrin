@@ -1,5 +1,19 @@
 {{ define "main" }}
 <article>
+  {{ if not .IsHome }}
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="/">🏠 Home</a></li>
+        {{ range .Ancestors.Reverse }}
+          {{ if not .IsHome }}
+            <li><span class="breadcrumb-separator">/</span> <a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+          {{ end }}
+        {{ end }}
+        <li><span class="breadcrumb-separator">/</span> <span class="breadcrumb-current">{{ .Title }}</span></li>
+      </ol>
+    </nav>
+  {{ end }}
+
   <header>
     {{ if eq .Data.Singular "tag" }}
       <h1>🏷️ Tag: {{ .Title }}</h1>

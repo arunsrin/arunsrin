@@ -1,5 +1,8 @@
 <header class="site-header">
   <div class="brand-container">
+    <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle navigation" title="Menu">
+      <span>☰</span>
+    </button>
     <a href="/" class="site-title">
       <span class="anim-pulse anim-flip">📝</span> {{ .Site.Title }}
     </a>
@@ -20,6 +23,7 @@
     </button>
   </div>
 </header>
+<div id="sidebar-overlay" class="sidebar-overlay"></div>
 
 <script>
   // Theme toggle logic
@@ -38,6 +42,49 @@
   toggleBtn.addEventListener('click', () => {
     const currentTheme = document.documentElement.getAttribute('data-theme');
     setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+  });
+
+  // Mobile drawer toggle logic
+  document.addEventListener('DOMContentLoaded', () => {
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const sidebar = document.getElementById('sidebar-left');
+    const overlay = document.getElementById('sidebar-overlay');
+    const closeBtn = document.getElementById('sidebar-close-btn');
+
+    function toggleSidebar(open) {
+      if (!sidebar) return;
+      const isOpen = open !== undefined ? open : !sidebar.classList.contains('open');
+      sidebar.classList.toggle('open', isOpen);
+      if (overlay) overlay.classList.toggle('open', isOpen);
+      if (menuBtn) {
+        menuBtn.innerHTML = isOpen ? '✕' : '☰';
+        menuBtn.setAttribute('aria-expanded', isOpen);
+      }
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    }
+
+    if (menuBtn) {
+      menuBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleSidebar();
+      });
+    }
+
+    if (overlay) {
+      overlay.addEventListener('click', () => toggleSidebar(false));
+    }
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => toggleSidebar(false));
+    }
+
+    if (sidebar) {
+      sidebar.addEventListener('click', (e) => {
+        if (e.target.tagName === 'A') {
+          toggleSidebar(false);
+        }
+      });
+    }
   });
 
   // Full-Text Search Logic
