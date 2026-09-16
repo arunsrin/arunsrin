@@ -4,13 +4,7 @@ on:
   push:
     branches:
       - master
-      - site-enhancements
-      - fix-fortune-reroll
-      - 'fix/**'
-      - 'feat/**'
   pull_request:
-    branches:
-      - master
   workflow_dispatch:
 
 jobs:
