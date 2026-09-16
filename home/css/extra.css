@@ -1,8 +1,3 @@
-/* Change header color */
-.bg-primary {
-    background-image: linear-gradient(#40E0D0,#2fa4e7 75%,#2c9ad9) !important;
-}
-
 /* Smooth scrolling */
 html {
     scroll-behavior: smooth;
@@ -179,18 +174,5 @@ html {
 .anim-rotate {
   animation: rotate-slow 8s linear infinite;
   display: inline-block;
-}
-
-@keyframes fade {
-...
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
-@keyframes pulse {
-  0%, 100% { transform: scale(1);}
-  50% { transform: scale(1.15);}
-}
-.md-header__button.md-logo:hover svg {
-  animation: fade 1.5s infinite alternate, pulse 1.5s infinite alternate;
 }
 
