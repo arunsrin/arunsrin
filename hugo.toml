@@ -5,8 +5,8 @@ contentDir = 'home'
 publishDir = 'public'
 
 [outputs]
-  home = ['HTML', 'RSS', 'JSON']
-  section = ['HTML', 'RSS']
+  home = ['HTML', 'JSON']
+  section = ['HTML']
 
 [params]
   description = "The truth shall make ye fret."
