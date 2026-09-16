@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+      - site-enhancements
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    name: Build & Verify
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: '0.165.0'
+          extended: true
+
+      - name: Strict Hugo Build
+        run: hugo --gc --minify --panicOnWarning
+
+      - name: Validate JSON Indexes
+        run: |
+          jq . public/index.json > /dev/null
+          jq . public/static/quotes.json > /dev/null
+
+      - name: Check Internal Links & Assets
+        uses: wjdp/htmltest-action@master
+        with:
+          config: .htmltest.yml
