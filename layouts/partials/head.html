@@ -11,8 +11,8 @@
 <!-- Favicon -->
 <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
 
-<!-- Custom Extra CSS -->
-<link rel="stylesheet" href="/css/extra.css">
+<!-- Custom Extra CSS with cache busting -->
+<link rel="stylesheet" href="/css/extra.css?v={{ now.Unix }}">
 
 <style>
 :root {
@@ -480,6 +480,68 @@ footer.site-footer {
 }
 .dice-spin {
   transform: rotate(360deg);
+}
+
+/* Card Grid (Digital Garden hubs) */
+.grid.cards > ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+  list-style: none;
+  padding: 0;
+  margin: 1.75rem 0;
+}
+
+.grid.cards > ul > li {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.grid.cards > ul > li:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(2, 132, 199, 0.12);
+  border-color: var(--link-color);
+}
+
+.grid.cards > ul > li hr {
+  border: 0;
+  border-top: 1px solid var(--border-color);
+  margin: 0.75rem 0;
+}
+
+.grid.cards > ul > li > p:first-child {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: 0.4rem;
+  color: var(--text-color);
+}
+
+.grid.cards > ul > li ul {
+  list-style: none;
+  padding-left: 0.5rem;
+  margin: 0.5rem 0 0 0;
+  flex: 1;
+}
+
+.grid.cards > ul > li ul li {
+  margin: 0.35rem 0;
+}
+
+.grid.cards > ul > li ul li a {
+  color: var(--link-color);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.grid.cards > ul > li ul li a:hover {
+  text-decoration: underline;
 }
 
 /* Code block container & copy button */
