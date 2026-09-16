@@ -1,6 +1,6 @@
 baseURL = 'https://www.arunsr.in/'
 title = "arunsrin's notes"
-languageCode = 'en-us'
+locale = 'en-US'
 contentDir = 'home'
 publishDir = 'public'
 
