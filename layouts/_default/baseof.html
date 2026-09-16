@@ -5,6 +5,9 @@
 </head>
 <body>
   <div id="reading-progress" class="reading-progress-bar"></div>
+  {{ if .Site.Params.chess_watermark }}
+  {{ partial "chess-watermark.html" . }}
+  {{ end }}
   {{ partial "header.html" . }}
 
   {{ $hasTOC := and .TableOfContents (strings.Contains .TableOfContents "<li>") }}

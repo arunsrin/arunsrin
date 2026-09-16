@@ -32,6 +32,13 @@
   --code-bg: #f8fafc;
   --admonition-bg: #f0f9ff;
   --admonition-border: #0284c7;
+
+  /* Chess Watermark */
+  --chess-dark-sq: rgba(2, 132, 199, 0.07);
+  --chess-light-sq: rgba(2, 132, 199, 0.012);
+  --chess-border: rgba(2, 132, 199, 0.12);
+  --chess-coord: rgba(2, 132, 199, 0.45);
+  --chess-piece: rgba(2, 132, 199, 0.22);
 }
 
 [data-theme="dark"] {
@@ -48,6 +55,13 @@
   --code-bg: #0f172a;
   --admonition-bg: #1e293b;
   --admonition-border: #38bdf8;
+
+  /* Chess Watermark */
+  --chess-dark-sq: rgba(56, 189, 248, 0.08);
+  --chess-light-sq: rgba(56, 189, 248, 0.015);
+  --chess-border: rgba(56, 189, 248, 0.14);
+  --chess-coord: rgba(56, 189, 248, 0.45);
+  --chess-piece: rgba(56, 189, 248, 0.25);
 }
 
 body {
@@ -142,6 +156,8 @@ code, pre {
   max-width: 1440px;
   width: 100%;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 .sidebar-left {
@@ -799,6 +815,91 @@ footer.site-footer {
   }
   .search-input:focus {
     width: 180px;
+  }
+}
+
+/* Chessboard Corner Watermark */
+.chess-watermark {
+  position: fixed;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+  width: 350px;
+  height: 350px;
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+
+.chess-watermark.corner-top-right {
+  top: 56px;
+  right: 0;
+}
+
+.chess-watermark.corner-top-left {
+  top: 56px;
+  left: 0;
+}
+
+.chess-watermark.corner-bottom-right {
+  bottom: 0;
+  right: 0;
+}
+
+.chess-watermark.corner-bottom-left {
+  bottom: 0;
+  left: 0;
+}
+
+.chess-sq-light {
+  fill: var(--chess-light-sq);
+}
+
+.chess-sq-dark {
+  fill: var(--chess-dark-sq);
+}
+
+.chess-grid-line {
+  stroke: var(--chess-border);
+  stroke-width: 0.75px;
+}
+
+.chess-board-frame {
+  stroke: var(--chess-border);
+  stroke-width: 1px;
+}
+
+.chess-coord-labels text {
+  fill: var(--chess-coord);
+  font-family: var(--font-family-mono);
+  font-size: 8px;
+  font-weight: 600;
+}
+
+.chess-piece {
+  fill: var(--chess-piece);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  user-select: none;
+}
+
+@media (max-width: 768px) {
+  .chess-watermark {
+    width: 220px;
+    height: 220px;
+    opacity: 0.6;
+  }
+}
+
+@media (max-width: 480px) {
+  .chess-watermark {
+    width: 170px;
+    height: 170px;
+    opacity: 0.45;
+  }
+}
+
+@media print {
+  .chess-watermark {
+    display: none !important;
   }
 }
 </style>
