@@ -36,7 +36,7 @@ hugo server --bind 0.0.0.0 --port 1313 -b http://localhost:1313/
 ```
 
 ## 4. Rules of Thumb for Changes
-1. **Never commit breaking deprecations:** Hugo builds in CI use `--panicOnWarning`. Ensure all templates use modern Hugo APIs (e.g., `locale` instead of `languageCode`, `.Site.Language.Locale` instead of `.Site.LanguageCode`).
+1. **Never commit breaking deprecations:** Hugo builds in CI use `--panicOnWarning`. Ensure config uses modern Hugo settings (e.g., `locale` instead of `languageCode`), and templates maintain compatibility with Cloudflare Pages' Hugo runner (e.g., use `.Site.Language.Lang` rather than `.Site.Language.Locale` which was only introduced in v0.158+ and fails on older runners).
 2. **Search Index Integrity:** The client search (`layouts/index.json`) loads on `Ctrl+K`. Keep it lean and ensure generated JSON stays strictly valid.
 3. **DOM Execution Order:** Always wrap DOM queries in `document.addEventListener('DOMContentLoaded', ...)` when elements may be declared across different partials (e.g. `header.html` referencing `#sidebar-left`).
 4. **Link Handling:** Internal links should use Hugo relative permalinks. External links are handled by `layouts/_default/_markup/render-link.html` which adds `target="_blank" rel="noopener noreferrer"` and an external indicator `↗`.
