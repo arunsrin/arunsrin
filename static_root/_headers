@@ -5,9 +5,9 @@
   X-Frame-Options: SAMEORIGIN
   Referrer-Policy: strict-origin-when-cross-origin
 
-# Static CSS & JS: Cache for 1 year with immutable flag + Expires header
+# CSS: Revalidate daily, serve stale while revalidating
 /css/*
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
   Access-Control-Allow-Origin: *
 
 /static/*
@@ -18,6 +18,15 @@
 /favicon.ico
   Cache-Control: public, max-age=31536000, immutable
 
-# Search index
+# Search index & dynamic quotes
 /index.json
   Cache-Control: public, max-age=86400, stale-while-revalidate=86400
+
+/static/quotes.json
+  Cache-Control: public, max-age=86400, stale-while-revalidate=86400
+  Access-Control-Allow-Origin: *
+
+/static/quotes.js
+  Cache-Control: public, max-age=86400, stale-while-revalidate=86400
+  Access-Control-Allow-Origin: *
+

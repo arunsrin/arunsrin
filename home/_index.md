@@ -203,4 +203,6 @@ These pages cover other various topics I've researched or feel passionate about.
     - [:material-penguin:{ .anim-rotate }Richard Stallman](other-interests/people/stallman.md)
     - [:material-thought-bubble:{ .anim-heart }Noam Chomsky](other-interests/people/chomsky.md)
 
+</div>
+
 

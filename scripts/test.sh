@@ -43,4 +43,7 @@ else:
     print('✓ All internal links valid!')
 "
 
+echo "=== 4. Running JavaScript & Cloudflare safety tests ==="
+node scripts/test_js.js
+
 echo "=== All checks passed successfully! ==="
