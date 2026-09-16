@@ -32,6 +32,12 @@
   --code-bg: #f8fafc;
   --admonition-bg: #f0f9ff;
   --admonition-border: #0284c7;
+
+  /* Chess Watermark (Header Cyan: #40E0D0 / Sky Blue: #2fa4e7) */
+  --chess-dark-sq: rgba(64, 224, 208, 0.26);
+  --chess-light-sq: rgba(64, 224, 208, 0.03);
+  --chess-border: rgba(47, 164, 231, 0.28);
+  --chess-piece: rgba(47, 164, 231, 0.55);
 }
 
 [data-theme="dark"] {
@@ -48,6 +54,12 @@
   --code-bg: #0f172a;
   --admonition-bg: #1e293b;
   --admonition-border: #38bdf8;
+
+  /* Chess Watermark */
+  --chess-dark-sq: rgba(64, 224, 208, 0.18);
+  --chess-light-sq: rgba(64, 224, 208, 0.02);
+  --chess-border: rgba(56, 189, 248, 0.22);
+  --chess-piece: rgba(56, 189, 248, 0.50);
 }
 
 body {
@@ -142,6 +154,8 @@ code, pre {
   max-width: 1440px;
   width: 100%;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 .sidebar-left {
@@ -799,6 +813,84 @@ footer.site-footer {
   }
   .search-input:focus {
     width: 180px;
+  }
+}
+
+/* Chessboard Corner Watermark */
+.chess-watermark {
+  position: fixed;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+  width: 512px;
+  height: 512px;
+  opacity: 0.95;
+  transition: opacity 0.3s ease;
+}
+
+.chess-watermark.corner-top-right {
+  top: 56px;
+  right: 0;
+}
+
+.chess-watermark.corner-top-left {
+  top: 56px;
+  left: 0;
+}
+
+.chess-watermark.corner-bottom-right {
+  bottom: 0;
+  right: 0;
+}
+
+.chess-watermark.corner-bottom-left {
+  bottom: 0;
+  left: 0;
+}
+
+.chess-sq-light {
+  fill: var(--chess-light-sq);
+}
+
+.chess-sq-dark {
+  fill: var(--chess-dark-sq);
+}
+
+.chess-grid-line {
+  stroke: var(--chess-border);
+  stroke-width: 0.75px;
+}
+
+.chess-board-frame {
+  stroke: var(--chess-border);
+  stroke-width: 1px;
+}
+
+.chess-piece {
+  fill: var(--chess-piece);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  user-select: none;
+}
+
+@media (max-width: 768px) {
+  .chess-watermark {
+    width: 300px;
+    height: 300px;
+    opacity: 0.65;
+  }
+}
+
+@media (max-width: 480px) {
+  .chess-watermark {
+    width: 220px;
+    height: 220px;
+    opacity: 0.5;
+  }
+}
+
+@media print {
+  .chess-watermark {
+    display: none !important;
   }
 }
 </style>
