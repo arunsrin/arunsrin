@@ -46,9 +46,9 @@ This skill orchestrates an autonomous multi-agent feature sprint for **arunsrin'
                          │
                          ▼
   ┌──────────────────────────────────────────────┐
-  │ 🚀 Phase 6: Human Review, Merge & Close      │
-  │ Author reviews live on :1314 vs :1313;       │
-  │ merges PR via gh, cleans worktree, & closes. │
+  │ 🚀 Phase 6: Human Sign-off, Merge & Cleanup  │
+  │ Author reviews live and gives sign-off;      │
+  │ Gandalf merges PR, cleans worktree & closes. │
   └──────────────────────────────────────────────┘
 ```
 
@@ -219,7 +219,7 @@ cd .worktrees/<feature-name> && git diff master
    - **Step 5 (Push):** Updated commits are pushed to the PR branch.
 
 6. **Sign-off, Merge & Cleanup:**
-   Once the author explicitly approves:
+   Once the author explicitly reviews and gives sign-off, Gandalf automatically executes the merge and cleanup:
    ```bash
    # Merge PR via gh
    gh pr merge <feature-name> --merge --delete-branch
