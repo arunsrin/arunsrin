@@ -165,6 +165,7 @@ cd .worktrees/<feature-name> && git diff master
    ```bash
    python scripts/site_sprint.py create-pr --task-id <task-id> --title "feat(<scope>): <title>" --body "<description>" --branch <feature-name>
    ```
+   - **Clean & Meaningful PR Description:** PR descriptions must be concise and explain what we are trying to fix/build and how. Never include internal Todoist task IDs or localhost URLs in the PR body. Localhost preview URLs belong exclusively in the chat review briefing to the author.
 
 3. **Automatic Dual-Port Server Management (Agent-Managed, Zero Author Effort):**
    The author must NEVER be expected to manually spin up or restart preview servers. The agent is strictly responsible for spinning up and maintaining both servers in the background:
