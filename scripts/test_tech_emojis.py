@@ -17,6 +17,12 @@ import re
 import sys
 import json
 
+# Ensure UTF-8 output across Windows and Linux terminals
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+if hasattr(sys.stderr, "reconfigure"):
+    sys.stderr.reconfigure(encoding="utf-8")
+
 def run_tests():
     public_dir = "public"
     content_tech = os.path.join("home", "tech")
