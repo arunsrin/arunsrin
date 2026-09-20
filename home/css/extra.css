@@ -317,3 +317,30 @@ html {
   font-style: italic;
 }
 
+/* --- Search Dropdown & Highlight Styles --- */
+mark.search-highlight {
+  background-color: rgba(64, 224, 208, 0.3);
+  color: inherit;
+  padding: 0 0.15rem;
+  border-radius: 2px;
+  font-weight: 600;
+}
+
+.search-result-item {
+  padding: 0.45rem 0.65rem;
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.15s ease;
+  border-radius: 0.35rem;
+  cursor: pointer;
+}
+
+.search-result-item:last-child {
+  border-bottom: none;
+}
+
+.search-result-item:hover,
+.search-result-item.search-item-selected {
+  background-color: var(--code-bg, rgba(2, 132, 199, 0.08));
+}
+
+

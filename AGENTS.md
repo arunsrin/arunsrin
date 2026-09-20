@@ -49,8 +49,12 @@ cd .worktrees/<feature-name> && hugo server --bind 0.0.0.0 --port 1314 -b http:/
 6. **DOM Execution Order:** Always wrap DOM queries in `document.addEventListener('DOMContentLoaded', ...)` when elements may be declared across different partials (e.g. `header.html` referencing `#sidebar-left`).
 7. **Link Handling:** Internal links should use Hugo relative permalinks. External links are handled by `layouts/_default/_markup/render-link.html` which adds `target="_blank" rel="noopener noreferrer"` and an external indicator `↗`.
 8. **Git Worktrees ONLY & Automated Dual-Port Preview:**
+   - **Always Pull Latest Master First:** Because multiple tasks and fixes proceed in parallel, agents MUST ALWAYS run `git pull origin master` in the root tree before branching or starting any new task.
    - **STRICTLY Use Git Worktrees & Dual-Port Preview (Never Switch Branches in Main Tree):** NEVER switch branches (`git checkout <branch>` or `git switch <branch>`) in the root repository tree (`/home/arunsrin/code/arunsrin.mkdocs`). The main working tree must permanently remain on `master`. All feature development, bug fixes, refactoring, and experiments must strictly take place in an isolated worktree created under `.worktrees/<feature-name>`. The agent is strictly responsible for automatically spinning up and maintaining both servers in the background: master on port 1313 (`http://localhost:1313/`) and the active feature worktree on port 1314 (`http://localhost:1314/`). The author never needs to run or restart servers manually.
      ```bash
+     # Always pull latest master before branching
+     git pull origin master
+
      # Create isolated worktree for a feature/fix
      git worktree add -b <feature-name> .worktrees/<feature-name> master
      
@@ -66,7 +70,7 @@ cd .worktrees/<feature-name> && hugo server --bind 0.0.0.0 --port 1314 -b http:/
      ```
    - **CRITICAL Confirmation Workflow:** Never commit and push to remote until the author has tested and explicitly confirmed locally that things are fine. The workflow is: implement -> run `./scripts/test.sh` inside worktree -> verify on preview server (port 1314) -> prompt author to test locally -> commit and push only upon explicit confirmation. Atomic commits with conventional commit messages.
 9. **Sacred Prose Principle:** You can freely iterate on layout containers, HTML templates, CSS classes, and metadata. But do NOT alter the author's writing, phrasing, tone, or opinions in markdown content files. (Simple search/replace for outdated tooling names such as 'mkdocs' -> 'hugo' is permitted).
-10. **Automated Test Mandate for New Code:** Whenever new code, templates, shortcodes, partials, CSS components, or JavaScript behaviors are introduced, Gimli and Legolas MUST author automated regression tests integrated into `./scripts/test.sh` (e.g. dedicated test scripts under `scripts/test_*.py` or `scripts/test_*.js`). Features are never considered complete without automated assertions verifying: (a) structural presence across generated HTML, (b) functional correctness, (c) negative tests preventing unwanted regressions or spurious content, and (d) coverage integrity across all affected pages.
+10. **Automated Test Mandate for New Code & CI Parity:** Whenever new code, templates, shortcodes, partials, CSS components, or JavaScript behaviors are introduced, Gimli and Legolas MUST author automated regression tests integrated into BOTH `./scripts/test.sh` and the GitHub Actions pipeline (`.github/workflows/ci.yml`) (e.g. dedicated test scripts under `scripts/test_*.py` or `scripts/test_*.js`). Features are never considered complete without automated assertions verifying: (a) structural presence across generated HTML, (b) functional correctness, (c) negative tests preventing unwanted regressions or spurious content, (d) coverage integrity across all affected pages, and (e) execution parity in GitHub CI on every PR and merge.
 
 ## 5. Backlog Management (Todoist Integration)
 The backlog of website features, improvements, and maintenance tasks is tracked in Todoist under the project **`Site updates 🌐`** (ID: `6hWVfCmh7qC5P3HW`) using the `td` CLI (`@doist/todoist-cli`, setup per [Todoist AI guide](https://www.todoist.com/help/todoist/todoist-and-ai/use-todoist-in-gemini-spark-dEb9IBNVY#h_01M1B8SXGM1ZKPKS66P8SK1EMN)).

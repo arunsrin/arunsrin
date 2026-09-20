@@ -83,10 +83,11 @@
     }
   });
 
-  // Full-Text Search Logic
+  // Full-Text Search Logic with Relevance Scoring & Keyboard Navigation
   let searchIndex = null;
   const searchInput = document.getElementById('site-search');
   const searchResults = document.getElementById('search-results');
+  let selectedIndex = -1;
 
   async function loadSearchIndex() {
     if (!searchIndex) {
@@ -108,52 +109,201 @@
 
   searchInput.addEventListener('focus', loadSearchIndex);
 
+  function escapeHtml(str) {
+    return String(str || '').replace(/[&<>"']/g, c => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+  }
+
+  function escapeRegExp(str) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  function highlightMatches(text, query) {
+    if (!text || !query) return escapeHtml(text);
+    const escapedText = escapeHtml(text);
+    const words = query.split(/\s+/).filter(Boolean).map(escapeRegExp);
+    if (words.length === 0) return escapedText;
+    const regex = new RegExp(`(${words.join('|')})`, 'gi');
+    return escapedText.replace(regex, '<mark class="search-highlight">$1</mark>');
+  }
+
+  function cleanSnippet(content, query) {
+    if (!content) return '';
+    let text = content.replace(/:[a-z0-9_-]+:(\{[^}]+\})?/gi, '');
+    text = text.replace(/^#+\s*/gm, '');
+    text = text.replace(/\s+/g, ' ').trim();
+
+    const lower = text.toLowerCase();
+    const idx = lower.indexOf(query.toLowerCase());
+    if (idx !== -1) {
+      const start = Math.max(0, idx - 35);
+      const end = Math.min(text.length, idx + query.length + 65);
+      return (start > 0 ? '… ' : '') + text.substring(start, end).trim() + (end < text.length ? ' …' : '');
+    }
+    return text.substring(0, 95).trim() + (text.length > 95 ? ' …' : '');
+  }
+
+  function scoreItem(item, query, queryWords) {
+    const title = (item.title || '').toLowerCase().trim();
+    const permalink = (item.permalink || '').toLowerCase();
+    const content = (item.content || '').toLowerCase();
+    const tags = Array.isArray(item.tags) ? item.tags.map(t => String(t).toLowerCase()) : [];
+    const slug = permalink.replace(/\/$/, '').split('/').pop() || '';
+
+    let score = 0;
+
+    // Exact title match (highest priority)
+    if (title === query) {
+      score += 1000;
+    } else if (title.startsWith(query + ' ') || title.endsWith(' ' + query) || title.includes(' ' + query + ' ')) {
+      score += 600;
+    } else if (title.startsWith(query)) {
+      score += 400;
+    } else if (title.includes(query)) {
+      score += 250;
+    }
+
+    // Slug match
+    if (slug === query) {
+      score += 350;
+    } else if (slug.includes(query)) {
+      score += 150;
+    }
+
+    // Tag matches
+    if (tags.includes(query)) {
+      score += 300;
+    } else if (tags.some(t => t.includes(query))) {
+      score += 100;
+    }
+
+    // Multi-word matches
+    if (queryWords.length > 1) {
+      let wordsInTitle = 0;
+      for (const w of queryWords) {
+        if (title.includes(w)) wordsInTitle++;
+      }
+      if (wordsInTitle === queryWords.length) {
+        score += 200;
+      }
+    }
+
+    // Content match
+    if (content.includes(query)) {
+      score += 20;
+      const count = content.split(query).length - 1;
+      score += Math.min(30, count * 3);
+    }
+
+    // Demote homepage
+    if (permalink === '/' || permalink === '') {
+      score -= 150;
+    }
+
+    return score;
+  }
+
+  function updateSelection(items) {
+    items.forEach((el, idx) => {
+      if (idx === selectedIndex) {
+        el.classList.add('search-item-selected');
+        el.scrollIntoView({ block: 'nearest' });
+      } else {
+        el.classList.remove('search-item-selected');
+      }
+    });
+  }
+
   searchInput.addEventListener('input', () => {
     const query = searchInput.value.toLowerCase().trim();
+    selectedIndex = -1;
     if (!query || !searchIndex) {
       searchResults.style.display = 'none';
       return;
     }
 
-    const matches = searchIndex.filter(item => {
-      return (item.title && item.title.toLowerCase().includes(query)) ||
-             (item.content && item.content.toLowerCase().includes(query)) ||
-             (item.tags && item.tags.some(t => t.toLowerCase().includes(query)));
-    }).slice(0, 10);
+    const queryWords = query.split(/\s+/).filter(Boolean);
+    const scored = [];
 
-    function escapeHtml(str) {
-      return String(str || '').replace(/[&<>"']/g, c => ({
-        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-      }[c]));
+    for (const item of searchIndex) {
+      const s = scoreItem(item, query, queryWords);
+      if (s > 0) {
+        scored.push({ item, score: s });
+      }
     }
+
+    scored.sort((a, b) => b.score - a.score);
+    const matches = scored.slice(0, 10).map(x => x.item);
 
     if (matches.length === 0) {
       searchResults.innerHTML = '<div style="padding:0.5rem; color:var(--text-muted); font-size:0.85rem;">No results found</div>';
     } else {
-      searchResults.innerHTML = matches.map(m => {
-        let snippet = '';
-        if (m.content) {
-          const idx = m.content.toLowerCase().indexOf(query);
-          if (idx !== -1) {
-            const start = Math.max(0, idx - 30);
-            const end = Math.min(m.content.length, idx + query.length + 50);
-            snippet = (start > 0 ? '...' : '') + m.content.substring(start, end) + (end < m.content.length ? '...' : '');
-          } else {
-            snippet = m.content.substring(0, 80) + '...';
-          }
-        }
+      searchResults.innerHTML = matches.map((m, idx) => {
+        const snippet = cleanSnippet(m.content, query);
         const safeLink = encodeURI(m.permalink);
-        const safeTitle = escapeHtml(m.title || m.permalink);
-        const safeSnippet = escapeHtml(snippet);
+        const safeTitle = highlightMatches(m.title || m.permalink, query);
+        const safeSnippet = highlightMatches(snippet, query);
         return `
-          <div style="padding:0.4rem; border-bottom:1px solid var(--border-color);">
-            <a href="${safeLink}" style="font-weight:600; text-decoration:none; color:var(--link-color); font-size:0.9rem;">${safeTitle}</a>
-            <div style="font-size:0.75rem; color:var(--text-muted); text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">${safeSnippet}</div>
+          <div class="search-result-item" data-index="${idx}" data-href="${safeLink}">
+            <a href="${safeLink}" style="font-weight:600; text-decoration:none; color:var(--link-color); font-size:0.9rem; display:block;">${safeTitle}</a>
+            <div style="font-size:0.75rem; color:var(--text-muted); text-overflow:ellipsis; overflow:hidden; white-space:nowrap; margin-top:0.15rem;">${safeSnippet}</div>
           </div>
         `;
       }).join('');
+
+      // Attach mouse event listeners unobtrusively (Rocket Loader safe)
+      const items = searchResults.querySelectorAll('.search-result-item');
+      items.forEach((itemEl, idx) => {
+        itemEl.addEventListener('mouseenter', () => {
+          selectedIndex = idx;
+          updateSelection(items);
+        });
+        itemEl.addEventListener('click', (e) => {
+          if (e.target.tagName.toLowerCase() !== 'a') {
+            const href = itemEl.getAttribute('data-href');
+            if (href) window.location.href = href;
+          }
+        });
+      });
     }
     searchResults.style.display = 'block';
+  });
+
+  searchInput.addEventListener('keydown', (e) => {
+    const items = searchResults.querySelectorAll('.search-result-item');
+    if (searchResults.style.display !== 'none' && items.length > 0) {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        selectedIndex = (selectedIndex + 1) % items.length;
+        updateSelection(items);
+        return;
+      }
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        selectedIndex = (selectedIndex - 1 + items.length) % items.length;
+        updateSelection(items);
+        return;
+      }
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const target = selectedIndex >= 0 && selectedIndex < items.length ? items[selectedIndex] : items[0];
+        if (target) {
+          const link = target.querySelector('a');
+          if (link) window.location.href = link.href;
+        }
+        return;
+      }
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        searchResults.style.display = 'none';
+        searchInput.blur();
+        return;
+      }
+    } else if (e.key === 'Escape') {
+      searchResults.style.display = 'none';
+      searchInput.blur();
+    }
   });
 
   document.addEventListener('click', (e) => {
@@ -162,3 +312,4 @@
     }
   });
 </script>
+

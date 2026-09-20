@@ -49,4 +49,7 @@ node scripts/test_js.js
 echo "=== 5. Validating Related Notes & Mentions ==="
 python3 scripts/test_related_notes.py
 
+echo "=== 6. Validating Search Relevance & Scoring ==="
+node scripts/test_search.js
+
 echo "=== All checks passed successfully! ==="
