@@ -1,0 +1,214 @@
+{{ $currentPage := . }}
+{{ $currentLink := .RelPermalink }}
+{{ $noSlash := strings.TrimSuffix "/" $currentLink }}
+
+{{ $exactHref := printf "href=\"%s\"" $currentLink }}
+{{ $anchorHref := printf "href=\"%s#" $currentLink }}
+{{ $rawHref := printf "href=%s" $currentLink }}
+{{ $exactNoSlash := printf "href=\"%s\"" $noSlash }}
+{{ $anchorNoSlash := printf "href=\"%s#" $noSlash }}
+
+{{/* Candidate accumulator: slice of dicts */}}
+{{ $candidates := slice }}
+
+{{/* 1. Incoming Mentions (Backlinks) */}}
+{{ range site.RegularPages }}
+  {{ if and (ne .RelPermalink $currentPage.RelPermalink) (not .IsHome) }}
+    {{ $c := .Content }}
+    {{ if or (strings.Contains $c $exactHref) (strings.Contains $c $anchorHref) (strings.Contains $c $rawHref) (strings.Contains $c $exactNoSlash) (strings.Contains $c $anchorNoSlash) }}
+      {{ $snippet := "" }}
+      {{ $paragraphs := split $c "<p" }}
+      {{ range $paragraphs }}
+        {{ if and (eq $snippet "") (or (strings.Contains . $exactHref) (strings.Contains . $anchorHref) (strings.Contains . $exactNoSlash) (strings.Contains . $anchorNoSlash)) }}
+          {{ $endParts := split . "</p>" }}
+          {{ $raw := index $endParts 0 }}
+          {{ $snippet = plainify $raw | strings.TrimPrefix ">" | strings.TrimSpace }}
+        {{ end }}
+      {{ end }}
+      {{ if eq $snippet "" }}
+        {{ $listItems := split $c "<li" }}
+        {{ range $listItems }}
+          {{ if and (eq $snippet "") (or (strings.Contains . $exactHref) (strings.Contains . $anchorHref) (strings.Contains . $exactNoSlash) (strings.Contains . $anchorNoSlash)) }}
+            {{ $endParts := split . "</li>" }}
+            {{ $raw := index $endParts 0 }}
+            {{ $snippet = plainify $raw | strings.TrimPrefix ">" | strings.TrimSpace }}
+          {{ end }}
+        {{ end }}
+      {{ end }}
+      {{ if eq $snippet "" }}
+        {{ with .Summary }}
+          {{ $snippet = . | plainify }}
+        {{ end }}
+      {{ end }}
+
+      {{/* Clean icon markers, heading hashes, and extra spaces */}}
+      {{ $snippet = $snippet | replaceRE ":[a-z0-9_-]+:(\\{[^}]+\\})?" "" }}
+      {{ $snippet = $snippet | replaceRE "^#+\\s*" "" }}
+      {{ $snippet = $snippet | replaceRE "#\\s*" " " }}
+      {{ $snippet = $snippet | replaceRE "\\s+" " " | strings.TrimSpace | truncate 150 }}
+
+      {{ $sectionName := "" }}
+      {{ with .CurrentSection }}
+        {{ $sectionName = .Title }}
+      {{ end }}
+
+      {{ $candidates = $candidates | append (dict "page" . "badge" "Mentioned In" "badgeType" "mention" "snippet" $snippet "section" $sectionName "score" 500 "perm" .RelPermalink) }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{/* 2. Outgoing Links (Referenced in current page) */}}
+{{ range site.RegularPages }}
+  {{ if and (ne .RelPermalink $currentPage.RelPermalink) (not .IsHome) }}
+    {{ $destLink := .RelPermalink }}
+    {{ $destNoSlash := strings.TrimSuffix "/" $destLink }}
+    {{ if or (strings.Contains $currentPage.Content (printf "href=\"%s\"" $destLink)) (strings.Contains $currentPage.Content (printf "href=\"%s#" $destLink)) (strings.Contains $currentPage.Content (printf "href=%s" $destLink)) (strings.Contains $currentPage.Content (printf "href=\"%s\"" $destNoSlash)) }}
+      {{ $already := false }}
+      {{ range $candidates }}
+        {{ if eq .perm $destLink }}
+          {{ $already = true }}
+        {{ end }}
+      {{ end }}
+      {{ if not $already }}
+        {{ $snippet := "" }}
+        {{ with .Summary }}
+          {{ $snippet = . | plainify }}
+        {{ end }}
+        {{ $snippet = $snippet | replaceRE ":[a-z0-9_-]+:(\\{[^}]+\\})?" "" }}
+        {{ $snippet = $snippet | replaceRE "^#+\\s*" "" }}
+        {{ $snippet = $snippet | replaceRE "#\\s*" " " }}
+        {{ $snippet = $snippet | replaceRE "\\s+" " " | strings.TrimSpace | truncate 140 }}
+
+        {{ $sectionName := "" }}
+        {{ with .CurrentSection }}
+          {{ $sectionName = .Title }}
+        {{ end }}
+        {{ $candidates = $candidates | append (dict "page" . "badge" "Referenced" "badgeType" "reference" "snippet" $snippet "section" $sectionName "score" 400 "perm" $destLink) }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{/* 3. Shared Topic Tags */}}
+{{ $umbrellaTags := slice "books" "games" "research" "non-fiction" "fiction" "tech" }}
+{{ $currentTags := $currentPage.Params.tags | default slice }}
+{{ $meaningfulTags := slice }}
+{{ range $currentTags }}
+  {{ if not (in $umbrellaTags (lower .)) }}
+    {{ $meaningfulTags = $meaningfulTags | append (lower .) }}
+  {{ end }}
+{{ end }}
+
+{{ if gt (len $meaningfulTags) 0 }}
+  {{ range (site.RegularPages.Related $currentPage) }}
+    {{ $cand := . }}
+    {{ if and (ne $cand.RelPermalink $currentPage.RelPermalink) (not $cand.IsHome) }}
+      {{ $already := false }}
+      {{ range $candidates }}
+        {{ if eq .perm $cand.RelPermalink }}
+          {{ $already = true }}
+        {{ end }}
+      {{ end }}
+      {{ if not $already }}
+        {{ $sharedTags := slice }}
+        {{ range ($cand.Params.tags | default slice) }}
+          {{ if in $meaningfulTags (lower .) }}
+            {{ $sharedTags = $sharedTags | append (lower .) }}
+          {{ end }}
+        {{ end }}
+        {{ if gt (len $sharedTags) 0 }}
+          {{ $snippet := "" }}
+          {{ with $cand.Summary }}
+            {{ $snippet = . | plainify }}
+          {{ end }}
+          {{ $snippet = $snippet | replaceRE ":[a-z0-9_-]+:(\\{[^}]+\\})?" "" }}
+          {{ $snippet = $snippet | replaceRE "^#+\\s*" "" }}
+          {{ $snippet = $snippet | replaceRE "#\\s*" " " }}
+          {{ $snippet = $snippet | replaceRE "\\s+" " " | strings.TrimSpace | truncate 140 }}
+
+          {{ $sectionName := "" }}
+          {{ with $cand.CurrentSection }}
+            {{ $sectionName = .Title }}
+          {{ end }}
+          {{ $tagLabel := printf "#%s" (delimit $sharedTags " #") }}
+          {{ $score := mul (len $sharedTags) 100 }}
+          {{ $candidates = $candidates | append (dict "page" $cand "badge" $tagLabel "badgeType" "tag" "snippet" $snippet "section" $sectionName "score" $score "perm" $cand.RelPermalink) }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{/* 4. Sub-section / Series Fallback (if candidates < 3 and not generic research) */}}
+{{ if and (lt (len $candidates) 3) $currentPage.CurrentSection }}
+  {{ $sectionPath := "" }}
+  {{ with $currentPage.File }}
+    {{ $sectionPath = .Dir }}
+  {{ end }}
+  {{ if not (strings.Contains $sectionPath "other-interests/research") }}
+    {{ range $currentPage.CurrentSection.RegularPages }}
+      {{ if and (ne .RelPermalink $currentPage.RelPermalink) (not .IsHome) }}
+        {{ $candRel := .RelPermalink }}
+        {{ $already := false }}
+        {{ range $candidates }}
+          {{ if eq .perm $candRel }}
+            {{ $already = true }}
+          {{ end }}
+        {{ end }}
+        {{ if not $already }}
+          {{ $snippet := "" }}
+          {{ with .Summary }}
+            {{ $snippet = . | plainify }}
+          {{ end }}
+          {{ $snippet = $snippet | replaceRE ":[a-z0-9_-]+:(\\{[^}]+\\})?" "" }}
+          {{ $snippet = $snippet | replaceRE "^#+\\s*" "" }}
+          {{ $snippet = $snippet | replaceRE "#\\s*" " " }}
+          {{ $snippet = $snippet | replaceRE "\\s+" " " | strings.TrimSpace | truncate 140 }}
+
+          {{ $sectionName := "" }}
+          {{ with .CurrentSection }}
+            {{ $sectionName = .Title }}
+          {{ end }}
+          {{ $candidates = $candidates | append (dict "page" . "badge" "In this series" "badgeType" "section" "snippet" $snippet "section" $sectionName "score" 50 "perm" $candRel) }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{/* 5. Render Unified Section */}}
+{{ if gt (len $candidates) 0 }}
+  {{ $sorted := sort $candidates "score" "desc" }}
+  {{ $finalList := $sorted | first 5 }}
+  <section class="related-notes-section" aria-label="Related Notes">
+    <div class="related-header">
+      <h3 class="related-title">
+        <span>🔗 Related Notes</span>
+      </h3>
+    </div>
+    <ul class="related-notes-list">
+      {{ range $finalList }}
+        <li class="related-note-card">
+          <div class="related-note-card-header">
+            <a href="{{ .page.RelPermalink }}" class="related-note-link">
+              <span>{{ if .page.IsSection }}📁{{ else }}📄{{ end }}</span>
+              <span>{{ .page.Title }}</span>
+            </a>
+            <div class="related-note-badges">
+              {{ $bType := .badgeType }}
+              {{ with .badge }}
+                <span class="related-badge related-badge-{{ $bType }}">{{ . }}</span>
+              {{ end }}
+              {{ with .section }}
+                <span class="related-section-tag">{{ . }}</span>
+              {{ end }}
+            </div>
+          </div>
+          {{ with .snippet }}
+            <p class="related-note-snippet">&ldquo;{{ . | safeHTML }}&rdquo;</p>
+          {{ end }}
+        </li>
+      {{ end }}
+    </ul>
+  </section>
+{{ end }}

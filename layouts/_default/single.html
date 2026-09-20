@@ -37,57 +37,6 @@
     {{ .Content }}
   </div>
 
-  {{ partial "backlinks.html" . }}
-
-  {{ $umbrellaTags := slice "books" "games" "research" "non-fiction" "fiction" "intro" "tech" "tools" }}
-  {{ $currentTags := .Params.tags | default slice }}
-  {{ $meaningfulTags := slice }}
-  {{ range $currentTags }}
-    {{ if not (in $umbrellaTags (lower .)) }}
-      {{ $meaningfulTags = $meaningfulTags | append (lower .) }}
-    {{ end }}
-  {{ end }}
-
-  {{ $validRelated := slice }}
-  {{ if gt (len $meaningfulTags) 0 }}
-    {{ range (site.RegularPages.Related .) }}
-      {{ $candidate := . }}
-      {{ $candidateTags := $candidate.Params.tags | default slice }}
-      {{ $hasMeaningfulOverlap := false }}
-      {{ range $candidateTags }}
-        {{ if in $meaningfulTags (lower .) }}
-          {{ $hasMeaningfulOverlap = true }}
-        {{ end }}
-      {{ end }}
-      {{ if $hasMeaningfulOverlap }}
-        {{ $validRelated = $validRelated | append $candidate }}
-      {{ end }}
-    {{ end }}
-  {{ end }}
-  {{ $related := $validRelated | first 5 }}
-  {{ with $related }}
-    <section class="related-content">
-      <div class="related-header">
-        <h3 class="related-title">
-          <span>🔗 Related Notes</span>
-        </h3>
-      </div>
-      <ul class="related-list">
-        {{ range . }}
-          <li class="related-item">
-            <a href="{{ .RelPermalink }}" class="related-link">
-              <span>{{ if .IsSection }}📁{{ else }}📄{{ end }}</span>
-              <span>{{ .Title }}</span>
-            </a>
-            {{ with .Params.tags }}
-              <span class="related-tags">
-                {{ range . }}#{{ . }} {{ end }}
-              </span>
-            {{ end }}
-          </li>
-        {{ end }}
-      </ul>
-    </section>
-  {{ end }}
+  {{ partial "related-notes.html" . }}
 </article>
 {{ end }}

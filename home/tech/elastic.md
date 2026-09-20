@@ -1,8 +1,10 @@
 ---
 title: "Elastic Stack"
 tags:
+  - tech
   - elastic
-  - search
+  - monitoring
+  - databases
 ---
 
 # :material-magnify:{ .anim-fade } Elastic Stack

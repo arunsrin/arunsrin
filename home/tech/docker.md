@@ -1,8 +1,10 @@
 ---
 title: "Docker"
 tags:
+  - tech
   - docker
   - containers
+  - devops
 ---
 
 # :simple-docker:{ .anim-fade } Docker

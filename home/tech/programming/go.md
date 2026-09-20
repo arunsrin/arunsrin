@@ -1,6 +1,7 @@
 ---
 title: "Go"
 tags:
+  - tech
   - go
   - programming
 ---

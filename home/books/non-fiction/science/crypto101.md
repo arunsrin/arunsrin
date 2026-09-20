@@ -3,7 +3,8 @@ title: "Crypto 101"
 tags:
   - books
   - science
-  - crypto
+  - cryptography
+  - security
 ---
 
 # :material-pencil:{ .anim-fade } Crypto 101

@@ -1,7 +1,9 @@
 ---
 title: "Ansible"
 tags:
+  - tech
   - ansible
+  - devops
   - automation
 ---
 

@@ -4,6 +4,7 @@ tags:
   - books
   - intro
   - history
+  - biography
 ---
 
 # :material-file-document-outline:{ .anim-bounce } Alexander the Great

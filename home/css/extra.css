@@ -179,20 +179,21 @@ html {
 /* ==========================================================================
    Bi-directional Backlinks & Related Notes
    ========================================================================== */
-.backlinks-section {
+/* Unified Related Notes Section */
+.related-notes-section {
   margin-top: 3.5rem;
-  padding-top: 1.5rem;
+  padding-top: 1.75rem;
   border-top: 1px solid var(--border-color);
 }
 
-.backlinks-header, .related-header {
+.related-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1rem;
 }
 
-.backlinks-title, .related-title {
+.related-title {
   margin: 0;
   font-size: 1.15rem;
   font-weight: 700;
@@ -202,22 +203,7 @@ html {
   gap: 0.5rem;
 }
 
-.backlinks-badge {
-  font-size: 0.75rem;
-  background: rgba(2, 132, 199, 0.1);
-  color: var(--link-color);
-  border: 1px solid var(--border-color);
-  padding: 0.1rem 0.5rem;
-  border-radius: 1rem;
-  font-weight: 600;
-}
-
-[data-theme="dark"] .backlinks-badge {
-  background: rgba(56, 189, 248, 0.15);
-  color: var(--link-color);
-}
-
-.backlinks-list {
+.related-notes-list {
   list-style: none;
   padding-left: 0;
   margin: 0;
@@ -226,7 +212,7 @@ html {
   gap: 0.85rem;
 }
 
-.backlink-card {
+.related-note-card {
   background: var(--card-bg);
   border: 1px solid var(--border-color);
   border-left: 3px solid var(--link-color);
@@ -236,13 +222,13 @@ html {
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
-.backlink-card:hover {
+.related-note-card:hover {
   transform: translateX(4px);
   box-shadow: 0 6px 18px rgba(2, 132, 199, 0.1);
   border-left-color: #40E0D0;
 }
 
-.backlink-card-header {
+.related-note-card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -250,7 +236,7 @@ html {
   flex-wrap: wrap;
 }
 
-.backlink-link {
+.related-note-link {
   font-weight: 600;
   color: var(--link-color);
   text-decoration: none;
@@ -260,20 +246,66 @@ html {
   gap: 0.35rem;
 }
 
-.backlink-link:hover {
+.related-note-link:hover {
   text-decoration: underline;
 }
 
-.backlink-section-tag {
-  font-size: 0.75rem;
+.related-note-badges {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.related-badge {
+  font-size: 0.725rem;
+  padding: 0.12rem 0.45rem;
+  border-radius: 0.25rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+}
+
+.related-badge-mention {
+  background: rgba(64, 224, 208, 0.15);
+  color: #0284c7;
+  border-color: rgba(64, 224, 208, 0.35);
+}
+
+.related-badge-reference {
+  background: rgba(2, 132, 199, 0.1);
+  color: var(--link-color);
+  border-color: rgba(2, 132, 199, 0.25);
+}
+
+.related-badge-tag {
+  background: var(--bg-sidebar);
+  color: var(--text-muted);
+  border-color: var(--border-color);
+  font-weight: 500;
+}
+
+.related-badge-section {
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .related-badge-mention {
+  background: rgba(64, 224, 208, 0.12);
+  color: #38bdf8;
+  border-color: rgba(64, 224, 208, 0.3);
+}
+
+.related-section-tag {
+  font-size: 0.725rem;
   color: var(--text-muted);
   background: var(--bg-sidebar);
-  padding: 0.15rem 0.5rem;
+  padding: 0.12rem 0.45rem;
   border-radius: 0.25rem;
   border: 1px solid var(--border-color);
 }
 
-.backlink-snippet {
+.related-note-snippet {
   margin: 0.5rem 0 0 0;
   padding: 0.4rem 0.65rem;
   font-size: 0.875rem;
@@ -283,54 +315,5 @@ html {
   border-radius: 0.35rem;
   border-left: 2px solid var(--border-color);
   font-style: italic;
-}
-
-/* Related Content Section */
-.related-content {
-  margin-top: 2.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px dashed var(--border-color);
-}
-
-.related-list {
-  list-style: none;
-  padding-left: 0;
-  margin: 0.5rem 0 0 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.related-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  padding: 0.4rem 0.6rem;
-  border-radius: 0.375rem;
-  transition: background 0.15s ease;
-}
-
-.related-item:hover {
-  background: var(--bg-secondary);
-}
-
-.related-link {
-  font-weight: 500;
-  color: var(--link-color);
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-}
-
-.related-link:hover {
-  text-decoration: underline;
-}
-
-.related-tags {
-  font-size: 0.75rem;
-  color: var(--text-muted);
 }
 

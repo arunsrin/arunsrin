@@ -3,7 +3,7 @@ title: "Immune, by Phillip Dettmer"
 tags:
   - books
   - science
-  - health
+  - medicine
 ---
 
 # :material-pencil:{ .anim-fade } Immune, by Phillip Dettmer

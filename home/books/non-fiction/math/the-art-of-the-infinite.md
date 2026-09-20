@@ -3,7 +3,6 @@ title: "The Art of the Infinite"
 tags:
   - books
   - math
-  - philosophy
 ---
 
 # :material-pencil:{ .anim-heart } The Art of the Infinite

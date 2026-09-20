@@ -1,8 +1,9 @@
 ---
 title: "Package management"
 tags:
+  - tech
   - linux
-  - packaging
+  - sysadmin
 ---
 
 # :material-penguin:{ .anim-heart } Package management

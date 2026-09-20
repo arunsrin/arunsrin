@@ -3,7 +3,7 @@ title: "Richard Dawkins"
 tags:
   - people
   - science
-  - atheism
+  - evolution
 ---
 
 # :material-dna:{ .anim-heart } Richard Dawkins
