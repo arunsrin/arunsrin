@@ -71,5 +71,12 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
 
+Write-Host "`n=== 9. Validating Mobile Sidebar & Overlay Stacking ===" -ForegroundColor Cyan
+& $pythonCmd "$PSScriptRoot/test_mobile_sidebar.py"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Mobile Sidebar & Overlay validation failed!"
+    exit $LASTEXITCODE
+}
+
 Write-Host "`n=== All checks passed successfully! ===" -ForegroundColor Green
 exit 0
