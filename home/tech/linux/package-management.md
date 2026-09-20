@@ -1,5 +1,6 @@
 ---
 title: "Package management"
+icon: ":material-penguin:{ .anim-heart }"
 tags:
   - tech
   - linux

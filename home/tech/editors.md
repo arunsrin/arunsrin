@@ -1,5 +1,6 @@
 ---
 title: "Editors"
+icon: ":material-keyboard-outline:{ .anim-bounce }"
 tags:
   - tech
   - editors

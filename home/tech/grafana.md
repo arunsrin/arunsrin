@@ -1,5 +1,6 @@
 ---
 title: "Grafana"
+icon: ":material-chart-bell-curve:{ .anim-flip }"
 tags:
   - tech
   - grafana

@@ -1,5 +1,6 @@
 ---
 title: "Linux"
+icon: ":material-penguin:{ .anim-rotate }"
 tags:
   - linux
   - sysadmin

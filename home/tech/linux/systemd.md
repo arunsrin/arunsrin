@@ -1,5 +1,6 @@
 ---
 title: "Systemd"
+icon: ":material-penguin:{ .anim-heart }"
 tags:
   - tech
   - linux

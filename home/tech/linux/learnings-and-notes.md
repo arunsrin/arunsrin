@@ -1,5 +1,6 @@
 ---
 title: "Learnings/Notes"
+icon: ":material-penguin:{ .anim-bounce }"
 tags:
   - tech
   - linux

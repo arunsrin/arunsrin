@@ -5,7 +5,7 @@
     <li>
       <details class="nav-sub-details" {{ if $isCurrentSub }}open{{ end }}>
         <summary class="nav-sub-summary">
-          <a href="{{ .RelPermalink }}" class="{{ if eq $currentPage.RelPermalink .RelPermalink }}active{{ end }}">📁 {{ .Title }}</a>
+          <a href="{{ .RelPermalink }}" class="{{ if eq $currentPage.RelPermalink .RelPermalink }}active{{ end }}">{{ with .Params.icon }}{{ . }} {{ else }}📁 {{ end }}{{ .Title }}</a>
         </summary>
         <ul>
           {{ partial "sidebar-tree.html" (dict "context" . "currentPage" $currentPage) }}
@@ -14,7 +14,7 @@
     </li>
   {{ else }}
     <li>
-      <a href="{{ .RelPermalink }}" class="{{ if eq $currentPage.RelPermalink .RelPermalink }}active{{ end }}">📄 {{ .Title }}</a>
+      <a href="{{ .RelPermalink }}" class="{{ if eq $currentPage.RelPermalink .RelPermalink }}active{{ end }}">{{ with .Params.icon }}{{ . }} {{ else }}📄 {{ end }}{{ .Title }}</a>
     </li>
   {{ end }}
 {{ end }}

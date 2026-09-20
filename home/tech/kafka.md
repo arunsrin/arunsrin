@@ -1,5 +1,6 @@
 ---
 title: "Kafka"
+icon: ":material-ladybug:{ .anim-heart }"
 tags:
   - tech
   - kafka

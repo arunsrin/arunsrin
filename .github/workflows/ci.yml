@@ -43,3 +43,6 @@ jobs:
       - name: Run Search Relevance & Scoring Tests
         run: node scripts/test_search.js
 
+      - name: Run Tech Folder Animated Emojis Tests
+        run: python3 scripts/test_tech_emojis.py
+

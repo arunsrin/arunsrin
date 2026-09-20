@@ -1,5 +1,6 @@
 ---
 title: "AWS"
+icon: ":material-cloud:{ .anim-fade }"
 tags:
   - tech
   - aws

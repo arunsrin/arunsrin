@@ -1,5 +1,6 @@
 ---
 title: "Powershell"
+icon: ":material-powershell:{ .anim-bounce }"
 tags:
   - tech
   - powershell
