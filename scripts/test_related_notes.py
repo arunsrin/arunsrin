@@ -9,6 +9,7 @@ Validates:
 5. Anti-spurious match protection (e.g. COVID-19/Capitalism on Productivity).
 6. Clean snippet formatting (zero unparsed icon markers or raw markdown hashes).
 7. Content-bearing section pages coverage (e.g. games/fps, books/fiction/sci-fi).
+8. Card cap & conciseness (maximum 4 cards across any page).
 """
 
 import os
@@ -46,7 +47,8 @@ def run_tests():
         if not re.search(r'class=[\"\']?related-notes-section[\"\']?', html):
             missing.append((note, "Missing related-notes-section"))
         else:
-            cards = re.findall(r'class=[\"\']?related-note-card[\"\']?', html)
+            cards = re.findall(r'<li class=[\"\']?related-note-card[\"\']?', html)
+            assert len(cards) <= 4, f"Note {note} has {len(cards)} cards, exceeding cap of 4!"
             card_counts.append(len(cards))
 
     if missing:
@@ -158,6 +160,19 @@ def run_tests():
     assert scifi_rel, "Books Sci-Fi section missing related-notes-section"
     assert "related-note-card" in scifi_rel, "Books Sci-Fi section has no related note cards"
     print("  ✓ Books Sci-Fi section renders related notes")
+
+    # 8. Card Cap & Conciseness Validation (max 4 cards across all pages)
+    print("8. Validating Card Cap & Conciseness (Max 4 cards):")
+    for root, _, files in os.walk(public_dir):
+        for f in files:
+            if f == "index.html":
+                p = os.path.join(root, f)
+                with open(p, "r", encoding="utf-8", errors="ignore") as fp:
+                    content = fp.read()
+                if "related-notes-section" in content:
+                    cards = re.findall(r'<li class=[\"\']?related-note-card[\"\']?', content)
+                    assert len(cards) <= 4, f"Page {p} has {len(cards)} cards, exceeding cap of 4!"
+    print("  ✓ Every page respects the maximum cap of 4 related notes (zero pages > 4 cards)")
 
     print("\n✓ All Related Notes & Mentions tests passed successfully!")
 

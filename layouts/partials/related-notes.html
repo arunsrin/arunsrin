@@ -187,7 +187,7 @@
 {{/* 5. Render Unified Section */}}
 {{ if gt (len $candidates) 0 }}
   {{ $sorted := sort $candidates "score" "desc" }}
-  {{ $finalList := $sorted | first 5 }}
+  {{ $finalList := $sorted | first 4 }}
   <section class="related-notes-section" aria-label="Related Notes">
     <div class="related-header">
       <h3 class="related-title">

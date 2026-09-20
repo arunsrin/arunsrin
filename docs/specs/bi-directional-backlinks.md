@@ -29,7 +29,7 @@ As a reader exploring arunsrin's digital garden, I want to discover meaningful c
 
 ## 3. Relationship Signals & Priority Scoring
 
-All relationship signals are unified into a single candidate pool. Candidates are deduplicated by permalink; if a note matches multiple signals, the highest priority badge and score are retained. Cards are sorted by descending score (capped at a maximum of 5 cards):
+All relationship signals are unified into a single candidate pool. Candidates are deduplicated by permalink; if a note matches multiple signals, the highest priority badge and score are retained. Cards are sorted by descending score and capped at a maximum of 4 cards (ensuring pages display a concise deck of 3–4 related notes rather than a verbose list):
 
 | Signal | Badge Text | Score | Description |
 | :--- | :--- | :--- | :--- |
@@ -86,3 +86,4 @@ Every requirement above is verified by automated regression tests in `scripts/te
 - **Anti-Spurious Protection:** Negative assertions verifying COVID-19, Capitalism, and Climate Change never match Productivity, and Accounting never matches Despair.
 - **Snippet Cleanliness:** Regex audit verifying zero raw icon syntax or heading hashes leak into HTML across all generated pages.
 - **Section Page Coverage:** Verifies content-bearing section pages in `/games/` and `/books/` render related notes.
+- **Card Cap & Conciseness:** Verifies no page renders more than 4 cards, ensuring a concise list of 3–4 related notes.
