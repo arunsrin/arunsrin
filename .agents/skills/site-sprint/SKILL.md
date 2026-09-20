@@ -153,23 +153,19 @@ cd .worktrees/<feature-name> && git diff master
    ./scripts/site_sprint.py create-pr --task-id <task-id> --title "feat(<scope>): <title>" --body "<description>" --branch <feature-name>
    ```
 
-3. **The Dual-Port Preview Strategy:**
-   Never interrupt `master` running on port 1313. The author tests the candidate feature on port 1314:
-   - **Master Baseline:** `http://localhost:1313/` (main tree on `master`)
-   - **Feature Preview:** `http://localhost:1314/` (worktree with LiveReload)
-
-   Launch preview with a single command:
-   ```bash
-   ./scripts/site_sprint.py preview
-   # or: cd .worktrees/<feature-name> && hugo server --port 1314
-   ```
+3. **Automatic Dual-Port Server Management (Agent-Managed, Zero Author Effort):**
+   The author must NEVER be expected to manually spin up or restart preview servers. The agent is strictly responsible for spinning up and maintaining both servers in the background:
+   - **Master Baseline (:1313):** Check if port 1313 is active. If not, launch `hugo server --bind 0.0.0.0 --port 1313 -b http://localhost:1313/` in the background from the root repository.
+   - **Feature Preview (:1314):** Launch `hugo server --bind 0.0.0.0 --port 1314 -b http://localhost:1314/` in the background from `.worktrees/<feature-name>`.
+   - Verify both ports respond with HTTP 200 before notifying the author.
+   - Keep both servers active so the author can immediately click and review the live URLs.
 
 4. **Structured Review Briefing for Author:**
    Present the author with:
+   - **Live Feature URL:** `http://localhost:1314/` (already running and live)
+   - **Master Comparison URL:** `http://localhost:1313/` (already running and live)
    - **PR Link:** GitHub Pull Request URL.
-   - **Preview URL:** `http://localhost:1314/`
-   - **Verification Checklist:** Direct page links and interactions to check (e.g. "Visit `/tech/docker/` and check the backlinks section").
-   - **Comparison:** Mention opening `:1313` and `:1314` side-by-side.
+   - **Verification Checklist:** Specific page links and interactions to check (e.g. "Visit `/tech/k8s/` and verify the backlinks card").
 
 5. **Interactive Iteration Loop (If author requests tweaks):**
    - Author requests changes (e.g., "Adjust card padding" or "Change icon").
