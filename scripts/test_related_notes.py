@@ -8,6 +8,7 @@ Validates:
 4. Accuracy of tag-based topic recommendations.
 5. Anti-spurious match protection (e.g. COVID-19/Capitalism on Productivity).
 6. Clean snippet formatting (zero unparsed icon markers or raw markdown hashes).
+7. Content-bearing section pages coverage (e.g. games/fps, books/fiction/sci-fi).
 """
 
 import os
@@ -143,6 +144,20 @@ def run_tests():
         sys.exit(1)
     else:
         print("  ✓ All related note snippets are cleanly formatted with zero icon or markdown leaks")
+
+    # 7. Content-Bearing Section Pages Validation (games, fiction categories)
+    print("7. Validating Section Pages with Content (Games, Books):")
+    fps_html = load_html("games/fps")
+    fps_rel = get_related_section(fps_html)
+    assert fps_rel, "Games FPS section missing related-notes-section"
+    assert "related-note-card" in fps_rel, "Games FPS section has no related note cards"
+    print("  ✓ Games FPS section renders related notes")
+
+    scifi_html = load_html("books/fiction/sci-fi")
+    scifi_rel = get_related_section(scifi_html)
+    assert scifi_rel, "Books Sci-Fi section missing related-notes-section"
+    assert "related-note-card" in scifi_rel, "Books Sci-Fi section has no related note cards"
+    print("  ✓ Books Sci-Fi section renders related notes")
 
     print("\n✓ All Related Notes & Mentions tests passed successfully!")
 

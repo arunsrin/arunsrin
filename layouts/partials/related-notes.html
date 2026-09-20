@@ -11,9 +11,12 @@
 {{/* Candidate accumulator: slice of dicts */}}
 {{ $candidates := slice }}
 
+{{/* All candidate content pages (both single notes and section notes with written content) */}}
+{{ $contentPages := where site.Pages "Kind" "in" (slice "page" "section") }}
+
 {{/* 1. Incoming Mentions (Backlinks) */}}
-{{ range site.RegularPages }}
-  {{ if and (ne .RelPermalink $currentPage.RelPermalink) (not .IsHome) }}
+{{ range $contentPages }}
+  {{ if and (ne .RelPermalink $currentPage.RelPermalink) (not .IsHome) (ne .Content "") (not (.IsAncestor $currentPage)) }}
     {{ $c := .Content }}
     {{ if or (strings.Contains $c $exactHref) (strings.Contains $c $anchorHref) (strings.Contains $c $rawHref) (strings.Contains $c $exactNoSlash) (strings.Contains $c $anchorNoSlash) }}
       {{ $snippet := "" }}
@@ -41,7 +44,6 @@
         {{ end }}
       {{ end }}
 
-      {{/* Clean icon markers, heading hashes, and extra spaces */}}
       {{ $snippet = $snippet | replaceRE ":[a-z0-9_-]+:(\\{[^}]+\\})?" "" }}
       {{ $snippet = $snippet | replaceRE "^#+\\s*" "" }}
       {{ $snippet = $snippet | replaceRE "#\\s*" " " }}
@@ -58,8 +60,8 @@
 {{ end }}
 
 {{/* 2. Outgoing Links (Referenced in current page) */}}
-{{ range site.RegularPages }}
-  {{ if and (ne .RelPermalink $currentPage.RelPermalink) (not .IsHome) }}
+{{ range $contentPages }}
+  {{ if and (ne .RelPermalink $currentPage.RelPermalink) (not .IsHome) (ne .Content "") }}
     {{ $destLink := .RelPermalink }}
     {{ $destNoSlash := strings.TrimSuffix "/" $destLink }}
     {{ if or (strings.Contains $currentPage.Content (printf "href=\"%s\"" $destLink)) (strings.Contains $currentPage.Content (printf "href=\"%s#" $destLink)) (strings.Contains $currentPage.Content (printf "href=%s" $destLink)) (strings.Contains $currentPage.Content (printf "href=\"%s\"" $destNoSlash)) }}
@@ -100,9 +102,9 @@
 {{ end }}
 
 {{ if gt (len $meaningfulTags) 0 }}
-  {{ range (site.RegularPages.Related $currentPage) }}
+  {{ range (site.Pages.Related $currentPage) }}
     {{ $cand := . }}
-    {{ if and (ne $cand.RelPermalink $currentPage.RelPermalink) (not $cand.IsHome) }}
+    {{ if and (ne $cand.RelPermalink $currentPage.RelPermalink) (not $cand.IsHome) (ne $cand.Content "") }}
       {{ $already := false }}
       {{ range $candidates }}
         {{ if eq .perm $cand.RelPermalink }}
@@ -139,15 +141,21 @@
   {{ end }}
 {{ end }}
 
-{{/* 4. Sub-section / Series Fallback (if candidates < 3 and not generic research) */}}
-{{ if and (lt (len $candidates) 3) $currentPage.CurrentSection }}
+{{ $parentSec := $currentPage.CurrentSection }}
+{{ if eq $currentPage.Kind "section" }}
+  {{ with $currentPage.Parent }}
+    {{ $parentSec = . }}
+  {{ end }}
+{{ end }}
+{{ if and (lt (len $candidates) 3) $parentSec }}
   {{ $sectionPath := "" }}
   {{ with $currentPage.File }}
     {{ $sectionPath = .Dir }}
   {{ end }}
   {{ if not (strings.Contains $sectionPath "other-interests/research") }}
-    {{ range $currentPage.CurrentSection.RegularPages }}
-      {{ if and (ne .RelPermalink $currentPage.RelPermalink) (not .IsHome) }}
+    {{ $siblings := $parentSec.Pages }}
+    {{ range $siblings }}
+      {{ if and (ne .RelPermalink $currentPage.RelPermalink) (not .IsHome) (ne .Content "") }}
         {{ $candRel := .RelPermalink }}
         {{ $already := false }}
         {{ range $candidates }}
@@ -169,7 +177,7 @@
           {{ with .CurrentSection }}
             {{ $sectionName = .Title }}
           {{ end }}
-          {{ $candidates = $candidates | append (dict "page" . "badge" "In this series" "badgeType" "section" "snippet" $snippet "section" $sectionName "score" 50 "perm" $candRel) }}
+          {{ $candidates = $candidates | append (dict "page" . "badge" "In this section" "badgeType" "section" "snippet" $snippet "section" $sectionName "score" 50 "perm" $candRel) }}
         {{ end }}
       {{ end }}
     {{ end }}

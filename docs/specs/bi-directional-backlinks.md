@@ -5,16 +5,16 @@ As a reader exploring arunsrin's digital garden, I want to see meaningful connec
 
 ## 2. Layout & Architectural Principles
 1. **Single Unified Section (`🔗 Related Notes`):**
-   - Instead of fragmented or empty "Mentioned In" blocks, all relational signals are unified into one card deck directly beneath note content (`layouts/_default/single.html`).
+   - Instead of fragmented or empty "Mentioned In" blocks, all relational signals are unified into one card deck directly beneath note content (`layouts/_default/single.html` for single pages, and `layouts/_default/list.html` for content-bearing section pages like games and book categories).
 2. **Prioritized Relationship Badges:**
    - `Mentioned In` (score 500, turquoise badge): Notes that explicitly link to this note (backlinks), rendered with the contextual sentence excerpt where the mention occurs.
    - `Referenced` (score 400, sky-blue badge): Notes linked directly from within the current note's markdown body.
    - `#topic` (score 100 per tag, topic pill): Notes sharing focused, meaningful tags (e.g. `#devops`, `#monitoring`, `#psychology`, `#nabokov`).
-   - `In this series` (score 50, series pill): Tightly scoped siblings in structured leaf categories (e.g. *Oxford - A Very Short Introduction Series*).
+   - `In this section` / `In this series` (score 50, pill): Tightly scoped siblings in structured leaf categories (e.g. *Oxford - A Very Short Introduction Series*, or sibling game genres).
 3. **Anti-Spurious Topic Isolation:**
    - Blanket bucket tags (`books`, `games`, `research`, `non-fiction`, `fiction`, `tech`) are strictly excluded from tag similarity calculations so unrelated notes (such as COVID-19 or Capitalism on Productivity) never match.
-4. **100% Regular Content Coverage:**
-   - 100% of regular content notes (57/57) surface between 2 and 5 high-signal recommendations.
+4. **100% Content Coverage:**
+   - 100% of regular content notes (57/57) and content-bearing section pages (e.g. `/games/fps/`, `/books/fiction/sci-fi/`) surface between 2 and 5 high-signal recommendations.
 
 ## 3. Acceptance Criteria
 1. **Backlink & Mention Discovery:**
