@@ -2,8 +2,6 @@
 title: "Networking"
 icon: ":material-lan:{ .anim-heart }"
 tags:
-  - tech
-  - networking
   - sysadmin
 ---
 

@@ -1,10 +1,8 @@
 ---
 title: "Scepticism"
 tags:
-  - research
   - science
   - philosophy
-  - logic
 ---
 
 # :material-thought-bubble:{ .anim-heart } Scepticism

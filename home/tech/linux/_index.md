@@ -4,7 +4,6 @@ icon: ":material-penguin:{ .anim-rotate }"
 tags:
   - linux
   - sysadmin
-  - os
 ---
 
 # :material-penguin:{ .anim-rotate }Linux

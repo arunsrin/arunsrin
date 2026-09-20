@@ -1,9 +1,7 @@
 ---
 title: "Mystery & Thriller"
 tags:
-  - books
   - fiction
-  - mystery
 ---
 
 # :material-incognito:{ .anim-bounce } Mystery & Thriller

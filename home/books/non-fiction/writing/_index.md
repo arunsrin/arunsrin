@@ -1,8 +1,6 @@
 ---
 title: "Literature & Writing"
 tags:
-  - books
-  - non-fiction
   - writing
 ---
 

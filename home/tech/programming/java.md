@@ -2,8 +2,6 @@
 title: "Java"
 icon: ":material-language-java:{ .anim-fade }"
 tags:
-  - tech
-  - java
   - programming
 ---
 

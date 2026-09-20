@@ -1,8 +1,6 @@
 ---
 title: "Accounting"
 tags:
-  - books
-  - intro
   - finance
 ---
 

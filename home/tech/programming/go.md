@@ -2,8 +2,6 @@
 title: "Go"
 icon: ":simple-go:{ .anim-pulse }"
 tags:
-  - tech
-  - go
   - programming
 ---
 

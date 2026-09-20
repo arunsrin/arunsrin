@@ -2,10 +2,7 @@
 title: "Ansible"
 icon: ":simple-ansible:{ .anim-heart }"
 tags:
-  - tech
-  - ansible
   - devops
-  - automation
 ---
 
 # :simple-ansible:{ .anim-heart } Ansible

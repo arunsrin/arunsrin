@@ -2,8 +2,6 @@
 title: "Movies"
 tags:
   - media
-  - movies
-  - tv
 ---
 
 # :material-television-classic:{ .anim-flip }Movies

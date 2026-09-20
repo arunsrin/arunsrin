@@ -1,7 +1,6 @@
 ---
 title: "Hard Sci-Fi & Speculative Fiction"
 tags:
-  - books
   - fiction
   - sci-fi
 ---

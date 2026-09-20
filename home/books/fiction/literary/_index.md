@@ -1,7 +1,6 @@
 ---
 title: "Literary Fiction"
 tags:
-  - books
   - fiction
   - literary
 ---

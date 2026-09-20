@@ -2,9 +2,8 @@
 title: "AI"
 icon: ":material-brain:{ .anim-bounce }"
 tags:
-  - tech
-  - ai
-  - research
+  - tools
+  - productivity
 ---
 
 # :material-brain:{ .anim-bounce } AI

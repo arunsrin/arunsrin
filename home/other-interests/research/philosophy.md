@@ -1,9 +1,7 @@
 ---
 title: "Philosophy / Morality"
 tags:
-  - research
   - philosophy
-  - ethics
 ---
 
 # :material-thought-bubble:{ .anim-rotate } Philosophy / Morality

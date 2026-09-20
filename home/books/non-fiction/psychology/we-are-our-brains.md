@@ -1,9 +1,7 @@
 ---
 title: "We Are Our Brains"
 tags:
-  - books
   - psychology
-  - neuroscience
 ---
 
 # :material-pencil:{ .anim-flip } We Are Our Brains

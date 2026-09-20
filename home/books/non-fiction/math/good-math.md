@@ -1,7 +1,6 @@
 ---
 title: "Good Math"
 tags:
-  - books
   - math
 ---
 

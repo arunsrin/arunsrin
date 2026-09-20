@@ -3,8 +3,6 @@ title: "Programming"
 icon: ":material-code-tags:{ .anim-rotate }"
 tags:
   - programming
-  - development
-  - coding
 ---
 
 # :material-code-tags:{ .anim-rotate } Programming

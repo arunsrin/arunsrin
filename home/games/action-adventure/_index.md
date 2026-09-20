@@ -1,9 +1,5 @@
 ---
 title: "Action & Adventure"
-tags:
-  - games
-  - action
-  - adventure
 ---
 
 # :material-sword:{ .anim-flip } Action & Adventure

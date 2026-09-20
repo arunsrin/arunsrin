@@ -1,8 +1,6 @@
 ---
 title: "Anaesthesia"
 tags:
-  - books
-  - intro
   - medicine
   - science
 ---

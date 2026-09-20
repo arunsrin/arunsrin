@@ -1,7 +1,6 @@
 ---
 title: "COVID-19 References"
 tags:
-  - research
   - science
   - medicine
 ---

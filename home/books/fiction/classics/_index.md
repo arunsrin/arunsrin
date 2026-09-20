@@ -1,9 +1,7 @@
 ---
 title: "Classics"
 tags:
-  - books
   - fiction
-  - classics
 ---
 
 # :material-view-column:{ .anim-bounce } Classics

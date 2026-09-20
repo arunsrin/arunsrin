@@ -1,7 +1,6 @@
 ---
 title: "Climate Change"
 tags:
-  - research
   - science
   - climate
   - environment

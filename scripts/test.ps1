@@ -6,6 +6,8 @@ $ErrorActionPreference = "Stop"
 # Refresh PATH from registry so newly installed CLI tools are immediately discoverable
 $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 
+$pythonCmd = if (Get-Command python -ErrorAction SilentlyContinue) { "python" } elseif (Get-Command python3 -ErrorAction SilentlyContinue) { "python3" } else { "py" }
+
 Write-Host "=== 1. Running strict Hugo build ===" -ForegroundColor Cyan
 hugo --gc --minify --panicOnWarning
 if ($LASTEXITCODE -ne 0) {
@@ -82,6 +84,13 @@ Write-Host "`n=== 10. Validating GitHub CI Parity & Test Discovery ===" -Foregro
 & $pythonCmd "$PSScriptRoot/test_ci_parity.py"
 if ($LASTEXITCODE -ne 0) {
     Write-Error "CI Parity validation failed! Tests in scripts/ are missing from .github/workflows/ci.yml"
+    exit $LASTEXITCODE
+}
+
+Write-Host "`n=== 11. Validating Tag Taxonomy Regression ===" -ForegroundColor Cyan
+& $pythonCmd "$PSScriptRoot/test_tags.py"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Tag taxonomy regression validation failed!"
     exit $LASTEXITCODE
 }
 

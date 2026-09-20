@@ -1,9 +1,5 @@
 ---
 title: "Shooters (FPS)"
-tags:
-  - games
-  - shooter
-  - fps
 ---
 
 # :material-target:{ .anim-rotate } Shooters (FPS)

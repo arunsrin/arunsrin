@@ -1,9 +1,7 @@
 ---
 title: "Crypto 101"
 tags:
-  - books
   - science
-  - cryptography
   - security
 ---
 

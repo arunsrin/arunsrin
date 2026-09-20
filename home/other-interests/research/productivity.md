@@ -1,7 +1,6 @@
 ---
 title: "Productivity"
 tags:
-  - research
   - productivity
   - tools
 ---

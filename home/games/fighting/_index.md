@@ -1,8 +1,5 @@
 ---
 title: "Fighting Games"
-tags:
-  - games
-  - fighting
 ---
 
 # :material-boxing-glove:{ .anim-bounce } Fighting Games

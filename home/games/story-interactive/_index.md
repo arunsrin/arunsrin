@@ -1,9 +1,5 @@
 ---
 title: "Story-Driven & Interactive"
-tags:
-  - games
-  - story
-  - interactive
 ---
 
 # :material-drama-masks:{ .anim-flip } Story-Driven & Interactive

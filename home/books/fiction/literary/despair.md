@@ -1,7 +1,6 @@
 ---
 title: "Despair, by Vladimir Nabokov"
 tags:
-  - books
   - fiction
   - literary
   - nabokov

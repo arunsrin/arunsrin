@@ -2,9 +2,7 @@
 title: "Books"
 weight: 10
 tags:
-  - books
   - reading
-  - literature
 ---
 
 # :material-book-open-variant:{ .anim-rotate } Books

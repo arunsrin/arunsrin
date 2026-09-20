@@ -2,8 +2,6 @@
 title: "Powershell"
 icon: ":material-powershell:{ .anim-bounce }"
 tags:
-  - tech
-  - powershell
   - programming
   - windows
 ---

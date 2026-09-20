@@ -2,10 +2,7 @@
 title: "OpenSSL"
 icon: ":material-lock:{ .anim-bounce }"
 tags:
-  - tech
   - security
-  - openssl
-  - cryptography
 ---
 
 # :material-lock:{ .anim-bounce } OpenSSL

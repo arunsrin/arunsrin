@@ -1,8 +1,6 @@
 ---
 title: "Philosophy"
 tags:
-  - books
-  - non-fiction
   - philosophy
 ---
 

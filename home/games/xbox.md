@@ -1,9 +1,7 @@
 ---
 title: "Xbox Series X"
 tags:
-  - games
-  - xbox
-  - console
+  - gaming
 ---
 
 # :material-controller-classic:{ .anim-heart } Xbox Series X

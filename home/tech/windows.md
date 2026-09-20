@@ -2,7 +2,6 @@
 title: "Windows"
 icon: ":material-microsoft-windows:{ .anim-bounce }"
 tags:
-  - tech
   - windows
   - sysadmin
 ---

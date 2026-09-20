@@ -1,8 +1,6 @@
 ---
 title: "Science"
 tags:
-  - books
-  - non-fiction
   - science
 ---
 
