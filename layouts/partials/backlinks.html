@@ -1,0 +1,85 @@
+{{ $currentPage := . }}
+{{ $targetLink := .RelPermalink }}
+{{ $noSlash := strings.TrimSuffix "/" $targetLink }}
+
+{{ $exactHref := printf "href=\"%s\"" $targetLink }}
+{{ $anchorHref := printf "href=\"%s#" $targetLink }}
+{{ $rawHref := printf "href=%s" $targetLink }}
+{{ $exactNoSlash := printf "href=\"%s\"" $noSlash }}
+{{ $anchorNoSlash := printf "href=\"%s#" $noSlash }}
+
+{{ $backlinks := slice }}
+
+{{ range site.Pages }}
+  {{ if and (ne .RelPermalink $currentPage.RelPermalink) (not .IsHome) }}
+    {{ $c := .Content }}
+    {{ if or (strings.Contains $c $exactHref) (strings.Contains $c $anchorHref) (strings.Contains $c $rawHref) (strings.Contains $c $exactNoSlash) (strings.Contains $c $anchorNoSlash) }}
+      {{/* Extract contextual snippet */}}
+      {{ $snippet := "" }}
+      {{ $paragraphs := split $c "<p" }}
+      {{ range $paragraphs }}
+        {{ if and (eq $snippet "") (or (strings.Contains . $exactHref) (strings.Contains . $anchorHref) (strings.Contains . $exactNoSlash) (strings.Contains . $anchorNoSlash)) }}
+          {{ $endParts := split . "</p>" }}
+          {{ $raw := index $endParts 0 }}
+          {{ $snippet = plainify $raw | strings.TrimPrefix ">" | strings.TrimSpace }}
+        {{ end }}
+      {{ end }}
+
+      {{ if eq $snippet "" }}
+        {{ $listItems := split $c "<li" }}
+        {{ range $listItems }}
+          {{ if and (eq $snippet "") (or (strings.Contains . $exactHref) (strings.Contains . $anchorHref) (strings.Contains . $exactNoSlash) (strings.Contains . $anchorNoSlash)) }}
+            {{ $endParts := split . "</li>" }}
+            {{ $raw := index $endParts 0 }}
+            {{ $snippet = plainify $raw | strings.TrimPrefix ">" | strings.TrimSpace }}
+          {{ end }}
+        {{ end }}
+      {{ end }}
+
+      {{ if eq $snippet "" }}
+        {{ with .Summary }}
+          {{ $snippet = . | plainify | strings.TrimSpace | replaceRE "\\s+" " " | truncate 150 }}
+        {{ end }}
+      {{ else }}
+        {{ $snippet = $snippet | replaceRE "\\s+" " " | truncate 160 }}
+      {{ end }}
+
+      {{/* Determine section/category name */}}
+      {{ $sectionName := "" }}
+      {{ with .CurrentSection }}
+        {{ $sectionName = .Title }}
+      {{ end }}
+
+      {{ $backlinks = $backlinks | append (dict "page" . "snippet" $snippet "section" $sectionName) }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ with $backlinks }}
+<section class="backlinks-section" aria-label="Mentioned in">
+  <div class="backlinks-header">
+    <h3 class="backlinks-title">
+      <span>🔗 Mentioned In</span>
+      <span class="backlinks-badge">{{ len . }}</span>
+    </h3>
+  </div>
+  <ul class="backlinks-list">
+    {{ range . }}
+      <li class="backlink-card">
+        <div class="backlink-card-header">
+          <a href="{{ .page.RelPermalink }}" class="backlink-link">
+            <span>{{ if .page.IsSection }}📁{{ else }}📄{{ end }}</span>
+            <span>{{ .page.Title }}</span>
+          </a>
+          {{ with .section }}
+            <span class="backlink-section-tag">{{ . }}</span>
+          {{ end }}
+        </div>
+        {{ with .snippet }}
+          <p class="backlink-snippet">&ldquo;{{ . | safeHTML }}&rdquo;</p>
+        {{ end }}
+      </li>
+    {{ end }}
+  </ul>
+</section>
+{{ end }}

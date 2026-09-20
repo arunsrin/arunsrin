@@ -37,18 +37,28 @@
     {{ .Content }}
   </div>
 
+  {{ partial "backlinks.html" . }}
+
   {{ $related := site.RegularPages.Related . | first 5 }}
+  {{ if and (not $related) .CurrentSection }}
+    {{ $related = where .CurrentSection.RegularPages "RelPermalink" "ne" .RelPermalink | first 5 }}
+  {{ end }}
   {{ with $related }}
-    <section class="related-content" style="margin-top: 3.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
-      <h3 style="margin-bottom: 0.75rem;">🔗 Related Notes</h3>
-      <ul style="list-style: none; padding-left: 0;">
+    <section class="related-content">
+      <div class="related-header">
+        <h3 class="related-title">
+          <span>🔗 Related Notes</span>
+        </h3>
+      </div>
+      <ul class="related-list">
         {{ range . }}
-          <li style="margin: 0.5rem 0;">
-            <a href="{{ .RelPermalink }}" style="text-decoration: none; color: var(--link-color); font-weight: 500;">
-              {{ if .IsSection }}📁{{ else }}📄{{ end }} {{ .Title }}
+          <li class="related-item">
+            <a href="{{ .RelPermalink }}" class="related-link">
+              <span>{{ if .IsSection }}📁{{ else }}📄{{ end }}</span>
+              <span>{{ .Title }}</span>
             </a>
             {{ with .Params.tags }}
-              <span style="font-size: 0.8rem; color: var(--text-muted); margin-left: 0.5rem;">
+              <span class="related-tags">
                 {{ range . }}#{{ . }} {{ end }}
               </span>
             {{ end }}

@@ -113,7 +113,7 @@ def cmd_run_tests(worktree_path: str):
         print(f"Worktree path '{worktree_path}' does not exist", file=sys.stderr)
         sys.exit(1)
 
-    test_script = os.path.join(worktree_path, "scripts", "test.sh")
+    test_script = os.path.abspath(os.path.join(worktree_path, "scripts", "test.sh"))
     if not os.path.exists(test_script):
         print(f"Test script not found at '{test_script}'", file=sys.stderr)
         sys.exit(1)
