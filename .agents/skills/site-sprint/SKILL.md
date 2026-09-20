@@ -136,7 +136,7 @@ cd .worktrees/<feature-name> && git diff master
 
 ---
 
-### Phase 5: Git Push & Human Hand-off
+### Phase 5: Git Push, PR Creation & Todoist Linking
 
 1. **Commit Atomically:**
    ```bash
@@ -146,11 +146,17 @@ cd .worktrees/<feature-name> && git diff master
    git push -u origin <feature-name>
    ```
 
-2. **Create Pull Request:**
-   Raise PR using `gh pr create` (or provide the GitHub branch PR URL):
-   - Include summary of changes.
-   - Include signed-off acceptance criteria checklist.
-   - Include QA test pass confirmation.
+2. **Create Pull Request & Link to Todoist:**
+   Raise the PR using `gh pr create` and automatically post the resulting PR URL as a comment to the Todoist task:
+   ```bash
+   # Using the helper script:
+   ./scripts/site_sprint.py create-pr --task-id <task-id> --title "feat(<scope>): <title>" --body "<description>" --branch <feature-name>
+
+   # Or manually:
+   PR_URL=$(gh pr create --title "feat(<scope>): <title>" --body "<description>")
+   td comment add <task-id> --content "PR raised: $PR_URL"
+   ```
 
 3. **Hand-off to Human Author:**
-   Notify the author: *"The Fellowship has completed the quest! PR is ready for your local preview, final merge, and closing the task."*
+   Notify the author: *"The Fellowship has completed the quest! PR is created at <PR_URL> and linked to Todoist task <id> for your local preview, final merge, and closing the task."*
+

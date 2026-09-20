@@ -92,6 +92,8 @@ When you trigger the `/site-sprint` command (or ask to run an autonomous sprint)
    - **Autonomous Loop:** If any check fails, sends exact error logs and reproduction steps back to Gimli; repeats until 100% green.
 4. **🧙‍♂️ Gandalf Quality Gate:**
    - Validates the final `git diff master` against the signed-off acceptance criteria.
-5. **Human PR Hand-off:**
-   - Commits atomically, pushes `origin/<feature-name>`, and creates a Pull Request for you to preview locally, merge, and close the task in Todoist.
+5. **PR Creation & Todoist Linking:**
+   - Commits atomically, pushes `origin/<feature-name>`, raises the PR via `gh pr create`, and automatically posts the PR URL as a comment to the corresponding Todoist task (`td comment add <task-id> --content "PR raised: <url>"`).
+   - Prompts you for the final local preview, merge, and closing the task.
+
 

@@ -111,6 +111,32 @@ def cmd_run_tests(worktree_path: str):
         sys.exit(proc.returncode)
 
 
+def cmd_create_pr(task_id: str, title: str, body: str, branch: Optional[str] = None, base: str = "master"):
+    """Raise PR via gh and post the URL as a comment to the Todoist task."""
+    cmd = ["gh", "pr", "create", "--base", base, "--title", title, "--body", body]
+    if branch:
+        cmd.extend(["--head", branch])
+    
+    print(f"Creating GitHub Pull Request...")
+    proc = run_cmd(cmd)
+    if proc.returncode != 0:
+        print(f"Failed to create PR: {proc.stderr.strip()}", file=sys.stderr)
+        sys.exit(proc.returncode)
+
+    pr_url = proc.stdout.strip()
+    print(f"✓ PR created: {pr_url}")
+
+    if task_id:
+        print(f"Posting PR URL to Todoist task {task_id}...")
+        comment_proc = run_cmd(["td", "comment", "add", task_id, "--content", f"PR raised: {pr_url}"])
+        if comment_proc.returncode == 0:
+            print(f"✓ Comment posted to Todoist task {task_id}")
+        else:
+            print(f"Warning: Failed to post comment to Todoist: {comment_proc.stderr.strip()}", file=sys.stderr)
+
+    return pr_url
+
+
 def main():
     parser = argparse.ArgumentParser(description="Multi-Agent Sprint & Backlog Tooling")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -121,6 +147,13 @@ def main():
     test_parser = subparsers.add_parser("run-tests", help="Run test suite in a worktree")
     test_parser.add_argument("worktree", help="Path to the worktree directory")
 
+    pr_parser = subparsers.add_parser("create-pr", help="Create PR via gh and comment URL on Todoist task")
+    pr_parser.add_argument("--task-id", required=True, help="Todoist task ID")
+    pr_parser.add_argument("--title", required=True, help="PR Title")
+    pr_parser.add_argument("--body", required=True, help="PR Description")
+    pr_parser.add_argument("--branch", default=None, help="Branch name (default: current)")
+    pr_parser.add_argument("--base", default="master", help="Base branch (default: master)")
+
     args = parser.parse_args()
 
     if args.command == "status":
@@ -129,7 +162,10 @@ def main():
         cmd_pick_next()
     elif args.command == "run-tests":
         cmd_run_tests(args.worktree)
+    elif args.command == "create-pr":
+        cmd_create_pr(args.task_id, args.title, args.body, args.branch, args.base)
 
 
 if __name__ == "__main__":
     main()
+
