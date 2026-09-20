@@ -2,9 +2,16 @@
 import argparse
 import json
 import os
+import shutil
 import subprocess
 import sys
 from typing import Any, Dict, List, Optional
+
+# Ensure UTF-8 output across Windows and Linux terminals
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+if hasattr(sys.stderr, "reconfigure"):
+    sys.stderr.reconfigure(encoding="utf-8")
 
 PROJECT_NAME = "Site updates 🌐"
 PROJECT_ID = "6hWVfCmh7qC5P3HW"
@@ -12,12 +19,19 @@ REQUIRED_LABELS = ["llm-task", "next"]
 
 
 def run_cmd(cmd: List[str], cwd: Optional[str] = None) -> subprocess.CompletedProcess:
+    resolved_cmd = list(cmd)
+    if resolved_cmd:
+        exe = shutil.which(resolved_cmd[0])
+        if exe:
+            resolved_cmd[0] = exe
     return subprocess.run(
-        cmd,
+        resolved_cmd,
         cwd=cwd,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True,
+        encoding="utf-8",
+        errors="replace",
     )
 
 
@@ -69,7 +83,7 @@ def cmd_status():
     if groomed_tasks:
         for i, t in enumerate(groomed_tasks, 1):
             tid = t.get("id")
-            prio = f"P{5 - t.get('priority', 1)}" # convert API 4->P1, 1->P4
+            prio = f"P{5 - t.get('priority', 1)}"  # convert API 4->P1, 1->P4
             content = t.get("content")
             desc = t.get("description", "").strip()
             desc_preview = f" - {desc[:60]}..." if desc else ""
@@ -108,18 +122,29 @@ def cmd_pick_next():
 
 
 def cmd_run_tests(worktree_path: str):
-    """Execute ./scripts/test.sh inside the specified worktree."""
+    """Execute test suite inside the specified worktree."""
     if not os.path.exists(worktree_path):
         print(f"Worktree path '{worktree_path}' does not exist", file=sys.stderr)
         sys.exit(1)
 
-    test_script = os.path.abspath(os.path.join(worktree_path, "scripts", "test.sh"))
-    if not os.path.exists(test_script):
-        print(f"Test script not found at '{test_script}'", file=sys.stderr)
-        sys.exit(1)
-
     print(f"Running test suite in {worktree_path}...")
-    proc = run_cmd([test_script], cwd=worktree_path)
+    if sys.platform == "win32":
+        ps_script = os.path.abspath(os.path.join(worktree_path, "scripts", "test.ps1"))
+        if os.path.exists(ps_script):
+            proc = run_cmd(["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", ps_script], cwd=worktree_path)
+        else:
+            sh_script = os.path.abspath(os.path.join(worktree_path, "scripts", "test.sh"))
+            if not os.path.exists(sh_script):
+                print(f"Test script not found at '{ps_script}' or '{sh_script}'", file=sys.stderr)
+                sys.exit(1)
+            proc = run_cmd(["bash", sh_script], cwd=worktree_path)
+    else:
+        test_script = os.path.abspath(os.path.join(worktree_path, "scripts", "test.sh"))
+        if not os.path.exists(test_script):
+            print(f"Test script not found at '{test_script}'", file=sys.stderr)
+            sys.exit(1)
+        proc = run_cmd([test_script], cwd=worktree_path)
+
     output = {
         "passed": proc.returncode == 0,
         "exit_code": proc.returncode,
@@ -208,8 +233,9 @@ def cmd_preview(target: Optional[str] = None, port: int = 1314):
     print("=" * 64)
     print("Press Ctrl+C to stop the preview server.\n")
 
+    hugo_bin = shutil.which("hugo") or "hugo"
     cmd = [
-        "hugo", "server",
+        hugo_bin, "server",
         "--bind", "0.0.0.0",
         "--port", str(port),
         "-b", f"http://localhost:{port}/"
@@ -257,4 +283,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

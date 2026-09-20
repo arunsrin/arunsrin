@@ -66,11 +66,12 @@ This skill orchestrates an autonomous multi-agent feature sprint for **arunsrin'
 1. **Backlog Inspection:**
    Inspect Todoist for groomed tasks ready for execution:
    ```bash
-   ./scripts/site_sprint.py pick-next
+   python scripts/site_sprint.py pick-next
+   # or in WSL/Bash: ./scripts/site_sprint.py pick-next
    # or: td task list --project "Site updates 🌐" --filter "@llm-task & @next" --json
    ```
    - **Groomed Tasks (`llm-task` + `next`):** Pick the highest-priority task that has been reviewed and groomed by the author (tagged with both `llm-task` and `next`).
-   - **If no groomed tasks are found:** Check `./scripts/site_sprint.py status`. Inform the author of any pending ungroomed AI tasks (`llm-task` only) awaiting their review and `next` tag, or audit digital garden notes/templates to propose new candidate tasks.
+   - **If no groomed tasks are found:** Check `python scripts/site_sprint.py status`. Inform the author of any pending ungroomed AI tasks (`llm-task` only) awaiting their review and `next` tag, or audit digital garden notes/templates to propose new candidate tasks.
    - Do NOT pick or execute tasks that lack the `next` tag without explicit human instruction.
 
 2. **Codebase & Architectural Analysis:**
@@ -85,7 +86,7 @@ This skill orchestrates an autonomous multi-agent feature sprint for **arunsrin'
    Once sign-off is received, write `<worktree>/SPEC.md` containing:
    - User Story & Context
    - Numbered, verifiable Acceptance Criteria
-   - Core Guardrails from [AGENTS.md](file:///home/arunsrin/code/arunsrin.mkdocs/AGENTS.md) (Sacred Prose, zero bloat, light blue visual theme, Rocket Loader safety).
+   - Core Guardrails from [AGENTS.md](../../AGENTS.md) (Sacred Prose, zero bloat, light blue visual theme, Rocket Loader safety).
 
 ---
 
@@ -111,8 +112,8 @@ This skill orchestrates an autonomous multi-agent feature sprint for **arunsrin'
 1. **Automated Test Run:**
    Legolas executes the strict test suite inside the worktree:
    ```bash
-   ./scripts/site_sprint.py run-tests .worktrees/<feature-name>
-   # or: cd .worktrees/<feature-name> && ./scripts/test.sh
+   python scripts/site_sprint.py run-tests .worktrees/<feature-name>
+   # or: cd .worktrees/<feature-name> && ./scripts/test.ps1 (PowerShell) / ./scripts/test.sh (WSL)
    ```
 
 2. **Automated Feedback Loop:**
@@ -150,7 +151,7 @@ cd .worktrees/<feature-name> && git diff master
 2. **Create Pull Request & Link to Todoist:**
    Raise the PR using `gh pr create` and post the PR URL to the Todoist task:
    ```bash
-   ./scripts/site_sprint.py create-pr --task-id <task-id> --title "feat(<scope>): <title>" --body "<description>" --branch <feature-name>
+   python scripts/site_sprint.py create-pr --task-id <task-id> --title "feat(<scope>): <title>" --body "<description>" --branch <feature-name>
    ```
 
 3. **The Dual-Port Preview Strategy:**
@@ -160,7 +161,7 @@ cd .worktrees/<feature-name> && git diff master
 
    Launch preview with a single command:
    ```bash
-   ./scripts/site_sprint.py preview
+   python scripts/site_sprint.py preview
    # or: cd .worktrees/<feature-name> && hugo server --port 1314
    ```
 
