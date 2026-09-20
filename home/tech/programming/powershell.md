@@ -1,8 +1,10 @@
 ---
 title: "Powershell"
 tags:
+  - tech
   - powershell
-  - scripting
+  - programming
+  - windows
 ---
 
 # :material-powershell:{ .anim-bounce } Powershell

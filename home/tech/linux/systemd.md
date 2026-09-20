@@ -1,8 +1,9 @@
 ---
 title: "Systemd"
 tags:
+  - tech
   - linux
-  - systemd
+  - sysadmin
 ---
 
 # :material-penguin:{ .anim-heart }Systemd

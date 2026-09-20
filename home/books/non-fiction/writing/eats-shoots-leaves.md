@@ -3,7 +3,7 @@ title: "Eats, Shoots & Leaves"
 tags:
   - books
   - writing
-  - grammar
+  - language
 ---
 
 # :material-pencil:{ .anim-pulse } Eats, Shoots & Leaves

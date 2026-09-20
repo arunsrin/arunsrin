@@ -1,8 +1,9 @@
 ---
 title: "Learnings/Notes"
 tags:
+  - tech
   - linux
-  - tips
+  - sysadmin
 ---
 
 # :material-penguin:{ .anim-bounce } Learnings/Notes

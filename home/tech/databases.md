@@ -1,8 +1,9 @@
 ---
 title: "Databases"
 tags:
+  - tech
   - databases
-  - sql
+  - data
 ---
 
 # :material-database:{ .anim-flip } Databases

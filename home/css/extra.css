@@ -176,3 +176,144 @@ html {
   display: inline-block;
 }
 
+/* ==========================================================================
+   Bi-directional Backlinks & Related Notes
+   ========================================================================== */
+/* Unified Related Notes Section */
+.related-notes-section {
+  margin-top: 3.5rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.related-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.related-title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.related-notes-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.related-note-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-left: 3px solid var(--link-color);
+  border-radius: 0.5rem;
+  padding: 0.85rem 1.15rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.related-note-card:hover {
+  transform: translateX(4px);
+  box-shadow: 0 6px 18px rgba(2, 132, 199, 0.1);
+  border-left-color: #40E0D0;
+}
+
+.related-note-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.related-note-link {
+  font-weight: 600;
+  color: var(--link-color);
+  text-decoration: none;
+  font-size: 0.975rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.related-note-link:hover {
+  text-decoration: underline;
+}
+
+.related-note-badges {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.related-badge {
+  font-size: 0.725rem;
+  padding: 0.12rem 0.45rem;
+  border-radius: 0.25rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+}
+
+.related-badge-mention {
+  background: rgba(64, 224, 208, 0.15);
+  color: #0284c7;
+  border-color: rgba(64, 224, 208, 0.35);
+}
+
+.related-badge-reference {
+  background: rgba(2, 132, 199, 0.1);
+  color: var(--link-color);
+  border-color: rgba(2, 132, 199, 0.25);
+}
+
+.related-badge-tag {
+  background: var(--bg-sidebar);
+  color: var(--text-muted);
+  border-color: var(--border-color);
+  font-weight: 500;
+}
+
+.related-badge-section {
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .related-badge-mention {
+  background: rgba(64, 224, 208, 0.12);
+  color: #38bdf8;
+  border-color: rgba(64, 224, 208, 0.3);
+}
+
+.related-section-tag {
+  font-size: 0.725rem;
+  color: var(--text-muted);
+  background: var(--bg-sidebar);
+  padding: 0.12rem 0.45rem;
+  border-radius: 0.25rem;
+  border: 1px solid var(--border-color);
+}
+
+.related-note-snippet {
+  margin: 0.5rem 0 0 0;
+  padding: 0.4rem 0.65rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  background: var(--bg-secondary);
+  border-radius: 0.35rem;
+  border-left: 2px solid var(--border-color);
+  font-style: italic;
+}
+

@@ -1,9 +1,10 @@
 ---
 title: "Editors"
 tags:
+  - tech
   - editors
   - emacs
-  - vim
+  - tools
 ---
 
 # :material-keyboard-outline:{ .anim-bounce } Editors

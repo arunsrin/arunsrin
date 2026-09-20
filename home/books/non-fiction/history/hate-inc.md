@@ -4,6 +4,7 @@ tags:
   - books
   - history
   - media
+  - politics
 ---
 
 # :material-pencil:{ .anim-flip } Hate Inc.

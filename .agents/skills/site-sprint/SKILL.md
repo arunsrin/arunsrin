@@ -47,15 +47,15 @@ This skill orchestrates an autonomous multi-agent feature sprint for **arunsrin'
 
 ## The Fellowship (Agent Personas)
 
-1. 🧙‍♂️ **Gandalf (The Strategist / Product Manager):**
+1. 🧙‍♂️ **Gandalf (The Strategist / Living Spec Custodian):**
    - **Motto:** *"All we have to decide is what to do with the time that is given us."*
-   - **Role:** Queries Todoist, analyzes architecture, interviews the human author with clarifying questions and implementation choices, and writes the authoritative `SPEC.md`.
+   - **Role:** Queries Todoist, analyzes architecture, interviews the human author with clarifying questions and design tradeoffs, authors `docs/specs/<feature-name>.md`, and **continuously maintains and updates the specification** as requirements evolve throughout development, iteration, and author review.
 2. ⚒️ **Gimli (The Code Smith / Developer):**
    - **Motto:** *"Faithless is he that says farewell when the road darkens."*
-   - **Role:** Works in the background inside an isolated worktree (`.worktrees/<name>`). Implements HTML, CSS, JS, and Hugo templates strictly adhering to `AGENTS.md` (Sacred Prose, zero bloat, vanilla JS, Cloudflare safety).
-3. 🏹 **Legolas (The Sharp-Eyed Scout / QA Tester):**
+   - **Role:** Works in the background inside an isolated worktree (`.worktrees/<name>`). Implements HTML, CSS, JS, and Hugo templates in **strict compliance** with `docs/specs/<feature-name>.md` and `AGENTS.md` (Sacred Prose, zero bloat, vanilla JS, Cloudflare safety, and mandatory automated test authoring).
+3. 🏹 **Legolas (The Sharp-Eyed Scout / QA & Spec Compliance Enforcer):**
    - **Motto:** *"A red sun rises. Blood has been spilled this night... or a link was broken."*
-   - **Role:** Ruthlessly tests the worktree with `./scripts/test.sh` (strict Hugo build, valid JSON indexes, 19k+ link audit, Rocket Loader safety, JS tests). Sends precise reproduction steps and error logs back to Gimli until zero defects remain.
+   - **Role:** Ruthlessly tests the worktree with `./scripts/test.sh`. **Enforces spec compliance:** systematically verifies that every acceptance criterion in `docs/specs/<feature-name>.md` has companion automated regression tests that pass cleanly. Sends precise reproduction steps and error logs back to Gimli until zero defects remain.
 
 ---
 
@@ -81,8 +81,8 @@ This skill orchestrates an autonomous multi-agent feature sprint for **arunsrin'
    - Ask clarifying implementation questions (e.g. design preferences, content sources, scope limits).
    - **CRITICAL GATE:** Do NOT dispatch background agents until the human author answers and explicitly confirms/signs off (e.g. "Proceed", "Looks good", or specific direction).
 
-4. **Generate Approved `SPEC.md`:**
-   Once sign-off is received, write `<worktree>/SPEC.md` containing:
+4. **Generate Feature-Specific Specification (`docs/specs/<feature-name>.md`):**
+   Once sign-off is received, author `docs/specs/<feature-name>.md` (e.g. `docs/specs/bi-directional-backlinks.md`). Specs are uniquely named by feature so they permanently accumulate in `master` as living architecture documentation and avoid git merge overwrites. The spec must contain:
    - User Story & Context
    - Numbered, verifiable Acceptance Criteria
    - Core Guardrails from [AGENTS.md](file:///home/arunsrin/code/arunsrin.mkdocs/AGENTS.md) (Sacred Prose, zero bloat, light blue visual theme, Rocket Loader safety).
@@ -98,42 +98,52 @@ This skill orchestrates an autonomous multi-agent feature sprint for **arunsrin'
    ```
 
 2. **Implementation:**
-   Gimli implements all requirements specified in `SPEC.md` within `.worktrees/<feature-name>`:
+   Gimli implements all requirements specified in `docs/specs/<feature-name>.md` within `.worktrees/<feature-name>`:
    - Clean, lightweight vanilla JS (no frameworks).
    - Responsive styling adhering to the light blue gradient theme.
    - No modification to existing author prose in markdown files.
    - Tags properly closed and balanced.
 
+3. **Mandatory Companion Automated Test Authoring:**
+   Whenever new code, templates, shortcodes, partials, CSS components, or JavaScript behaviors are introduced, Gimli MUST author corresponding automated regression tests and wire them into `./scripts/test.sh` (e.g. dedicated test scripts under `scripts/test_*.py` or `scripts/test_*.js`).
+   *Test Authoring Criteria:*
+   - **New Templates / Partials:** Assert presence of generated DOM elements, correct CSS class hooks, and zero template execution errors across pages.
+   - **Content & Taxonomy Logic:** Assert coverage integrity across notes, relationship accuracy, and include negative tests preventing spurious matches or topic leaks.
+   - **Client-Side Scripts:** Assert event listener correctness, Rocket Loader compatibility (zero inline handlers), and state persistence.
+   - **Zero Untested Features:** A feature is NEVER considered complete without accompanying automated test coverage.
+
 ---
 
 ### Phase 3: Background QA Verification Loop (🏹 Legolas)
 
-1. **Automated Test Run:**
-   Legolas executes the strict test suite inside the worktree:
+1. **Automated Test Run & Test Coverage Audit:**
+   Legolas audits that automated regression tests exist for all newly introduced code in the diff, and executes the strict test suite inside the worktree:
    ```bash
    ./scripts/site_sprint.py run-tests .worktrees/<feature-name>
    # or: cd .worktrees/<feature-name> && ./scripts/test.sh
    ```
+   If new code lacks companion automated tests in `./scripts/test.sh`, Legolas rejects the build and instructs Gimli to author tests before certifying approval.
 
 2. **Automated Feedback Loop:**
-   - **On Any Failure (Exit code != 0):**
+   - **On Any Failure (Exit code != 0 or missing test coverage):**
      1. Legolas captures exact failing logs, stack traces, and affected files.
      2. Formulates a targeted bug report for Gimli.
-     3. Gimli applies fixes in the worktree.
+     3. Gimli applies fixes and adds missing tests in the worktree.
      4. Legolas re-tests. (Repeats seamlessly in the background up to 3 iterations).
-   - **On Complete Pass (All 9 suites green, 0 Hugo warnings):**
+   - **On Complete Pass (All test suites green, 0 Hugo warnings, 100% test coverage):**
      Legolas issues a QA sign-off certification.
 
 ---
 
 ### Phase 4: Final Validation Gate (🧙‍♂️ Gandalf)
 
-Gandalf reviews the complete git diff:
+Gandalf reviews the complete git diff and verifies the specification:
 ```bash
 cd .worktrees/<feature-name> && git diff master
 ```
-- Confirms every signed-off acceptance criterion in `SPEC.md` is fulfilled.
-- Verifies no accidental edits to author content or unwanted artifacts.
+- **Spec Accuracy Check:** Confirms `docs/specs/<feature-name>.md` is completely up to date, incorporating all design decisions, architectural refinements, and edge cases uncovered during development.
+- **Spec Compliance Verification:** Confirms every signed-off acceptance criterion in `docs/specs/<feature-name>.md` is fulfilled and backed by automated regression tests in `./scripts/test.sh`.
+- **Integrity Check:** Verifies no accidental edits to author content or unwanted artifacts.
 
 ---
 
@@ -167,12 +177,12 @@ cd .worktrees/<feature-name> && git diff master
    - **PR Link:** GitHub Pull Request URL.
    - **Verification Checklist:** Specific page links and interactions to check (e.g. "Visit `/tech/k8s/` and verify the backlinks card").
 
-5. **Interactive Iteration Loop (If author requests tweaks):**
-   - Author requests changes (e.g., "Adjust card padding" or "Change icon").
-   - Gimli edits directly inside `.worktrees/<feature-name>`.
-   - Hugo LiveReload on `:1314` updates the author's browser instantly.
-   - Legolas re-verifies with `./scripts/test.sh` inside the worktree.
-   - Updated commits are pushed to the PR branch.
+5. **Living Spec Iteration Loop (When author requests tweaks or changes):**
+   - **Step 1 (Gandalf):** Whenever the author provides feedback, questions, or iterates on requirements, Gandalf **immediately updates `docs/specs/<feature-name>.md`** so the specification continuously reflects the exact evolved requirements and edge cases.
+   - **Step 2 (Gimli):** Gimli implements the changes directly inside `.worktrees/<feature-name>` in strict accordance with the updated spec, updating or adding automated regression tests.
+   - **Step 3 (Live Reload):** Hugo LiveReload on `:1314` updates the author's browser instantly.
+   - **Step 4 (Legolas):** Legolas audits that all new or updated spec criteria have passing automated tests in `./scripts/test.sh` inside the worktree.
+   - **Step 5 (Push):** Updated commits are pushed to the PR branch.
 
 6. **Sign-off, Merge & Cleanup:**
    Once the author explicitly approves:

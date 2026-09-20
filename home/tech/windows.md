@@ -1,8 +1,9 @@
 ---
 title: "Windows"
 tags:
+  - tech
   - windows
-  - wsl
+  - sysadmin
 ---
 
 # :material-microsoft-windows:{ .anim-bounce } Windows

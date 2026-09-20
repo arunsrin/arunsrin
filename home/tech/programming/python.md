@@ -1,6 +1,7 @@
 ---
 title: "Python"
 tags:
+  - tech
   - python
   - programming
 ---

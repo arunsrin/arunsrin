@@ -3,6 +3,7 @@ title: "Scepticism"
 tags:
   - research
   - science
+  - philosophy
   - logic
 ---
 

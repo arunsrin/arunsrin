@@ -4,6 +4,7 @@ tags:
   - books
   - science
   - climate
+  - environment
 ---
 
 # :material-pencil:{ .anim-heart } The Thinking Person's Guide to Climate Change

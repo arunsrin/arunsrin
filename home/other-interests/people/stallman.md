@@ -3,7 +3,7 @@ title: "Richard Stallman"
 tags:
   - people
   - tech
-  - free-software
+  - open-source
 ---
 
 # :material-penguin:{ .anim-rotate } Richard Stallman

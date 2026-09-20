@@ -1,8 +1,10 @@
 ---
 title: "AWS"
 tags:
+  - tech
   - aws
   - cloud
+  - devops
 ---
 
 # :material-cloud:{ .anim-fade } AWS

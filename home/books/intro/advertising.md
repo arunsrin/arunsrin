@@ -3,7 +3,8 @@ title: "Advertising"
 tags:
   - books
   - intro
-  - advertising
+  - business
+  - media
 ---
 
 # :material-file-document-outline:{ .anim-flip } Advertising

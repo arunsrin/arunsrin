@@ -3,7 +3,7 @@ title: "How To Read A Book"
 tags:
   - books
   - writing
-  - analysis
+  - reading
 ---
 
 # :material-pencil:{ .anim-fade } How To Read A Book
