@@ -137,9 +137,9 @@ cd .worktrees/<feature-name> && git diff master
 
 ---
 
-### Phase 5: Git Push, PR Creation & Todoist Linking
+### Phase 5: Git Push, PR Creation, Dual-Port Preview & Author Hand-off
 
-1. **Commit Atomically:**
+1. **Commit Atomically & Push Branch:**
    ```bash
    cd .worktrees/<feature-name>
    git add -A
@@ -148,16 +148,49 @@ cd .worktrees/<feature-name> && git diff master
    ```
 
 2. **Create Pull Request & Link to Todoist:**
-   Raise the PR using `gh pr create` and automatically post the resulting PR URL as a comment to the Todoist task:
+   Raise the PR using `gh pr create` and post the PR URL to the Todoist task:
    ```bash
-   # Using the helper script:
    ./scripts/site_sprint.py create-pr --task-id <task-id> --title "feat(<scope>): <title>" --body "<description>" --branch <feature-name>
-
-   # Or manually:
-   PR_URL=$(gh pr create --title "feat(<scope>): <title>" --body "<description>")
-   td comment add <task-id> --content "PR raised: $PR_URL"
    ```
 
-3. **Hand-off to Human Author:**
-   Notify the author: *"The Fellowship has completed the quest! PR is created at <PR_URL> and linked to Todoist task <id> for your local preview, final merge, and closing the task."*
+3. **The Dual-Port Preview Strategy:**
+   Never interrupt `master` running on port 1313. The author tests the candidate feature on port 1314:
+   - **Master Baseline:** `http://localhost:1313/` (main tree on `master`)
+   - **Feature Preview:** `http://localhost:1314/` (worktree with LiveReload)
+
+   Launch preview with a single command:
+   ```bash
+   ./scripts/site_sprint.py preview
+   # or: cd .worktrees/<feature-name> && hugo server --port 1314
+   ```
+
+4. **Structured Review Briefing for Author:**
+   Present the author with:
+   - **PR Link:** GitHub Pull Request URL.
+   - **Preview URL:** `http://localhost:1314/`
+   - **Verification Checklist:** Direct page links and interactions to check (e.g. "Visit `/tech/docker/` and check the backlinks section").
+   - **Comparison:** Mention opening `:1313` and `:1314` side-by-side.
+
+5. **Interactive Iteration Loop (If author requests tweaks):**
+   - Author requests changes (e.g., "Adjust card padding" or "Change icon").
+   - Gimli edits directly inside `.worktrees/<feature-name>`.
+   - Hugo LiveReload on `:1314` updates the author's browser instantly.
+   - Legolas re-verifies with `./scripts/test.sh` inside the worktree.
+   - Updated commits are pushed to the PR branch.
+
+6. **Sign-off, Merge & Cleanup:**
+   Once the author explicitly approves:
+   ```bash
+   # Merge PR via gh
+   gh pr merge <feature-name> --merge --delete-branch
+
+   # Sync root repository master
+   git pull origin master
+
+   # Safely remove the worktree
+   git worktree remove .worktrees/<feature-name>
+
+   # Mark Todoist task complete
+   td task complete <task-id>
+   ```
 

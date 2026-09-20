@@ -32,8 +32,12 @@ jq . public/index.json > /dev/null          # Validate search index
 jq . public/static/quotes.json > /dev/null  # Validate quotes database
 node scripts/test_js.js                     # Validate JS, Cloudflare caching & Rocket Loader safety
 
-# Start local preview server (bind 0.0.0.0, port 1313)
+# Start local preview server for master baseline (bind 0.0.0.0, port 1313)
 hugo server --bind 0.0.0.0 --port 1313 -b http://localhost:1313/
+
+# Preview active feature worktree on dedicated preview port (port 1314)
+./scripts/site_sprint.py preview
+# or: cd .worktrees/<feature-name> && hugo server --bind 0.0.0.0 --port 1314 -b http://localhost:1314/
 ```
 
 ## 4. Rules of Thumb for Changes
@@ -45,7 +49,7 @@ hugo server --bind 0.0.0.0 --port 1313 -b http://localhost:1313/
 6. **DOM Execution Order:** Always wrap DOM queries in `document.addEventListener('DOMContentLoaded', ...)` when elements may be declared across different partials (e.g. `header.html` referencing `#sidebar-left`).
 7. **Link Handling:** Internal links should use Hugo relative permalinks. External links are handled by `layouts/_default/_markup/render-link.html` which adds `target="_blank" rel="noopener noreferrer"` and an external indicator `↗`.
 8. **Git Worktrees ONLY & Confirmation Workflow:**
-   - **STRICTLY Use Git Worktrees (Never Switch Branches in Main Tree):** NEVER switch branches (`git checkout <branch>` or `git switch <branch>`) in the root repository tree (`/home/arunsrin/code/arunsrin.mkdocs`). The main working tree must permanently remain on `master` to prevent interrupting background development servers (`hugo server`) and file watchers. All feature development, bug fixes, refactoring, and experiments must strictly take place in an isolated worktree created under `.worktrees/<feature-name>`:
+   - **STRICTLY Use Git Worktrees & Dual-Port Preview (Never Switch Branches in Main Tree):** NEVER switch branches (`git checkout <branch>` or `git switch <branch>`) in the root repository tree (`/home/arunsrin/code/arunsrin.mkdocs`). The main working tree must permanently remain on `master` to prevent interrupting background development servers (`hugo server` on port 1313) and file watchers. All feature development, bug fixes, refactoring, and experiments must strictly take place in an isolated worktree created under `.worktrees/<feature-name>`. The feature preview server runs on port 1314 (`./scripts/site_sprint.py preview`), enabling side-by-side comparison between master (:1313) and the candidate feature (:1314).
      ```bash
      # Create isolated worktree for a feature/fix
      git worktree add -b <feature-name> .worktrees/<feature-name> master
@@ -53,11 +57,14 @@ hugo server --bind 0.0.0.0 --port 1313 -b http://localhost:1313/
      # Test and work exclusively within the worktree
      cd .worktrees/<feature-name> && ./scripts/test.sh
      
+     # Launch preview server on port 1314
+     ./scripts/site_sprint.py preview <feature-name>
+
      # Cleanup after merge to master
      git worktree remove .worktrees/<feature-name>
      git branch -d <feature-name>
      ```
-   - **CRITICAL Confirmation Workflow:** Never commit and push to remote until the author has tested and explicitly confirmed locally that things are fine. The workflow is: implement -> run `./scripts/test.sh` inside worktree -> verify on preview server -> prompt author to test locally -> commit and push only upon explicit confirmation. Atomic commits with conventional commit messages.
+   - **CRITICAL Confirmation Workflow:** Never commit and push to remote until the author has tested and explicitly confirmed locally that things are fine. The workflow is: implement -> run `./scripts/test.sh` inside worktree -> verify on preview server (port 1314) -> prompt author to test locally -> commit and push only upon explicit confirmation. Atomic commits with conventional commit messages.
 9. **Sacred Prose Principle:** You can freely iterate on layout containers, HTML templates, CSS classes, and metadata. But do NOT alter the author's writing, phrasing, tone, or opinions in markdown content files. (Simple search/replace for outdated tooling names such as 'mkdocs' -> 'hugo' is permitted).
 
 ## 5. Backlog Management (Todoist Integration)
@@ -95,8 +102,10 @@ When you trigger the `/site-sprint` command (or ask to run an autonomous sprint)
    - **Autonomous Loop:** If any check fails, sends exact error logs and reproduction steps back to Gimli; repeats until 100% green.
 4. **🧙‍♂️ Gandalf Quality Gate:**
    - Validates the final `git diff master` against the signed-off acceptance criteria.
-5. **PR Creation & Todoist Linking:**
+5. **PR Creation, Dual-Port Preview & Iterative Review:**
    - Commits atomically, pushes `origin/<feature-name>`, raises the PR via `gh pr create`, and automatically posts the PR URL as a comment to the corresponding Todoist task (`td comment add <task-id> --content "PR raised: <url>"`).
-   - Prompts you for the final local preview, merge, and closing the task.
+   - Prompts the author with a structured review briefing: PR URL, dedicated preview URL (`http://localhost:1314/`), and concrete testing checklist.
+   - **Iteration:** If author requests changes, Gimli edits in the worktree, LiveReload on :1314 refreshes the browser immediately, and Legolas re-verifies.
+   - **Merge & Cleanup:** Upon explicit author sign-off, merges PR via `gh pr merge`, pulls master in root repo, removes worktree, and completes the Todoist task.
 
 

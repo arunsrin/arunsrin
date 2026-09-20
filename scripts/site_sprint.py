@@ -157,6 +157,69 @@ def cmd_create_pr(task_id: str, title: str, body: str, branch: Optional[str] = N
     return pr_url
 
 
+def find_feature_worktrees() -> List[str]:
+    """Return list of active feature worktree paths under .worktrees/."""
+    proc = run_cmd(["git", "worktree", "list", "--porcelain"])
+    if proc.returncode != 0:
+        return []
+    worktrees = []
+    for line in proc.stdout.splitlines():
+        if line.startswith("worktree "):
+            path = line.split(" ", 1)[1]
+            if ".worktrees" in path:
+                worktrees.append(path)
+    return worktrees
+
+
+def cmd_preview(target: Optional[str] = None, port: int = 1314):
+    """Launch hugo server for a worktree on dedicated preview port (default: 1314)."""
+    worktree_path = None
+    if target:
+        if os.path.exists(target):
+            worktree_path = os.path.abspath(target)
+        elif os.path.exists(os.path.join(".worktrees", target)):
+            worktree_path = os.path.abspath(os.path.join(".worktrees", target))
+        else:
+            print(f"Error: Worktree not found for '{target}'.", file=sys.stderr)
+            sys.exit(1)
+    else:
+        active = find_feature_worktrees()
+        if not active:
+            print("Error: No active feature worktrees found under .worktrees/.", file=sys.stderr)
+            print("To start a sprint: /site-sprint or git worktree add -b <name> .worktrees/<name> master", file=sys.stderr)
+            sys.exit(1)
+        elif len(active) == 1:
+            worktree_path = active[0]
+        else:
+            print("Multiple active worktrees detected:")
+            for i, p in enumerate(active, 1):
+                print(f"  {i}. {os.path.basename(p)} ({p})")
+            print(f"\nDefaulting to: {os.path.basename(active[0])}")
+            worktree_path = active[0]
+
+    feature_name = os.path.basename(worktree_path)
+    print("=" * 64)
+    print("🚀 Hugo Feature Preview Server (Dual-Port Strategy)")
+    print(f"Feature:         {feature_name}")
+    print(f"Directory:       {worktree_path}")
+    print(f"Preview URL:     http://localhost:{port}/")
+    print(f"Master Baseline: http://localhost:1313/ (production reference)")
+    print("LiveReload:      Active (edits in worktree refresh automatically)")
+    print("=" * 64)
+    print("Press Ctrl+C to stop the preview server.\n")
+
+    cmd = [
+        "hugo", "server",
+        "--bind", "0.0.0.0",
+        "--port", str(port),
+        "-b", f"http://localhost:{port}/"
+    ]
+    try:
+        subprocess.run(cmd, cwd=worktree_path)
+    except KeyboardInterrupt:
+        print("\n✓ Preview server stopped.")
+
+
 def main():
     parser = argparse.ArgumentParser(description="Multi-Agent Sprint & Backlog Tooling")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -166,6 +229,10 @@ def main():
     
     test_parser = subparsers.add_parser("run-tests", help="Run test suite in a worktree")
     test_parser.add_argument("worktree", help="Path to the worktree directory")
+
+    preview_parser = subparsers.add_parser("preview", help="Start Hugo preview server on port 1314")
+    preview_parser.add_argument("feature", nargs="?", default=None, help="Feature name or worktree path (default: auto-detect)")
+    preview_parser.add_argument("--port", type=int, default=1314, help="Port to bind (default: 1314)")
 
     pr_parser = subparsers.add_parser("create-pr", help="Create PR via gh and comment URL on Todoist task")
     pr_parser.add_argument("--task-id", required=True, help="Todoist task ID")
@@ -182,6 +249,8 @@ def main():
         cmd_pick_next()
     elif args.command == "run-tests":
         cmd_run_tests(args.worktree)
+    elif args.command == "preview":
+        cmd_preview(args.feature, args.port)
     elif args.command == "create-pr":
         cmd_create_pr(args.task_id, args.title, args.body, args.branch, args.base)
 
