@@ -71,5 +71,20 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
 
+Write-Host "`n=== 9. Validating Mobile Sidebar & Overlay Stacking ===" -ForegroundColor Cyan
+& $pythonCmd "$PSScriptRoot/test_mobile_sidebar.py"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Mobile Sidebar & Overlay validation failed!"
+    exit $LASTEXITCODE
+}
+
+Write-Host "`n=== 10. Validating GitHub CI Parity & Test Discovery ===" -ForegroundColor Cyan
+& $pythonCmd "$PSScriptRoot/test_ci_parity.py"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "CI Parity validation failed! Tests in scripts/ are missing from .github/workflows/ci.yml"
+    exit $LASTEXITCODE
+}
+
 Write-Host "`n=== All checks passed successfully! ===" -ForegroundColor Green
 exit 0
+

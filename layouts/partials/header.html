@@ -76,7 +76,7 @@
 
     if (sidebar) {
       sidebar.addEventListener('click', (e) => {
-        if (e.target.tagName === 'A') {
+        if (e.target.closest('a')) {
           toggleSidebar(false);
         }
       });

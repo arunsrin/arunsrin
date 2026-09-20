@@ -14,6 +14,12 @@ import re
 import sys
 import html.parser
 
+# Ensure UTF-8 output across Windows and Linux terminals
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+if hasattr(sys.stderr, "reconfigure"):
+    sys.stderr.reconfigure(encoding="utf-8")
+
 def run_tests():
     public_index = os.path.join("public", "index.html")
     home_index_md = os.path.join("home", "_index.md")

@@ -79,6 +79,20 @@ cd .worktrees/<feature-name> && hugo server --bind 0.0.0.0 --port 1314 -b http:/
    - **CRITICAL Confirmation Workflow:** Never commit and push to remote until the author has tested and explicitly confirmed locally that things are fine. The workflow is: implement -> run test suite (`./scripts/test.ps1` or `./scripts/test.sh`) inside worktree -> verify on preview server (port 1314) -> prompt author to test locally -> commit and push only upon explicit confirmation. Atomic commits with conventional commit messages.
 9. **Sacred Prose Principle:** You can freely iterate on layout containers, HTML templates, CSS classes, and metadata. But do NOT alter the author's writing, phrasing, tone, or opinions in markdown content files. (Simple search/replace for outdated tooling names such as 'mkdocs' -> 'hugo' is permitted).
 10. **Automated Test Mandate for New Code & CI Parity:** Whenever new code, templates, shortcodes, partials, CSS components, or JavaScript behaviors are introduced, Gimli and Legolas MUST author automated regression tests integrated into BOTH `./scripts/test.sh` and the GitHub Actions pipeline (`.github/workflows/ci.yml`) (e.g. dedicated test scripts under `scripts/test_*.py` or `scripts/test_*.js`). Features are never considered complete without automated assertions verifying: (a) structural presence across generated HTML, (b) functional correctness, (c) negative tests preventing unwanted regressions or spurious content, (d) coverage integrity across all affected pages, and (e) execution parity in GitHub CI on every PR and merge.
+11. **Dynamic CI Test Discovery & Parity Enforcement (`scripts/test_ci_parity.py`):** GitHub Actions CI (`.github/workflows/ci.yml`) uses dynamic wildcard discovery (`scripts/test_*.py` and `scripts/test_*.js`). All new test suites created under `scripts/` are automatically executed by CI on every push and PR without requiring manual edits to `.github/workflows/*` (which prevents GitHub OAuth `workflow` scope push rejections). CI parity is strictly guarded by `scripts/test_ci_parity.py` (Step 10 in `./scripts/test.ps1` and `./scripts/test.sh`), which physically fails the local build if any test script in `scripts/` is not covered by CI. Never bypass CI parity.
+12. **Windows Python UTF-8 Stdout Reconfiguration:** Windows PowerShell console defaults to `cp1252`. Python scripts that print Unicode symbols (e.g. checkmarks `\u2713` or emojis) will crash with `UnicodeEncodeError`. All Python test scripts (`scripts/test_*.py`) MUST include at the top:
+    ```python
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+    if hasattr(sys.stderr, "reconfigure"):
+        sys.stderr.reconfigure(encoding="utf-8")
+    ```
+13. **Stacking Contexts & Z-Index Discipline:** Never assign an integer `z-index` (e.g. `z-index: 1`) to top-level layout containers (`.layout-container`) containing fixed drawers or overlays. An integer `z-index` creates an isolated stacking context that traps high z-index descendants (like a mobile drawer at `z-index: 1200`) beneath root-level overlays (`z-index: 1150`). Layout containers must use `z-index: auto`.
+14. **Minified HTML Assertion Robustness:** Hugo builds using `--minify` strip quotes from simple HTML attributes (e.g. `id=sidebar-overlay` and `class=sidebar-overlay`). Test assertions checking generated HTML in `public/` must use regex that accommodates optional quotes (e.g. `r'id=["\']?element-id["\'\s>]'`).
+15. **Subagent Permission Minimization & The Interruption-Free Reviewer Principle:** Subagents should be granted the minimum tool privileges strictly required for their role. In particular, code review agents (like Elrond) must NOT be spawned with write/shell tools (`enable_write_tools: false`). Arbitrary shell commands (`git log`, `git diff`, `git status`, `Select-String`, `grep`, `cat`) executed by subagents trigger interactive Antigravity CLI permission prompts that disrupt the author. Instead:
+    - The orchestrator (Gandalf) pre-gathers the git diff, commit history, and spec context and passes them directly in the subagent's prompt.
+    - Review subagents inspect files exclusively via built-in read tools (`view_file`), which are inherently non-destructive and never prompt for permission.
+    - Review subagents write and return their structured review verdict directly in their final response message to the orchestrator. The parent orchestrator (Gandalf) then posts the review comment to the GitHub PR using `gh pr comment`.
 
 ## 5. Backlog Management (Todoist Integration)
 The backlog of website features, improvements, and maintenance tasks is tracked in Todoist under the project **`Site updates 🌐`** (ID: `6hWVfCmh7qC5P3HW`) using the `td` CLI (`@doist/todoist-cli`, setup per [Todoist AI guide](https://www.todoist.com/help/todoist/todoist-and-ai/use-todoist-in-gemini-spark-dEb9IBNVY#h_01M1B8SXGM1ZKPKS66P8SK1EMN)).
@@ -104,22 +118,26 @@ When you trigger the `/site-sprint` command (or ask to run an autonomous sprint)
 1. **🧙‍♂️ Gandalf (The Strategist / Living Spec Custodian):**
    - Inspects the Todoist backlog (`python scripts/site_sprint.py pick-next`).
    - Analyzes codebase and architecture.
-   - **Interactive Human Gate:** Asks you clarifying implementation questions and design tradeoffs.
+   - **Interactive Human Gate:** Asks clarifying implementation questions and design tradeoffs.
    - **Living Spec Ownership:** Once you explicitly sign off, writes the approved specification to `docs/specs/<feature-name>.md`. Throughout development and review iterations, Gandalf **continuously updates the specification** as requirements evolve or edge cases are uncovered, ensuring the spec remains the living source of truth.
-2. **⚒️ Gimli (The Code Smith / Dev):**
-   - Works seamlessly in the background inside an isolated worktree (`.worktrees/<feature-name>`).
-   - Crafts templates, styles, logic, and companion automated regression tests in **strict compliance** with `docs/specs/<feature-name>.md` and `AGENTS.md` (Sacred Prose, zero bloat, vanilla JS, Cloudflare safety, test coverage).
-3. **🏹 Legolas (The Sharp-Eyed Scout / QA & Spec Compliance Enforcer):**
-   - Executes `./scripts/test.ps1` (or `./scripts/test.sh`) in the worktree.
-   - **Spec Compliance Auditing:** Verifies that every single acceptance criterion in `docs/specs/<feature-name>.md` is backed by passing automated regression tests.
-   - Catches broken links, Hugo warnings, formatting bugs, and Rocket Loader violations.
-   - **Autonomous Loop:** If any check fails, sends exact error logs and reproduction steps back to Gimli; repeats until 100% green.
-4. **🧙‍♂️ Gandalf Quality Gate:**
-   - Validates that `docs/specs/<feature-name>.md` is completely up to date and verifies `git diff master` against all signed-off acceptance criteria.
-5. **PR Creation, Automated Background Servers & Living Spec Iteration:**
-   - Commits atomically, pushes `origin/<feature-name>`, raises the PR via `gh pr create`, and automatically posts the PR URL as a comment to the corresponding Todoist task (`td comment add <task-id> --content "PR raised: <url>"`).
-   - **Clean & Meaningful PR Description:** PR descriptions must be concise, professional, and explain what we are trying to fix/build and how. Never include internal Todoist task IDs (which are meaningless outside Todoist) or localhost URLs (which cannot be accessed from GitHub). Keep localhost preview links strictly in the chat briefing to the author.
+
+2. **🔄 The Triad Recursive Loop (Gimli ⇄ Legolas ⇄ Elrond):**
+   Steps 2, 3, and 4 form an autonomous recursive convergence loop that runs iteratively in the background until unanimous consensus is achieved:
+   - **⚒️ Gimli (The Code Smith / Dev):** Works seamlessly in an isolated worktree (`.worktrees/<feature-name>`), crafting templates, styles, logic, and companion automated regression tests in strict compliance with `docs/specs/<feature-name>.md` and `AGENTS.md` (Sacred Prose, zero bloat, vanilla JS, Cloudflare safety, test coverage).
+   - **🏹 Legolas (The Sharp-Eyed Scout / QA & Spec Compliance Enforcer):** Executes the strict test suite (`./scripts/test.ps1` / `./scripts/test.sh`) inside the worktree. Audits that all new code has passing regression tests. If any failure occurs, sends targeted bug reports back to Gimli; repeats until 100% green.
+   - **🧝‍♂️ Elrond (The Wise Arbiter / Adversarial Code Reviewer & Chronicle Custodian):** Operates as an adversarial auditor governed by `REVIEW.md` ("assume code is broken until proven bulletproof"). Audits the green diff with fresh eyes across 10 strict review gates (CI parity, stacking contexts, event delegation, Rocket Loader safety, encoding, minification, sacred prose, zero bloat, negative testing, and subagent permission hygiene) in a zero-interruption read-only context (`enable_write_tools: false`) using `view_file`.
+     - **Recursive Trigger:** If Elrond flags feedback or requests changes (`🔴 Request Changes`), it **automatically triggers Gimli** to update code and tests, **Gimli's update triggers Legolas** to re-test, and **Legolas's green run triggers Elrond** to re-review.
+     - Codifies session friction, gotchas, and annoyances permanently into `AGENTS.md`, `SKILL.md`, and `REVIEW.md`.
+     - The Triad loop repeats until **unanimous consensus** is reached (all tests green + Elrond grants `🟢 Approved without reservations`).
+
+3. **🧙‍♂️ Gandalf (Consensus Synthesis, Author Briefing & Gate):**
+   - Confirms unanimous consensus among Gimli, Legolas, and Elrond.
+   - Validates that `docs/specs/<feature-name>.md` is completely up to date with all architectural decisions and edge cases resolved during the Triad loop.
+   - Commits atomically, pushes branch to origin, and posts Elrond's structured review directly to the PR via `gh pr comment`.
    - Automatically spins up and verifies background Hugo servers on :1313 (master baseline) and :1314 (candidate feature worktree).
-   - Prompts the author with a structured review briefing: live URLs (`http://localhost:1313/` vs `http://localhost:1314/`), PR link, and concrete testing checklist.
-   - **Living Spec Iteration:** If author requests changes during review, Gandalf immediately updates `docs/specs/<feature-name>.md`, Gimli edits in the worktree to match, LiveReload on :1314 refreshes the browser immediately, and Legolas re-verifies spec compliance and tests.
-   - **Merge & Cleanup:** Upon explicit author sign-off, merges PR via `gh pr merge`, pulls master in root repo, removes worktree, and completes the Todoist task.
+   - Synthesizes a comprehensive briefing to the author: problem/solution summary, consensus confirmation, live URLs (`http://localhost:1313/` vs `http://localhost:1314/`), PR link, and concrete testing checklist asking for final sign-off.
+
+4. **🚀 Human Sign-off, Merge & Cleanup:**
+   - Author reviews live on :1314 vs :1313 and grants sign-off.
+   - If author requests changes during review, the Triad loop iterates (Gimli -> Legolas -> Elrond) while Hugo LiveReload updates :1314 in real time.
+   - Upon explicit author sign-off, Gandalf merges the PR via `gh pr merge`, pulls master in root repo, safely removes the worktree, and completes the Todoist task.

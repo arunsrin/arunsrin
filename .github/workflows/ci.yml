@@ -34,18 +34,15 @@ jobs:
         with:
           config: .htmltest.yml
 
-      - name: Run JavaScript & Cloudflare Anti-Pattern Tests
-        run: node scripts/test_js.js
+      - name: Run Automated Test Suites (Discovery & CI Parity)
+        run: |
+          for test in scripts/test_*.py; do
+            echo "=== Running $test ==="
+            python3 "$test"
+          done
+          for test in scripts/test_*.js; do
+            echo "=== Running $test ==="
+            node "$test"
+          done
 
-      - name: Run Related Notes & Mentions Tests
-        run: python3 scripts/test_related_notes.py
-
-      - name: Run Search Relevance & Scoring Tests
-        run: node scripts/test_search.js
-
-      - name: Run Tech Folder Animated Emojis Tests
-        run: python3 scripts/test_tech_emojis.py
-
-      - name: Run Homepage Cards Consistency Tests
-        run: python3 scripts/test_homepage_cards.py
 
