@@ -44,18 +44,42 @@ hugo server --bind 0.0.0.0 --port 1313 -b http://localhost:1313/
 5. **Search Index Integrity:** The client search (`layouts/index.json`) loads on `Ctrl+K`. Keep it lean and ensure generated JSON stays strictly valid.
 6. **DOM Execution Order:** Always wrap DOM queries in `document.addEventListener('DOMContentLoaded', ...)` when elements may be declared across different partials (e.g. `header.html` referencing `#sidebar-left`).
 7. **Link Handling:** Internal links should use Hugo relative permalinks. External links are handled by `layouts/_default/_markup/render-link.html` which adds `target="_blank" rel="noopener noreferrer"` and an external indicator `↗`.
-8. **Git Worktrees, Practices & Confirmation Workflow:**
-   - **Use Git Worktrees for Parallel Changes:** Implicitly use `git worktree` under `.worktrees/<feature-name>` (gitignored) instead of switching branches in the main working tree whenever making changes parallel to other ongoing tasks or to prevent background dev server (`hugo server`) disruption:
+8. **Git Worktrees ONLY & Confirmation Workflow:**
+   - **STRICTLY Use Git Worktrees (Never Switch Branches in Main Tree):** NEVER switch branches (`git checkout <branch>` or `git switch <branch>`) in the root repository tree (`/home/arunsrin/code/arunsrin.mkdocs`). The main working tree must permanently remain on `master` to prevent interrupting background development servers (`hugo server`) and file watchers. All feature development, bug fixes, refactoring, and experiments must strictly take place in an isolated worktree created under `.worktrees/<feature-name>`:
      ```bash
      # Create isolated worktree for a feature/fix
      git worktree add -b <feature-name> .worktrees/<feature-name> master
      
-     # Test within worktree
+     # Test and work exclusively within the worktree
      cd .worktrees/<feature-name> && ./scripts/test.sh
      
-     # Cleanup after merge
+     # Cleanup after merge to master
      git worktree remove .worktrees/<feature-name>
      git branch -d <feature-name>
      ```
-   - **CRITICAL Confirmation Workflow:** Never commit and push to remote until the author has tested and explicitly confirmed locally that things are fine. The workflow is: implement -> run `./scripts/test.sh` -> verify on preview server -> prompt author to test locally -> commit and push only upon explicit confirmation. Atomic commits with conventional commit messages.
+   - **CRITICAL Confirmation Workflow:** Never commit and push to remote until the author has tested and explicitly confirmed locally that things are fine. The workflow is: implement -> run `./scripts/test.sh` inside worktree -> verify on preview server -> prompt author to test locally -> commit and push only upon explicit confirmation. Atomic commits with conventional commit messages.
 9. **Sacred Prose Principle:** You can freely iterate on layout containers, HTML templates, CSS classes, and metadata. But do NOT alter the author's writing, phrasing, tone, or opinions in markdown content files. (Simple search/replace for outdated tooling names such as 'mkdocs' -> 'hugo' is permitted).
+
+## 5. Backlog Management (Todoist Integration)
+The backlog of website features, improvements, and maintenance tasks is tracked in Todoist under the project **`Site updates 🌐`** (ID: `6hWVfCmh7qC5P3HW`) using the `td` CLI (`@doist/todoist-cli`, setup per [Todoist AI guide](https://www.todoist.com/help/todoist/todoist-and-ai/use-todoist-in-gemini-spark-dEb9IBNVY#h_01M1B8SXGM1ZKPKS66P8SK1EMN)).
+
+- **Actionable AI Tasks (`llm-task`):** Tasks designated for the agent to implement are tagged with the label `llm-task`.
+- **Capturing New Ideas:** Whenever we discuss or conceive new ideas for the website, automatically create a corresponding task in `Site updates 🌐` with a detailed explanation and acceptance criteria in the description, tagged with `llm-task`:
+  ```bash
+  td task add "<Task Summary>" --project "Site updates 🌐" --labels "llm-task" --description "<Detailed explanation and acceptance criteria>"
+  ```
+- **Picking Up Backlog Tasks:** To check for pending tasks:
+  ```bash
+  td task list --project "Site updates 🌐" --labels "llm-task" --json
+  # or using the sprint helper:
+  ./scripts/site_sprint.py status
+  ```
+
+## 6. Multi-Agent Development Workflow (`/site-sprint`)
+When you trigger the `/site-sprint` command (or ask to run an autonomous sprint), an end-to-end multi-agent pipeline is executed:
+
+1. **Product Manager (PM) Agent:** Inspects Todoist backlog (`./scripts/site_sprint.py pick-next`), refines requirements into testable acceptance criteria, and generates `SPEC.md` adhering strictly to all `AGENTS.md` guidelines.
+2. **Developer Agent:** Assigned the task in a dedicated worktree (`.worktrees/<feature-name>`) and implements the code, templates, or styles without touching the author's prose.
+3. **QA / Test Agent:** Runs `./scripts/test.sh` in the worktree. If any step fails, sends error logs and reproduction steps back to the Developer Agent in an automated feedback loop until 100% passing.
+4. **PM Quality Gate:** Reviews the final `git diff master` against `SPEC.md` acceptance criteria to ensure complete fidelity and zero regressions.
+5. **Human PR Hand-off:** Commits atomically, pushes the branch to `origin/<feature-name>`, and creates a Pull Request for human verification, review, and final merge.
