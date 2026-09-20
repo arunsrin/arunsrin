@@ -89,7 +89,7 @@ reference.
 
     Current-gen: I have an [:fontawesome-brands-xbox:{ .anim-pulse }Xbox Series X](games/xbox.md)
 
-    Here is a list of games played per year:
+    **By Genre**
 
     - [:material-sword:{ .anim-pulse } Action & Adventure](games/action-adventure/index.md)
     - [:material-chip:{ .anim-rotate } Sci-Fi & Cyberpunk](games/sci-fi-cyberpunk/index.md)

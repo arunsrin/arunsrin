@@ -26,7 +26,7 @@ In [`home/_index.md`](home/_index.md):
 
        Current-gen: I have an [:fontawesome-brands-xbox:{ .anim-pulse }Xbox Series X](games/xbox.md)
 
-       Here is a list of games played per year:
+       **By Genre**
    ```
 
 2. **Standardize Other Media Card:**
@@ -57,7 +57,8 @@ In [`home/_index.md`](home/_index.md):
    - Every card `li` in `<div class="grid cards">` on the home page begins with an icon and `<strong>` title (`Tech Notes`, `Books`, `Games`, `Other Media`).
 2. **Horizontal Rule Presence:**
    - Every card in the grid contains an `<hr>` separator immediately beneath the title paragraph.
-3. **Games Subtitle Structure:**
+3. **Games Subtitle & Genre Header Structure:**
    - The link `Me and my games` is positioned as the introductory paragraph immediately beneath the `<hr>` divider in the Games card, mirroring the Books card (`Me and my books`).
+   - The list of games is introduced by `<strong>By Genre</strong>`, mirroring Books' `<strong>Fiction</strong>` and `<strong>Non-Fiction</strong>`.
 4. **CI & Local Test Parity:**
    - All tests in `./scripts/test.sh` pass with zero Hugo warnings and 100% green tests in GitHub Actions CI.

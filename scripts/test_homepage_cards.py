@@ -43,6 +43,8 @@ def run_tests():
     # Negative check: old unformatted titles must not exist
     assert not re.search(r':material-controller:\{[^\}]+\}\s+Me and my \[games\]', first_grid), "Old unformatted Games title still present!"
     assert not re.search(r':material-television:\{[^\}]+\}\s+Other media', first_grid), "Old unformatted Other Media title still present!"
+    assert re.search(r'\*\*By Genre\*\*', first_grid), "Games card missing **By Genre** header in markdown!"
+    assert "played per year" not in first_grid, "Outdated 'played per year' text still present in markdown!"
     print("  ✓ All 4 markdown cards have bold titles, dividers, and correct formatting.")
 
     # 2. Verify generated HTML structure
@@ -116,7 +118,10 @@ def run_tests():
     games_card_text = "".join(cards[2]['html_parts'])
     assert "Me and my games" in games_card_text, "Games card is missing subtitle 'Me and my games'"
     assert "Xbox Series X" in games_card_text, "Games card is missing platform detail"
-    print("  ✓ Games card contains subtitle link and platform details.")
+    assert "By Genre" in games_card_text, "Games card is missing 'By Genre' header"
+    assert "played per year" not in games_card_text, "Outdated 'played per year' phrase still present in Games card!"
+    assert "<strong>By Genre</strong>" in html_text, "Games card missing bold <strong>By Genre</strong> element"
+    print("  ✓ Games card contains subtitle link, platform details, and 'By Genre' header.")
 
     print("\n✓ ALL HOMEPAGE CARDS REGRESSION TESTS PASSED!")
 
