@@ -79,6 +79,16 @@ cd .worktrees/<feature-name> && hugo server --bind 0.0.0.0 --port 1314 -b http:/
    - **CRITICAL Confirmation Workflow:** Never commit and push to remote until the author has tested and explicitly confirmed locally that things are fine. The workflow is: implement -> run test suite (`./scripts/test.ps1` or `./scripts/test.sh`) inside worktree -> verify on preview server (port 1314) -> prompt author to test locally -> commit and push only upon explicit confirmation. Atomic commits with conventional commit messages.
 9. **Sacred Prose Principle:** You can freely iterate on layout containers, HTML templates, CSS classes, and metadata. But do NOT alter the author's writing, phrasing, tone, or opinions in markdown content files. (Simple search/replace for outdated tooling names such as 'mkdocs' -> 'hugo' is permitted).
 10. **Automated Test Mandate for New Code & CI Parity:** Whenever new code, templates, shortcodes, partials, CSS components, or JavaScript behaviors are introduced, Gimli and Legolas MUST author automated regression tests integrated into BOTH `./scripts/test.sh` and the GitHub Actions pipeline (`.github/workflows/ci.yml`) (e.g. dedicated test scripts under `scripts/test_*.py` or `scripts/test_*.js`). Features are never considered complete without automated assertions verifying: (a) structural presence across generated HTML, (b) functional correctness, (c) negative tests preventing unwanted regressions or spurious content, (d) coverage integrity across all affected pages, and (e) execution parity in GitHub CI on every PR and merge.
+11. **GitHub OAuth & Workflow File Protection (`.github/workflows/`):** NEVER modify or commit changes to `.github/workflows/*` unless explicitly requested by the author and using credentials confirmed to have the `workflow` OAuth scope. GitHub will reject pushes touching workflow files with `refusing to allow an OAuth App to create or update workflow without workflow scope`. Always wire new tests into `./scripts/test.ps1` and `./scripts/test.sh`.
+12. **Windows Python UTF-8 Stdout Reconfiguration:** Windows PowerShell console defaults to `cp1252`. Python scripts that print Unicode symbols (e.g. checkmarks `\u2713` or emojis) will crash with `UnicodeEncodeError`. All Python test scripts (`scripts/test_*.py`) MUST include at the top:
+    ```python
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+    if hasattr(sys.stderr, "reconfigure"):
+        sys.stderr.reconfigure(encoding="utf-8")
+    ```
+13. **Stacking Contexts & Z-Index Discipline:** Never assign an integer `z-index` (e.g. `z-index: 1`) to top-level layout containers (`.layout-container`) containing fixed drawers or overlays. An integer `z-index` creates an isolated stacking context that traps high z-index descendants (like a mobile drawer at `z-index: 1200`) beneath root-level overlays (`z-index: 1150`). Layout containers must use `z-index: auto`.
+14. **Minified HTML Assertion Robustness:** Hugo builds using `--minify` strip quotes from simple HTML attributes (e.g. `id=sidebar-overlay` and `class=sidebar-overlay`). Test assertions checking generated HTML in `public/` must use regex that accommodates optional quotes (e.g. `r'id=["\']?element-id["\'\s>]'`).
 
 ## 5. Backlog Management (Todoist Integration)
 The backlog of website features, improvements, and maintenance tasks is tracked in Todoist under the project **`Site updates 🌐`** (ID: `6hWVfCmh7qC5P3HW`) using the `td` CLI (`@doist/todoist-cli`, setup per [Todoist AI guide](https://www.todoist.com/help/todoist/todoist-and-ai/use-todoist-in-gemini-spark-dEb9IBNVY#h_01M1B8SXGM1ZKPKS66P8SK1EMN)).
@@ -114,11 +124,12 @@ When you trigger the `/site-sprint` command (or ask to run an autonomous sprint)
    - **Spec Compliance Auditing:** Verifies that every single acceptance criterion in `docs/specs/<feature-name>.md` is backed by passing automated regression tests.
    - Catches broken links, Hugo warnings, formatting bugs, and Rocket Loader violations.
    - **Autonomous Loop:** If any check fails, sends exact error logs and reproduction steps back to Gimli; repeats until 100% green.
-4. **🧙‍♂️ Gandalf Quality Gate:**
+4. **🧝‍♂️ Elrond (The Wise Arbiter / Code Reviewer & Chronicle Custodian):**
+   - **Independent Code Review:** Audits the complete diff with a fresh pair of eyes before human review, scrutinizing code elegance, edge cases, accessibility, visual hierarchy, and maintainability.
+   - **Retrospective Chronicler & Knowledge Keeper:** Analyzes friction, annoyances, pitfalls, and feedback encountered during the sprint session, converting them into permanent rules codified in `AGENTS.md` and `SKILL.md`.
+   - **Actionable PR Review Comments:** Posts an independent code review comment directly on the GitHub Pull Request (using `gh pr comment` / `gh pr review`). Gimli acts on this feedback and iterates before author hand-off.
+5. **🧙‍♂️ Gandalf Quality Gate & Human Hand-off:**
    - Validates that `docs/specs/<feature-name>.md` is completely up to date and verifies `git diff master` against all signed-off acceptance criteria.
-5. **PR Creation, Automated Background Servers & Living Spec Iteration:**
-   - Commits atomically, pushes `origin/<feature-name>`, raises the PR via `gh pr create`, and automatically posts the PR URL as a comment to the corresponding Todoist task (`td comment add <task-id> --content "PR raised: <url>"`).
-   - **Clean & Meaningful PR Description:** PR descriptions must be concise, professional, and explain what we are trying to fix/build and how. Never include internal Todoist task IDs (which are meaningless outside Todoist) or localhost URLs (which cannot be accessed from GitHub). Keep localhost preview links strictly in the chat briefing to the author.
    - Automatically spins up and verifies background Hugo servers on :1313 (master baseline) and :1314 (candidate feature worktree).
    - Prompts the author with a structured review briefing: live URLs (`http://localhost:1313/` vs `http://localhost:1314/`), PR link, and concrete testing checklist.
    - **Living Spec Iteration:** If author requests changes during review, Gandalf immediately updates `docs/specs/<feature-name>.md`, Gimli edits in the worktree to match, LiveReload on :1314 refreshes the browser immediately, and Legolas re-verifies spec compliance and tests.

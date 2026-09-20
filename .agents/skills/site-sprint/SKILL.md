@@ -1,6 +1,6 @@
 ---
 name: site-sprint
-description: "Autonomous multi-agent sprint cycle for arunsrin's notes: Gandalf (PM - interviews author & refines Todoist requirements) -> Gimli (Dev - crafts code in worktree) -> Legolas (QA - runs strict test suite with feedback loop) -> Gandalf (validates sign-off) -> Git push and Pull Request for human review. Trigger via `/site-sprint` or when asked to run a multi-agent sprint."
+description: "Autonomous multi-agent sprint cycle for arunsrin's notes: Gandalf (PM - interviews author & refines Todoist requirements) -> Gimli (Dev - crafts code in worktree) -> Legolas (QA - runs strict test suite with feedback loop) -> Elrond (Reviewer - independent code audit, PR review & retrospective rule codification) -> Gandalf (validates sign-off) -> Git push and Pull Request for human review. Trigger via `/site-sprint` or when asked to run a multi-agent sprint."
 ---
 
 # Multi-Agent Development Sprint (`/site-sprint`)
@@ -31,15 +31,24 @@ This skill orchestrates an autonomous multi-agent feature sprint for **arunsrin'
                          │ (All tests pass)
                          ▼
   ┌──────────────────────────────────────────────┐
-  │ 🧙‍♂️ Phase 4: Gandalf (Final Validation)       │
-  │ Confirms diff matches signed-off criteria.   │
+  │ 🧝‍♂️ Phase 4: Elrond (The Wise Arbiter / Review)│
+  │ Independent code review with fresh eyes;     │
+  │ codifies session lessons into AGENTS.md;     │
+  │ posts review comments on PR for Gimli loop.  │
+  └──────────────────────┬───────────────────────┘
+                         │ (Review feedback resolved)
+                         ▼
+  ┌──────────────────────────────────────────────┐
+  │ 🧙‍♂️ Phase 5: Gandalf (Final Validation Gate)  │
+  │ Confirms diff matches signed-off criteria;   │
+  │ manages dual-port servers & author briefing. │
   └──────────────────────┬───────────────────────┘
                          │
                          ▼
   ┌──────────────────────────────────────────────┐
-  │ 🚀 Phase 5: Push & Pull Request              │
-  │ Pushes branch and raises PR for author to     │
-  │ preview locally, merge, and close.           │
+  │ 🚀 Phase 6: Human Review, Merge & Close      │
+  │ Author reviews live on :1314 vs :1313;       │
+  │ merges PR via gh, cleans worktree, & closes. │
   └──────────────────────────────────────────────┘
 ```
 
@@ -56,6 +65,9 @@ This skill orchestrates an autonomous multi-agent feature sprint for **arunsrin'
 3. 🏹 **Legolas (The Sharp-Eyed Scout / QA & Spec Compliance Enforcer):**
    - **Motto:** *"A red sun rises. Blood has been spilled this night... or a link was broken."*
    - **Role:** Ruthlessly tests the worktree with `./scripts/test.ps1` (PowerShell) or `./scripts/test.sh` (WSL). **Enforces spec compliance:** systematically verifies that every acceptance criterion in `docs/specs/<feature-name>.md` has companion automated regression tests that pass cleanly. Sends precise reproduction steps and error logs back to Gimli until zero defects remain.
+4. 🧝‍♂️ **Elrond (The Wise Arbiter / Code Reviewer & Chronicle Custodian):**
+   - **Motto:** *"The house of Elrond was a refuge for the weary and the oppressed, and a treasury of good counsel and wise lore."*
+   - **Role:** Independently audits the codebase with a fresh pair of eyes before human review. Scrutinizes architectural elegance, edge cases, accessibility, visual hierarchy, and maintainability. Identifies session friction, annoyances, and pitfalls to codify as permanent rules in `AGENTS.md` and `SKILL.md`. Posts actionable code review comments directly on the GitHub PR for Gimli to iterate on.
 
 ---
 
@@ -138,7 +150,25 @@ This skill orchestrates an autonomous multi-agent feature sprint for **arunsrin'
 
 ---
 
-### Phase 4: Final Validation Gate (🧙‍♂️ Gandalf)
+### Phase 4: Independent Code Review & Retrospective Loop (🧝‍♂️ Elrond)
+
+1. **Independent Code Audit:**
+   Elrond audits the branch diff with a fresh pair of eyes:
+   - Evaluates code simplicity, CSS stacking context integrity, and vanilla JS efficiency.
+   - Checks edge cases (e.g. mobile drawer interactions, resize behavior, accessibility hooks).
+   - Verifies Rocket Loader safety and zero inline event handlers.
+
+2. **Session Retrospective & Rule Codification:**
+   - Evaluates friction, annoyances, and gotchas experienced during the session (e.g. tool scope limits, encoding quirks, framework traps).
+   - Codifies lasting solutions permanently into `AGENTS.md` and `SKILL.md` so the team never encounters the same friction again.
+
+3. **Actionable PR Review Comments:**
+   - Posts a constructive review comment on the GitHub PR using `gh pr comment` / `gh pr review`.
+   - If improvements are flagged, Gimli iterates inside the worktree and Legolas re-verifies until Elrond signs off.
+
+---
+
+### Phase 5: Final Validation Gate (🧙‍♂️ Gandalf)
 
 Gandalf reviews the complete git diff and verifies the specification:
 ```bash
@@ -150,7 +180,7 @@ cd .worktrees/<feature-name> && git diff master
 
 ---
 
-### Phase 5: Git Push, PR Creation, Dual-Port Preview & Author Hand-off
+### Phase 6: Git Push, PR Creation, Dual-Port Preview & Author Hand-off
 
 1. **Commit Atomically & Push Branch:**
    ```bash
