@@ -1,5 +1,6 @@
 ---
-title: "🔒 OpenSSL"
+title: "OpenSSL"
+icon: ":material-lock:{ .anim-bounce }"
 tags:
   - tech
   - security
@@ -7,7 +8,7 @@ tags:
   - cryptography
 ---
 
-# 🔒 OpenSSL
+# :material-lock:{ .anim-bounce } OpenSSL
 
 Some non-openssl [security](security.md) notes are in a sibling page.
 

@@ -1,5 +1,6 @@
 ---
 title: "AI"
+icon: ":material-brain:{ .anim-bounce }"
 tags:
   - tech
   - ai

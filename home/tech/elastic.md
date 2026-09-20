@@ -1,5 +1,6 @@
 ---
 title: "Elastic Stack"
+icon: ":material-magnify:{ .anim-fade }"
 tags:
   - tech
   - elastic

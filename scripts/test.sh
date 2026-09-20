@@ -52,4 +52,7 @@ python3 scripts/test_related_notes.py
 echo "=== 6. Validating Search Relevance & Scoring ==="
 node scripts/test_search.js
 
+echo "=== 7. Validating Tech Folder Animated Emojis ==="
+python3 scripts/test_tech_emojis.py
+
 echo "=== All checks passed successfully! ==="

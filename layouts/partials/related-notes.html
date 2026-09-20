@@ -199,7 +199,7 @@
         <li class="related-note-card">
           <div class="related-note-card-header">
             <a href="{{ .page.RelPermalink }}" class="related-note-link">
-              <span>{{ if .page.IsSection }}📁{{ else }}📄{{ end }}</span>
+              <span>{{ with .page.Params.icon }}{{ . }} {{ else }}{{ if .page.IsSection }}📁{{ else }}📄{{ end }} {{ end }}</span>
               <span>{{ .page.Title }}</span>
             </a>
             <div class="related-note-badges">

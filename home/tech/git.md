@@ -1,5 +1,6 @@
 ---
 title: "Git"
+icon: ":material-database:{ .anim-fade }"
 tags:
   - tech
   - git

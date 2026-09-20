@@ -1,5 +1,6 @@
 ---
 title: "Ansible"
+icon: ":simple-ansible:{ .anim-heart }"
 tags:
   - tech
   - ansible
