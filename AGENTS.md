@@ -76,10 +76,22 @@ The backlog of website features, improvements, and maintenance tasks is tracked 
   ```
 
 ## 6. Multi-Agent Development Workflow (`/site-sprint`)
-When you trigger the `/site-sprint` command (or ask to run an autonomous sprint), an end-to-end multi-agent pipeline is executed:
+When you trigger the `/site-sprint` command (or ask to run an autonomous sprint), an end-to-end multi-agent pipeline is executed by **The Fellowship**:
 
-1. **Product Manager (PM) Agent:** Inspects Todoist backlog (`./scripts/site_sprint.py pick-next`), refines requirements into testable acceptance criteria, and generates `SPEC.md` adhering strictly to all `AGENTS.md` guidelines.
-2. **Developer Agent:** Assigned the task in a dedicated worktree (`.worktrees/<feature-name>`) and implements the code, templates, or styles without touching the author's prose.
-3. **QA / Test Agent:** Runs `./scripts/test.sh` in the worktree. If any step fails, sends error logs and reproduction steps back to the Developer Agent in an automated feedback loop until 100% passing.
-4. **PM Quality Gate:** Reviews the final `git diff master` against `SPEC.md` acceptance criteria to ensure complete fidelity and zero regressions.
-5. **Human PR Hand-off:** Commits atomically, pushes the branch to `origin/<feature-name>`, and creates a Pull Request for human verification, review, and final merge.
+1. **🧙‍♂️ Gandalf (The Strategist / PM):**
+   - Inspects the Todoist backlog (`./scripts/site_sprint.py pick-next`).
+   - Analyzes codebase and architecture.
+   - **Interactive Human Gate:** Asks you clarifying implementation questions and design tradeoffs.
+   - **Sign-off:** Once you explicitly sign off, writes the approved specification to `<worktree>/SPEC.md` and hands off to the background crew.
+2. **⚒️ Gimli (The Code Smith / Dev):**
+   - Works seamlessly in the background inside an isolated worktree (`.worktrees/<feature-name>`).
+   - Crafts templates, styles, and logic adhering strictly to `AGENTS.md` (Sacred Prose, zero bloat, vanilla JS, Cloudflare safety).
+3. **🏹 Legolas (The Sharp-Eyed Scout / QA):**
+   - Executes `./scripts/test.sh` in the worktree.
+   - Catches broken links, Hugo warnings, and Rocket Loader violations.
+   - **Autonomous Loop:** If any check fails, sends exact error logs and reproduction steps back to Gimli; repeats until 100% green.
+4. **🧙‍♂️ Gandalf Quality Gate:**
+   - Validates the final `git diff master` against the signed-off acceptance criteria.
+5. **Human PR Hand-off:**
+   - Commits atomically, pushes `origin/<feature-name>`, and creates a Pull Request for you to preview locally, merge, and close the task in Todoist.
+

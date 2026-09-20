@@ -1,121 +1,144 @@
 ---
 name: site-sprint
-description: "Autonomous multi-agent sprint cycle for arunsrin's notes: Product Manager (refines/creates Todoist requirements) -> Developer (implements in an isolated worktree) -> QA Tester (executes strict test suites with automated feedback loop) -> PM (validates acceptance criteria) -> Git push and Pull Request for human review. Trigger via `/site-sprint` or when asked to run a multi-agent sprint."
+description: "Autonomous multi-agent sprint cycle for arunsrin's notes: Gandalf (PM - interviews author & refines Todoist requirements) -> Gimli (Dev - crafts code in worktree) -> Legolas (QA - runs strict test suite with feedback loop) -> Gandalf (validates sign-off) -> Git push and Pull Request for human review. Trigger via `/site-sprint` or when asked to run a multi-agent sprint."
 ---
 
 # Multi-Agent Development Sprint (`/site-sprint`)
 
-This skill orchestrates a complete autonomous multi-agent feature sprint for **arunsrin's notes** ([https://www.arunsr.in](https://www.arunsr.in)).
+This skill orchestrates an autonomous multi-agent feature sprint for **arunsrin's notes** ([https://www.arunsr.in](https://www.arunsr.in)).
 
 ```
-  ┌────────────────────────┐
-  │ 1. Product Manager     │  Queries Todoist ('Site updates 🌐'), selects highest
-  │    (PM) Agent          │  priority task, refines requirements into SPEC.md.
-  └───────────┬────────────┘
-              │
-              ▼
-  ┌────────────────────────┐
-  │ 2. Developer Agent     │  Creates isolated git worktree (.worktrees/<name>)
-  │                        │  and implements feature adhering to AGENTS.md rules.
-  └───────────┬────────────┘
-              │
-              ▼
-  ┌────────────────────────┐
-  │ 3. QA / Test Agent     │  Executes ./scripts/test.sh inside worktree.
-  │                        │  Loops back to Developer on failure with error logs.
-  └───────────┬────────────┘
-              │ (All tests pass)
-              ▼
-  ┌────────────────────────┐
-  │ 4. PM Validation       │  Validates git diff against SPEC.md acceptance criteria.
-  └───────────┬────────────┘
-              │
-              ▼
-  ┌────────────────────────┐
-  │ 5. Push & Pull Request │  Pushes branch, creates PR, and notifies human author
-  │    (Human Review)      │  for final local preview, merge, and closing the task.
-  └────────────────────────┘
+  ┌──────────────────────────────────────────────┐
+  │ 🧙‍♂️ Phase 1: Gandalf (The Strategist / PM)     │
+  │ Queries Todoist backlog ('Site updates 🌐'), │
+  │ interviews the author on implementation,     │
+  │ and secures explicit human sign-off.         │
+  └──────────────────────┬───────────────────────┘
+                         │ (Human Sign-off)
+                         ▼
+  ┌──────────────────────────────────────────────┐
+  │ ⚒️ Phase 2: Gimli (The Code Smith / Dev)     │
+  │ Crafts feature inside isolated git worktree   │
+  │ (.worktrees/<name>) in the background.       │
+  └──────────────────────┬───────────────────────┘
+                         │
+                         ▼
+  ┌──────────────────────────────────────────────┐
+  │ 🏹 Phase 3: Legolas (The Scout / QA Tester)  │
+  │ Runs ./scripts/test.sh; catches regressions; │
+  │ loops feedback to Gimli until 100% green.    │
+  └──────────────────────┬───────────────────────┘
+                         │ (All tests pass)
+                         ▼
+  ┌──────────────────────────────────────────────┐
+  │ 🧙‍♂️ Phase 4: Gandalf (Final Validation)       │
+  │ Confirms diff matches signed-off criteria.   │
+  └──────────────────────┬───────────────────────┘
+                         │
+                         ▼
+  ┌──────────────────────────────────────────────┐
+  │ 🚀 Phase 5: Push & Pull Request              │
+  │ Pushes branch and raises PR for author to     │
+  │ preview locally, merge, and close.           │
+  └──────────────────────────────────────────────┘
 ```
+
+---
+
+## The Fellowship (Agent Personas)
+
+1. 🧙‍♂️ **Gandalf (The Strategist / Product Manager):**
+   - **Motto:** *"All we have to decide is what to do with the time that is given us."*
+   - **Role:** Queries Todoist, analyzes architecture, interviews the human author with clarifying questions and implementation choices, and writes the authoritative `SPEC.md`.
+2. ⚒️ **Gimli (The Code Smith / Developer):**
+   - **Motto:** *"Faithless is he that says farewell when the road darkens."*
+   - **Role:** Works in the background inside an isolated worktree (`.worktrees/<name>`). Implements HTML, CSS, JS, and Hugo templates strictly adhering to `AGENTS.md` (Sacred Prose, zero bloat, vanilla JS, Cloudflare safety).
+3. 🏹 **Legolas (The Sharp-Eyed Scout / QA Tester):**
+   - **Motto:** *"A red sun rises. Blood has been spilled this night... or a link was broken."*
+   - **Role:** Ruthlessly tests the worktree with `./scripts/test.sh` (strict Hugo build, valid JSON indexes, 19k+ link audit, Rocket Loader safety, JS tests). Sends precise reproduction steps and error logs back to Gimli until zero defects remain.
 
 ---
 
 ## Sprint Execution Procedure
 
-When `/site-sprint` is invoked, the orchestrating agent executes the following 5 phases:
-
-### Phase 1: Product Manager Agent (`pm-agent`)
+### Phase 1: Interactive Scoping & Human Sign-off (🧙‍♂️ Gandalf)
 
 1. **Backlog Inspection:**
-   Run `./scripts/site_sprint.py pick-next` (or query Todoist directly: `td task list --project "Site updates 🌐" --labels "llm-task" --json`).
+   Inspect Todoist:
+   ```bash
+   ./scripts/site_sprint.py pick-next
+   # or: td task list --project "Site updates 🌐" --labels "llm-task" --json
+   ```
    - If tasks are present: pick the highest-priority pending task.
-   - If no tasks are present or user asked for ideas: audit current digital garden notes/templates, formulate a high-value requirement, add the task to Todoist (`td task add ...`), and proceed.
+   - If no tasks are present or user asked for ideas: audit digital garden notes/templates, formulate a high-value requirement, add the task to Todoist (`td task add ...`), and proceed.
 
-2. **Requirements Refinement (`SPEC.md`):**
-   Produce a crisp, unambiguous specification saved at `<worktree>/SPEC.md` covering:
-   - **Task Context & User Story:** Summary and goal.
-   - **Acceptance Criteria:** Numbered, testable criteria.
-   - **Architectural Guardrails (from [AGENTS.md](file:///home/arunsrin/code/arunsrin.mkdocs/AGENTS.md)):**
-     - *Sacred Prose Principle:* Writing/text in notes and reviews must NEVER be rewritten.
-     - *Zero Bloat:* Vanilla deferred JS and lightweight CSS only (no heavy frameworks).
-     - *Light Blue Identity:* Turquoise-to-sky-blue header gradient (`#40E0D0` to `#2fa4e7`).
-     - *Cloudflare Safety:* No inline event handlers; cache-busting on static assets.
-     - *Hugo CI Parity:* Zero warnings with `--panicOnWarning`.
+2. **Codebase & Architectural Analysis:**
+   Inspect related files, templates, styles, and data structures. Identify potential tradeoffs, UX choices, or edge cases.
+
+3. **Interactive Human Interview & Sign-off Gate:**
+   - Present the proposed feature, approach, and options to the author.
+   - Ask clarifying implementation questions (e.g. design preferences, content sources, scope limits).
+   - **CRITICAL GATE:** Do NOT dispatch background agents until the human author answers and explicitly confirms/signs off (e.g. "Proceed", "Looks good", or specific direction).
+
+4. **Generate Approved `SPEC.md`:**
+   Once sign-off is received, write `<worktree>/SPEC.md` containing:
+   - User Story & Context
+   - Numbered, verifiable Acceptance Criteria
+   - Core Guardrails from [AGENTS.md](file:///home/arunsrin/code/arunsrin.mkdocs/AGENTS.md) (Sacred Prose, zero bloat, light blue visual theme, Rocket Loader safety).
 
 ---
 
-### Phase 2: Developer Agent (`dev-agent`)
+### Phase 2: Background Code Crafting (⚒️ Gimli)
 
-1. **Isolated Worktree Setup:**
-   Ensure the main working tree remains permanently on `master`. Create a dedicated worktree:
+1. **Isolated Worktree Creation:**
+   Ensure the main repository tree permanently stays on `master`:
    ```bash
    git worktree add -b <feature-name> .worktrees/<feature-name> master
    ```
 
 2. **Implementation:**
-   Implement code and template changes inside `.worktrees/<feature-name>`:
-   - Create or edit files in `layouts/`, `home/css/`, `home/static/`, or `scripts/`.
-   - Respect HTML container balance (e.g. `<div class="grid cards" markdown>`).
-   - Ensure all DOM queries wait for `DOMContentLoaded`.
+   Gimli implements all requirements specified in `SPEC.md` within `.worktrees/<feature-name>`:
+   - Clean, lightweight vanilla JS (no frameworks).
+   - Responsive styling adhering to the light blue gradient theme.
+   - No modification to existing author prose in markdown files.
+   - Tags properly closed and balanced.
 
 ---
 
-### Phase 3: QA / Test Agent (`qa-agent`) & Feedback Loop
+### Phase 3: Background QA Verification Loop (🏹 Legolas)
 
-1. **Test Execution:**
-   Run the test runner inside the worktree:
+1. **Automated Test Run:**
+   Legolas executes the strict test suite inside the worktree:
    ```bash
    ./scripts/site_sprint.py run-tests .worktrees/<feature-name>
-   # or directly:
-   cd .worktrees/<feature-name> && ./scripts/test.sh
+   # or: cd .worktrees/<feature-name> && ./scripts/test.sh
    ```
 
 2. **Automated Feedback Loop:**
-   - **If any test fails (Hugo build error, invalid JSON, broken internal link, Rocket Loader violation):**
-     1. Capture failure stdout and stderr.
-     2. Send exact logs and root cause diagnosis back to the Developer Agent.
-     3. Developer Agent fixes the issue in `.worktrees/<feature-name>`.
-     4. QA Agent re-tests. (Repeat until 100% passing or maximum 3 iterations).
-   - **If all 9 tests pass:**
-     Issue QA sign-off log.
+   - **On Any Failure (Exit code != 0):**
+     1. Legolas captures exact failing logs, stack traces, and affected files.
+     2. Formulates a targeted bug report for Gimli.
+     3. Gimli applies fixes in the worktree.
+     4. Legolas re-tests. (Repeats seamlessly in the background up to 3 iterations).
+   - **On Complete Pass (All 9 suites green, 0 Hugo warnings):**
+     Legolas issues a QA sign-off certification.
 
 ---
 
-### Phase 4: PM Validation & Quality Gate
+### Phase 4: Final Validation Gate (🧙‍♂️ Gandalf)
 
-The Product Manager agent inspects the final git diff:
+Gandalf reviews the complete git diff:
 ```bash
 cd .worktrees/<feature-name> && git diff master
 ```
-- Validate every acceptance criterion from `SPEC.md` is met.
-- Ensure no accidental changes were made to markdown author notes.
-- Verify no extraneous files or secrets are staged.
+- Confirms every signed-off acceptance criterion in `SPEC.md` is fulfilled.
+- Verifies no accidental edits to author content or unwanted artifacts.
 
 ---
 
-### Phase 5: Push & PR Creation for Human Sign-off
+### Phase 5: Git Push & Human Hand-off
 
-1. **Commit & Push:**
-   Commit inside the worktree using conventional commit messages:
+1. **Commit Atomically:**
    ```bash
    cd .worktrees/<feature-name>
    git add -A
@@ -123,21 +146,11 @@ cd .worktrees/<feature-name> && git diff master
    git push -u origin <feature-name>
    ```
 
-2. **Raise Pull Request:**
-   Create the GitHub PR using `gh pr create` (or output the branch comparison URL `https://github.com/arunsrin/arunsrin/pull/new/<feature-name>`):
-   ```markdown
-   ### Summary of Changes
-   - Implemented <feature> per Todoist task <id>
+2. **Create Pull Request:**
+   Raise PR using `gh pr create` (or provide the GitHub branch PR URL):
+   - Include summary of changes.
+   - Include signed-off acceptance criteria checklist.
+   - Include QA test pass confirmation.
 
-   ### Acceptance Criteria Checklist
-   - [x] Criteria 1
-   - [x] Criteria 2
-
-   ### Verification
-   - Strict Hugo build: 0 warnings
-   - Internal links: 100% valid
-   - Safety tests: 9/9 passing
-   ```
-
-3. **Human Handoff:**
-   Present the PR link and testing summary to the human author. The author reviews on preview server, merges, and closes the task.
+3. **Hand-off to Human Author:**
+   Notify the author: *"The Fellowship has completed the quest! PR is ready for your local preview, final merge, and closing the task."*
