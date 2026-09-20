@@ -64,13 +64,14 @@ This skill orchestrates an autonomous multi-agent feature sprint for **arunsrin'
 ### Phase 1: Interactive Scoping & Human Sign-off (🧙‍♂️ Gandalf)
 
 1. **Backlog Inspection:**
-   Inspect Todoist:
+   Inspect Todoist for groomed tasks ready for execution:
    ```bash
    ./scripts/site_sprint.py pick-next
-   # or: td task list --project "Site updates 🌐" --labels "llm-task" --json
+   # or: td task list --project "Site updates 🌐" --filter "@llm-task & @next" --json
    ```
-   - If tasks are present: pick the highest-priority pending task.
-   - If no tasks are present or user asked for ideas: audit digital garden notes/templates, formulate a high-value requirement, add the task to Todoist (`td task add ...`), and proceed.
+   - **Groomed Tasks (`llm-task` + `next`):** Pick the highest-priority task that has been reviewed and groomed by the author (tagged with both `llm-task` and `next`).
+   - **If no groomed tasks are found:** Check `./scripts/site_sprint.py status`. Inform the author of any pending ungroomed AI tasks (`llm-task` only) awaiting their review and `next` tag, or audit digital garden notes/templates to propose new candidate tasks.
+   - Do NOT pick or execute tasks that lack the `next` tag without explicit human instruction.
 
 2. **Codebase & Architectural Analysis:**
    Inspect related files, templates, styles, and data structures. Identify potential tradeoffs, UX choices, or edge cases.

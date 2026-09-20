@@ -64,14 +64,17 @@ hugo server --bind 0.0.0.0 --port 1313 -b http://localhost:1313/
 The backlog of website features, improvements, and maintenance tasks is tracked in Todoist under the project **`Site updates 🌐`** (ID: `6hWVfCmh7qC5P3HW`) using the `td` CLI (`@doist/todoist-cli`, setup per [Todoist AI guide](https://www.todoist.com/help/todoist/todoist-and-ai/use-todoist-in-gemini-spark-dEb9IBNVY#h_01M1B8SXGM1ZKPKS66P8SK1EMN)).
 
 - **Actionable AI Tasks (`llm-task`):** Tasks designated for the agent to implement are tagged with the label `llm-task`.
+- **Groomed & Execution-Ready (`next`):** Tasks in the backlog that have been reviewed, groomed, and explicitly approved by the author for execution are additionally tagged with the label `next`. The `/site-sprint` workflow strictly scopes tasks matching **both** labels (`llm-task` AND `next`).
 - **Capturing New Ideas:** Whenever we discuss or conceive new ideas for the website, automatically create a corresponding task in `Site updates 🌐` with a detailed explanation and acceptance criteria in the description, tagged with `llm-task`:
   ```bash
   td task add "<Task Summary>" --project "Site updates 🌐" --labels "llm-task" --description "<Detailed explanation and acceptance criteria>"
   ```
 - **Picking Up Backlog Tasks:** To check for pending tasks:
   ```bash
-  td task list --project "Site updates 🌐" --labels "llm-task" --json
-  # or using the sprint helper:
+  # Check groomed tasks ready for sprint execution:
+  td task list --project "Site updates 🌐" --filter "@llm-task & @next" --json
+
+  # Or check full backlog status (groomed vs ungroomed) using the sprint helper:
   ./scripts/site_sprint.py status
   ```
 

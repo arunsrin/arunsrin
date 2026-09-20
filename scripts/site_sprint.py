@@ -8,7 +8,7 @@ from typing import Any, Dict, List, Optional
 
 PROJECT_NAME = "Site updates 🌐"
 PROJECT_ID = "6hWVfCmh7qC5P3HW"
-REQUIRED_LABEL = "llm-task"
+REQUIRED_LABELS = ["llm-task", "next"]
 
 
 def run_cmd(cmd: List[str], cwd: Optional[str] = None) -> subprocess.CompletedProcess:
@@ -40,33 +40,50 @@ def get_pending_tasks() -> List[Dict[str, Any]]:
         return []
 
 
-def filter_llm_tasks(tasks: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    """Filter tasks tagged with llm-task and sort by priority descending."""
-    llm_tasks = [
+def filter_llm_tasks(tasks: List[Dict[str, Any]], require_next: bool = True) -> List[Dict[str, Any]]:
+    """Filter tasks tagged with required labels and sort by priority descending."""
+    targets = REQUIRED_LABELS if require_next else ["llm-task"]
+    matched = [
         t for t in tasks
-        if REQUIRED_LABEL in t.get("labels", []) and not t.get("checked", False)
+        if all(lbl in t.get("labels", []) for lbl in targets) and not t.get("checked", False)
     ]
     # Priority 4 is highest in Todoist API, 1 is lowest
-    llm_tasks.sort(key=lambda t: t.get("priority", 1), reverse=True)
-    return llm_tasks
+    matched.sort(key=lambda t: t.get("priority", 1), reverse=True)
+    return matched
 
 
 def cmd_status():
     """Print current sprint status (backlog tasks and active worktrees)."""
     print(f"=== Todoist Backlog Status ({PROJECT_NAME}) ===")
     all_tasks = get_pending_tasks()
-    llm_tasks = filter_llm_tasks(all_tasks)
+    groomed_tasks = filter_llm_tasks(all_tasks, require_next=True)
+    ungroomed_tasks = [
+        t for t in all_tasks
+        if "llm-task" in t.get("labels", []) and "next" not in t.get("labels", []) and not t.get("checked", False)
+    ]
+    ungroomed_tasks.sort(key=lambda t: t.get("priority", 1), reverse=True)
 
-    print(f"Total open tasks: {len(all_tasks)}")
-    print(f"Actionable AI tasks ('{REQUIRED_LABEL}'): {len(llm_tasks)}")
+    print(f"Total open tasks in project: {len(all_tasks)}")
+    print(f"Groomed & ready for execution ('llm-task' + 'next'): {len(groomed_tasks)}")
     print("-" * 60)
-    for i, t in enumerate(llm_tasks, 1):
-        tid = t.get("id")
-        prio = f"P{5 - t.get('priority', 1)}" # convert API 4->P1, 1->P4
-        content = t.get("content")
-        desc = t.get("description", "").strip()
-        desc_preview = f" - {desc[:60]}..." if desc else ""
-        print(f"{i}. [{prio}] ({tid}) {content}{desc_preview}")
+    if groomed_tasks:
+        for i, t in enumerate(groomed_tasks, 1):
+            tid = t.get("id")
+            prio = f"P{5 - t.get('priority', 1)}" # convert API 4->P1, 1->P4
+            content = t.get("content")
+            desc = t.get("description", "").strip()
+            desc_preview = f" - {desc[:60]}..." if desc else ""
+            print(f"{i}. [{prio}] ({tid}) {content}{desc_preview}")
+    else:
+        print("No groomed tasks marked with 'next'.")
+
+    if ungroomed_tasks:
+        print(f"\nUngroomed AI backlog ('llm-task' awaiting 'next' tag): {len(ungroomed_tasks)}")
+        for i, t in enumerate(ungroomed_tasks, 1):
+            tid = t.get("id")
+            prio = f"P{5 - t.get('priority', 1)}"
+            content = t.get("content")
+            print(f"  - [{prio}] ({tid}) {content}")
 
     print("\n=== Active Git Worktrees ===")
     proc = run_cmd(["git", "worktree", "list"])
@@ -77,13 +94,16 @@ def cmd_status():
 
 
 def cmd_pick_next():
-    """Output the next highest priority task as structured JSON for the PM agent."""
+    """Output the next highest priority task matching both 'llm-task' and 'next' as JSON for the PM agent."""
     all_tasks = get_pending_tasks()
-    llm_tasks = filter_llm_tasks(all_tasks)
-    if not llm_tasks:
-        print(json.dumps({"task": None, "message": f"No pending tasks tagged '{REQUIRED_LABEL}'"}))
+    ready_tasks = filter_llm_tasks(all_tasks, require_next=True)
+    if not ready_tasks:
+        print(json.dumps({
+            "task": None,
+            "message": "No pending tasks tagged with both 'llm-task' and 'next'. Please review the backlog in Todoist and add the 'next' label to tasks ready for execution."
+        }, indent=2))
         return
-    next_task = llm_tasks[0]
+    next_task = ready_tasks[0]
     print(json.dumps({"task": next_task}, indent=2))
 
 
