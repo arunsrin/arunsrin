@@ -89,25 +89,25 @@ The backlog of website features, improvements, and maintenance tasks is tracked 
 ## 6. Multi-Agent Development Workflow (`/site-sprint`)
 When you trigger the `/site-sprint` command (or ask to run an autonomous sprint), an end-to-end multi-agent pipeline is executed by **The Fellowship**:
 
-1. **🧙‍♂️ Gandalf (The Strategist / PM):**
+1. **🧙‍♂️ Gandalf (The Strategist / Living Spec Custodian):**
    - Inspects the Todoist backlog (`./scripts/site_sprint.py pick-next`).
    - Analyzes codebase and architecture.
    - **Interactive Human Gate:** Asks you clarifying implementation questions and design tradeoffs.
-   - **Sign-off:** Once you explicitly sign off, writes the approved specification to `docs/specs/<feature-name>.md` and hands off to the background crew.
+   - **Living Spec Ownership:** Once you explicitly sign off, writes the approved specification to `docs/specs/<feature-name>.md`. Throughout development and review iterations, Gandalf **continuously updates the specification** as requirements evolve or edge cases are uncovered, ensuring the spec remains the living source of truth.
 2. **⚒️ Gimli (The Code Smith / Dev):**
    - Works seamlessly in the background inside an isolated worktree (`.worktrees/<feature-name>`).
-   - Crafts templates, styles, logic, and companion automated regression tests adhering strictly to `AGENTS.md` (Sacred Prose, zero bloat, vanilla JS, Cloudflare safety, test coverage).
-3. **🏹 Legolas (The Sharp-Eyed Scout / QA):**
+   - Crafts templates, styles, logic, and companion automated regression tests in **strict compliance** with `docs/specs/<feature-name>.md` and `AGENTS.md` (Sacred Prose, zero bloat, vanilla JS, Cloudflare safety, test coverage).
+3. **🏹 Legolas (The Sharp-Eyed Scout / QA & Spec Compliance Enforcer):**
    - Executes `./scripts/test.sh` in the worktree.
-   - Verifies automated regression tests exist and pass for all newly introduced code.
+   - **Spec Compliance Auditing:** Verifies that every single acceptance criterion in `docs/specs/<feature-name>.md` is backed by passing automated regression tests.
    - Catches broken links, Hugo warnings, formatting bugs, and Rocket Loader violations.
    - **Autonomous Loop:** If any check fails, sends exact error logs and reproduction steps back to Gimli; repeats until 100% green.
 4. **🧙‍♂️ Gandalf Quality Gate:**
-   - Validates the final `git diff master` against the signed-off acceptance criteria.
-5. **PR Creation, Dual-Port Preview & Iterative Review:**
+   - Validates that `docs/specs/<feature-name>.md` is completely up to date and verifies `git diff master` against all signed-off acceptance criteria.
+5. **PR Creation, Dual-Port Preview & Living Spec Iteration:**
    - Commits atomically, pushes `origin/<feature-name>`, raises the PR via `gh pr create`, and automatically posts the PR URL as a comment to the corresponding Todoist task (`td comment add <task-id> --content "PR raised: <url>"`).
    - Prompts the author with a structured review briefing: PR URL, dedicated preview URL (`http://localhost:1314/`), and concrete testing checklist.
-   - **Iteration:** If author requests changes, Gimli edits in the worktree, LiveReload on :1314 refreshes the browser immediately, and Legolas re-verifies.
+   - **Living Spec Iteration:** If author requests changes during review, Gandalf immediately updates `docs/specs/<feature-name>.md`, Gimli edits in the worktree to match, LiveReload on :1314 refreshes the browser immediately, and Legolas re-verifies spec compliance and tests.
    - **Merge & Cleanup:** Upon explicit author sign-off, merges PR via `gh pr merge`, pulls master in root repo, removes worktree, and completes the Todoist task.
 
 
