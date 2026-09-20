@@ -118,23 +118,26 @@ When you trigger the `/site-sprint` command (or ask to run an autonomous sprint)
 1. **🧙‍♂️ Gandalf (The Strategist / Living Spec Custodian):**
    - Inspects the Todoist backlog (`python scripts/site_sprint.py pick-next`).
    - Analyzes codebase and architecture.
-   - **Interactive Human Gate:** Asks you clarifying implementation questions and design tradeoffs.
+   - **Interactive Human Gate:** Asks clarifying implementation questions and design tradeoffs.
    - **Living Spec Ownership:** Once you explicitly sign off, writes the approved specification to `docs/specs/<feature-name>.md`. Throughout development and review iterations, Gandalf **continuously updates the specification** as requirements evolve or edge cases are uncovered, ensuring the spec remains the living source of truth.
-2. **⚒️ Gimli (The Code Smith / Dev):**
-   - Works seamlessly in the background inside an isolated worktree (`.worktrees/<feature-name>`).
-   - Crafts templates, styles, logic, and companion automated regression tests in **strict compliance** with `docs/specs/<feature-name>.md` and `AGENTS.md` (Sacred Prose, zero bloat, vanilla JS, Cloudflare safety, test coverage).
-3. **🏹 Legolas (The Sharp-Eyed Scout / QA & Spec Compliance Enforcer):**
-   - Executes `./scripts/test.ps1` (or `./scripts/test.sh`) in the worktree.
-   - **Spec Compliance Auditing:** Verifies that every single acceptance criterion in `docs/specs/<feature-name>.md` is backed by passing automated regression tests.
-   - Catches broken links, Hugo warnings, formatting bugs, and Rocket Loader violations.
-   - **Autonomous Loop:** If any check fails, sends exact error logs and reproduction steps back to Gimli; repeats until 100% green.
-4. **🧝‍♂️ Elrond (The Wise Arbiter / Code Reviewer & Chronicle Custodian):**
-   - **Interruption-Free Independent Review:** Runs in a clean read-only subagent context with zero permission friction. Audits the diff against master with fresh eyes using `view_file` to evaluate code elegance, edge cases, accessibility, visual hierarchy, and maintainability.
-   - **Retrospective Chronicler & Knowledge Keeper:** Analyzes friction, annoyances, pitfalls, and feedback encountered during the sprint session, converting them into permanent rules codified in `AGENTS.md` and `SKILL.md`.
-   - **Structured Review Verdict:** Formulates actionable feedback and verdict; Gandalf automatically posts the review comment to the GitHub PR (`gh pr comment`) and Gimli iterates if needed before human review.
-5. **🧙‍♂️ Gandalf Quality Gate & Human Hand-off:**
-   - Validates that `docs/specs/<feature-name>.md` is completely up to date and verifies `git diff master` against all signed-off acceptance criteria.
+
+2. **🔄 The Triad Recursive Loop (Gimli ⇄ Legolas ⇄ Elrond):**
+   Steps 2, 3, and 4 form an autonomous recursive convergence loop that runs iteratively in the background until unanimous consensus is achieved:
+   - **⚒️ Gimli (The Code Smith / Dev):** Works seamlessly in an isolated worktree (`.worktrees/<feature-name>`), crafting templates, styles, logic, and companion automated regression tests in strict compliance with `docs/specs/<feature-name>.md` and `AGENTS.md` (Sacred Prose, zero bloat, vanilla JS, Cloudflare safety, test coverage).
+   - **🏹 Legolas (The Sharp-Eyed Scout / QA & Spec Compliance Enforcer):** Executes the strict test suite (`./scripts/test.ps1` / `./scripts/test.sh`) inside the worktree. Audits that all new code has passing regression tests. If any failure occurs, sends targeted bug reports back to Gimli; repeats until 100% green.
+   - **🧝‍♂️ Elrond (The Wise Arbiter / Code Reviewer & Chronicle Custodian):** Audits the green diff with fresh eyes in a zero-interruption read-only context (`enable_write_tools: false`) using `view_file`. Scrutinizes code elegance, edge cases, accessibility, visual hierarchy, and maintainability.
+     - **Recursive Trigger:** If Elrond flags feedback or requests changes (`🔴 Request Changes`), it **automatically triggers Gimli** to update code and tests, **Gimli's update triggers Legolas** to re-test, and **Legolas's green run triggers Elrond** to re-review.
+     - Codifies session friction, gotchas, and annoyances permanently into `AGENTS.md` and `SKILL.md`.
+     - The Triad loop repeats until **unanimous consensus** is reached (all tests green + Elrond grants `🟢 Approved without reservations`).
+
+3. **🧙‍♂️ Gandalf (Consensus Synthesis, Author Briefing & Gate):**
+   - Confirms unanimous consensus among Gimli, Legolas, and Elrond.
+   - Validates that `docs/specs/<feature-name>.md` is completely up to date with all architectural decisions and edge cases resolved during the Triad loop.
+   - Commits atomically, pushes branch to origin, and posts Elrond's structured review directly to the PR via `gh pr comment`.
    - Automatically spins up and verifies background Hugo servers on :1313 (master baseline) and :1314 (candidate feature worktree).
-   - Prompts the author with a structured review briefing: live URLs (`http://localhost:1313/` vs `http://localhost:1314/`), PR link, and concrete testing checklist.
-   - **Living Spec Iteration:** If author requests changes during review, Gandalf immediately updates `docs/specs/<feature-name>.md`, Gimli edits in the worktree to match, LiveReload on :1314 refreshes the browser immediately, and Legolas re-verifies spec compliance and tests.
-   - **Merge & Cleanup:** Upon explicit author sign-off, merges PR via `gh pr merge`, pulls master in root repo, removes worktree, and completes the Todoist task.
+   - Synthesizes a comprehensive briefing to the author: problem/solution summary, consensus confirmation, live URLs (`http://localhost:1313/` vs `http://localhost:1314/`), PR link, and concrete testing checklist asking for final sign-off.
+
+4. **🚀 Human Sign-off, Merge & Cleanup:**
+   - Author reviews live on :1314 vs :1313 and grants sign-off.
+   - If author requests changes during review, the Triad loop iterates (Gimli -> Legolas -> Elrond) while Hugo LiveReload updates :1314 in real time.
+   - Upon explicit author sign-off, Gandalf merges the PR via `gh pr merge`, pulls master in root repo, safely removes the worktree, and completes the Todoist task.

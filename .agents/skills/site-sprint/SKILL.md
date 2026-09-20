@@ -1,6 +1,6 @@
 ---
 name: site-sprint
-description: "Autonomous multi-agent sprint cycle for arunsrin's notes: Gandalf (PM - interviews author & refines Todoist requirements) -> Gimli (Dev - crafts code in worktree) -> Legolas (QA - runs strict test suite with feedback loop) -> Elrond (Reviewer - independent code audit, PR review & retrospective rule codification) -> Gandalf (validates sign-off) -> Git push and Pull Request for human review. Trigger via `/site-sprint` or when asked to run a multi-agent sprint."
+description: "Autonomous multi-agent sprint cycle for arunsrin's notes: Gandalf (PM - interviews author & refines Todoist requirements) -> The Triad Recursive Loop (Gimli Dev ⇄ Legolas QA ⇄ Elrond Review until consensus) -> Gandalf (synthesis & author briefing) -> Agent-executed merge upon author sign-off. Trigger via `/site-sprint` or when asked to run a multi-agent sprint."
 ---
 
 # Multi-Agent Development Sprint (`/site-sprint`)
@@ -8,48 +8,56 @@ description: "Autonomous multi-agent sprint cycle for arunsrin's notes: Gandalf 
 This skill orchestrates an autonomous multi-agent feature sprint for **arunsrin's notes** ([https://www.arunsr.in](https://www.arunsr.in)).
 
 ```
-  ┌──────────────────────────────────────────────┐
-  │ 🧙‍♂️ Phase 1: Gandalf (The Strategist / PM)     │
-  │ Queries Todoist backlog ('Site updates 🌐'), │
-  │ interviews the author on implementation,     │
-  │ and secures explicit human sign-off.         │
-  └──────────────────────┬───────────────────────┘
-                         │ (Human Sign-off)
-                         ▼
-  ┌──────────────────────────────────────────────┐
-  │ ⚒️ Phase 2: Gimli (The Code Smith / Dev)     │
-  │ Crafts feature inside isolated git worktree   │
-  │ (.worktrees/<name>) in the background.       │
-  └──────────────────────┬───────────────────────┘
-                         │
-                         ▼
-  ┌──────────────────────────────────────────────┐
-  │ 🏹 Phase 3: Legolas (The Scout / QA Tester)  │
-  │ Runs ./scripts/test.sh; catches regressions; │
-  │ loops feedback to Gimli until 100% green.    │
-  └──────────────────────┬───────────────────────┘
-                         │ (All tests pass)
-                         ▼
-  ┌──────────────────────────────────────────────┐
-  │ 🧝‍♂️ Phase 4: Elrond (The Wise Arbiter / Review)│
-  │ Independent code review with fresh eyes;     │
-  │ codifies session lessons into AGENTS.md;     │
-  │ posts review comments on PR for Gimli loop.  │
-  └──────────────────────┬───────────────────────┘
-                         │ (Review feedback resolved)
-                         ▼
-  ┌──────────────────────────────────────────────┐
-  │ 🧙‍♂️ Phase 5: Gandalf (Final Validation Gate)  │
-  │ Confirms diff matches signed-off criteria;   │
-  │ manages dual-port servers & author briefing. │
-  └──────────────────────┬───────────────────────┘
-                         │
-                         ▼
-  ┌──────────────────────────────────────────────┐
-  │ 🚀 Phase 6: Human Sign-off, Merge & Cleanup  │
-  │ Author reviews live and gives sign-off;      │
-  │ Gandalf merges PR, cleans worktree & closes. │
-  └──────────────────────────────────────────────┘
+  ┌─────────────────────────────────────────────────────────────┐
+  │ 🧙‍♂️ Phase 1: Gandalf (The Strategist / PM)                    │
+  │ Queries Todoist backlog ('Site updates 🌐'),                │
+  │ interviews the author on implementation,                    │
+  │ and secures explicit human sign-off on living spec.         │
+  └──────────────────────────────┬──────────────────────────────┘
+                                 │ (Human Sign-off)
+                                 ▼
+   ╔═══════════════════════════════════════════════════════════╗
+   ║        🔄 The Triad Recursive Loop (Phases 2-4)           ║
+   ║                                                           ║
+   ║  ┌─────────────────────────────────────────────────────┐  ║
+   ║  │ ⚒️ Phase 2: Gimli (The Code Smith / Dev)            │◄─╫──┐
+   ║  │ Crafts feature & regression tests in worktree.      │  ║  │
+   ║  └──────────────────────────┬──────────────────────────┘  ║  │
+   ║                             │                             ║  │
+   ║                             ▼                             ║  │
+   ║  ┌─────────────────────────────────────────────────────┐  ║  │
+   ║  │ 🏹 Phase 3: Legolas (The Scout / QA Tester)         │  ║  │
+   ║  │ Runs test suite; if fail, loops back to Gimli       │  ║  │
+   ║  │ until 100% green.                                   │  ║  │
+   ║  └──────────────────────────┬──────────────────────────┘  ║  │
+   ║                             │ (All tests green)           ║  ║
+   ║                             ▼                             ║  ║
+   ║  ┌─────────────────────────────────────────────────────┐  ║  │
+   ║  │ 🧝‍♂️ Phase 4: Elrond (The Wise Arbiter / Review)       │  ║  │
+   ║  │ Independent code review with fresh eyes;            │  ║  │
+   ║  │ audits edge cases, CSS/JS cleanliness & guidelines. │  ║  │
+   ║  └──────────────────────────┬──────────────────────────┘  ║  │
+   ║                             │                             ║  ║
+   ║               [Elrond requests changes / flags issues]    ║  ║
+   ║                             └─────────────────────────────╫──┘
+   ║                             │                             ║
+   ║                             │ (Unanimous Consensus:       ║
+   ║                             │  Tests Green + 🟢 Approved) ║
+   ╚═════════════════════════════╪═════════════════════════════╝
+                                 │
+                                 ▼
+  ┌─────────────────────────────────────────────────────────────┐
+  │ 🧙‍♂️ Phase 5: Gandalf (Final Synthesis & Gate)                 │
+  │ Verifies consensus; updates living spec; posts PR comment;  │
+  │ presents comprehensive briefing to author for sign-off.     │
+  └──────────────────────────────┬──────────────────────────────┘
+                                 │
+                                 ▼
+  ┌─────────────────────────────────────────────────────────────┐
+  │ 🚀 Phase 6: Human Sign-off, Merge & Cleanup                 │
+  │ Author reviews live on :1314 vs :1313 and gives sign-off;   │
+  │ Gandalf merges PR via gh, cleans worktree & closes task.   │
+  └─────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -139,14 +147,14 @@ This skill orchestrates an autonomous multi-agent feature sprint for **arunsrin'
    ```
    If new code lacks companion automated tests in the test suite, Legolas rejects the build and instructs Gimli to author tests before certifying approval.
 
-2. **Automated Feedback Loop:**
+2. **Automated Feedback Loop to Gimli:**
    - **On Any Failure (Exit code != 0 or missing test coverage):**
      1. Legolas captures exact failing logs, stack traces, and affected files.
      2. Formulates a targeted bug report for Gimli.
      3. Gimli applies fixes and adds missing tests in the worktree.
-     4. Legolas re-tests. (Repeats seamlessly in the background up to 3 iterations).
+     4. Legolas re-tests. (Repeats seamlessly in the background until green).
    - **On Complete Pass (All test suites green, 0 Hugo warnings, 100% test coverage):**
-     Legolas issues a QA sign-off certification.
+     Legolas issues a QA sign-off certification, handing off to Elrond.
 
 ---
 
@@ -167,24 +175,42 @@ This skill orchestrates an autonomous multi-agent feature sprint for **arunsrin'
    - Evaluates friction, annoyances, and gotchas experienced during the session (e.g. tool scope limits, encoding quirks, framework traps).
    - Codifies lasting solutions permanently into `AGENTS.md` and `SKILL.md` so the team never encounters the same friction again.
 
-4. **Actionable PR Review Comments:**
-   - Elrond formats his structured review with a clear verdict (🟢 Approved or 🔴 Request Changes) and returns it in his final message to Gandalf.
-   - Gandalf posts the review comment to the GitHub PR using `gh pr comment <pr-number> --body "<markdown>"`.
-   - If improvements are flagged, Gimli iterates inside the worktree and Legolas re-verifies until Elrond signs off.
+4. **The Recursive Triad Loop (Elrond ──> Gimli ──> Legolas ──> Elrond):**
+   - **If Elrond flags feedback or requests changes (`🔴 Request Changes`):**
+     - Elrond returns structured, actionable feedback items.
+     - **Recursion Step A:** Elrond's feedback directly triggers **Gimli (Phase 2)** to update the implementation and tests in the worktree.
+     - **Recursion Step B:** Gimli's update directly triggers **Legolas (Phase 3)** to re-run the full test suite and verify no regressions.
+     - **Recursion Step C:** Legolas's green run triggers **Elrond (Phase 4)** to re-review the updated diff with fresh eyes.
+     - This recursive loop runs iteratively in the background until **unanimous consensus** is reached.
+   - **When Elrond issues approval (`🟢 Approved without reservations`):**
+     Consensus is reached across Dev (Gimli), QA (Legolas), and Review (Elrond). Elrond returns his final review markdown to Gandalf.
 
 ---
 
-### Phase 5: Final Validation Gate (🧙‍♂️ Gandalf)
+### Phase 5: Consensus Synthesis & Author Presentation Gate (🧙‍♂️ Gandalf)
 
-Gandalf reviews the complete git diff and verifies the specification:
-```bash
-cd .worktrees/<feature-name> && git diff master
-```
-- **Spec Accuracy Check:** Confirms `docs/specs/<feature-name>.md` is completely up to date, incorporating all design decisions, architectural refinements, and edge cases uncovered during development.
-- **Spec Compliance Verification:** Confirms every signed-off acceptance criterion in `docs/specs/<feature-name>.md` is fulfilled and backed by automated regression tests in the test suite.
-- **Integrity Check:** Verifies no accidental edits to author content or unwanted artifacts.
+Once the Triad (Gimli, Legolas, Elrond) has reached unanimous consensus:
 
----
+1. **Spec Accuracy Check:**
+   Gandalf confirms `docs/specs/<feature-name>.md` is completely up to date, incorporating all design decisions, architectural refinements, and edge cases resolved during the Triad loop.
+
+2. **Spec Compliance & Diff Audit:**
+   Verifies `git diff master` satisfies all signed-off acceptance criteria with zero content modifications or unwanted files.
+
+3. **Git Commit, Push & PR Comment:**
+   - Commits changes atomically with conventional commit messages.
+   - Pushes branch to origin.
+   - Posts Elrond's structured review markdown directly to the PR using `gh pr comment <pr-number> --body "<markdown>"`.
+
+4. **Automatic Dual-Port Server Management:**
+   Spins up and verifies background Hugo servers on `:1313` (master baseline) and `:1314` (candidate feature worktree).
+
+5. **Structured Review Briefing for Author:**
+   Gandalf compiles a comprehensive briefing to the author summarizing:
+   - Root cause and solution architecture.
+   - Consensus confirmation from Gimli, Legolas, and Elrond.
+   - Live preview URLs (`http://localhost:1314/` vs `http://localhost:1313/`) and PR link.
+   - Step-by-step testing checklist, explicitly asking for final human sign-off.
 
 ### Phase 6: Git Push, PR Creation, Dual-Port Preview & Author Hand-off
 
