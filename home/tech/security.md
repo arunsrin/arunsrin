@@ -2,7 +2,6 @@
 title: "Security"
 icon: ":material-lock:{ .anim-flip }"
 tags:
-  - tech
   - security
   - sysadmin
 ---

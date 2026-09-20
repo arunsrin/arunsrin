@@ -2,9 +2,7 @@
 title: "Games"
 weight: 20
 tags:
-  - games
   - gaming
-  - hub
 ---
 
 # :material-controller-classic:{ .anim-pulse } Games

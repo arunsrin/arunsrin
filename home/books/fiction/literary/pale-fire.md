@@ -1,7 +1,6 @@
 ---
 title: "Pale Fire, by Vladimir Nabokov"
 tags:
-  - books
   - fiction
   - literary
   - nabokov

@@ -1,7 +1,6 @@
 ---
 title: "Flow"
 tags:
-  - books
   - psychology
   - productivity
 ---

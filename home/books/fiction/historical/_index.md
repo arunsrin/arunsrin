@@ -1,9 +1,8 @@
 ---
 title: "Historical Fiction"
 tags:
-  - books
   - fiction
-  - historical
+  - history
 ---
 
 # :material-timer-sand:{ .anim-rotate } Historical Fiction

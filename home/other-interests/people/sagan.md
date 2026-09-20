@@ -3,7 +3,6 @@ title: "Carl Sagan"
 tags:
   - people
   - science
-  - astronomy
 ---
 
 # :material-weather-night:{ .anim-rotate } Carl Sagan

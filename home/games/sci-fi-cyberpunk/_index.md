@@ -1,9 +1,7 @@
 ---
 title: "Sci-Fi & Cyberpunk"
 tags:
-  - games
   - sci-fi
-  - cyberpunk
 ---
 
 # :material-chip:{ .anim-rotate } Sci-Fi & Cyberpunk

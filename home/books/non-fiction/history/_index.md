@@ -1,8 +1,6 @@
 ---
 title: "History"
 tags:
-  - books
-  - non-fiction
   - history
 ---
 

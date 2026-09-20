@@ -1,8 +1,6 @@
 ---
 title: "Capitalism"
 tags:
-  - research
-  - economics
   - politics
 ---
 

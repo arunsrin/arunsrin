@@ -1,7 +1,6 @@
 ---
 title: "Hate Inc."
 tags:
-  - books
   - history
   - media
   - politics

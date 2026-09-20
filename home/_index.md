@@ -1,8 +1,5 @@
 ---
 title: "Home"
-tags:
-  - home
-  - index
 ---
 
 # :material-home-variant:{ .anim-pulse .anim-flip } Home

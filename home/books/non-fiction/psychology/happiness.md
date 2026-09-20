@@ -1,7 +1,6 @@
 ---
 title: "The Happiness Hypothesis"
 tags:
-  - books
   - psychology
   - philosophy
 ---

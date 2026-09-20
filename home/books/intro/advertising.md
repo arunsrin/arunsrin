@@ -1,9 +1,6 @@
 ---
 title: "Advertising"
 tags:
-  - books
-  - intro
-  - business
   - media
 ---
 

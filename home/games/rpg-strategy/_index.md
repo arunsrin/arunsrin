@@ -1,9 +1,5 @@
 ---
 title: "RPG & Strategy"
-tags:
-  - games
-  - rpg
-  - strategy
 ---
 
 # :material-chess-knight:{ .anim-flip } RPG & Strategy

@@ -1,9 +1,5 @@
 ---
 title: "Platformers & Puzzles"
-tags:
-  - games
-  - platformer
-  - puzzle
 ---
 
 # :material-puzzle:{ .anim-heart } Platformers & Puzzles

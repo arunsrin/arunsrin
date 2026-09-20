@@ -1,8 +1,6 @@
 ---
 title: "Psychology & Neuroscience"
 tags:
-  - books
-  - non-fiction
   - psychology
 ---
 

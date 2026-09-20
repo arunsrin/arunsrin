@@ -2,8 +2,6 @@
 title: "Docker"
 icon: ":simple-docker:{ .anim-fade }"
 tags:
-  - tech
-  - docker
   - containers
   - devops
 ---

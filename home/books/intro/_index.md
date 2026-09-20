@@ -1,10 +1,6 @@
 ---
 title: "Oxford - A Very Short Introduction Series"
 weight: 30
-tags:
-  - books
-  - intro
-  - reference
 ---
 
 # :material-file-document-outline:{ .anim-heart } Oxford - A Very Short Introduction Series

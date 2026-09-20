@@ -1,9 +1,7 @@
 ---
 title: "Fantasy & Myth"
 tags:
-  - games
   - fantasy
-  - myth
 ---
 
 # :material-auto-fix:{ .anim-pulse } Fantasy & Myth

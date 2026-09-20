@@ -3,8 +3,7 @@ title: "Tech Notes"
 weight: 30
 icon: ":material-console:{ .anim-rotate }"
 tags:
-  - tech
-  - coding
+  - programming
 ---
 
 # :material-console:{ .anim-rotate } Tech Notes

@@ -1,8 +1,6 @@
 ---
 title: "Mathematics"
 tags:
-  - books
-  - non-fiction
   - math
 ---
 

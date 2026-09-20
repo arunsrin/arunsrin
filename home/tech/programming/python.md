@@ -2,8 +2,6 @@
 title: "Python"
 icon: ":material-language-python:{ .anim-heart }"
 tags:
-  - tech
-  - python
   - programming
 ---
 

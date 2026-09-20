@@ -2,7 +2,6 @@
 title: "Noam Chomsky"
 tags:
   - people
-  - linguistics
   - politics
 ---
 

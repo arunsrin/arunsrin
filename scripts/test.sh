@@ -41,5 +41,8 @@ echo "=== 9. Validating Mobile Sidebar & Overlay Stacking ==="
 echo "=== 10. Validating GitHub CI Parity & Test Discovery ==="
 "$PYTHON_CMD" "$SCRIPT_DIR/test_ci_parity.py"
 
+echo "=== 11. Validating Tag Taxonomy Regression ==="
+"$PYTHON_CMD" "$SCRIPT_DIR/test_tags.py"
+
 echo "=== All checks passed successfully! ==="
 

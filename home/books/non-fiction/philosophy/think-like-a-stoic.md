@@ -1,9 +1,7 @@
 ---
 title: "Think Like A Stoic, by Massimo Pigliucci"
 tags:
-  - books
   - philosophy
-  - stoicism
 ---
 
 # :material-pencil:{ .anim-bounce }Think Like A Stoic, by Massimo Pigliucci

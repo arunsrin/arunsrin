@@ -2,7 +2,6 @@
 title: "Databases"
 icon: ":material-database:{ .anim-flip }"
 tags:
-  - tech
   - databases
   - data
 ---

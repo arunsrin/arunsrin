@@ -2,8 +2,6 @@
 title: "Prometheus"
 icon: ":material-fire:{ .anim-fade }"
 tags:
-  - tech
-  - prometheus
   - monitoring
   - devops
 ---

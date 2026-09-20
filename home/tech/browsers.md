@@ -2,8 +2,6 @@
 title: "Browsers"
 icon: ":material-web:{ .anim-pulse }"
 tags:
-  - tech
-  - browsers
   - tools
 ---
 

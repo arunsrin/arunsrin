@@ -1,8 +1,5 @@
 ---
 title: "About"
-tags:
-  - about
-  - profile
 ---
 
 # :material-penguin:{ .anim-heart }About
