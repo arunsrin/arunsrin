@@ -93,7 +93,7 @@ When you trigger the `/site-sprint` command (or ask to run an autonomous sprint)
    - Inspects the Todoist backlog (`./scripts/site_sprint.py pick-next`).
    - Analyzes codebase and architecture.
    - **Interactive Human Gate:** Asks you clarifying implementation questions and design tradeoffs.
-   - **Sign-off:** Once you explicitly sign off, writes the approved specification to `<worktree>/SPEC.md` and hands off to the background crew.
+   - **Sign-off:** Once you explicitly sign off, writes the approved specification to `docs/specs/<feature-name>.md` and hands off to the background crew.
 2. **⚒️ Gimli (The Code Smith / Dev):**
    - Works seamlessly in the background inside an isolated worktree (`.worktrees/<feature-name>`).
    - Crafts templates, styles, logic, and companion automated regression tests adhering strictly to `AGENTS.md` (Sacred Prose, zero bloat, vanilla JS, Cloudflare safety, test coverage).

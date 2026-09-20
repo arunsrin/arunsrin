@@ -49,7 +49,7 @@ This skill orchestrates an autonomous multi-agent feature sprint for **arunsrin'
 
 1. 🧙‍♂️ **Gandalf (The Strategist / Product Manager):**
    - **Motto:** *"All we have to decide is what to do with the time that is given us."*
-   - **Role:** Queries Todoist, analyzes architecture, interviews the human author with clarifying questions and implementation choices, and writes the authoritative `SPEC.md`.
+    - **Role:** Queries Todoist, analyzes architecture, interviews the human author with clarifying questions and implementation choices, and writes the feature specification in `docs/specs/<feature-name>.md`.
 2. ⚒️ **Gimli (The Code Smith / Developer):**
    - **Motto:** *"Faithless is he that says farewell when the road darkens."*
    - **Role:** Works in the background inside an isolated worktree (`.worktrees/<name>`). Implements HTML, CSS, JS, and Hugo templates strictly adhering to `AGENTS.md` (Sacred Prose, zero bloat, vanilla JS, Cloudflare safety).
@@ -81,8 +81,8 @@ This skill orchestrates an autonomous multi-agent feature sprint for **arunsrin'
    - Ask clarifying implementation questions (e.g. design preferences, content sources, scope limits).
    - **CRITICAL GATE:** Do NOT dispatch background agents until the human author answers and explicitly confirms/signs off (e.g. "Proceed", "Looks good", or specific direction).
 
-4. **Generate Approved `SPEC.md`:**
-   Once sign-off is received, write `<worktree>/SPEC.md` containing:
+4. **Generate Feature-Specific Specification (`docs/specs/<feature-name>.md`):**
+   Once sign-off is received, author `docs/specs/<feature-name>.md` (e.g. `docs/specs/bi-directional-backlinks.md`). Specs are uniquely named by feature so they permanently accumulate in `master` as living architecture documentation and avoid git merge overwrites. The spec must contain:
    - User Story & Context
    - Numbered, verifiable Acceptance Criteria
    - Core Guardrails from [AGENTS.md](file:///home/arunsrin/code/arunsrin.mkdocs/AGENTS.md) (Sacred Prose, zero bloat, light blue visual theme, Rocket Loader safety).
@@ -98,7 +98,7 @@ This skill orchestrates an autonomous multi-agent feature sprint for **arunsrin'
    ```
 
 2. **Implementation:**
-   Gimli implements all requirements specified in `SPEC.md` within `.worktrees/<feature-name>`:
+   Gimli implements all requirements specified in `docs/specs/<feature-name>.md` within `.worktrees/<feature-name>`:
    - Clean, lightweight vanilla JS (no frameworks).
    - Responsive styling adhering to the light blue gradient theme.
    - No modification to existing author prose in markdown files.
@@ -141,7 +141,7 @@ Gandalf reviews the complete git diff:
 ```bash
 cd .worktrees/<feature-name> && git diff master
 ```
-- Confirms every signed-off acceptance criterion in `SPEC.md` is fulfilled.
+- Confirms every signed-off acceptance criterion in `docs/specs/<feature-name>.md` is fulfilled.
 - Verifies no accidental edits to author content or unwanted artifacts.
 
 ---
