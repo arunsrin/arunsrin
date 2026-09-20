@@ -49,8 +49,12 @@ cd .worktrees/<feature-name> && hugo server --bind 0.0.0.0 --port 1314 -b http:/
 6. **DOM Execution Order:** Always wrap DOM queries in `document.addEventListener('DOMContentLoaded', ...)` when elements may be declared across different partials (e.g. `header.html` referencing `#sidebar-left`).
 7. **Link Handling:** Internal links should use Hugo relative permalinks. External links are handled by `layouts/_default/_markup/render-link.html` which adds `target="_blank" rel="noopener noreferrer"` and an external indicator `↗`.
 8. **Git Worktrees ONLY & Automated Dual-Port Preview:**
+   - **Always Pull Latest Master First:** Because multiple tasks and fixes proceed in parallel, agents MUST ALWAYS run `git pull origin master` in the root tree before branching or starting any new task.
    - **STRICTLY Use Git Worktrees & Dual-Port Preview (Never Switch Branches in Main Tree):** NEVER switch branches (`git checkout <branch>` or `git switch <branch>`) in the root repository tree (`/home/arunsrin/code/arunsrin.mkdocs`). The main working tree must permanently remain on `master`. All feature development, bug fixes, refactoring, and experiments must strictly take place in an isolated worktree created under `.worktrees/<feature-name>`. The agent is strictly responsible for automatically spinning up and maintaining both servers in the background: master on port 1313 (`http://localhost:1313/`) and the active feature worktree on port 1314 (`http://localhost:1314/`). The author never needs to run or restart servers manually.
      ```bash
+     # Always pull latest master before branching
+     git pull origin master
+
      # Create isolated worktree for a feature/fix
      git worktree add -b <feature-name> .worktrees/<feature-name> master
      

@@ -91,9 +91,10 @@ This skill orchestrates an autonomous multi-agent feature sprint for **arunsrin'
 
 ### Phase 2: Background Code Crafting (⚒️ Gimli)
 
-1. **Isolated Worktree Creation:**
-   Ensure the main repository tree permanently stays on `master`:
+1. **Always Pull Latest Master & Isolated Worktree Creation:**
+   Ensure the main repository tree permanently stays on `master` and incorporate any parallel merges before branching:
    ```bash
+   git pull origin master
    git worktree add -b <feature-name> .worktrees/<feature-name> master
    ```
 
