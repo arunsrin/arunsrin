@@ -104,24 +104,33 @@ This skill orchestrates an autonomous multi-agent feature sprint for **arunsrin'
    - No modification to existing author prose in markdown files.
    - Tags properly closed and balanced.
 
+3. **Mandatory Companion Automated Test Authoring:**
+   Whenever new code, templates, shortcodes, partials, CSS components, or JavaScript behaviors are introduced, Gimli MUST author corresponding automated regression tests and wire them into `./scripts/test.sh` (e.g. dedicated test scripts under `scripts/test_*.py` or `scripts/test_*.js`).
+   *Test Authoring Criteria:*
+   - **New Templates / Partials:** Assert presence of generated DOM elements, correct CSS class hooks, and zero template execution errors across pages.
+   - **Content & Taxonomy Logic:** Assert coverage integrity across notes, relationship accuracy, and include negative tests preventing spurious matches or topic leaks.
+   - **Client-Side Scripts:** Assert event listener correctness, Rocket Loader compatibility (zero inline handlers), and state persistence.
+   - **Zero Untested Features:** A feature is NEVER considered complete without accompanying automated test coverage.
+
 ---
 
 ### Phase 3: Background QA Verification Loop (🏹 Legolas)
 
-1. **Automated Test Run:**
-   Legolas executes the strict test suite inside the worktree:
+1. **Automated Test Run & Test Coverage Audit:**
+   Legolas audits that automated regression tests exist for all newly introduced code in the diff, and executes the strict test suite inside the worktree:
    ```bash
    ./scripts/site_sprint.py run-tests .worktrees/<feature-name>
    # or: cd .worktrees/<feature-name> && ./scripts/test.sh
    ```
+   If new code lacks companion automated tests in `./scripts/test.sh`, Legolas rejects the build and instructs Gimli to author tests before certifying approval.
 
 2. **Automated Feedback Loop:**
-   - **On Any Failure (Exit code != 0):**
+   - **On Any Failure (Exit code != 0 or missing test coverage):**
      1. Legolas captures exact failing logs, stack traces, and affected files.
      2. Formulates a targeted bug report for Gimli.
-     3. Gimli applies fixes in the worktree.
+     3. Gimli applies fixes and adds missing tests in the worktree.
      4. Legolas re-tests. (Repeats seamlessly in the background up to 3 iterations).
-   - **On Complete Pass (All 9 suites green, 0 Hugo warnings):**
+   - **On Complete Pass (All test suites green, 0 Hugo warnings, 100% test coverage):**
      Legolas issues a QA sign-off certification.
 
 ---

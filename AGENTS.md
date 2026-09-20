@@ -26,11 +26,11 @@ The author is particularly strict about rigorous local testing first. Always tes
 # Run the complete test suite (strict build, JSON validation, link audit, JS & Cloudflare safety)
 ./scripts/test.sh
 
-# Or execute individual steps:
 hugo --gc --minify --panicOnWarning          # Build with zero warnings
 jq . public/index.json > /dev/null          # Validate search index
 jq . public/static/quotes.json > /dev/null  # Validate quotes database
 node scripts/test_js.js                     # Validate JS, Cloudflare caching & Rocket Loader safety
+python3 scripts/test_related_notes.py       # Validate related notes, backlinks & anti-spurious isolation
 
 # Start local preview server for master baseline (bind 0.0.0.0, port 1313)
 hugo server --bind 0.0.0.0 --port 1313 -b http://localhost:1313/
@@ -66,6 +66,7 @@ hugo server --bind 0.0.0.0 --port 1313 -b http://localhost:1313/
      ```
    - **CRITICAL Confirmation Workflow:** Never commit and push to remote until the author has tested and explicitly confirmed locally that things are fine. The workflow is: implement -> run `./scripts/test.sh` inside worktree -> verify on preview server (port 1314) -> prompt author to test locally -> commit and push only upon explicit confirmation. Atomic commits with conventional commit messages.
 9. **Sacred Prose Principle:** You can freely iterate on layout containers, HTML templates, CSS classes, and metadata. But do NOT alter the author's writing, phrasing, tone, or opinions in markdown content files. (Simple search/replace for outdated tooling names such as 'mkdocs' -> 'hugo' is permitted).
+10. **Automated Test Mandate for New Code:** Whenever new code, templates, shortcodes, partials, CSS components, or JavaScript behaviors are introduced, Gimli and Legolas MUST author automated regression tests integrated into `./scripts/test.sh` (e.g. dedicated test scripts under `scripts/test_*.py` or `scripts/test_*.js`). Features are never considered complete without automated assertions verifying: (a) structural presence across generated HTML, (b) functional correctness, (c) negative tests preventing unwanted regressions or spurious content, and (d) coverage integrity across all affected pages.
 
 ## 5. Backlog Management (Todoist Integration)
 The backlog of website features, improvements, and maintenance tasks is tracked in Todoist under the project **`Site updates 🌐`** (ID: `6hWVfCmh7qC5P3HW`) using the `td` CLI (`@doist/todoist-cli`, setup per [Todoist AI guide](https://www.todoist.com/help/todoist/todoist-and-ai/use-todoist-in-gemini-spark-dEb9IBNVY#h_01M1B8SXGM1ZKPKS66P8SK1EMN)).
@@ -95,10 +96,11 @@ When you trigger the `/site-sprint` command (or ask to run an autonomous sprint)
    - **Sign-off:** Once you explicitly sign off, writes the approved specification to `<worktree>/SPEC.md` and hands off to the background crew.
 2. **⚒️ Gimli (The Code Smith / Dev):**
    - Works seamlessly in the background inside an isolated worktree (`.worktrees/<feature-name>`).
-   - Crafts templates, styles, and logic adhering strictly to `AGENTS.md` (Sacred Prose, zero bloat, vanilla JS, Cloudflare safety).
+   - Crafts templates, styles, logic, and companion automated regression tests adhering strictly to `AGENTS.md` (Sacred Prose, zero bloat, vanilla JS, Cloudflare safety, test coverage).
 3. **🏹 Legolas (The Sharp-Eyed Scout / QA):**
    - Executes `./scripts/test.sh` in the worktree.
-   - Catches broken links, Hugo warnings, and Rocket Loader violations.
+   - Verifies automated regression tests exist and pass for all newly introduced code.
+   - Catches broken links, Hugo warnings, formatting bugs, and Rocket Loader violations.
    - **Autonomous Loop:** If any check fails, sends exact error logs and reproduction steps back to Gimli; repeats until 100% green.
 4. **🧙‍♂️ Gandalf Quality Gate:**
    - Validates the final `git diff master` against the signed-off acceptance criteria.

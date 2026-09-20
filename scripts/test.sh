@@ -46,4 +46,7 @@ else:
 echo "=== 4. Running JavaScript & Cloudflare safety tests ==="
 node scripts/test_js.js
 
+echo "=== 5. Validating Related Notes & Mentions ==="
+python3 scripts/test_related_notes.py
+
 echo "=== All checks passed successfully! ==="
