@@ -23,4 +23,10 @@ fi
 echo "=== 4. Running JavaScript & Cloudflare safety tests ==="
 node "$SCRIPT_DIR/test_js.js"
 
+echo "=== 5. Validating Related Notes & Mentions ==="
+"$PYTHON_CMD" "$SCRIPT_DIR/test_related_notes.py"
+
+echo "=== 6. Validating Search Relevance & Scoring ==="
+node "$SCRIPT_DIR/test_search.js"
+
 echo "=== All checks passed successfully! ==="

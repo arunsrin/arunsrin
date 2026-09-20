@@ -1,8 +1,9 @@
 ---
 title: "Security"
 tags:
+  - tech
   - security
-  - linux
+  - sysadmin
 ---
 
 # :material-lock:{ .anim-flip } Security

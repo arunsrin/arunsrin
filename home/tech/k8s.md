@@ -1,8 +1,10 @@
 ---
 title: "Kubernetes"
 tags:
+  - tech
   - kubernetes
   - containers
+  - devops
 ---
 
 # :material-kubernetes:{ .anim-flip } Kubernetes

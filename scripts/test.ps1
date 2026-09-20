@@ -43,5 +43,19 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
 
+Write-Host "`n=== 5. Validating Related Notes & Mentions ===" -ForegroundColor Cyan
+& $pythonCmd "$PSScriptRoot/test_related_notes.py"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Related Notes & Mentions validation failed!"
+    exit $LASTEXITCODE
+}
+
+Write-Host "`n=== 6. Validating Search Relevance & Scoring ===" -ForegroundColor Cyan
+node "$PSScriptRoot/test_search.js"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Search Relevance & Scoring validation failed!"
+    exit $LASTEXITCODE
+}
+
 Write-Host "`n=== All checks passed successfully! ===" -ForegroundColor Green
 exit 0

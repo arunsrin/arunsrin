@@ -4,6 +4,7 @@ tags:
   - research
   - tech
   - finance
+  - cryptocurrencies
 ---
 
 # :material-currency-btc:{ .anim-bounce } Cryptocurrencies

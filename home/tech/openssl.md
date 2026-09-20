@@ -1,5 +1,10 @@
 ---
 title: "🔒 OpenSSL"
+tags:
+  - tech
+  - security
+  - openssl
+  - cryptography
 ---
 
 # 🔒 OpenSSL

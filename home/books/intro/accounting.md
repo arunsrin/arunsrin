@@ -3,7 +3,7 @@ title: "Accounting"
 tags:
   - books
   - intro
-  - accounting
+  - finance
 ---
 
 # :material-file-document-outline:{ .anim-heart } Accounting

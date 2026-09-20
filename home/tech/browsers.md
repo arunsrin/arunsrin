@@ -1,8 +1,9 @@
 ---
 title: "Browsers"
 tags:
+  - tech
   - browsers
-  - web
+  - tools
 ---
 
 # :material-web:{ .anim-pulse } Browsers

@@ -1,6 +1,7 @@
 ---
 title: "Java"
 tags:
+  - tech
   - java
   - programming
 ---

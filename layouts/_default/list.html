@@ -53,5 +53,9 @@
       </ul>
     </section>
   {{ end }}
+
+  {{ if and (not .IsHome) (ne .Data.Singular "tag") }}
+    {{ partial "related-notes.html" . }}
+  {{ end }}
 </article>
 {{ end }}

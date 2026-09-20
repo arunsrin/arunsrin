@@ -1,8 +1,9 @@
 ---
 title: "Networking"
 tags:
+  - tech
   - networking
-  - tools
+  - sysadmin
 ---
 
 # :material-lan:{ .anim-heart } Networking

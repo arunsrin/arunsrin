@@ -4,6 +4,7 @@ tags:
   - books
   - intro
   - medicine
+  - science
 ---
 
 # :material-file-document-outline:{ .anim-pulse } Anaesthesia

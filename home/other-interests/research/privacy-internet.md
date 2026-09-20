@@ -4,6 +4,7 @@ tags:
   - research
   - tech
   - privacy
+  - security
 ---
 
 # :material-lock-check:{ .anim-bounce } Online Privacy and the Internet

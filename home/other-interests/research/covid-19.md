@@ -3,7 +3,7 @@ title: "COVID-19 References"
 tags:
   - research
   - science
-  - history
+  - medicine
 ---
 
 # :material-virus:{ .anim-fade } COVID-19 References

@@ -3,7 +3,6 @@ title: "Good Math"
 tags:
   - books
   - math
-  - programming
 ---
 
 # :material-pencil:{ .anim-rotate } Good Math

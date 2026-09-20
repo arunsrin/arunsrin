@@ -1,8 +1,10 @@
 ---
 title: "Grafana"
 tags:
+  - tech
   - grafana
   - monitoring
+  - devops
 ---
 
 # :material-chart-bell-curve:{ .anim-flip } Grafana

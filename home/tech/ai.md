@@ -1,8 +1,9 @@
 ---
 title: "AI"
 tags:
+  - tech
   - ai
-  - llm
+  - research
 ---
 
 # :material-brain:{ .anim-bounce } AI

@@ -1,8 +1,10 @@
 ---
 title: "Kafka"
 tags:
+  - tech
   - kafka
-  - messaging
+  - data
+  - devops
 ---
 
 # :material-ladybug:{ .anim-heart } Kafka 

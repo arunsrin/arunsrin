@@ -1,8 +1,10 @@
 ---
 title: "Git"
 tags:
+  - tech
   - git
-  - vcs
+  - devops
+  - tools
 ---
 
 # :material-database:{ .anim-fade } Git

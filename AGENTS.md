@@ -15,7 +15,7 @@ This repository contains **arunsrin's notes**, a personal digital garden and tec
   - `home/static/`: Static assets (`quotes.js`, `quotes.json`, self-hosted `iconify-icon.min.js`).
 - `layouts/`: Hugo Go templates.
   - `layouts/_default/`: Base layout (`baseof.html`), single note (`single.html`), list view (`list.html`), and render hooks (`_markup/`).
-  - `layouts/partials/`: Modular components (`header.html`, `footer.html`, `head.html`, `sidebar.html`, `toc.html`).
+  - `layouts/partials/`: Modular components (`header.html`, `footer.html`, `head.html`, `sidebar.html`, `toc.html`, `related-notes.html`).
 - `static_root/`: Mounted directly to the site root (`_headers`, `favicon.ico`). Cloudflare caching and security headers live in `static_root/_headers`.
 - `scripts/`: Development and testing helper scripts.
 
@@ -35,13 +35,15 @@ jq . public/static/quotes.json | Out-Null    # Validate quotes database (PowerSh
 # or: jq . public/static/quotes.json > /dev/null # (WSL / Bash)
 python scripts/check_links.py                # Cross-platform internal link audit
 node scripts/test_js.js                      # Validate JS, Cloudflare caching & Rocket Loader safety
+python scripts/test_related_notes.py         # Validate related notes, backlinks & anti-spurious isolation
+node scripts/test_search.js                  # Validate search relevance scoring & highlighting
 
-# Start local preview server for master baseline (bind 0.0.0.0, port 1313)
+# Local preview servers (automatically managed by agent in background)
+# Master baseline: http://localhost:1313/
 hugo server --bind 0.0.0.0 --port 1313 -b http://localhost:1313/
 
-# Preview active feature worktree on dedicated preview port (port 1314)
-python scripts/site_sprint.py preview
-# or: cd .worktrees/<feature-name> && hugo server --bind 0.0.0.0 --port 1314 -b http://localhost:1314/
+# Active feature worktree preview: http://localhost:1314/
+cd .worktrees/<feature-name> && hugo server --bind 0.0.0.0 --port 1314 -b http://localhost:1314/
 ```
 
 ## 4. Rules of Thumb for Changes
@@ -52,9 +54,13 @@ python scripts/site_sprint.py preview
 5. **Search Index Integrity:** The client search (`layouts/index.json`) loads on `Ctrl+K`. Keep it lean and ensure generated JSON stays strictly valid.
 6. **DOM Execution Order:** Always wrap DOM queries in `document.addEventListener('DOMContentLoaded', ...)` when elements may be declared across different partials (e.g. `header.html` referencing `#sidebar-left`).
 7. **Link Handling:** Internal links should use Hugo relative permalinks. External links are handled by `layouts/_default/_markup/render-link.html` which adds `target="_blank" rel="noopener noreferrer"` and an external indicator `↗`.
-8. **Git Worktrees ONLY & Confirmation Workflow:**
-   - **STRICTLY Use Git Worktrees & Dual-Port Preview (Never Switch Branches in Main Tree):** NEVER switch branches (`git checkout <branch>` or `git switch <branch>`) in the root repository tree. The main working tree must permanently remain on `master` to prevent interrupting background development servers (`hugo server` on port 1313) and file watchers. All feature development, bug fixes, refactoring, and experiments must strictly take place in an isolated worktree created under `.worktrees/<feature-name>`. The feature preview server runs on port 1314 (`python scripts/site_sprint.py preview`), enabling side-by-side comparison between master (:1313) and the candidate feature (:1314).
+8. **Git Worktrees ONLY & Automated Dual-Port Preview:**
+   - **Always Pull Latest Master First:** Because multiple tasks and fixes proceed in parallel, agents MUST ALWAYS run `git pull origin master` in the root tree before branching or starting any new task.
+   - **STRICTLY Use Git Worktrees & Dual-Port Preview (Never Switch Branches in Main Tree):** NEVER switch branches (`git checkout <branch>` or `git switch <branch>`) in the root repository tree. The main working tree must permanently remain on `master`. All feature development, bug fixes, refactoring, and experiments must strictly take place in an isolated worktree created under `.worktrees/<feature-name>`. The agent is strictly responsible for automatically spinning up and maintaining both servers in the background: master on port 1313 (`http://localhost:1313/`) and the active feature worktree on port 1314 (`http://localhost:1314/`). The author never needs to run or restart servers manually.
      ```bash
+     # Always pull latest master before branching
+     git pull origin master
+
      # Create isolated worktree for a feature/fix
      git worktree add -b <feature-name> .worktrees/<feature-name> master
      
@@ -63,8 +69,8 @@ python scripts/site_sprint.py preview
      ./scripts/test.ps1     # PowerShell
      # or: ./scripts/test.sh # WSL / Bash
      
-     # Launch preview server on port 1314
-     python scripts/site_sprint.py preview <feature-name>
+     # Preview servers are launched and maintained automatically by the agent
+     # (:1313 for master baseline, :1314 for candidate feature)
 
      # Cleanup after merge to master
      git worktree remove .worktrees/<feature-name>
@@ -72,6 +78,7 @@ python scripts/site_sprint.py preview
      ```
    - **CRITICAL Confirmation Workflow:** Never commit and push to remote until the author has tested and explicitly confirmed locally that things are fine. The workflow is: implement -> run test suite (`./scripts/test.ps1` or `./scripts/test.sh`) inside worktree -> verify on preview server (port 1314) -> prompt author to test locally -> commit and push only upon explicit confirmation. Atomic commits with conventional commit messages.
 9. **Sacred Prose Principle:** You can freely iterate on layout containers, HTML templates, CSS classes, and metadata. But do NOT alter the author's writing, phrasing, tone, or opinions in markdown content files. (Simple search/replace for outdated tooling names such as 'mkdocs' -> 'hugo' is permitted).
+10. **Automated Test Mandate for New Code & CI Parity:** Whenever new code, templates, shortcodes, partials, CSS components, or JavaScript behaviors are introduced, Gimli and Legolas MUST author automated regression tests integrated into BOTH `./scripts/test.sh` and the GitHub Actions pipeline (`.github/workflows/ci.yml`) (e.g. dedicated test scripts under `scripts/test_*.py` or `scripts/test_*.js`). Features are never considered complete without automated assertions verifying: (a) structural presence across generated HTML, (b) functional correctness, (c) negative tests preventing unwanted regressions or spurious content, (d) coverage integrity across all affected pages, and (e) execution parity in GitHub CI on every PR and merge.
 
 ## 5. Backlog Management (Todoist Integration)
 The backlog of website features, improvements, and maintenance tasks is tracked in Todoist under the project **`Site updates 🌐`** (ID: `6hWVfCmh7qC5P3HW`) using the `td` CLI (`@doist/todoist-cli`, setup per [Todoist AI guide](https://www.todoist.com/help/todoist/todoist-and-ai/use-todoist-in-gemini-spark-dEb9IBNVY#h_01M1B8SXGM1ZKPKS66P8SK1EMN)).
@@ -88,30 +95,30 @@ The backlog of website features, improvements, and maintenance tasks is tracked 
   td task list --project "Site updates 🌐" --filter "@llm-task & @next" --json
 
   # Or check full backlog status (groomed vs ungroomed) using the sprint helper:
-  ./scripts/site_sprint.py status
+  python scripts/site_sprint.py status
   ```
 
 ## 6. Multi-Agent Development Workflow (`/site-sprint`)
 When you trigger the `/site-sprint` command (or ask to run an autonomous sprint), an end-to-end multi-agent pipeline is executed by **The Fellowship**:
 
-1. **🧙‍♂️ Gandalf (The Strategist / PM):**
-   - Inspects the Todoist backlog (`./scripts/site_sprint.py pick-next`).
+1. **🧙‍♂️ Gandalf (The Strategist / Living Spec Custodian):**
+   - Inspects the Todoist backlog (`python scripts/site_sprint.py pick-next`).
    - Analyzes codebase and architecture.
    - **Interactive Human Gate:** Asks you clarifying implementation questions and design tradeoffs.
-   - **Sign-off:** Once you explicitly sign off, writes the approved specification to `<worktree>/SPEC.md` and hands off to the background crew.
+   - **Living Spec Ownership:** Once you explicitly sign off, writes the approved specification to `docs/specs/<feature-name>.md`. Throughout development and review iterations, Gandalf **continuously updates the specification** as requirements evolve or edge cases are uncovered, ensuring the spec remains the living source of truth.
 2. **⚒️ Gimli (The Code Smith / Dev):**
    - Works seamlessly in the background inside an isolated worktree (`.worktrees/<feature-name>`).
-   - Crafts templates, styles, and logic adhering strictly to `AGENTS.md` (Sacred Prose, zero bloat, vanilla JS, Cloudflare safety).
-3. **🏹 Legolas (The Sharp-Eyed Scout / QA):**
-   - Executes `./scripts/test.sh` in the worktree.
-   - Catches broken links, Hugo warnings, and Rocket Loader violations.
+   - Crafts templates, styles, logic, and companion automated regression tests in **strict compliance** with `docs/specs/<feature-name>.md` and `AGENTS.md` (Sacred Prose, zero bloat, vanilla JS, Cloudflare safety, test coverage).
+3. **🏹 Legolas (The Sharp-Eyed Scout / QA & Spec Compliance Enforcer):**
+   - Executes `./scripts/test.ps1` (or `./scripts/test.sh`) in the worktree.
+   - **Spec Compliance Auditing:** Verifies that every single acceptance criterion in `docs/specs/<feature-name>.md` is backed by passing automated regression tests.
+   - Catches broken links, Hugo warnings, formatting bugs, and Rocket Loader violations.
    - **Autonomous Loop:** If any check fails, sends exact error logs and reproduction steps back to Gimli; repeats until 100% green.
 4. **🧙‍♂️ Gandalf Quality Gate:**
-   - Validates the final `git diff master` against the signed-off acceptance criteria.
-5. **PR Creation, Dual-Port Preview & Iterative Review:**
+   - Validates that `docs/specs/<feature-name>.md` is completely up to date and verifies `git diff master` against all signed-off acceptance criteria.
+5. **PR Creation, Automated Background Servers & Living Spec Iteration:**
    - Commits atomically, pushes `origin/<feature-name>`, raises the PR via `gh pr create`, and automatically posts the PR URL as a comment to the corresponding Todoist task (`td comment add <task-id> --content "PR raised: <url>"`).
-   - Prompts the author with a structured review briefing: PR URL, dedicated preview URL (`http://localhost:1314/`), and concrete testing checklist.
-   - **Iteration:** If author requests changes, Gimli edits in the worktree, LiveReload on :1314 refreshes the browser immediately, and Legolas re-verifies.
+   - Automatically spins up and verifies background Hugo servers on :1313 (master baseline) and :1314 (candidate feature worktree).
+   - Prompts the author with a structured review briefing: live URLs (`http://localhost:1313/` vs `http://localhost:1314/`), PR link, and concrete testing checklist.
+   - **Living Spec Iteration:** If author requests changes during review, Gandalf immediately updates `docs/specs/<feature-name>.md`, Gimli edits in the worktree to match, LiveReload on :1314 refreshes the browser immediately, and Legolas re-verifies spec compliance and tests.
    - **Merge & Cleanup:** Upon explicit author sign-off, merges PR via `gh pr merge`, pulls master in root repo, removes worktree, and completes the Todoist task.
-
-
