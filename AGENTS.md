@@ -118,6 +118,7 @@ When you trigger the `/site-sprint` command (or ask to run an autonomous sprint)
    - Validates that `docs/specs/<feature-name>.md` is completely up to date and verifies `git diff master` against all signed-off acceptance criteria.
 5. **PR Creation, Automated Background Servers & Living Spec Iteration:**
    - Commits atomically, pushes `origin/<feature-name>`, raises the PR via `gh pr create`, and automatically posts the PR URL as a comment to the corresponding Todoist task (`td comment add <task-id> --content "PR raised: <url>"`).
+   - **Clean & Meaningful PR Description:** PR descriptions must be concise, professional, and explain what we are trying to fix/build and how. Never include internal Todoist task IDs (which are meaningless outside Todoist) or localhost URLs (which cannot be accessed from GitHub). Keep localhost preview links strictly in the chat briefing to the author.
    - Automatically spins up and verifies background Hugo servers on :1313 (master baseline) and :1314 (candidate feature worktree).
    - Prompts the author with a structured review briefing: live URLs (`http://localhost:1313/` vs `http://localhost:1314/`), PR link, and concrete testing checklist.
    - **Living Spec Iteration:** If author requests changes during review, Gandalf immediately updates `docs/specs/<feature-name>.md`, Gimli edits in the worktree to match, LiveReload on :1314 refreshes the browser immediately, and Legolas re-verifies spec compliance and tests.

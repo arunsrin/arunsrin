@@ -81,11 +81,15 @@ reference.
     - [:fontawesome-solid-pen-nib:{ .anim-flip } Literature & Writing](books/non-fiction/writing/index.md)
 
 
--   :material-controller:{ .lg .middle .anim-bounce } Me and my [games](games/index.md)
+-   :material-controller:{ .lg .middle .anim-bounce } __Games__
+
+    ---
+
+    Me and my [games](games/index.md)
 
     Current-gen: I have an [:fontawesome-brands-xbox:{ .anim-pulse }Xbox Series X](games/xbox.md)
 
-    Here is a list of games played per year:
+    **By Genre**
 
     - [:material-sword:{ .anim-pulse } Action & Adventure](games/action-adventure/index.md)
     - [:material-chip:{ .anim-rotate } Sci-Fi & Cyberpunk](games/sci-fi-cyberpunk/index.md)
@@ -95,7 +99,9 @@ reference.
     - [:material-puzzle:{ .anim-heart } Platformers & Puzzles](games/platform-puzzle/index.md)
     - [:material-chess-knight:{ .anim-fade } RPG & Strategy](games/rpg-strategy/index.md)
 
--   :material-television:{ .lg .middle .anim-flip } Other media
+-   :material-television:{ .lg .middle .anim-flip } __Other Media__
+
+    ---
 
     - [Movies and TV](other-interests/media.md) that I really like
 
