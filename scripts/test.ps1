@@ -57,5 +57,19 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
 
+Write-Host "`n=== 7. Validating Tech Folder Animated Emojis ===" -ForegroundColor Cyan
+& $pythonCmd "$PSScriptRoot/test_tech_emojis.py"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Tech Folder Animated Emojis validation failed!"
+    exit $LASTEXITCODE
+}
+
+Write-Host "`n=== 8. Validating Homepage Cards Consistency ===" -ForegroundColor Cyan
+& $pythonCmd "$PSScriptRoot/test_homepage_cards.py"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Homepage Cards Consistency validation failed!"
+    exit $LASTEXITCODE
+}
+
 Write-Host "`n=== All checks passed successfully! ===" -ForegroundColor Green
 exit 0

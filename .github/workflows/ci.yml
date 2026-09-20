@@ -46,3 +46,6 @@ jobs:
       - name: Run Tech Folder Animated Emojis Tests
         run: python3 scripts/test_tech_emojis.py
 
+      - name: Run Homepage Cards Consistency Tests
+        run: python3 scripts/test_homepage_cards.py
+

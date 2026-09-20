@@ -30,6 +30,9 @@ echo "=== 6. Validating Search Relevance & Scoring ==="
 node "$SCRIPT_DIR/test_search.js"
 
 echo "=== 7. Validating Tech Folder Animated Emojis ==="
-python3 scripts/test_tech_emojis.py
+"$PYTHON_CMD" "$SCRIPT_DIR/test_tech_emojis.py"
+
+echo "=== 8. Validating Homepage Cards Consistency ==="
+"$PYTHON_CMD" "$SCRIPT_DIR/test_homepage_cards.py"
 
 echo "=== All checks passed successfully! ==="
