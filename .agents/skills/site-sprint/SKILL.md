@@ -105,12 +105,13 @@ This skill orchestrates an autonomous multi-agent feature sprint for **arunsrin'
    - No modification to existing author prose in markdown files.
    - Tags properly closed and balanced.
 
-3. **Mandatory Companion Automated Test Authoring:**
-   Whenever new code, templates, shortcodes, partials, CSS components, or JavaScript behaviors are introduced, Gimli MUST author corresponding automated regression tests and wire them into `./scripts/test.sh` (e.g. dedicated test scripts under `scripts/test_*.py` or `scripts/test_*.js`).
+3. **Mandatory Companion Automated Test Authoring & CI Parity:**
+   Whenever new code, templates, shortcodes, partials, CSS components, or JavaScript behaviors are introduced, Gimli MUST author corresponding automated regression tests and wire them into BOTH `./scripts/test.sh` and the GitHub Actions CI workflow (`.github/workflows/ci.yml`) (e.g. dedicated test scripts under `scripts/test_*.py` or `scripts/test_*.js`).
    *Test Authoring Criteria:*
    - **New Templates / Partials:** Assert presence of generated DOM elements, correct CSS class hooks, and zero template execution errors across pages.
    - **Content & Taxonomy Logic:** Assert coverage integrity across notes, relationship accuracy, and include negative tests preventing spurious matches or topic leaks.
    - **Client-Side Scripts:** Assert event listener correctness, Rocket Loader compatibility (zero inline handlers), and state persistence.
+   - **CI Parity:** Every test run locally in `./scripts/test.sh` must also run in GitHub Actions on every PR and merge.
    - **Zero Untested Features:** A feature is NEVER considered complete without accompanying automated test coverage.
 
 ---

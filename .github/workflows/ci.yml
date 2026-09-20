@@ -37,3 +37,9 @@ jobs:
       - name: Run JavaScript & Cloudflare Anti-Pattern Tests
         run: node scripts/test_js.js
 
+      - name: Run Related Notes & Mentions Tests
+        run: python3 scripts/test_related_notes.py
+
+      - name: Run Search Relevance & Scoring Tests
+        run: node scripts/test_search.js
+
