@@ -89,6 +89,10 @@ cd .worktrees/<feature-name> && hugo server --bind 0.0.0.0 --port 1314 -b http:/
     ```
 13. **Stacking Contexts & Z-Index Discipline:** Never assign an integer `z-index` (e.g. `z-index: 1`) to top-level layout containers (`.layout-container`) containing fixed drawers or overlays. An integer `z-index` creates an isolated stacking context that traps high z-index descendants (like a mobile drawer at `z-index: 1200`) beneath root-level overlays (`z-index: 1150`). Layout containers must use `z-index: auto`.
 14. **Minified HTML Assertion Robustness:** Hugo builds using `--minify` strip quotes from simple HTML attributes (e.g. `id=sidebar-overlay` and `class=sidebar-overlay`). Test assertions checking generated HTML in `public/` must use regex that accommodates optional quotes (e.g. `r'id=["\']?element-id["\'\s>]'`).
+15. **Subagent Permission Minimization & The Interruption-Free Reviewer Principle:** Subagents should be granted the minimum tool privileges strictly required for their role. In particular, code review agents (like Elrond) must NOT be spawned with write/shell tools (`enable_write_tools: false`). Arbitrary shell commands (`git log`, `git diff`, `git status`, `Select-String`, `grep`, `cat`) executed by subagents trigger interactive Antigravity CLI permission prompts that disrupt the author. Instead:
+    - The orchestrator (Gandalf) pre-gathers the git diff, commit history, and spec context and passes them directly in the subagent's prompt.
+    - Review subagents inspect files exclusively via built-in read tools (`view_file`), which are inherently non-destructive and never prompt for permission.
+    - Review subagents write and return their structured review verdict directly in their final response message to the orchestrator. The parent orchestrator (Gandalf) then posts the review comment to the GitHub PR using `gh pr comment`.
 
 ## 5. Backlog Management (Todoist Integration)
 The backlog of website features, improvements, and maintenance tasks is tracked in Todoist under the project **`Site updates 🌐`** (ID: `6hWVfCmh7qC5P3HW`) using the `td` CLI (`@doist/todoist-cli`, setup per [Todoist AI guide](https://www.todoist.com/help/todoist/todoist-and-ai/use-todoist-in-gemini-spark-dEb9IBNVY#h_01M1B8SXGM1ZKPKS66P8SK1EMN)).
@@ -125,9 +129,9 @@ When you trigger the `/site-sprint` command (or ask to run an autonomous sprint)
    - Catches broken links, Hugo warnings, formatting bugs, and Rocket Loader violations.
    - **Autonomous Loop:** If any check fails, sends exact error logs and reproduction steps back to Gimli; repeats until 100% green.
 4. **🧝‍♂️ Elrond (The Wise Arbiter / Code Reviewer & Chronicle Custodian):**
-   - **Independent Code Review:** Audits the complete diff with a fresh pair of eyes before human review, scrutinizing code elegance, edge cases, accessibility, visual hierarchy, and maintainability.
+   - **Interruption-Free Independent Review:** Runs in a clean read-only subagent context with zero permission friction. Audits the diff against master with fresh eyes using `view_file` to evaluate code elegance, edge cases, accessibility, visual hierarchy, and maintainability.
    - **Retrospective Chronicler & Knowledge Keeper:** Analyzes friction, annoyances, pitfalls, and feedback encountered during the sprint session, converting them into permanent rules codified in `AGENTS.md` and `SKILL.md`.
-   - **Actionable PR Review Comments:** Posts an independent code review comment directly on the GitHub Pull Request (using `gh pr comment` / `gh pr review`). Gimli acts on this feedback and iterates before author hand-off.
+   - **Structured Review Verdict:** Formulates actionable feedback and verdict; Gandalf automatically posts the review comment to the GitHub PR (`gh pr comment`) and Gimli iterates if needed before human review.
 5. **🧙‍♂️ Gandalf Quality Gate & Human Hand-off:**
    - Validates that `docs/specs/<feature-name>.md` is completely up to date and verifies `git diff master` against all signed-off acceptance criteria.
    - Automatically spins up and verifies background Hugo servers on :1313 (master baseline) and :1314 (candidate feature worktree).

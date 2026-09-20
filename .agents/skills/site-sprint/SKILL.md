@@ -152,18 +152,24 @@ This skill orchestrates an autonomous multi-agent feature sprint for **arunsrin'
 
 ### Phase 4: Independent Code Review & Retrospective Loop (🧝‍♂️ Elrond)
 
-1. **Independent Code Audit:**
-   Elrond audits the branch diff with a fresh pair of eyes:
+1. **Zero-Interruption Invocation & Context Provisioning:**
+   - Gandalf pre-generates the branch git diff against master (`git diff master`) and commit summary.
+   - Gandalf invokes Elrond with **read-only tools** (`enable_write_tools: false`), passing the branch diff, PR number/URL, and living spec directly in the prompt.
+   - This ensures Elrond operates completely interruption-free without triggering interactive CLI permission prompts for `git log` or `git diff`.
+
+2. **Independent Code Audit:**
+   Elrond audits the changes using `view_file` to inspect templates, CSS, JS, and test scripts:
    - Evaluates code simplicity, CSS stacking context integrity, and vanilla JS efficiency.
    - Checks edge cases (e.g. mobile drawer interactions, resize behavior, accessibility hooks).
    - Verifies Rocket Loader safety and zero inline event handlers.
 
-2. **Session Retrospective & Rule Codification:**
+3. **Session Retrospective & Rule Codification:**
    - Evaluates friction, annoyances, and gotchas experienced during the session (e.g. tool scope limits, encoding quirks, framework traps).
    - Codifies lasting solutions permanently into `AGENTS.md` and `SKILL.md` so the team never encounters the same friction again.
 
-3. **Actionable PR Review Comments:**
-   - Posts a constructive review comment on the GitHub PR using `gh pr comment` / `gh pr review`.
+4. **Actionable PR Review Comments:**
+   - Elrond formats his structured review with a clear verdict (🟢 Approved or 🔴 Request Changes) and returns it in his final message to Gandalf.
+   - Gandalf posts the review comment to the GitHub PR using `gh pr comment <pr-number> --body "<markdown>"`.
    - If improvements are flagged, Gimli iterates inside the worktree and Legolas re-verifies until Elrond signs off.
 
 ---
