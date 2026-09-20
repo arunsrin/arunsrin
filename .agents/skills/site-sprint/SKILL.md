@@ -55,7 +55,7 @@ This skill orchestrates an autonomous multi-agent feature sprint for **arunsrin'
    - **Role:** Works in the background inside an isolated worktree (`.worktrees/<name>`). Implements HTML, CSS, JS, and Hugo templates in **strict compliance** with `docs/specs/<feature-name>.md` and `AGENTS.md` (Sacred Prose, zero bloat, vanilla JS, Cloudflare safety, and mandatory automated test authoring).
 3. 🏹 **Legolas (The Sharp-Eyed Scout / QA & Spec Compliance Enforcer):**
    - **Motto:** *"A red sun rises. Blood has been spilled this night... or a link was broken."*
-   - **Role:** Ruthlessly tests the worktree with `./scripts/test.sh`. **Enforces spec compliance:** systematically verifies that every acceptance criterion in `docs/specs/<feature-name>.md` has companion automated regression tests that pass cleanly. Sends precise reproduction steps and error logs back to Gimli until zero defects remain.
+   - **Role:** Ruthlessly tests the worktree with `./scripts/test.ps1` (PowerShell) or `./scripts/test.sh` (WSL). **Enforces spec compliance:** systematically verifies that every acceptance criterion in `docs/specs/<feature-name>.md` has companion automated regression tests that pass cleanly. Sends precise reproduction steps and error logs back to Gimli until zero defects remain.
 
 ---
 
@@ -66,11 +66,12 @@ This skill orchestrates an autonomous multi-agent feature sprint for **arunsrin'
 1. **Backlog Inspection:**
    Inspect Todoist for groomed tasks ready for execution:
    ```bash
-   ./scripts/site_sprint.py pick-next
+   python scripts/site_sprint.py pick-next
+   # or in WSL/Bash: ./scripts/site_sprint.py pick-next
    # or: td task list --project "Site updates 🌐" --filter "@llm-task & @next" --json
    ```
    - **Groomed Tasks (`llm-task` + `next`):** Pick the highest-priority task that has been reviewed and groomed by the author (tagged with both `llm-task` and `next`).
-   - **If no groomed tasks are found:** Check `./scripts/site_sprint.py status`. Inform the author of any pending ungroomed AI tasks (`llm-task` only) awaiting their review and `next` tag, or audit digital garden notes/templates to propose new candidate tasks.
+   - **If no groomed tasks are found:** Check `python scripts/site_sprint.py status`. Inform the author of any pending ungroomed AI tasks (`llm-task` only) awaiting their review and `next` tag, or audit digital garden notes/templates to propose new candidate tasks.
    - Do NOT pick or execute tasks that lack the `next` tag without explicit human instruction.
 
 2. **Codebase & Architectural Analysis:**
@@ -85,7 +86,7 @@ This skill orchestrates an autonomous multi-agent feature sprint for **arunsrin'
    Once sign-off is received, author `docs/specs/<feature-name>.md` (e.g. `docs/specs/bi-directional-backlinks.md`). Specs are uniquely named by feature so they permanently accumulate in `master` as living architecture documentation and avoid git merge overwrites. The spec must contain:
    - User Story & Context
    - Numbered, verifiable Acceptance Criteria
-   - Core Guardrails from [AGENTS.md](file:///home/arunsrin/code/arunsrin.mkdocs/AGENTS.md) (Sacred Prose, zero bloat, light blue visual theme, Rocket Loader safety).
+   - Core Guardrails from [AGENTS.md](../../AGENTS.md) (Sacred Prose, zero bloat, light blue visual theme, Rocket Loader safety).
 
 ---
 
@@ -106,12 +107,12 @@ This skill orchestrates an autonomous multi-agent feature sprint for **arunsrin'
    - Tags properly closed and balanced.
 
 3. **Mandatory Companion Automated Test Authoring & CI Parity:**
-   Whenever new code, templates, shortcodes, partials, CSS components, or JavaScript behaviors are introduced, Gimli MUST author corresponding automated regression tests and wire them into BOTH `./scripts/test.sh` and the GitHub Actions CI workflow (`.github/workflows/ci.yml`) (e.g. dedicated test scripts under `scripts/test_*.py` or `scripts/test_*.js`).
+   Whenever new code, templates, shortcodes, partials, CSS components, or JavaScript behaviors are introduced, Gimli MUST author corresponding automated regression tests and wire them into BOTH `./scripts/test.ps1` / `./scripts/test.sh` and the GitHub Actions CI workflow (`.github/workflows/ci.yml`) (e.g. dedicated test scripts under `scripts/test_*.py` or `scripts/test_*.js`).
    *Test Authoring Criteria:*
    - **New Templates / Partials:** Assert presence of generated DOM elements, correct CSS class hooks, and zero template execution errors across pages.
    - **Content & Taxonomy Logic:** Assert coverage integrity across notes, relationship accuracy, and include negative tests preventing spurious matches or topic leaks.
    - **Client-Side Scripts:** Assert event listener correctness, Rocket Loader compatibility (zero inline handlers), and state persistence.
-   - **CI Parity:** Every test run locally in `./scripts/test.sh` must also run in GitHub Actions on every PR and merge.
+   - **CI Parity:** Every test run locally in `./scripts/test.ps1` / `./scripts/test.sh` must also run in GitHub Actions on every PR and merge.
    - **Zero Untested Features:** A feature is NEVER considered complete without accompanying automated test coverage.
 
 ---
@@ -121,10 +122,10 @@ This skill orchestrates an autonomous multi-agent feature sprint for **arunsrin'
 1. **Automated Test Run & Test Coverage Audit:**
    Legolas audits that automated regression tests exist for all newly introduced code in the diff, and executes the strict test suite inside the worktree:
    ```bash
-   ./scripts/site_sprint.py run-tests .worktrees/<feature-name>
-   # or: cd .worktrees/<feature-name> && ./scripts/test.sh
+   python scripts/site_sprint.py run-tests .worktrees/<feature-name>
+   # or: cd .worktrees/<feature-name> && ./scripts/test.ps1 (PowerShell) / ./scripts/test.sh (WSL)
    ```
-   If new code lacks companion automated tests in `./scripts/test.sh`, Legolas rejects the build and instructs Gimli to author tests before certifying approval.
+   If new code lacks companion automated tests in the test suite, Legolas rejects the build and instructs Gimli to author tests before certifying approval.
 
 2. **Automated Feedback Loop:**
    - **On Any Failure (Exit code != 0 or missing test coverage):**
@@ -144,7 +145,7 @@ Gandalf reviews the complete git diff and verifies the specification:
 cd .worktrees/<feature-name> && git diff master
 ```
 - **Spec Accuracy Check:** Confirms `docs/specs/<feature-name>.md` is completely up to date, incorporating all design decisions, architectural refinements, and edge cases uncovered during development.
-- **Spec Compliance Verification:** Confirms every signed-off acceptance criterion in `docs/specs/<feature-name>.md` is fulfilled and backed by automated regression tests in `./scripts/test.sh`.
+- **Spec Compliance Verification:** Confirms every signed-off acceptance criterion in `docs/specs/<feature-name>.md` is fulfilled and backed by automated regression tests in the test suite.
 - **Integrity Check:** Verifies no accidental edits to author content or unwanted artifacts.
 
 ---
@@ -162,7 +163,7 @@ cd .worktrees/<feature-name> && git diff master
 2. **Create Pull Request & Link to Todoist:**
    Raise the PR using `gh pr create` and post the PR URL to the Todoist task:
    ```bash
-   ./scripts/site_sprint.py create-pr --task-id <task-id> --title "feat(<scope>): <title>" --body "<description>" --branch <feature-name>
+   python scripts/site_sprint.py create-pr --task-id <task-id> --title "feat(<scope>): <title>" --body "<description>" --branch <feature-name>
    ```
 
 3. **Automatic Dual-Port Server Management (Agent-Managed, Zero Author Effort):**
@@ -183,7 +184,7 @@ cd .worktrees/<feature-name> && git diff master
    - **Step 1 (Gandalf):** Whenever the author provides feedback, questions, or iterates on requirements, Gandalf **immediately updates `docs/specs/<feature-name>.md`** so the specification continuously reflects the exact evolved requirements and edge cases.
    - **Step 2 (Gimli):** Gimli implements the changes directly inside `.worktrees/<feature-name>` in strict accordance with the updated spec, updating or adding automated regression tests.
    - **Step 3 (Live Reload):** Hugo LiveReload on `:1314` updates the author's browser instantly.
-   - **Step 4 (Legolas):** Legolas audits that all new or updated spec criteria have passing automated tests in `./scripts/test.sh` inside the worktree.
+   - **Step 4 (Legolas):** Legolas audits that all new or updated spec criteria have passing automated tests in the test suite inside the worktree.
    - **Step 5 (Push):** Updated commits are pushed to the PR branch.
 
 6. **Sign-off, Merge & Cleanup:**
@@ -201,4 +202,3 @@ cd .worktrees/<feature-name> && git diff master
    # Mark Todoist task complete
    td task complete <task-id>
    ```
-

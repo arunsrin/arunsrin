@@ -1,0 +1,61 @@
+#!/usr/bin/env pwsh
+# Strict test suite for arunsrin's notes (Native PowerShell / Windows)
+$ErrorActionPreference = "Stop"
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+
+# Refresh PATH from registry so newly installed CLI tools are immediately discoverable
+$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+
+Write-Host "=== 1. Running strict Hugo build ===" -ForegroundColor Cyan
+hugo --gc --minify --panicOnWarning
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Hugo build failed!"
+    exit $LASTEXITCODE
+}
+
+Write-Host "`n=== 2. Validating JSON indexes ===" -ForegroundColor Cyan
+jq . public/index.json | Out-Null
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "public/index.json is invalid!"
+    exit $LASTEXITCODE
+}
+Write-Host "[OK] public/index.json is valid" -ForegroundColor Green
+
+jq . public/static/quotes.json | Out-Null
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "public/static/quotes.json is invalid!"
+    exit $LASTEXITCODE
+}
+Write-Host "[OK] public/static/quotes.json is valid" -ForegroundColor Green
+
+Write-Host "`n=== 3. Checking internal links ===" -ForegroundColor Cyan
+$pythonCmd = if (Get-Command python -ErrorAction SilentlyContinue) { "python" } elseif (Get-Command python3 -ErrorAction SilentlyContinue) { "python3" } else { "py" }
+& $pythonCmd "$PSScriptRoot/check_links.py" "$PSScriptRoot/../public"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Internal link check failed!"
+    exit $LASTEXITCODE
+}
+
+Write-Host "`n=== 4. Running JavaScript & Cloudflare safety tests ===" -ForegroundColor Cyan
+node "$PSScriptRoot/test_js.js"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "JavaScript / Cloudflare safety tests failed!"
+    exit $LASTEXITCODE
+}
+
+Write-Host "`n=== 5. Validating Related Notes & Mentions ===" -ForegroundColor Cyan
+& $pythonCmd "$PSScriptRoot/test_related_notes.py"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Related Notes & Mentions validation failed!"
+    exit $LASTEXITCODE
+}
+
+Write-Host "`n=== 6. Validating Search Relevance & Scoring ===" -ForegroundColor Cyan
+node "$PSScriptRoot/test_search.js"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Search Relevance & Scoring validation failed!"
+    exit $LASTEXITCODE
+}
+
+Write-Host "`n=== All checks passed successfully! ===" -ForegroundColor Green
+exit 0
