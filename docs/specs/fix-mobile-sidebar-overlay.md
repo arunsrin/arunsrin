@@ -26,6 +26,10 @@ In mobile view (screen width <= 768px), opening the mobile navigation drawer pre
    - In the sidebar click listener, replace `if (e.target.tagName === 'A')` with `if (e.target.closest('a'))`.
    - This ensures clicks on nested icon spans or emoji text inside link elements correctly trigger navigation and close the drawer cleanly.
 
+3. **Dynamic CI Test Discovery & Parity Guardrail (`.github/workflows/ci.yml` & `scripts/test_ci_parity.py`):**
+   - Replace hardcoded script enumerations in GitHub Actions with dynamic wildcard test discovery (`scripts/test_*.py` and `scripts/test_*.js`).
+   - Add `scripts/test_ci_parity.py` as Step 10 in `./scripts/test.ps1` and `./scripts/test.sh` to physically fail local runs if any test script in `scripts/` is not covered by CI.
+
 ---
 
 ## 3. Constraints & Guardrails
@@ -37,7 +41,9 @@ In mobile view (screen width <= 768px), opening the mobile navigation drawer pre
 3. **Cloudflare & Rocket Loader Safety:**
    Zero inline event handlers; all interactions use unobtrusive `addEventListener`.
 4. **Automated Test Mandate & CI Parity:**
-   Author a dedicated automated regression test suite `scripts/test_mobile_sidebar.py` integrated into both `./scripts/test.ps1` / `./scripts/test.sh` and `.github/workflows/ci.yml`.
+   Author a dedicated automated regression test suite `scripts/test_mobile_sidebar.py` and enforce continuous execution parity via `scripts/test_ci_parity.py`.
+5. **Adversarial Code Review Governance:**
+   All changes audited against `REVIEW.md` across 10 adversarial review gates.
 
 ---
 
@@ -55,3 +61,6 @@ In mobile view (screen width <= 768px), opening the mobile navigation drawer pre
    - Clicking links (including clicking on icons/emojis inside `<a>`) navigates and closes the drawer.
 4. **CI Parity & Zero Hugo Warnings:**
    - All tests in `./scripts/test.ps1` and `./scripts/test.sh` pass cleanly with zero warnings.
+5. **Automated Test Discovery & CI Parity Gate:**
+   - `scripts/test_ci_parity.py` asserts that every test script in `scripts/` is covered by GitHub Actions CI.
+

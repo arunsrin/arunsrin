@@ -165,11 +165,18 @@ This skill orchestrates an autonomous multi-agent feature sprint for **arunsrin'
    - Gandalf invokes Elrond with **read-only tools** (`enable_write_tools: false`), passing the branch diff, PR number/URL, and living spec directly in the prompt.
    - This ensures Elrond operates completely interruption-free without triggering interactive CLI permission prompts for `git log` or `git diff`.
 
-2. **Independent Code Audit:**
-   Elrond audits the changes using `view_file` to inspect templates, CSS, JS, and test scripts:
-   - Evaluates code simplicity, CSS stacking context integrity, and vanilla JS efficiency.
-   - Checks edge cases (e.g. mobile drawer interactions, resize behavior, accessibility hooks).
-   - Verifies Rocket Loader safety and zero inline event handlers.
+2. **Adversarial Code Audit (Governed by `REVIEW.md`):**
+   Elrond assumes the code is broken until proven bulletproof, ruthlessly auditing the diff across the 10 Adversarial Review Gates defined in `REVIEW.md`:
+   - **Gate 1 (CI Parity):** Verifies all test suites in `scripts/` are executed in GitHub Actions CI via dynamic discovery.
+   - **Gate 2 (Stacking Contexts):** Confirms `.layout-container` uses `z-index: auto` (no trapped contexts).
+   - **Gate 3 (Event Delegation):** Confirms `closest('a')` delegation without intercepting non-link toggles like `<summary>`.
+   - **Gate 4 (Rocket Loader Safety):** Confirms ZERO inline event handlers across all touched templates.
+   - **Gate 5 (Console Encoding):** Confirms Python stdout UTF-8 reconfiguration across all scripts.
+   - **Gate 6 (Minified HTML Regex):** Confirms quote-agnostic regex matching for Hugo `--minify` output.
+   - **Gate 7 (Sacred Prose):** Confirms zero modifications to markdown content files.
+   - **Gate 8 (Zero Bloat):** Confirms pure vanilla JS and lightweight CSS.
+   - **Gate 9 (Negative Testing):** Confirms anti-spurious and negative assertions in test scripts.
+   - **Gate 10 (Interruption-Free Subagent):** Confirms read-only tools and zero shell command spam.
 
 3. **Session Retrospective & Rule Codification:**
    - Evaluates friction, annoyances, and gotchas experienced during the session (e.g. tool scope limits, encoding quirks, framework traps).
