@@ -7,6 +7,9 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build-and-test:
     name: Build & Verify
@@ -14,6 +17,21 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
+        with:
+          ref: ${{ github.head_ref || github.ref }}
+          fetch-depth: 0
+
+      - name: Auto-Format Markdown Paragraphs & Commit Back (PR only)
+        if: github.event_name == 'pull_request'
+        run: |
+          python3 scripts/fill_paragraph.py --fix
+          if [ -n "$(git status --porcelain home)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add home
+            git commit -m "style(prose): fill paragraphs to 70 columns [skip ci]"
+            git push
+          fi
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
