@@ -21,12 +21,12 @@
   
   --bg-color: #ffffff;
   --bg-secondary: #f8fafc;
-  --bg-sidebar: #f1f5f9;
+  --bg-sidebar: #f8fafc;
   --text-color: #1e293b;
   --text-muted: #64748b;
   --border-color: #e2e8f0;
   --link-color: #0284c7;
-  --header-bg: linear-gradient(#40E0D0,#2fa4e7 75%,#2c9ad9);
+  --header-bg: linear-gradient(135deg, rgba(64, 224, 208, 0.88), rgba(47, 164, 231, 0.88) 75%, rgba(44, 154, 217, 0.88));
   --header-text: #ffffff;
   --card-bg: #ffffff;
   --code-bg: #f8fafc;
@@ -43,12 +43,13 @@
 [data-theme="dark"] {
   --bg-color: #0f172a;
   --bg-secondary: #1e293b;
-  --bg-sidebar: #1e293b;
+  --bg-sidebar: #0f172a;
   --text-color: #f1f5f9;
   --text-muted: #94a3b8;
   --border-color: #334155;
   --link-color: #38bdf8;
-  --header-bg: #1e293b;
+  --header-bg: rgba(15, 23, 42, 0.85);
+
   --header-text: #f8fafc;
   --card-bg: #1e293b;
   --code-bg: #0f172a;
@@ -84,10 +85,19 @@ code, pre {
   position: sticky;
   top: 0;
   z-index: 1000;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 20px rgba(47, 164, 231, 0.12);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+[data-theme="dark"] .site-header {
+  border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
 }
 
 .site-header a {
@@ -162,13 +172,14 @@ code, pre {
   width: 280px;
   background: var(--bg-sidebar);
   border-right: 1px solid var(--border-color);
-  padding: 1.5rem 1rem;
+  padding: 1.25rem 0.85rem;
   box-sizing: border-box;
   flex-shrink: 0;
   overflow-y: auto;
   max-height: calc(100vh - 60px);
   position: sticky;
   top: 60px;
+  font-family: var(--font-family-sans);
 }
 
 .main-content {
@@ -193,37 +204,47 @@ code, pre {
 
 .nav-tree ul {
   list-style: none;
-  padding-left: 1rem;
-  margin: 0.25rem 0;
+  padding-left: 0.75rem;
+  margin: 0.15rem 0;
 }
 .nav-tree > ul {
   padding-left: 0;
 }
 .nav-tree li {
-  margin: 0.35rem 0;
+  margin: 0.15rem 0;
 }
 .nav-tree a {
   color: var(--text-color);
   text-decoration: none;
   display: flex;
   align-items: center;
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
-  font-size: 0.925rem;
+  padding: 0.28rem 0.6rem;
+  border-radius: 0.375rem;
+  font-size: 0.885rem;
+  border-left: 2px solid transparent;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
 }
-.nav-tree a:hover, .nav-tree a.active {
-  background: rgba(2, 132, 199, 0.1);
+.nav-tree a:hover {
+  background: rgba(2, 132, 199, 0.07);
   color: var(--link-color);
-  font-weight: 500;
+  border-left: 2px solid rgba(2, 132, 199, 0.45);
+  transform: translateX(2px);
+}
+.nav-tree a.active {
+  background: rgba(2, 132, 199, 0.12);
+  color: var(--link-color);
+  font-weight: 600;
+  border-left: 3px solid var(--link-color);
 }
 .nav-section-title {
   font-weight: 700;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--text-muted);
-  margin-top: 1.25rem;
-  margin-bottom: 0.5rem;
+  margin-top: 0.85rem;
+  margin-bottom: 0.25rem;
+  padding-left: 0.4rem;
 }
 .nav-section-title a {
   color: inherit;
@@ -236,7 +257,7 @@ code, pre {
 
 /* Collapsible navigation tree */
 details.nav-section-details {
-  margin-top: 1rem;
+  margin-top: 0.45rem;
 }
 details.nav-section-details > summary {
   list-style: none;
@@ -245,12 +266,14 @@ details.nav-section-details > summary {
   display: flex;
   align-items: center;
   font-weight: 700;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--text-muted);
-  margin-bottom: 0.35rem;
-  padding: 0.2rem 0;
+  margin-bottom: 0.2rem;
+  padding: 0.22rem 0.4rem;
+  border-radius: 0.3rem;
+  transition: color 0.15s ease;
 }
 details.nav-section-details > summary::-webkit-details-marker {
   display: none;
@@ -261,7 +284,7 @@ details.nav-section-details > summary::before {
   margin-right: 0.4rem;
   transition: transform 0.2s ease;
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 details.nav-section-details[open] > summary::before {
   transform: rotate(90deg);
@@ -830,12 +853,12 @@ footer.site-footer {
 }
 
 .chess-watermark.corner-top-right {
-  top: 56px;
+  top: 0;
   right: 0;
 }
 
 .chess-watermark.corner-top-left {
-  top: 56px;
+  top: 0;
   left: 0;
 }
 
