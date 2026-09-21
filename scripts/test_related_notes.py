@@ -31,9 +31,11 @@ def run_tests():
 
     print("--- Related Notes & Mentions Test Suite ---")
 
-    # 1. Discover all regular content notes
+    # 1. Discover all regular content notes (excluding chronological posts)
     single_notes = []
     for root, _, files in os.walk(content_dir):
+        if "posts" in root.split(os.sep):
+            continue
         for f in files:
             if f.endswith(".md") and not f.startswith("_index"):
                 rel = os.path.relpath(os.path.join(root, f), content_dir)

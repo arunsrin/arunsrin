@@ -338,13 +338,16 @@ def validate_tags(home_dir):
 
     for file_path in all_files:
         rel_path = os.path.relpath(file_path, home_dir)
+        is_post = rel_path.startswith("posts" + os.sep) or rel_path.startswith("posts/")
         tags = parse_frontmatter_tags(file_path)
         file_tags_map[rel_path] = tags
 
         for tag in tags:
-            tag_counts[tag] = tag_counts.get(tag, 0) + 1
+            # Digital garden evergreen taxonomy is tracked for non-post notes
+            if not is_post:
+                tag_counts[tag] = tag_counts.get(tag, 0) + 1
 
-            # Tag format check
+            # Tag format check (enforced across all content including posts)
             if not format_pattern.match(tag):
                 format_errors.append((rel_path, tag))
 

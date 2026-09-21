@@ -13,13 +13,35 @@
     {{ $isCurrentSection := or (eq $currentPage.RelPermalink .RelPermalink) (hasPrefix $currentPage.RelPermalink .RelPermalink) }}
     <details class="nav-section-details" {{ if $isCurrentSection }}open{{ end }}>
       <summary class="nav-section-summary">
-        <a href="{{ .RelPermalink }}" class="{{ if eq $currentPage.RelPermalink .RelPermalink }}active{{ end }}">{{ .Title }}</a>
+        {{ if eq .Section "posts" }}
+          {{ $posts := (where site.RegularPages "Section" "posts").ByDate.Reverse }}
+          {{ $latest := index $posts 0 }}
+          {{ $isPostsActive := false }}
+          {{ if $latest }}
+            {{ $isPostsActive = and (hasPrefix $currentPage.RelPermalink "/posts/") (ne $currentPage.RelPermalink $latest.RelPermalink) }}
+          {{ else }}
+            {{ $isPostsActive = hasPrefix $currentPage.RelPermalink "/posts/" }}
+          {{ end }}
+          <a href="{{ .RelPermalink }}" class="{{ if $isPostsActive }}active{{ end }}">{{ .Title }}</a>
+        {{ else }}
+          <a href="{{ .RelPermalink }}" class="{{ if eq $currentPage.RelPermalink .RelPermalink }}active{{ end }}">{{ .Title }}</a>
+        {{ end }}
       </summary>
       <ul>
-        <li>
-          <a href="{{ .RelPermalink }}" class="{{ if eq $currentPage.RelPermalink .RelPermalink }}active{{ end }}">📌 Overview</a>
-        </li>
-        {{ partial "sidebar-tree.html" (dict "context" . "currentPage" $currentPage) }}
+        {{ if eq .Section "posts" }}
+          {{ $posts := (where site.RegularPages "Section" "posts").ByDate.Reverse }}
+          {{ $latest := index $posts 0 }}
+          {{ if $latest }}
+            <li>
+              <a href="{{ $latest.RelPermalink }}" class="{{ if eq $currentPage.RelPermalink $latest.RelPermalink }}active{{ end }}">Latest</a>
+            </li>
+          {{ end }}
+        {{ else }}
+          <li>
+            <a href="{{ .RelPermalink }}" class="{{ if eq $currentPage.RelPermalink .RelPermalink }}active{{ end }}">📌 Overview</a>
+          </li>
+          {{ partial "sidebar-tree.html" (dict "context" . "currentPage" $currentPage) }}
+        {{ end }}
       </ul>
     </details>
   {{ end }}
@@ -29,6 +51,12 @@
   <ul>
     <li><a href="/about/" class="{{ if eq .RelPermalink "/about/" }}active{{ end }}">ℹ️ About</a></li>
     <li><a href="/sitemap/" class="{{ if eq .RelPermalink "/sitemap/" }}active{{ end }}">🗺️ Sitemap</a></li>
+    <li>
+      <a href="/posts/index.xml" title="RSS Feed for Posts" target="_blank" rel="noopener noreferrer">
+        <svg class="rss-sidebar-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="margin-right: 0.4rem; color: #f97316; flex-shrink: 0;"><circle cx="6.18" cy="17.82" r="2.18"/><path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/></svg>
+        <span>RSS Feed</span>
+      </a>
+    </li>
   </ul>
 
 </nav>

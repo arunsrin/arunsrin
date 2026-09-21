@@ -97,6 +97,16 @@ A comprehensive, organized index of all sections, topics, and notes in this digi
 
 ---
 
+# :material-post-outline:{ .anim-pulse } Posts & Dispatches
+
+<span id="posts" class="heading-anchor-target"></span>
+
+Chronological dispatches, announcements, quick updates, and throwaway thoughts.
+
+- [:material-post-outline:{ .anim-pulse } Explore Posts Archive](posts/index.md)
+
+---
+
 # :material-sprout:{ .anim-heart .anim-heart } Digital Garden & Research
 
 These pages cover other various topics I've researched or feel passionate about.

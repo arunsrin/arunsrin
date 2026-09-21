@@ -11,7 +11,7 @@ enableGitInfo = true
 
 [outputs]
   home = ['HTML', 'JSON']
-  section = ['HTML']
+  section = ['HTML', 'RSS']
 
 [minify]
   [minify.tdewolff]

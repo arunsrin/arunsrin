@@ -1,0 +1,75 @@
+{{ define "main" }}
+<article>
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="/">🏠 Home</a></li>
+      <li><span class="breadcrumb-separator">/</span> <span class="breadcrumb-current">{{ .Title }}</span></li>
+    </ol>
+  </nav>
+
+  <header class="posts-section-header">
+    <h1>{{ with .Params.icon }}{{ . }} {{ end }}{{ .Title }}</h1>
+    {{ with .Description }}
+      <p class="posts-section-desc">{{ . }}</p>
+    {{ end }}
+  </header>
+
+  {{ if .Content }}
+    <div class="content posts-section-intro">
+      {{ .Content }}
+    </div>
+  {{ end }}
+
+  {{ $paginator := .Paginate (.Pages.ByDate.Reverse) 6 }}
+  <div class="posts-list-stream">
+    {{ $currentYear := "" }}
+    {{ range $paginator.Pages }}
+      {{ $postYear := .Date.Format "2006" }}
+      {{ if and (not .Date.IsZero) (ne $postYear $currentYear) }}
+        {{ $currentYear = $postYear }}
+        <div class="posts-year-divider heading-anchor-target" id="year-{{ $postYear }}">
+          <h3>📅 {{ $postYear }}</h3>
+        </div>
+      {{ end }}
+      <article class="post-entry-card">
+        <div class="post-entry-header">
+          <h2 class="post-entry-title">
+            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+          </h2>
+          <div class="post-entry-meta">
+            {{ if not .Date.IsZero }}
+              <time class="post-entry-date" datetime="{{ .Date.Format "2006-01-02" }}">
+                📅 {{ .Date.Format "Jan 02, 2006" }}
+              </time>
+            {{ end }}
+            <span class="meta-dot">•</span>
+            <span class="post-entry-reading-time">⏱️ {{ .ReadingTime }} min read</span>
+          </div>
+        </div>
+        {{ with or .Description .Summary }}
+          <p class="post-entry-desc">{{ . }}</p>
+        {{ end }}
+        {{ with .Params.tags }}
+          <div class="post-entry-tags">
+            {{ range . }}
+              <a href="/tags/{{ . | urlize }}/" class="tag-pill">🏷️ {{ . }}</a>
+            {{ end }}
+          </div>
+        {{ end }}
+      </article>
+    {{ end }}
+  </div>
+
+  {{ if gt $paginator.TotalPages 1 }}
+    <nav class="posts-nav-pager" aria-label="Posts pagination">
+      {{ if $paginator.HasPrev }}
+        <a href="{{ $paginator.Prev.URL }}" class="pagination-link pagination-prev" aria-label="Previous page">← Newer Posts</a>
+      {{ end }}
+      <span class="pagination-status">Page {{ $paginator.PageNumber }} of {{ $paginator.TotalPages }}</span>
+      {{ if $paginator.HasNext }}
+        <a href="{{ $paginator.Next.URL }}" class="pagination-link pagination-next" aria-label="Next page">Older Posts →</a>
+      {{ end }}
+    </nav>
+  {{ end }}
+</article>
+{{ end }}

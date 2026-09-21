@@ -6,7 +6,7 @@ title: "Home"
 
 Welcome to my notes. This is a personal notebook and collection of references, summaries, reading logs, and technical write-ups cultivated over time.
 
-Unlike a chronological blog, these notes are organized conceptually. Feel free to explore by topic, browse the [complete sitemap & directory](sitemap.md), or check out recent updates below.
+Feel free to explore by topic, browse the [complete sitemap & directory](sitemap.md), or check out the latest posts below.
 
 # :material-compass-outline:{ .anim-rotate } Hubs
 
@@ -50,6 +50,15 @@ Explore the main sections of the site, or browse the [complete sitemap & directo
 </div>
 
 
+# :material-post-outline:{ .anim-pulse } Latest Posts
+
+Recent dispatches, announcements, and quick updates:
+
+{{< latest-posts count="3" >}}
+
+[:material-arrow-right:{ .anim-pulse } Explore Posts Archive](posts/index.md)
+
+
 # :material-star-shooting-outline:{ .anim-pulse } Featured Notes
 
 A few highlights from across the site:
@@ -88,13 +97,6 @@ A few highlights from across the site:
     [:material-file-document-outline: Read Notes](games/xbox.md)
 
 </div>
-
-# :material-clock-outline:{ .anim-rotate } Recent Updates
-
-The latest updates and freshly edited notes:
-
-{{< recently-updated count="5" >}}
-
 
 ---
 
