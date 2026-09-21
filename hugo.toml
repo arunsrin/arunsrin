@@ -3,6 +3,11 @@ title = "arunsrin's notes"
 locale = 'en-US'
 contentDir = 'home'
 publishDir = 'public'
+enableGitInfo = true
+
+[frontmatter]
+  lastmod = [":git", "lastmod", "date", "publishDate"]
+
 
 [outputs]
   home = ['HTML', 'JSON']

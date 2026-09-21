@@ -1,0 +1,31 @@
+{{- $count := default 5 (.Get "count") -}}
+{{- $pages := slice -}}
+{{- range .Site.RegularPages.ByLastmod.Reverse -}}
+  {{- if and (ne .RelPermalink "/about/") (ne .RelPermalink "/sitemap/") -}}
+    {{- $pages = $pages | append . -}}
+  {{- end -}}
+{{- end -}}
+<div class="recently-updated-stream">
+  {{- range first $count $pages }}
+    <a class="recent-note-card" href="{{ .RelPermalink }}">
+      <div class="recent-note-main">
+        <span class="recent-note-title">{{ or .Title .LinkTitle }}</span>
+        {{- if not .Lastmod.IsZero }}
+          <span class="recent-note-date">{{ .Lastmod.Format "Jan 02, 2006" }}</span>
+        {{- end }}
+      </div>
+      <div class="recent-note-meta">
+        {{- with .Section }}
+          <span class="recent-note-section">{{ . | humanize }}</span>
+        {{- end }}
+        {{- with .Params.tags }}
+          <span class="recent-note-tags">
+            {{- range first 3 . }}
+              <span class="recent-tag">#{{ . }}</span>
+            {{- end }}
+          </span>
+        {{- end }}
+      </div>
+    </a>
+  {{- end }}
+</div>
