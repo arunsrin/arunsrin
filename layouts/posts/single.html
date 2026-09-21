@@ -1,0 +1,58 @@
+{{ define "main" }}
+<article>
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="/">🏠 Home</a></li>
+      <li><span class="breadcrumb-separator">/</span> <a href="/posts/">📝 Posts</a></li>
+      <li><span class="breadcrumb-separator">/</span> <span class="breadcrumb-current">{{ .Title }}</span></li>
+    </ol>
+  </nav>
+
+  <header class="post-header">
+    <h1 class="post-title">{{ .Title }}</h1>
+    <div class="page-meta">
+      <div class="meta-stats">
+        {{ if not .Date.IsZero }}
+          <time datetime="{{ .Date.Format "2006-01-02" }}">📅 {{ .Date.Format "Jan 02, 2006" }}</time>
+          <span>•</span>
+        {{ end }}
+        <span>⏱️ {{ .ReadingTime }} min read</span>
+        <span>•</span>
+        <span>📝 {{ .WordCount }} words</span>
+      </div>
+      {{ with .Params.tags }}
+        <div class="meta-tags">
+          {{ range . }}
+            <a href="/tags/{{ . | urlize }}/" class="tag-pill">🏷️ {{ . }}</a>
+          {{ end }}
+        </div>
+      {{ end }}
+    </div>
+  </header>
+
+  <div class="content post-content">
+    {{ .Content }}
+  </div>
+
+  {{ $prev := .PrevInSection }}
+  {{ $next := .NextInSection }}
+  {{ if or $prev $next }}
+    <nav class="post-sequential-nav" aria-label="Sequential post navigation">
+      <div class="post-nav-item post-nav-prev">
+        {{ with $prev }}
+          <span class="post-nav-label">← Older Post</span>
+          <a href="{{ .RelPermalink }}" class="post-nav-link">{{ .Title }}</a>
+        {{ end }}
+      </div>
+      <div class="post-nav-item post-nav-next">
+        {{ with $next }}
+          <span class="post-nav-label">Newer Post →</span>
+          <a href="{{ .RelPermalink }}" class="post-nav-link">{{ .Title }}</a>
+        {{ end }}
+      </div>
+    </nav>
+  {{ end }}
+
+  {{ partial "related-notes.html" . }}
+</article>
+{{ end }}
