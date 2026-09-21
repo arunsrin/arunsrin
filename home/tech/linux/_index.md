@@ -20,7 +20,7 @@ Slackware and, well, FreeBSD. I had a ton of fun with my Desktop:
 setting up IPv6 tunnels, dynamic DNS, apache, squid, privoxy, and
 generally playing with minimiastic window managers and the shell.
 
-These days I stick with Fedora on my personal laptop and WSL-2 at 
+These days I stick with Fedora on my personal laptop and WSL-2 at
 work, and love both.
 
 ## dotfiles
@@ -34,10 +34,12 @@ prompt), and a few other tools.
 
 ### Allow volume above 100%
 
-From [here](https://www.reddit.com/r/Fedora/comments/v2d8yr/comment/kgar1ts/)
+From
+[here](https://www.reddit.com/r/Fedora/comments/v2d8yr/comment/kgar1ts/)
 
 > You'll want to install the dconf-editor, navigate to
-> `org.gnome.desktop.sound` and set `allow-volume-above-100-percent` to true
+> `org.gnome.desktop.sound` and set `allow-volume-above-100-percent`
+> to true
 
 ## General Linux
 
@@ -51,7 +53,8 @@ From [here](https://www.reddit.com/r/Fedora/comments/v2d8yr/comment/kgar1ts/)
 
 ### Modern Networking: iproute2
 
-The old `ifconfig`, `route`, and `netstat` commands are deprecated. Use the `ip` suite instead:
+The old `ifconfig`, `route`, and `netstat` commands are deprecated.
+Use the `ip` suite instead:
 - `ip addr` - View IP addresses (replaces `ifconfig`).
 - `ip link` - View/manage network interfaces.
 - `ip route` - View/manage the routing table (replaces `route`).
@@ -59,8 +62,8 @@ The old `ifconfig`, `route`, and `netstat` commands are deprecated. Use the `ip`
 
 ### Centos 7 sources (LEGACY)
 
-!!! warning
-    CentOS 7 reached End of Life (EOL) on June 30, 2024. These notes are preserved for legacy maintenance only.
+!!! warning CentOS 7 reached End of Life (EOL) on June 30, 2024. These
+notes are preserved for legacy maintenance only.
 
 Clone their helper repo first:
 
@@ -96,7 +99,8 @@ server=/mydomain.local/10.250.0.2
 For everything else, dnsmasq will use the existing configuration in
 `/etc/resolv.conf`.
 
-More [here](https://serverfault.com/questions/872109/resolv-conf-multiple-dns-servers-with-specific-domains)
+More
+[here](https://serverfault.com/questions/872109/resolv-conf-multiple-dns-servers-with-specific-domains)
 
 ### diff and patch
 
@@ -144,19 +148,20 @@ timedatectl set-timezone Asia/Kolkata
 
 ### Install fonts in centos/linux:
 
-System-wide : 
+System-wide :
 
 ``` sh
 mkdir -p /usr/share/fonts/greatvibes
 ```
 
-User only : 
+User only :
 
 ``` sh
 mkdir ~/.fonts
 ```
 
-Copy your font files in the appropriate folder and "register" them in the system with:
+Copy your font files in the appropriate folder and "register" them in
+the system with:
 
 ``` sh
 fc-cache -f -v
@@ -213,9 +218,8 @@ top # or use htop / btop for a better TUI
 
 ### GNU/Screen scrollback:
 
-`Ctrl a Esc`
-(then use `Ctrl b/Ctrl f/Ctrl u/Ctrl d` etc)
-and `Esc` to end
+`Ctrl a Esc` (then use `Ctrl b/Ctrl f/Ctrl u/Ctrl d` etc) and `Esc` to
+end
 
 ### Quick fsck (solaris)
 
@@ -237,17 +241,18 @@ aptitude  remove --purge $(deborphan)
 
 ### GNU/Screen splitting windows
 
--   `C-a V or C-a |`     split the screen vertically
--   `C-a X`              remove/detach the current split
--   `C-a S`              split horizontally
--   `C-a tab`            cycle between windows
+-   `C-a V or C-a |` split the screen vertically
+-   `C-a X` remove/detach the current split
+-   `C-a S` split horizontally
+-   `C-a tab` cycle between windows
 
 ### Tmux keybindings
 
 -   `Ctrl-b %` (Split the window vertically)
 -   `Ctrl-b :` "split-window" (Split window horizontally)
 -   `Ctrl-b o` (Goto next pane)
--   `Ctrl-b q` (Show pane numbers, when the numbers show up type the key to goto that pane)
+-   `Ctrl-b q` (Show pane numbers, when the numbers show up type the
+    key to goto that pane)
 -   `Ctrl-b {` (Move the current pane left)
 -   `Ctrl-b }` (Move the current pane right)
 
@@ -277,8 +282,8 @@ bind - split-window -v
 ```
 
 -   `\033` is Escape
--   So `Escape + 3 + 2 + m` tells the terminal that everything from this
-    point onwards is in green.
+-   So `Escape + 3 + 2 + m` tells the terminal that everything from
+    this point onwards is in green.
 -   And `Escape + [ + 0 + m` reverts it back to normal
 
 -   These are some sequences:
@@ -324,8 +329,10 @@ stty -a
 
 ### Fix for xargs errors when filenames contain spaces
 
--   `find` has a print0 option that uses null characters instead of \n as separators.
--   `xargs` has a -0 option that uses the same separator when working on the args. So:
+-   `find` has a print0 option that uses null characters instead of \n
+    as separators.
+-   `xargs` has a -0 option that uses the same separator when working
+    on the args. So:
 
 ``` sh
 find . -name -print0 | xargs -0 ls -l
@@ -347,11 +354,15 @@ with date filters
 -   `find . -ctime +3` # older than 3 days
 -   `find . -ctime 3` # created exactly 3 days back
 -   `find . -ctime +3 -ctime -5` # created 3 - 5 days back
--   `find . -newer /tmp/somefile` # see somefile's timestamp and show files newer than it
+-   `find . -newer /tmp/somefile` # see somefile's timestamp and show
+    files newer than it
 -   works great in conjunction with:
 -   `touch 0607090016 /tmp/somefile` #i.e. 7th june, 9:00 am, 2016
--   `find . -maxdepth 1 -type d -ctime +38 -exec rm -rf  {} \;` delete all folders older than 38 days back.
--   don't use atime much: every directory access changes its atime, so when find traverses through it, the inode's atime entry gets updated.
+-   `find . -maxdepth 1 -type d -ctime +38 -exec rm -rf {} \;` delete
+    all folders older than 38 days back.
+-   don't use atime much: every directory access changes its atime, so
+    when find traverses through it, the inode's atime entry gets
+    updated.
 
 ### File formatting, wrapping etc
 
@@ -366,11 +377,13 @@ cat <some-verbose-output> | fold -70
 -   Also look at the `fmt` command, which seems similar to emacs'
     `fill-paragraph`.
 
--   `pr` gives a pretty display with margins, headers, and page numbers.
+-   `pr` gives a pretty display with margins, headers, and page
+    numbers.
 
 ### Deleting files with odd names
 
-There's more than one way. Here's one: find the inode with `ls -i`, then delete with:
+There's more than one way. Here's one: find the inode with `ls -i`,
+then delete with:
 
 ``` sh
 find -inum <inode-number> -exec rm -i {} \;
@@ -389,7 +402,8 @@ cat -v -t -e <somefile>
 
 ### Stat command: see inode information
 
-The inode holds the address in the filesystem, access permissions, ctime/mtime etc
+The inode holds the address in the filesystem, access permissions,
+ctime/mtime etc
 
 ``` sh
     arunsrin@ARUNSRIN-G2CA5 MINGW64 ~
@@ -407,7 +421,8 @@ The inode holds the address in the filesystem, access permissions, ctime/mtime e
     $
 ```
 
-If the filename is odd and you can't paste it easily in the terminal, just try
+If the filename is odd and you can't paste it easily in the terminal,
+just try
 
 ``` sh
 ls -il
@@ -459,12 +474,13 @@ From powershell, run this to directly login as the root user:
 wsl --user root
 ```
 
-If you have more than one wsl distribution installed, list them with `wsl -l`
-and exec into that with this:
+If you have more than one wsl distribution installed, list them with
+`wsl -l` and exec into that with this:
 
 ``` sh
 wsl -d Ubuntu-20.04 --user root
 ```
 
-Then you can do the usual `passwd` or `passwd <user>` to reset that password.
+Then you can do the usual `passwd` or `passwd <user>` to reset that
+password.
 

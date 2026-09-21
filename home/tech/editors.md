@@ -11,32 +11,37 @@ My heart lies with GNU Emacs. It is probably my most used tool at work
 because I take a crapload of notes. The pages on this site are written
 in Emacs in markdown (because *Hugo* supports it well). Some other
 notes are in *org* format. And the bulk of my work-related notes
-(dating back to 2007) are in one big fat plain text file that is, as of
-December 2017, *26252* lines long.
+(dating back to 2007) are in one big fat plain text file that is, as
+of December 2017, *26252* lines long.
 
 I'm pretty comfortable with Vim as well. I use it for quick and dirty
 editing for my projects. For longer sessions I invariably swtich to
 Emacs.
 
-!!! note
-	My dotfiles for both editors are at [this github repo](https://github.com/arunsrin/dotfiles).
+!!! note My dotfiles for both editors are at [this github
+repo](https://github.com/arunsrin/dotfiles).
 
 On a new machine I clone this repo, copy the dotfiles over and:
 
-- If emacs, just start it. It downloads all the packages and I'm good to go.
-- If vim, I use **`vim-plug`** (or the older `Vundle`). Start vim and do a `:PlugInstall`.
+- If emacs, just start it. It downloads all the packages and I'm good
+  to go.
+- If vim, I use **`vim-plug`** (or the older `Vundle`). Start vim and
+  do a `:PlugInstall`.
 
 ## ctags
 
-- `ctags -e -R -f TAGS` - recurses and generates a tags file for Emacs.
-- `ctags -R .` - generates the tags file. **Universal Ctags** is the modern, maintained fork to use over the old Exuberant Ctags.
+- `ctags -e -R -f TAGS` - recurses and generates a tags file for
+  Emacs.
+- `ctags -R .` - generates the tags file. **Universal Ctags** is the
+  modern, maintained fork to use over the old Exuberant Ctags.
   - works for python, c, c++ and quite a few more I think.
 - `Ctrl+]` jumps to definition.
 - `Ctrl+t` jumps back.
 
 ## Compile GNU Emacs on Ubuntu
 
-This is from [here](https://emacsredux.com/blog/2021/12/19/using-emacs-on-windows-11-with-wsl2/):
+This is from
+[here](https://emacsredux.com/blog/2021/12/19/using-emacs-on-windows-11-with-wsl2/):
 
 ```sh
 git clone git://git.sv.gnu.org/emacs.git
@@ -100,11 +105,12 @@ Or set this:
 -   [X] `C-c C-c` checks it.
     -   [X] `TAB` for subdivisions.
     -   [X] When all subtasks are checked, so is the main one.
--   [X] A trailing [] in the line preceding a list of checkboxes contains a summary (2/3 in this case).
+-   [X] A trailing [] in the line preceding a list of checkboxes
+        contains a summary (2/3 in this case).
 
 ### Publishing/Exporting
 
--   `C-c C-e` for everything. 
+-   `C-c C-e` for everything.
     -   `h o` exports to html.
     -   `#` brings up common templates.
 
@@ -118,7 +124,8 @@ Or set this:
 
 ## Set font in gvim permanently
 
--   Change it for the current session and verify what it is set as with this:
+-   Change it for the current session and verify what it is set as
+    with this:
 
 ``` vim
 :set guifont?
@@ -195,15 +202,20 @@ CtrlA/CtrlX
 Larger guides from the rest of the internet are below.
 
 ### Emacs
-- [Elfeed for Emacs](http://pragmaticemacs.com/emacs/read-your-rss-feeds-in-emacs-with-elfeed/)
+- [Elfeed for
+  Emacs](http://pragmaticemacs.com/emacs/read-your-rss-feeds-in-emacs-with-elfeed/)
 - [Comment boxes](http://pragmaticemacs.com/emacs/comment-boxes/)
-- [Publishing org files to html](https://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html)
+- [Publishing org files to
+  html](https://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html)
 - [Magit](https://magit.vc/)
 - [Fractals !!? in Emacs](https://nullprogram.com/blog/2012/09/14/)
-- [Huge eshell guide](https://www.masteringemacs.org/article/complete-guide-mastering-eshell)
+- [Huge eshell
+  guide](https://www.masteringemacs.org/article/complete-guide-mastering-eshell)
 - [Animations in Emacs](http://dantorop.info/project/emacs-animation/)
 
 ### Vim
-- [Vim/cscope tutorial](http://cscope.sourceforge.net/cscope_vim_tutorial.html)
-- [Vim/python plugins](https://realpython.com/vim-and-python-a-match-made-in-heaven/)
+- [Vim/cscope
+  tutorial](http://cscope.sourceforge.net/cscope_vim_tutorial.html)
+- [Vim/python
+  plugins](https://realpython.com/vim-and-python-a-match-made-in-heaven/)
 

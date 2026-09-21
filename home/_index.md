@@ -4,12 +4,15 @@ title: "Home"
 
 # :material-home-variant:{ .anim-pulse .anim-flip } Home
 
-Welcome to my notes. This is a personal notebook and collection of references, summaries, reading logs, and technical write-ups cultivated over time.
+Welcome to my notes. This is a personal notebook and collection of
+references, summaries, reading logs, and technical write-ups
+cultivated over time.
 
 
 # :material-compass-outline:{ .anim-rotate } Hubs
 
-Explore the main sections of the site, or browse the [complete sitemap & directory](sitemap.md) for every page and note.
+Explore the main sections of the site, or browse the [complete sitemap
+& directory](sitemap.md) for every page and note.
 
 
 <div class="grid cards" markdown>
@@ -18,7 +21,8 @@ Explore the main sections of the site, or browse the [complete sitemap & directo
 
     ---
 
-    Practical one-liners, cheat sheets, and deep dives on Linux, Kubernetes, AI, databases, and development tooling.
+    Practical one-liners, cheat sheets, and deep dives on Linux,
+    Kubernetes, AI, databases, and development tooling.
 
     [:material-arrow-right:{ .anim-pulse } Explore Tech Notes](tech/index.md)
 
@@ -26,7 +30,8 @@ Explore the main sections of the site, or browse the [complete sitemap & directo
 
     ---
 
-    Reading lists, reflections, and in-depth reviews spanning science, philosophy, literary fiction, hard sci-fi, and history.
+    Reading lists, reflections, and in-depth reviews spanning science,
+    philosophy, literary fiction, hard sci-fi, and history.
 
     [:material-arrow-right:{ .anim-pulse } Explore Books](books/index.md)
 
@@ -34,7 +39,8 @@ Explore the main sections of the site, or browse the [complete sitemap & directo
 
     ---
 
-    Gaming logs, favorite interactive stories, and genre breakdowns across RPGs, shooters, sci-fi, and Xbox Series X.
+    Gaming logs, favorite interactive stories, and genre breakdowns
+    across RPGs, shooters, sci-fi, and Xbox Series X.
 
     [:material-arrow-right:{ .anim-pulse } Explore Games](games/index.md)
 
@@ -42,7 +48,8 @@ Explore the main sections of the site, or browse the [complete sitemap & directo
 
     ---
 
-    Favorite films, television shows, and other media that have left a lasting impression.
+    Favorite films, television shows, and other media that have left a
+    lasting impression.
 
     [:material-arrow-right:{ .anim-pulse } Explore Media](other-interests/media.md)
 
@@ -70,7 +77,8 @@ A few highlights from across the site:
 
     *Massimo Pigliucci*
 
-    Practical ancient philosophy applied to modern living, decision-making, and emotional resilience.
+    Practical ancient philosophy applied to modern living,
+    decision-making, and emotional resilience.
 
     [:material-file-document-outline: Read Review](books/non-fiction/philosophy/think-like-a-stoic.md)
 
@@ -80,7 +88,8 @@ A few highlights from across the site:
 
     *Security & Cryptography*
 
-    Commands and one-liners for certificates, keys, CSR verification, and TLS connections.
+    Commands and one-liners for certificates, keys, CSR verification,
+    and TLS connections.
 
     [:material-file-document-outline: Read Notes](tech/openssl.md)
 
@@ -91,7 +100,8 @@ A few highlights from across the site:
 
     *Gaming & Hardware*
 
-    Hardware setup, gaming impressions, Quick Resume, and favorite backward-compatible titles.
+    Hardware setup, gaming impressions, Quick Resume, and favorite
+    backward-compatible titles.
 
     [:material-file-document-outline: Read Notes](games/xbox.md)
 
@@ -101,7 +111,8 @@ A few highlights from across the site:
 
 # :material-penguin:{ .anim-flip .anim-fade } About
 
-See [About](about.md) for more about me. This site is built using the lovely [Hugo](https://gohugo.io/), a fast static site
-generator. The content is written in markdown using GNU Emacs. It is
-hosted on [Cloudflare](https://cloudflare.com/).
+See [About](about.md) for more about me. This site is built using the
+lovely [Hugo](https://gohugo.io/), a fast static site generator. The
+content is written in markdown using GNU Emacs. It is hosted on
+[Cloudflare](https://cloudflare.com/).
 

@@ -102,6 +102,12 @@ Every review conducted by Elrond must ruthlessly audit the diff across these 11 
   - Verify that ALL touched files in the diff—including `docs/specs/<feature-name>.md`—are strictly scoped to the feature branch.
   - Reject immediately if any file was committed or pushed directly to `master` outside `gh pr merge`.
 
+### Gate 12: CI Auto-Commit Push Hygiene & CommonMark Hard Breaks
+- **The Trap:** Workflows configuring bots to auto-commit and push back to PRs use bare `git push` which crashes in detached HEAD states, or omit fork checks resulting in 403 write rejections. Prose wrappers that blindly call `strip()` swallow intentional CommonMark hard line breaks (`  \n` or `\\\n`).
+- **The Audit:**
+  - Verify CI push commands use explicit refspecs: `git push origin HEAD:${{ github.head_ref }}` and guard on `github.event.pull_request.head.repo.full_name == github.repository`.
+  - Verify markdown linters/wrappers check for and preserve trailing double spaces (`  `) and trailing backslashes (`\`).
+
 ---
 
 ## 3. Review Verdicts & The Triad Loop

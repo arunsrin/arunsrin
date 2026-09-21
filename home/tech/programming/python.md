@@ -15,11 +15,14 @@ pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n
 
 ## Modern Python (2026 edition)
 
-I use Python heavily and keep up with the evolving ecosystem. Here are the current standard tools and libraries.
+I use Python heavily and keep up with the evolving ecosystem. Here are
+the current standard tools and libraries.
 
 ### ruff
 
-The "new hotness" in the Python world. It's an extremely fast linter and formatter written in Rust that replaces `flake8`, `black`, `isort`, and more.
+The "new hotness" in the Python world. It's an extremely fast linter
+and formatter written in Rust that replaces `flake8`, `black`,
+`isort`, and more.
 
 ```sh
 pip install ruff
@@ -29,8 +32,10 @@ ruff format .     # Formatting
 
 ### black (Legacy Formatter)
 
-- Auto-formats your files, like `go fmt`. Still widely used but being superseded by `ruff`.
-- I just selected this as the formatter in vscode. For manual usage, just pip install and run:
+- Auto-formats your files, like `go fmt`. Still widely used but being
+  superseded by `ruff`.
+- I just selected this as the formatter in vscode. For manual usage,
+  just pip install and run:
 
 ```sh
 filegen/app ❯ black main.py
@@ -41,7 +46,8 @@ All done! ✨ 🍰 ✨
 
 ### poetry
 
-- Creates its own virtualenv so don't install it in one. Instead do this:
+- Creates its own virtualenv so don't install it in one. Instead do
+  this:
 
 ```sh
 pip install --user poetry
@@ -52,13 +58,15 @@ Usage:
 ```sh
 poetry new some-project # initializes folder structure for src, tests, toml file
 ```
-Or if you already have a project and just want to initialize the .toml file:
+Or if you already have a project and just want to initialize the .toml
+file:
 
 ```sh
 poetry init
 ```
 
-The `pyproject.toml` structure conforms to [PEP-518](https://www.python.org/dev/peps/pep-0518/).
+The `pyproject.toml` structure conforms to
+[PEP-518](https://www.python.org/dev/peps/pep-0518/).
 
 Then, activate the virtual env with:
 
@@ -72,7 +80,8 @@ For adding packages, the only way is with:
 poetry add <package>
 ```
 
-This will update the toml file as well. You can then lock dependencies with:
+This will update the toml file as well. You can then lock dependencies
+with:
 
 ```sh
 poetry lock
@@ -106,7 +115,8 @@ import ipdb; ipdb.set_trace()
 
 Get help with `help pdb`.
 
-There is also something called *development* mode for some extra runtime checks, turn it on with one of these:
+There is also something called *development* mode for some extra
+runtime checks, turn it on with one of these:
 
 ```sh
 python -X dev app.py
@@ -114,9 +124,11 @@ python -X dev app.py
 PYTHONDEVMODE=1 app.py
 ```
 
-This gives better stack traces on receiving system signals or segfaults, deprecation warnings, unsafe GIL usage etc.
+This gives better stack traces on receiving system signals or
+segfaults, deprecation warnings, unsafe GIL usage etc.
 
-There is also something called *development* mode for some extra runtime checks, turn it on with one of these:
+There is also something called *development* mode for some extra
+runtime checks, turn it on with one of these:
 
 ```sh
 python -X dev app.py
@@ -124,11 +136,13 @@ python -X dev app.py
 PYTHONDEVMODE=1 app.py
 ```
 
-This gives better stack traces on receiving signals, deprecation warnings, unsafe GIL usage etc.
+This gives better stack traces on receiving signals, deprecation
+warnings, unsafe GIL usage etc.
 
 ## See python paths
 
-This shows the location of the user's site-packages folder, the `sys.path` contents, etc.
+This shows the location of the user's site-packages folder, the
+`sys.path` contents, etc.
 
 ```sh
 python3 -m site
@@ -153,48 +167,52 @@ ChainMap({'a': 1, 'b': 2}, {'b': 20, 'c': 30})
 >>>
 ```
 
-In this case the left dict gets priority. ChainMap just uses the referenes so if the underlying
-dicts change, ChainMap knows about it.
+In this case the left dict gets priority. ChainMap just uses the
+referenes so if the underlying dicts change, ChainMap knows about it.
 
 ## Type Hints
 
-Generic types: `tuple`, `list`, `dict`, `set`, `frozenset` etc. For dicts you need to use
-`dict[KeyType, ValueType]`. There is also `typing.Any` if your return value is unknown, for
-instance.
+Generic types: `tuple`, `list`, `dict`, `set`, `frozenset` etc. For
+dicts you need to use `dict[KeyType, ValueType]`. There is also
+`typing.Any` if your return value is unknown, for instance.
 
 ## map/filter/reduce
 
-Map takes the function (in this case just squares your input), and applies it to the iterable (in
-this case the `range`).
+Map takes the function (in this case just squares your input), and
+applies it to the iterable (in this case the `range`).
 
 ```py
 list(map(lambda x: x**2, range(10)))
 ```
 
-Filter takes an iterable and runs a function against each element one by one. e.g. to prevent even numbers:
+Filter takes an iterable and runs a function against each element one
+by one. e.g. to prevent even numbers:
 
 ```py
 list(filter(lambda x:  x%2 == 0, range(10)))
 ```
 
-Reduce is now in `functools`. It reduces an iterable to a single value. i.e. it takes `reduce(func,
-[a, b, c, d])` and does this: `func(func(func(a, b), c), d)`. E.g to sum numbers in a range:
+Reduce is now in `functools`. It reduces an iterable to a single
+value. i.e. it takes `reduce(func, [a, b, c, d])` and does this:
+`func(func(func(a, b), c), d)`. E.g to sum numbers in a range:
 
 ```py
 from functools import reduce
 reduce(lambda x, y: x + y, range(10))
 ```
 
-Since these returns an iterator, you can call `next()` to get the next result.
+Since these returns an iterator, you can call `next()` to get the next
+result.
 
 ## Concurrency
 
 Best definition is from Leslie Lamport:
 
-> "Two events are concurrent if neither can causally affect the other."
+> "Two events are concurrent if neither can causally affect the
+> other."
 
-So, concurrency is a propery of a program or problem or algorithm, while
-parallelism is one of the ways of achieving this.
+So, concurrency is a propery of a program or problem or algorithm,
+while parallelism is one of the ways of achieving this.
 
 
 ### multithreading
@@ -227,24 +245,26 @@ that the next process can get a slice.1
 You can feed a bunch of coroutines to `asyncio.gather()`. It returns a
 single `future` object, which can then be run in the even loop.
 
-Use `await asyncio.sleep()` instead of `time.sleep()` to yield control.
+Use `await asyncio.sleep()` instead of `time.sleep()` to yield
+control.
 
 Use `concurrent.futures` to take a synchronous library and run it
-under the hood in a multithreaded manner but by using async
-patterns. It has a `ThreadPoolExecutor` and `ProcessPoolExecutor` to
-do so. Once you `submit` a function to these, you will get back a
-`Future` object, and you can get the actual result in
-`Future.result()`. Instead of `run_in_loop` you would do a
-`run_in_executor`.
+under the hood in a multithreaded manner but by using async patterns.
+It has a `ThreadPoolExecutor` and `ProcessPoolExecutor` to do so. Once
+you `submit` a function to these, you will get back a `Future` object,
+and you can get the actual result in `Future.result()`. Instead of
+`run_in_loop` you would do a `run_in_executor`.
 
 ## Event-Driven Programming
 
-- Callback-based: 1:1 binding between the object that emits the event and the
-  handler that executes some logic based on that event. e.g. GUI toolkits.
-- Subject-based: Many subscribers can `register` to a Subject, which will then
-  `notify` all subscribers whenever any event is triggered. one-to-many.
-- Topic-based: Write to a topic, and forget about it. One or more handlers can
-  subscribe to that topic. Completely decoupled.
+- Callback-based: 1:1 binding between the object that emits the event
+  and the handler that executes some logic based on that event. e.g.
+  GUI toolkits.
+- Subject-based: Many subscribers can `register` to a Subject, which
+  will then `notify` all subscribers whenever any event is triggered.
+  one-to-many.
+- Topic-based: Write to a topic, and forget about it. One or more
+  handlers can subscribe to that topic. Completely decoupled.
 
 ## Metaprogramming
 
@@ -265,17 +285,16 @@ Class decorators return a class instead of a function object, example
 
 ### Observer:
 
--   Like a presence subscription. multiple obvservers get notified when
-    a core object changes.
+-   Like a presence subscription. multiple obvservers get notified
+    when a core object changes.
 -   Also see @property to create setters/getters for attributes. That
     way when an attribute changes, we can make a call to update() and
     let the observers know.
 
 ### Strategy:
 
--   Different implementations hidden beneath a single
-    abstraction. e.g. user calls sort() but does not care which
-    algorithm is used.
+-   Different implementations hidden beneath a single abstraction.
+    e.g. user calls sort() but does not care which algorithm is used.
 -   Create different classes and implement `__call__`, so that when an
     object is created, that function is called automatically.
 
@@ -287,15 +306,15 @@ Class decorators return a class instead of a function object, example
 
 -   `bytes.decode`: interpret a stream of bytes (from a file or the
     network) as unicode, with a passed charset like UTF-8 or latin-1.
--   `str.encode`: take a unicode string and convert it to bytes, to write
-    to file or send over a network.
--   **deep breath** both byte strings and unicode have a method to convert
-    to the other. byte.decode('utf-8') takes a byte stream and
+-   `str.encode`: take a unicode string and convert it to bytes, to
+    write to file or send over a network.
+-   **deep breath** both byte strings and unicode have a method to
+    convert to the other. byte.decode('utf-8') takes a byte stream and
     represents it as a UTF-8 string. utf.encode() takes a utf-8 string
-    and represents it as a byte stream (to send out over a network, for
-    example).
--   `encode()` accepts an arg that allows you to represent as ascii, but
-    replace out-of-range characters with ???? or something else.
+    and represents it as a byte stream (to send out over a network,
+    for example).
+-   `encode()` accepts an arg that allows you to represent as ascii,
+    but replace out-of-range characters with ???? or something else.
 -   Python2: str: stream of bytes, unicode: unicode.
 -   Python3: str: unicode, bytes: stream of bytes.
 -   Python2 implicitly tries to change bytes to unicode and vice versa
@@ -352,8 +371,10 @@ do your pre/post stuff within wrapper.
 ## Django notes
 
 -   Change your models (in models.py).
--   Run `python manage.py makemigrations` to create migrations for those changes
--   Run `python manage.py migrate` to apply those changes to the database.
+-   Run `python manage.py makemigrations` to create migrations for
+    those changes
+-   Run `python manage.py migrate` to apply those changes to the
+    database.
 
 ## Magic number
 
@@ -375,7 +396,8 @@ importlib.util.MAGIC_NUMBER
 
 -   Conversion to number
 
-`__abs__, __bool__, __complex__, __int__, __float__, __hash__, __index__`
+`__abs__, __bool__, __complex__, __int__, __float__, __hash__,
+__index__`
 
 -   Emulating collections
 
@@ -411,16 +433,19 @@ importlib.util.MAGIC_NUMBER
 
 ## Pickling
 
--   The last byte of a pickled file is a '.' Anything that follows it is ignored.
--   This would be a way to embed a jpeg or something to the end of a pickle file..??
+-   The last byte of a pickled file is a '.' Anything that follows it
+    is ignored.
+-   This would be a way to embed a jpeg or something to the end of a
+    pickle file..??
 
 ## Staticmethod vs Classmethod
 
--   staticmethod: can be called directly from the class, without instantiating an object.
+-   staticmethod: can be called directly from the class, without
+    instantiating an object.
 -   classmethod: exactly the same.
 -   BUT: when a staticmethod is called from an object, the 'self'
-    parameter is never passed, the way it is for classmethods and normal
-    methods.
+    parameter is never passed, the way it is for classmethods and
+    normal methods.
 
 ## Import files with hyphens
 

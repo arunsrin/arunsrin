@@ -7,14 +7,14 @@ tags:
 
 # :simple-ansible:{ .anim-heart } Ansible
 
-These are mostly notes from reading *Mastering Ansible*, by James Freeman and
-Jesse Keating. I've used ansible quite a bit but wanted a structured
-understanding of it.
+These are mostly notes from reading *Mastering Ansible*, by James
+Freeman and Jesse Keating. I've used ansible quite a bit but wanted a
+structured understanding of it.
 
 ## Setup
 
-`pip install ansible` in a virtualenv is enough. Config is in `~/.ansible.cfg`.
-Verify the critical paths with this:
+`pip install ansible` in a virtualenv is enough. Config is in
+`~/.ansible.cfg`. Verify the critical paths with this:
 
 ```sh
 ~/code/learnansible via  v3.12.0 (.ans) ❯ ansible-inventory --version
@@ -25,7 +25,9 @@ ansible-inventory [core 2.16.x]
 
 ### Modern Ansible Tooling
 
-While `ansible-playbook` is the classic way to run tasks, the modern ecosystem now prefers **Ansible Navigator** (`ansible-navigator`) for a more consistent, containerized execution environment and a rich TUI.
+While `ansible-playbook` is the classic way to run tasks, the modern
+ecosystem now prefers **Ansible Navigator** (`ansible-navigator`) for
+a more consistent, containerized execution environment and a rich TUI.
 
 ### Aside: Oracle OCI config
 
@@ -42,7 +44,8 @@ key_file=~/.oci/arunsrin.key
 ~/code/learnansible via  v3.8.10 (.ans) ❯
 ```
 
-The public/private api keys were generated in my personal settings page.
+The public/private api keys were generated in my personal settings
+page.
 
 Then I had to install the following plugins/SDKs:
 

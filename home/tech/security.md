@@ -44,7 +44,8 @@ ls -Z file1
 -   SELinux contexts follow the SELinux user:role:type:level syntax.
 -   Use the `ps -eZ` command to view the SELinux context for processes
 -   and `id -Z` for users
--   `seinfo -r` (part of setools-console): shows all available user roles: such as guest, unconfined, webadm, sysadm, dbadm, etc.
+-   `seinfo -r` (part of setools-console): shows all available user
+    roles: such as guest, unconfined, webadm, sysadm, dbadm, etc.
 
 also see `/etc/selinux/targeted/context/users`
 
@@ -70,7 +71,8 @@ Or something like this:
 chcon -Rt httpd_sys_content_t /srv/www/myapp/
 ```
 
-..to change the security context of the directory recursively so nginx will be allowed to serve it. Followed by:
+..to change the security context of the directory recursively so nginx
+will be allowed to serve it. Followed by:
 
 ``` sh
 setsebool -P httpd_can_network_connect 1
@@ -123,7 +125,8 @@ mkpasswd --method=SHA-512
 
 ## IPtables and nftables
 
-`iptables` is the classic firewall tool, but modern Linux distributions (Fedora, Debian, etc.) have moved to **`nftables`**.
+`iptables` is the classic firewall tool, but modern Linux
+distributions (Fedora, Debian, etc.) have moved to **`nftables`**.
 
 ### Port forwarding (iptables)
 Use case: make tomcat on port 8443 listen on port 443.
@@ -200,7 +203,8 @@ if [ -z "$SSH_AUTH_SOCK" ] ; then
 fi
 ```
 
-but this prompts for the passphrase the first time it is invoked. so do this instead:
+but this prompts for the passphrase the first time it is invoked. so
+do this instead:
 
 ``` sh
 #!/usr/bin/expect -f
@@ -222,28 +226,26 @@ interact
 
 ## Certbot (Let's Encrypt)
 
-The `letsencrypt-auto` script is deprecated. Use **`certbot`** instead.
+The `letsencrypt-auto` script is deprecated. Use **`certbot`**
+instead.
 
 ``` sh
 sudo dnf install certbot python3-certbot-apache -y
 sudo certbot --apache
 ```
 
-- To renew:
-``` sh
-sudo certbot renew
-```
+- To renew: ``` sh sudo certbot renew ```
 
 ## Components of a cipher suite
 
 The algorithms that make up a typical cipher suite are the following:
 
--   *Key Exchange Algorithm* - dictates the manner by which symmetric keys
-    will be exchanged;
--   *Authentication Algorithm* - dictates how server authentication and
-    (if needed) client authentication will be carried out.
--   *Bulk Encryption Algorithm* - dictates which symmetric key algorithm
-    will be used to encrypt the actual data; and
--   *Message Authentication Code (MAC) algorithm* - dictates the method
-    the connection will use to carry out data integrity checks.
+-   *Key Exchange Algorithm* - dictates the manner by which symmetric
+    keys will be exchanged;
+-   *Authentication Algorithm* - dictates how server authentication
+    and (if needed) client authentication will be carried out.
+-   *Bulk Encryption Algorithm* - dictates which symmetric key
+    algorithm will be used to encrypt the actual data; and
+-   *Message Authentication Code (MAC) algorithm* - dictates the
+    method the connection will use to carry out data integrity checks.
 

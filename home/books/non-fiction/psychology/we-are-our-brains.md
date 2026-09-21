@@ -6,7 +6,8 @@ tags:
 
 # :material-pencil:{ .anim-flip } We Are Our Brains
 
-Notes taken while reading the excellent *We are our brains* by Dick Shwaab.
+Notes taken while reading the excellent *We are our brains* by Dick
+Shwaab.
 
 ## Hormones
 
@@ -20,25 +21,26 @@ Notes taken while reading the excellent *We are our brains* by Dick Shwaab.
 ### Other
 
 -   Anencephaly linked to pesticide use
--   Thalidomide taken during pregnancy led to birth defects (missing limbs)
+-   Thalidomide taken during pregnancy led to birth defects (missing
+    limbs)
 
 ## Pain in a fetus
 
 -   Pain sensors on skin - 7th week onwards
 -   BUT wiring to cerebral cortex - 26 weeks onwards
--   So the fetus can react locally after 7 weeks but it is doubtful that
-    pain is actually transmitted until about 25-29 weeks
+-   So the fetus can react locally after 7 weeks but it is doubtful
+    that pain is actually transmitted until about 25-29 weeks
 -   Finally it must be perceived by the brain. Only at 35-37 weeks is
     there slight difference in reaction to a touch vs a pin prick
 
 ## Puberty
 
--   Young people have a poor PFC i.e. pre frontal cortex , which limits
-    their planning and organisational skills
+-   Young people have a poor PFC i.e. pre frontal cortex , which
+    limits their planning and organisational skills
 -   Puberty kicks in annoying behaviour within the family to limit
     incest, at the same time increasing risk taking and exploration.
--   The kiss1 gene starts the whole process. Fat reserves are ensured by
-    monitoring leptin. Melatonin inhibits puberty.
+-   The kiss1 gene starts the whole process. Fat reserves are ensured
+    by monitoring leptin. Melatonin inhibits puberty.
 
 ## Miscellaneous
 

@@ -56,6 +56,9 @@ echo "=== 14. Validating ASCII Banner & HTML Source Easter Egg ==="
 echo "=== 15. Validating Chronological Posts & Dispatches Space ==="
 "$PYTHON_CMD" "$SCRIPT_DIR/test_posts.py"
 
+echo "=== 16. Validating Fill-Paragraph Prose Linter ==="
+"$PYTHON_CMD" "$SCRIPT_DIR/test_fill_paragraph.py"
+
 echo "=== All checks passed successfully! ==="
 
 

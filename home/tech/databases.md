@@ -43,7 +43,8 @@ Show only first 10 records: use the keyword `LIMIT`.
 
 ### Intermediate operations
 
-/Operators/ are used with other clauses like `SELECT` and `WHERE`. Examples:
+/Operators/ are used with other clauses like `SELECT` and `WHERE`.
+Examples:
 
 - Comparison operators like `=`, `>`, `<=` or `<>`
 - Logical operators: `BETWEEN`, `IN`, `LIKE`, `AND`, `OR`
@@ -167,8 +168,8 @@ ORDER BY
 - Alias using `AS` to create the new label
 - `WHEN` and `ELSE` to specify the conditions
 
-Now to filter only top performers in the above case, it is trivial to add a
-`WHERE PurchaseType = 'Top Performers'` to the query.
+Now to filter only top performers in the above case, it is trivial to
+add a `WHERE PurchaseType = 'Top Performers'` to the query.
 
 ### Working with multiple tables
 
@@ -181,8 +182,8 @@ INNER JOIN customers
 ON invoices.CustomerId = customers.CustomerId
 ```
 
-Here the CustomerId column in customers table is a primary key, while CustomerId in invoices is a
-foreign key.
+Here the CustomerId column in customers table is a primary key, while
+CustomerId in invoices is a foreign key.
 
 With an alias this time:
 
@@ -194,8 +195,8 @@ ON i.CustomerId = c.CustomerId
 ORDER BY c.LastName
 ```
 
-INNER JOIN shows the intersection of 2 tables. Any info in one table that is missing in the other is
-just ignored.
+INNER JOIN shows the intersection of 2 tables. Any info in one table
+that is missing in the other is just ignored.
 
 #### LEFT OUTER JOIN
 
@@ -208,7 +209,8 @@ LEFT OUTER JOIN customers AS c
 ON i.CustomerId = c.CustomerId
 ```
 
-SQLite will insert `NULL` data when there are no matching records in the right table.
+SQLite will insert `NULL` data when there are no matching records in
+the right table.
 
 #### RIGHT OUTER JOIN
 
@@ -231,7 +233,8 @@ LIMIT 10
 
 #### Using NULL, IS and NOT
 
-Example: show all artists that do not have a corresponding entry in the album table:
+Example: show all artists that do not have a corresponding entry in
+the album table:
 
 ```sql
 SELECT 
@@ -257,7 +260,8 @@ WHERE LastName LIKE 'B%'
 
 #### Types of Functions
 
-- String: INSTR(), LENGTH(), LOWER(), LTRIM(), REPLACE(), RTRIM(), SUBSTR(), TRIM(), UPPER()
+- String: INSTR(), LENGTH(), LOWER(), LTRIM(), REPLACE(), RTRIM(),
+  SUBSTR(), TRIM(), UPPER()
 - Date: DATE(), DATETIME(), JULIANDAY(), STRFTIME(), TIME(), 'NOW'
 - Aggregate: AVG(), COUNT(), MAX(), MIN(), SUM()
 
@@ -303,7 +307,8 @@ Modifiers:
 
 - `'+ X days'` - Add X days to the result
 - Same as above for `months` and `years`, and `-` instead of `+`
-- `'start of the day'` - modifies the time code to represent the beginning of the day
+- `'start of the day'` - modifies the time code to represent the
+  beginning of the day
 - Same as above for `month` and `year`
 
 Examples:
@@ -342,7 +347,8 @@ SELECT
 FROM invoices
 ```
 
-The `*` in `COUNT(*)` ensures that all values are counted, even records with errors or nulls.
+The `*` in `COUNT(*)` ensures that all values are counted, even
+records with errors or nulls.
 
 Grouping Aggregates:
 
@@ -354,12 +360,14 @@ FROM invoices
 GROUP BY BillingCity
 ORDER BY BillingCity
 ```
-Run this without GROUP BY and you will see that the response is messed up, i.e. it tries to print
-the BillingCity which is a multi-line reponse, and also the AVG(Total) which is a single row.
+Run this without GROUP BY and you will see that the response is messed
+up, i.e. it tries to print the BillingCity which is a multi-line
+reponse, and also the AVG(Total) which is a single row.
 
 #### Filtering based on Aggregates with HAVING
 
-`WHERE` does not work with functions. So if you want to show only rows where AVG exceeds 6, use `HAVING`:
+`WHERE` does not work with functions. So if you want to show only rows
+where AVG exceeds 6, use `HAVING`:
 
 ```sql
 SELECT
@@ -373,15 +381,17 @@ ORDER BY BillingCity
 
 `HAVING` always comes after the `GROUP BY` clause.
 
-The `WHERE` clause tells SQL what data to include in the table. Once the information is filtered and
-aggregate functions are applied, `HAVING` acts as a further filter.
+The `WHERE` clause tells SQL what data to include in the table. Once
+the information is filtered and aggregate functions are applied,
+`HAVING` acts as a further filter.
 
 ### Subqueries
 
 Basically, one query inside another.
 
-Example: Find the Average of sales, and find all rows that were below this average. Since we can't
-use `WHERE` when you're using an aggregate function, you'd have to make a subquery and embed it in
+Example: Find the Average of sales, and find all rows that were below
+this average. Since we can't use `WHERE` when you're using an
+aggregate function, you'd have to make a subquery and embed it in
 another. Example:
 
 ```sql
@@ -413,8 +423,8 @@ GROUP BY BillingCity
 ORDER BY BillingCity
 ```
 
-Another, in a `WHERE` clause, in this case we want to see which sales in 2014
-has beaten 2013's highest sale.
+Another, in a `WHERE` clause, in this case we want to see which sales
+in 2014 has beaten 2013's highest sale.
 
 ```sql
 SELECT
@@ -431,9 +441,9 @@ WHERE
 	where InvoiceDate < '2013-01-01')
 ```
 
-Here's one where we're interested in 3 invoces. We write a query to extract the
-dates they were purchased. Then we pipe that into another query and see all
-sales that happened in those dates.
+Here's one where we're interested in 3 invoces. We write a query to
+extract the dates they were purchased. Then we pipe that into another
+query and see all sales that happened in those dates.
 
 ```sql
 SELECT
@@ -448,22 +458,22 @@ WHERE InvoiceDate IN
 ```
 #### DISTINCT
 
-Here we want all tracks that do not appear in invoice_items i.e have never been
-bought. This is the query:
+Here we want all tracks that do not appear in invoice_items i.e have
+never been bought. This is the query:
 
 ```sql
 select Name, composer from tracks where trackid not in
 (select DISTINCT TrackId from invoice_items)
 ```
 
-Note that without the `DISTINCT` keyword, we would get a large result with lots
-of repetitions. So this is the equivalent of doing a `set(some_list)` in
-python.
+Note that without the `DISTINCT` keyword, we would get a large result
+with lots of repetitions. So this is the equivalent of doing a
+`set(some_list)` in python.
 
 ### Views
 
-A virtual table that's basically a stored query that can be executed/references
-by other queries.
+A virtual table that's basically a stored query that can be
+executed/references by other queries.
 
 Prefix a statement with `CREAE VIEW <blah> AS` to make one. Example:
 
@@ -549,7 +559,8 @@ psql
 
 ## MySQL / MariaDB quick start
 
-Modern MySQL/MariaDB prefers creating the user first, then granting permissions.
+Modern MySQL/MariaDB prefers creating the user first, then granting
+permissions.
 
 ``` sql
 mysql> CREATE DATABASE habari;

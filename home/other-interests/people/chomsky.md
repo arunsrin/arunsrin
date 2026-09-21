@@ -16,9 +16,8 @@ changed his life. So I did what Aaron did, and picked up
 world-changing as he describes.
 
 Considering his subject material and how challenging it must be to
-communicate his world-view to others, he does a phenomenal job of
-it. He never raises his voice, resorts to ad-hominems, or loses his
-calm.
+communicate his world-view to others, he does a phenomenal job of it.
+He never raises his voice, resorts to ad-hominems, or loses his calm.
 
 ## Recommended reading
 
@@ -33,7 +32,7 @@ books. Among the ones I've read, I recommend the following:
 ## References
 
 - [This interview](https://chomsky.info/20001210/) is a fantastic
-example of how densely informative each of Chomsky's statements is.
+  example of how densely informative each of Chomsky's statements is.
 
 - [Another example.](https://chomsky.info/warfare02/)
 

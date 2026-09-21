@@ -17,18 +17,22 @@ Other [security](../../../tech/security.md) notes.
 
 `k` and `P` are the key and plain text.
 
-The plain text is broken up into blocks of length equal to the key's block size.
+The plain text is broken up into blocks of length equal to the key's
+block size.
 
 The same key is used to decrypt.
 
 Most common one is AES. preceeded by DES.
 
-AES was called Rijndael after its 2 developers. allows block sizes of 32, 128, 192 and 256.
+AES was called Rijndael after its 2 developers. allows block sizes of
+32, 128, 192 and 256.
 
 ### Drawbacks:
 
--   Message length must not exceed key length. If you want a larger message, use a stream cipher.
--   Needs a key exchange protocol to exchange the (albeit small) key in advance.
+-   Message length must not exceed key length. If you want a larger
+    message, use a stream cipher.
+-   Needs a key exchange protocol to exchange the (albeit small) key
+    in advance.
 
 ## AES
 
@@ -49,9 +53,9 @@ DES is no longer considered secure: tiny key size of 56 bits.
 
 Brute forced in less than a day nowadays.
 
-In 3DES, the input is encrypted, decrypted, then encrypted
-again. Since 3 different keys are used, cryptanalysis is harder than
-in DES. Still a poor choice.
+In 3DES, the input is encrypted, decrypted, then encrypted again.
+Since 3 different keys are used, cryptanalysis is harder than in DES.
+Still a poor choice.
 
 ## Stream Ciphers
 
@@ -108,7 +112,8 @@ that value.
 
 e.g. in the message is 01 23 45 22 .. .. ..
 
-there are 3 bytes left to pad (assuming a block size of 8 bytes). So the message becomes:
+there are 3 bytes left to pad (assuming a block size of 8 bytes). So
+the message becomes:
 
 01 23 45 22 03 03 03
 
@@ -215,9 +220,8 @@ Do not use.
 
 ### SHA-2
 
-Family comprising SHA-224, 256, 384, 512, 512/224 and
-512/256. Use. Performance better than SHA-1, and better collision
-resistance.
+Family comprising SHA-224, 256, 384, 512, 512/224 and 512/256. Use.
+Performance better than SHA-1, and better collision resistance.
 
 ### Keccak
 
@@ -239,9 +243,9 @@ derivation function.
 
 ## Message Authentication Codes (MACs)
 
-Check authenticity / integrity of message. Often called
-'tags'. Similar to a checksum but uses a secret key and combines with
-the message to produce the tag.
+Check authenticity / integrity of message. Often called 'tags'.
+Similar to a checksum but uses a secret key and combines with the
+message to produce the tag.
 
 -   Authenticate and Encrypt - SSH
 -   Authenticate then Encrypt - TLS
@@ -259,7 +263,7 @@ identical tags.
 prefix-MAC: Simply prefix a key to the message and hash the whole
 thing. Works well with Keccak but not so much with other hashing
 algorithms. Vulnerable to padding attacks (with some hashing
-algorithms).  HMAC: Hash-based MAC.
+algorithms). HMAC: Hash-based MAC.
 
 ## Authenticated Encryption Modes
 

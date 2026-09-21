@@ -8,7 +8,8 @@ tags:
 
 # :material-chart-bell-curve:{ .anim-flip } Grafana
 
-Most of these notes are from the book *Learn Grafana 7.0* by Eric Salituro.
+Most of these notes are from the book *Learn Grafana 7.0* by Eric
+Salituro.
 
 ## Installation
 
@@ -19,8 +20,9 @@ docker run -d --name=grafana -p 3000:3000 \
     grafana/grafana
 ```
 
-Then in my virtualbox, I can access it at http://192.168.56.101:3000/login
-	
+Then in my virtualbox, I can access it at
+http://192.168.56.101:3000/login
+
 `admin/admin` are the default credentials
 
 Install plugins like this:
@@ -35,8 +37,8 @@ Then you can load csv data sources, and so on.
 
 ### Time Series Basics
 
-We launched its container in `chapter04/docker-compose.yml` and made it query
-itself and grafana.
+We launched its container in `chapter04/docker-compose.yml` and made
+it query itself and grafana.
 
 Standard SQL query:
 
@@ -55,8 +57,8 @@ WHERE metric tags match some criteria
 AND in some time range
 ```
 
-Time series data usually has A timestamp, a metric value and a set of key-value
-pairs for characterizing the data.
+Time series data usually has A timestamp, a metric value and a set of
+key-value pairs for characterizing the data.
 
 ### Metrics exposed by grafana
 
@@ -92,12 +94,12 @@ Similarly for memory-related queries you would do:
 
 `process_resident_memory_bytes{job=grafana}`
 
-Next, although the guide told to see prometheus_http_requests_total, grafana
-said it was a counter so it should be converted to
+Next, although the guide told to see prometheus_http_requests_total,
+grafana said it was a counter so it should be converted to
 `rate(prometheus_http_requests_total[5m])`
 
-I think they mean `grafana_http_request_duration_seconds_count` actually,
-that’s the one that has tags for method=GET.
+I think they mean `grafana_http_request_duration_seconds_count`
+actually, that’s the one that has tags for method=GET.
 
 So I’m able to sum it like this:
 `sum(grafana_http_request_duration_seconds_count{method="GET"})`
@@ -107,9 +109,10 @@ So I’m able to sum it like this:
 - Gauge
 - Counter
 - Histogram
-- Summary - built-in preaggregated metric that can be graphed directly. E.g.
-`go_gc_duration_seconds` contains a histogram with 5 quantiles (0%, 25%, 50%,
-75%, 100%), the sum, and the count. You shouldn’t be aggregating these.
+- Summary - built-in preaggregated metric that can be graphed
+  directly. E.g. `go_gc_duration_seconds` contains a histogram with 5
+  quantiles (0%, 25%, 50%, 75%, 100%), the sum, and the count. You
+  shouldn’t be aggregating these.
 
 Played around with the metrics browser and was able to get a rate of a
 counter-type metric like this:
@@ -130,8 +133,9 @@ counter-type metric like this:
 - Topk - largest k elements by sample value
 - Quantile - calculates the φ quantile (0 <= φ <=1) over dimensions
 
-Use grafana’s built-in time interval variable for handling aggregation better,
-example `irate(http_request_total{handler="/search/",method="get"}[5m])`
+Use grafana’s built-in time interval variable for handling aggregation
+better, example
+`irate(http_request_total{handler="/search/",method="get"}[5m])`
 
 Becomes:
 `irate(http_request_total{handler="/search/",method="get"}[$__interval])`
@@ -141,13 +145,13 @@ Becomes:
 Such a pain to setup! Book is written for influx1 and I’m using v2.
 
 - Influx 1 has a concept of databases
-- Influx 2 has a concept of buckets. A bucket + a retention_policy maps to a
-database.
+- Influx 2 has a concept of buckets. A bucket + a retention_policy
+  maps to a database.
 
 ### Influx v1 vs v2 conversions
 
-Code was broken, had to add a token in an Authorization header to fix it.
-Corresponding curl commands:
+Code was broken, had to add a token in an Authorization header to fix
+it. Corresponding curl commands:
 
 ```sh
 curl -G "http://localhost:8086/query?db=sandbox" \
@@ -176,7 +180,8 @@ curl --request POST http://localhost:8086/api/v2/dbrps \
     }'
 ```
 
-To run the weather importer script with the correct auth token etc, do this:
+To run the weather importer script with the correct auth token etc, do
+this:
 
 ```sh
 docker run --rm --network host --env-file ./.env-file -v "${PWD}:/usr/src/app" weather --input wx.txt --db sandbox2
@@ -193,7 +198,8 @@ curl --request POST http://localhost:8086/api/v2/dbrps \
 	  }'
 ```
 
-Here is how to map influx2 buckets to influx1 databases: https://ivanahuckova.medium.com/setting-up-influxdb-v2-flux-with-influxql-in-grafana-926599a19eeb
+Here is how to map influx2 buckets to influx1 databases:
+https://ivanahuckova.medium.com/setting-up-influxdb-v2-flux-with-influxql-in-grafana-926599a19eeb
 
 ### Flux
 Flux is a new query language where you can write stuff like this:
@@ -211,7 +217,8 @@ See setup instructions here:
 - https://docs.influxdata.com/influxdb/v2.0/tools/grafana/?t=InfluxQL
 - https://docs.influxdata.com/flux/v0.x/query-data/influxdb/
 
-Sample data that we imported (this is called a line series or something):
+Sample data that we imported (this is called a line series or
+something):
 
 ```
 temperature,station=KSFO,name=San\ Francisco\,\ San\ Francisco\ International\ Airport,cwa=MTR,county=San\ Mateo,state=CA,tz=America/Los_Angeles,unit=wmoUnit:degC value=13.3 1633697760

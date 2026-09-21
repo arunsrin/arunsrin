@@ -13,14 +13,14 @@ invention of writing and numbers.
 ## Types of Accounting
 
 - Book keeping - raw data collection. Almost always double-entry
-bookkeeping
+  bookkeeping
 - Financial accounting - Create reports about income statement,
-balance sheet, etc to see cash flows and profit and financial
-positiion of an entity.
+  balance sheet, etc to see cash flows and profit and financial
+  positiion of an entity.
 - Auditing - Independent checks
 - Management accounting - Internal use of accounting data to make
-decisions around prices, volumes of production, locations for
-expansion etc.
+  decisions around prices, volumes of production, locations for
+  expansion etc.
 
 Deloitte, Ernst and Young, KPMG, PwC are apparently the big four.
 
@@ -28,19 +28,17 @@ Deloitte, Ernst and Young, KPMG, PwC are apparently the big four.
 
 - Individual / Sole Trader - Fully liable for tax, debt, profit etc.
 - Joint Owners / Partners - All partners are legally responsible for
-assets, tax etc.
+  assets, tax etc.
 - LLP - partial protection for partners from some liabilities.
-- Company - full legal separation of owners from the business.
-Company has its own existence and ownership is determined by
-'shares'. The 'shareholder' can transfer ownership by selling
-shares.
+- Company - full legal separation of owners from the business. Company
+  has its own existence and ownership is determined by 'shares'. The
+  'shareholder' can transfer ownership by selling shares.
 
 
-Multinational companies, e.g. Nokia have a single Parent company
-that pays taxes, transacts business etc and is viewed as a legal
-entity. It has multiple subsidiaries in different countries. Each S
-is a legal entity that pays taxes locally and reports dividends
-upstream to P.
+Multinational companies, e.g. Nokia have a single Parent company that
+pays taxes, transacts business etc and is viewed as a legal entity. It
+has multiple subsidiaries in different countries. Each S is a legal
+entity that pays taxes locally and reports dividends upstream to P.
 
 
 ## International Evolution of Accounting 
@@ -73,9 +71,8 @@ Answer: IFRS
 A *Balance Sheet* is officially called *Statement of Financial
 Position* by the IFRS.
 
-Good example here, on how initial investment, purchase of
-inventories, sale to customer and profit to owner etc are shown in
-balance sheet.
+Good example here, on how initial investment, purchase of inventories,
+sale to customer and profit to owner etc are shown in balance sheet.
 
 
 ## The equation
@@ -95,10 +92,9 @@ Or
 `Assets - Liabilities = Equity = Net Assets`
 
 However, some costs end up as Assets (e.g. Land) or Expenses (e.g.
-wages), so it's not always clear which bucket to put a cost into.
-Here an asset is a resource which has remaining future benefits at
-the period end. An expense is a resource that is used up in that
-period. 
+wages), so it's not always clear which bucket to put a cost into. Here
+an asset is a resource which has remaining future benefits at the
+period end. An expense is a resource that is used up in that period.
 
 So, for example, is money spent on Research and Advertising an Asset
 or an Expense?
@@ -115,7 +111,7 @@ Or mix of both approaches.
 ## Cash Flow
 Some transactions involve cash flowing in or out but no profit (e.g.
 buying inventory), while others involve profit but no flow (e.g.
-selling inventory with later payment). 
+selling inventory with later payment).
 
 So we represent Operating and Investing and Financing as the 3 cash
 flows.
@@ -135,8 +131,8 @@ long lasting equipment)
 
 # Financial Reports of Listed Companies
 
-Companies follow GAAP or IFRS and publish annual reports. Here we
-will see the audited financial statements.
+Companies follow GAAP or IFRS and publish annual reports. Here we will
+see the audited financial statements.
 
 They will provide:
 
@@ -147,11 +143,11 @@ They will provide:
 
 ## Assets
 
-*Definition*: A resource controlled, as a result of a past
-transaction or event, when future benefit is expected.
+*Definition*: A resource controlled, as a result of a past transaction
+or event, when future benefit is expected.
 
-i.e. a company does not 'control' or 'own' a road, so the road is
-not its asset.
+i.e. a company does not 'control' or 'own' a road, so the road is not
+its asset.
 
 It may lease some other company's and use it i.e. it *controls* it.
 
@@ -161,14 +157,14 @@ Assets can be :
 
 -  Tangible: property, plant, equipment
 -  Intangible: patents, licenses, software
--  Financial: cash, receivables, shares in other companies,
-government bonds.
+-  Financial: cash, receivables, shares in other companies, government
+   bonds.
 
 And they can be:
 
 -  Non-current e.g. property
--  Current e.g. this quarter's sales
-This helps assess future cash flows.
+-  Current e.g. this quarter's sales This helps assess future cash
+   flows.
 
 An asset is represented in the balance sheet in onese ways:
 
@@ -180,17 +176,17 @@ An asset is represented in the balance sheet in onese ways:
 Apart from HC, rest are not easy to calculate or not relevant (FV is
 useless if there's no plan to sell the asset). So usually its
 represented on a cost basis i.e. market price of buying an inventory
-+ taxes + transport + storage + labour and materials ==> cost of
-that inventory.
++ taxes + transport + storage + labour and materials ==> cost of that
+  inventory.
 
-Depreciation of asset also needs to be considered. 
+Depreciation of asset also needs to be considered.
 
 > Depreciation = (Cost - Residual Life) / Life
 
 ## Liabilities
 
-*Definition*: A present obligation, cause by a past event, expected
-to lead to future outflows.
+*Definition*: A present obligation, cause by a past event, expected to
+lead to future outflows.
 
 E.g amounts owed to banks, tax authorities etc. Those that are
 present.
@@ -213,11 +209,10 @@ Also how *geared* or *leveraged* are they, i.e. a heavily geated
 company is funded by a lot of debt and not equity capital. High gear
 == high risk. (since larger loans means more interest etc)
 
-> Earning per share (EPS) = profit after tax / Number of shares
-issued
+> Earning per share (EPS) = profit after tax / Number of shares issued
 
 > Price earning (p/e) ratio : Market price per share / Earnings per
-share
+> share
 
 i.e. expensiveness of the share i.e confidence level of investors.
 High p/e ratio => high confidence in the company.
@@ -233,8 +228,8 @@ High p/e ratio => high confidence in the company.
 # International Differences and Standardization
 IFRS vs GAAP
 
-Daimler-Benz and British Airways published earnings in both models
-and showed wildly different profit figures!
+Daimler-Benz and British Airways published earnings in both models and
+showed wildly different profit figures!
 
 ---
 
@@ -248,7 +243,7 @@ change them, they only publish a review.
 Stages of an audit:
 -  Accepting and defining terms of engagement
 -  Planning, risk assessment, level of materiality (i.e level of
-approximation that is acceptable)
+   approximation that is acceptable)
 -  Gathering evidence
 -  Reporting to client and others
 
@@ -256,10 +251,10 @@ approximation that is acceptable)
 
 # Internal Decision-making: Costs and Volumes
 
-As a part of financial accounting, the following are produced:
-income statement, the balance sheet, the cash flow statement.
+As a part of financial accounting, the following are produced: income
+statement, the balance sheet, the cash flow statement.
 
-^ These are required by law. 
+^ These are required by law.
 
 But management accounting (focus of this and next chapter) is around
 internal documents: costing reports, break-even reports, budgets.
@@ -268,9 +263,8 @@ internal documents: costing reports, break-even reports, budgets.
 
 # Accounting as Control 
 
-Stuff around internal Planning, Motivation (bonuseslegation (budget
-to each team), Communication, Control (analyze and iterate),
-Evaluation.
+Stuff around internal Planning, Motivation (bonuseslegation (budget to
+each team), Communication, Control (analyze and iterate), Evaluation.
 
 Come up with a balanced scorecard around 3 axes:
 
@@ -282,11 +276,10 @@ Come up with a balanced scorecard around 3 axes:
 
 # Homework
 
-Download and Understand a few financial reports. Compare 2
-companies.
+Download and Understand a few financial reports. Compare 2 companies.
 
 - How leveraged is it? i.e. is money going to pay interest (i.e
-they've taken loans) or to pay owners
+  they've taken loans) or to pay owners
 - How much is it borrowing i.e. more borrowing -> more future growth
 
 See satyam scan: initial disclosed reports and follow up reality.

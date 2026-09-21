@@ -18,8 +18,8 @@ afraid to share them.
 ## The Blind Watchmaker
 
 This was my first brush with a Dawkins box was probably the single
-most influential, mind-changing experience I've ever had with a
-book. Until I'd read him, I didn't have well-formed mental models of
+most influential, mind-changing experience I've ever had with a book.
+Until I'd read him, I didn't have well-formed mental models of
 scepticism, religion, or evolutionary biology.
 
 This book gives a thoroughly convincing argument for the Darwinian

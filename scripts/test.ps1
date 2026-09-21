@@ -122,6 +122,13 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
 
+Write-Host "`n=== 16. Validating Fill-Paragraph Prose Linter ===" -ForegroundColor Cyan
+& $pythonCmd "$PSScriptRoot/test_fill_paragraph.py"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Fill-Paragraph Prose Linter validation failed!"
+    exit $LASTEXITCODE
+}
+
 Write-Host "`n=== All checks passed successfully! ===" -ForegroundColor Green
 
 exit 0
