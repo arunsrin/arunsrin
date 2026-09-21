@@ -53,6 +53,9 @@ echo "=== 13. Validating Title Bar & Sidebar UX ==="
 echo "=== 14. Validating ASCII Banner & HTML Source Easter Egg ==="
 "$PYTHON_CMD" "$SCRIPT_DIR/test_ascii_banner.py"
 
+echo "=== 15. Validating Chronological Posts & Dispatches Space ==="
+"$PYTHON_CMD" "$SCRIPT_DIR/test_posts.py"
+
 echo "=== All checks passed successfully! ==="
 
 

@@ -47,6 +47,14 @@ Explore the main sections of the site, or browse the [complete sitemap & directo
 
     [:material-arrow-right:{ .anim-pulse } Explore Media](other-interests/media.md)
 
+-   :material-post-outline:{ .lg .middle .anim-pulse } __Posts__
+
+    ---
+
+    Chronological dispatches, announcements, quick updates, and throwaway thoughts.
+
+    [:material-arrow-right:{ .anim-pulse } Explore Posts](posts/index.md)
+
 </div>
 
 

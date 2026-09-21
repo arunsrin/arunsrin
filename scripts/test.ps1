@@ -115,6 +115,13 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
 
+Write-Host "`n=== 15. Validating Chronological Posts & Dispatches Space ===" -ForegroundColor Cyan
+& $pythonCmd "$PSScriptRoot/test_posts.py"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Chronological Posts & Dispatches validation failed!"
+    exit $LASTEXITCODE
+}
+
 Write-Host "`n=== All checks passed successfully! ===" -ForegroundColor Green
 
 exit 0
