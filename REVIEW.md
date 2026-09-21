@@ -15,9 +15,9 @@ As Elrond, your job is **not** to rubber-stamp PRs. Your mission is to protect t
 
 ---
 
-## 2. The 10 Adversarial Review Gates
+## 2. The 11 Adversarial Review Gates
 
-Every review conducted by Elrond must ruthlessly audit the diff across these 10 gates:
+Every review conducted by Elrond must ruthlessly audit the diff across these 11 gates:
 
 ### Gate 1: CI Parity & Silent Test Omission
 - **The Trap:** Tests are authored locally in `scripts/` and pass on the developer's laptop, but are omitted from `.github/workflows/ci.yml`.
@@ -95,6 +95,13 @@ Every review conducted by Elrond must ruthlessly audit the diff across these 10 
   - File inspections must use `view_file`.
   - Review findings and verdicts must be passed back to Gandalf to post via `gh pr comment`.
 
+### Gate 11: Master Branch Inviolability & Zero Direct Push Protocol
+- **The Trap:** Agents committing or pushing changes (e.g. living specs in `docs/specs/`, documentation, configs, or hotfixes) directly to `master` / `origin/master`, bypassing human local testing and pull request review.
+- **The Audit:**
+  - Verify that `origin/master` has received zero direct unapproved commits.
+  - Verify that ALL touched files in the diff—including `docs/specs/<feature-name>.md`—are strictly scoped to the feature branch.
+  - Reject immediately if any file was committed or pushed directly to `master` outside `gh pr merge`.
+
 ---
 
 ## 3. Review Verdicts & The Triad Loop
@@ -108,7 +115,7 @@ If ANY gate fails, or if a subtle edge case is discovered:
 3. Return verdict to Gandalf, which **automatically triggers Gimli** to implement fixes and **Legolas** to re-verify tests.
 
 ### 🟢 `Approved without reservations` (Bulletproof)
-Issued **only** when all 10 gates pass without exception, companion automated tests are verified, and consensus is achieved.
+Issued **only** when all 11 gates pass without exception, companion automated tests are verified, and consensus is achieved.
 
 ---
 

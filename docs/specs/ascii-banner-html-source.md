@@ -19,11 +19,7 @@ The banner features a clean, high-contrast ASCII Owl of Athena (classical symbol
              ,___,
             (O,o)   "Examine thyself,
             /)__)    and inspect thy source."
-           --" "--
-  ========================================================
-   arunsrin's notes  ::  personal notebook & digital codex
-   https://www.arunsr.in
-  ========================================================
+            -" "-
 -->
 ```
 
@@ -35,11 +31,7 @@ The banner is placed in `layouts/_default/baseof.html` directly following the `<
              ,___,
             (O,o)   "Examine thyself,
             /)__)    and inspect thy source."
-           --" "--
-  ========================================================
-   arunsrin's notes  ::  personal notebook & digital codex
-   https://www.arunsr.in
-  ========================================================
+            -" "-
 -->
 <html lang="{{ or .Site.Language.Lang "en" }}">
 ...
@@ -63,13 +55,15 @@ Hugo uses `tdewolff/minify` during `hugo --gc --minify`. To ensure the HTML bann
    Placing the comment immediately after `<!DOCTYPE html>` ensures standards mode is reliably triggered in all modern and legacy browsers, while keeping the Easter egg within the first 15 lines of view-source.
 4. **Automated Test Coverage & CI Parity:**
    A dedicated Python test suite (`scripts/test_ascii_banner.py`) is added, integrated into both `./scripts/test.ps1` and `./scripts/test.sh`, and dynamically verified by `scripts/test_ci_parity.py`.
+5. **Master Branch Inviolability & Zero Pre-Commit to Master:**
+   The living specification and all implementation files must reside strictly on the isolated feature branch (`ascii-banner-html-source`). Zero direct commits or pushes may be made to `master` or `origin/master`. Master advances exclusively via GitHub PR merge after explicit author local verification.
 
 ---
 
 ## 4. Acceptance Criteria
 
 1. **HTML Source Comment Presence:**
-   - In the generated HTML of all pages, an HTML comment contains the ASCII Owl of Athena `(O,o)`, the quote `"Examine thyself, and inspect thy source."`, and the site reference `arunsrin's notes`.
+   - In the generated HTML of all pages, an HTML comment contains the ASCII Owl of Athena `(O,o)` and the quote `"Examine thyself, and inspect thy source."`.
 2. **Hugo Minification Preservation:**
    - When building with `hugo --gc --minify --panicOnWarning`, the banner comment remains fully intact in `public/index.html` and across all generated HTML files.
 3. **Multi-Page Coverage:**
@@ -78,3 +72,5 @@ Hugo uses `tdewolff/minify` during `hugo --gc --minify`. To ensure the HTML bann
    - `scripts/test_ascii_banner.py` passes with exit code 0.
    - `./scripts/test.ps1` and `./scripts/test.sh` pass cleanly with zero warnings.
    - `scripts/test_ci_parity.py` validates dynamic test discovery without CI drift.
+5. **Zero Direct Master Push Enforcement:**
+   - All feature and specification changes are encapsulated within PR #34. No further direct pushes to `master` occur without explicit human instruction.

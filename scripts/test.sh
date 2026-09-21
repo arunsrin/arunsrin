@@ -50,6 +50,9 @@ echo "=== 12. Validating Sitemap & Recently Tended Stream ==="
 echo "=== 13. Validating Title Bar & Sidebar UX ==="
 "$PYTHON_CMD" "$SCRIPT_DIR/test_title_sidebar_ux.py"
 
+echo "=== 14. Validating ASCII Banner & HTML Source Easter Egg ==="
+"$PYTHON_CMD" "$SCRIPT_DIR/test_ascii_banner.py"
+
 echo "=== All checks passed successfully! ==="
 
 

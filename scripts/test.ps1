@@ -108,6 +108,13 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
 
+Write-Host "`n=== 14. Validating ASCII Banner & HTML Source Easter Egg ===" -ForegroundColor Cyan
+& $pythonCmd "$PSScriptRoot/test_ascii_banner.py"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "ASCII Banner & HTML Source Easter Egg validation failed!"
+    exit $LASTEXITCODE
+}
+
 Write-Host "`n=== All checks passed successfully! ===" -ForegroundColor Green
 
 exit 0

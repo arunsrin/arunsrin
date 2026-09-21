@@ -106,8 +106,9 @@ This skill orchestrates an autonomous multi-agent feature sprint for **arunsrin'
    - Ask clarifying implementation questions (e.g. design preferences, content sources, scope limits).
    - **CRITICAL GATE:** Do NOT dispatch background agents until the human author answers and explicitly confirms/signs off (e.g. "Proceed", "Looks good", or specific direction).
 
-4. **Generate Feature-Specific Specification (`docs/specs/<feature-name>.md`):**
-   Once sign-off is received, author `docs/specs/<feature-name>.md` (e.g. `docs/specs/bi-directional-backlinks.md`). Specs are uniquely named by feature so they permanently accumulate in `master` as living architecture documentation and avoid git merge overwrites. The spec must contain:
+4. **Draft Living Feature Specification (Zero Pre-Commit to Master):**
+   Once human sign-off on direction is received, formulate the living specification (`docs/specs/<feature-name>.md`).
+   **CRITICAL ZERO-MASTER-COMMIT RULE:** The specification file must NEVER be committed or pushed to `master`. Master is strictly read-only for agents. The spec must be written and committed strictly inside the isolated worktree (`.worktrees/<feature-name>`) on the feature branch. It accumulates in `master` exclusively upon PR merge via `gh pr merge`. The spec must contain:
    - User Story & Context
    - Numbered, verifiable Acceptance Criteria
    - Core Guardrails from [AGENTS.md](../../AGENTS.md) (Sacred Prose, zero bloat, light blue visual theme, Rocket Loader safety).
@@ -122,6 +123,7 @@ This skill orchestrates an autonomous multi-agent feature sprint for **arunsrin'
    git pull origin master
    git worktree add -b <feature-name> .worktrees/<feature-name> master
    ```
+   **ABSOLUTE RULE:** ZERO commits or pushes directly to `master`. All work—including `docs/specs/<feature-name>.md`, templates, CSS, JS, config, and tests—is created, modified, and committed strictly within `.worktrees/<feature-name>` on the feature branch. Master advances exclusively through pull requests approved by the author.
 
 2. **Implementation:**
    Gimli implements all requirements specified in `docs/specs/<feature-name>.md` within `.worktrees/<feature-name>`:
