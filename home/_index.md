@@ -21,7 +21,7 @@ Explore the main sections of the site, or browse the [complete sitemap & directo
 
     Practical one-liners, cheat sheets, and deep dives on Linux, Kubernetes, AI, databases, and development tooling.
 
-    [:material-arrow-right:{ .anim-pulse } Explore Tech Notes](tech/index.md) · [:material-map-marker-outline: Sitemap](sitemap.md#tech-notes)
+    [:material-arrow-right:{ .anim-pulse } Explore Tech Notes](tech/index.md)
 
 -   :material-book:{ .lg .middle .anim-bounce } __Books__
 
@@ -29,7 +29,7 @@ Explore the main sections of the site, or browse the [complete sitemap & directo
 
     Reading lists, reflections, and in-depth reviews spanning science, philosophy, literary fiction, hard sci-fi, and history.
 
-    [:material-arrow-right:{ .anim-pulse } Explore Books](books/index.md) · [:material-map-marker-outline: Sitemap](sitemap.md#books)
+    [:material-arrow-right:{ .anim-pulse } Explore Books](books/index.md)
 
 -   :material-controller:{ .lg .middle .anim-bounce } __Games__
 
@@ -37,7 +37,7 @@ Explore the main sections of the site, or browse the [complete sitemap & directo
 
     Gaming logs, favorite interactive stories, and genre breakdowns across RPGs, shooters, sci-fi, and Xbox Series X.
 
-    [:material-arrow-right:{ .anim-pulse } Explore Games](games/index.md) · [:material-map-marker-outline: Sitemap](sitemap.md#games)
+    [:material-arrow-right:{ .anim-pulse } Explore Games](games/index.md)
 
 -   :material-television:{ .lg .middle .anim-flip } __Other Media__
 
@@ -45,9 +45,10 @@ Explore the main sections of the site, or browse the [complete sitemap & directo
 
     Favorite films, television shows, and other media that have left a lasting impression.
 
-    [:material-arrow-right:{ .anim-pulse } Explore Media](other-interests/media.md) · [:material-map-marker-outline: Sitemap](sitemap.md#other-media)
+    [:material-arrow-right:{ .anim-pulse } Explore Media](other-interests/media.md)
 
 </div>
+
 
 # :material-star-shooting-outline:{ .anim-pulse } Featured Notes
 

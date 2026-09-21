@@ -55,8 +55,12 @@ def run_tests():
     assert re.search(r':material-console:\{[^\}]+\}\s+__Tech Notes__\s*\n\s*---', hub_grid), "Tech Notes hub missing bold title or divider"
     assert re.search(r':material-book:\{[^\}]+\}\s+__Books__\s*\n\s*---', hub_grid), "Books hub missing bold title or divider"
     assert re.search(r':material-controller:\{[^\}]+\}\s+__Games__\s*\n\s*---', hub_grid), "Games hub missing bold title or divider"
-    assert re.search(r':material-television:\{[^\}]+\}\s+__Other Media__\s*\n\s*---', hub_grid), "Other Media hub missing bold title or divider"
-    assert "sitemap.md" in hub_grid, "Hubs missing direct sitemap link references"
+    assert "Explore Tech Notes" in hub_grid, "Tech Notes hub missing Explore link"
+    assert "Explore Books" in hub_grid, "Books hub missing Explore link"
+    assert "Explore Games" in hub_grid, "Games hub missing Explore link"
+    assert "Explore Media" in hub_grid, "Other Media hub missing Explore link"
+    assert "sitemap.md" not in hub_grid, "Sitemap link should not be present inside Hub cards"
+
 
     # Verify Featured Notes grid
     feat_grid_m = re.search(r'# :material-star-shooting-outline:\{[^\}]+\}\s+Featured Notes.*?(<div class="grid cards" markdown>.*?</div>)', home_md, re.DOTALL)

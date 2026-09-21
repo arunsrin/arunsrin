@@ -62,11 +62,11 @@ This feature transforms the site entry points:
 - Designed for easy customization and editing by the author.
 
 
-### 2.5 Deep-Link Anchor Targets & Scroll Offsets
-- The 4 Garden Hub cards on the homepage link directly to sitemap sections via URL fragments:
-  - `sitemap.md#tech-notes`, `sitemap.md#books`, `sitemap.md#games`, `sitemap.md#other-media`.
-- To support these deep links on Markdown card items (where Goldmark does not generate automatic heading IDs), anchor spans `<span id="<name>" class="heading-anchor-target"></span>` are placed before each card title in `home/sitemap.md`.
-- `.heading-anchor-target` utilizes `scroll-margin-top: 80px` in `head.html` to prevent the sticky site header from obscuring the target card when navigated to.
+### 2.5 Clean Hub Exploration Links
+- The complete sitemap is linked directly from the Hubs intro paragraph and the main navigation sidebar (`/sitemap/`).
+- The 4 Hub cards focus cleanly on single, prominent exploration buttons (`Explore Tech Notes`, `Explore Books`, `Explore Games`, `Explore Media`), avoiding duplicate adjacent sitemap links.
+- In `home/sitemap.md`, the anchor targets (`tech-notes`, `books`, `games`, `other-media`) with `scroll-margin-top: 80px` are preserved for deep-linking from external references or direct URLs.
+
 
 ### 2.6 Cloudflare Pages Deep History Integration
 - Hugo's `enableGitInfo = true` reads git commit timestamps for `.Lastmod`.
