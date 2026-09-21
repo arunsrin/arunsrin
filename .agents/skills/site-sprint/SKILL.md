@@ -77,9 +77,13 @@ This skill orchestrates an autonomous multi-agent feature sprint for **arunsrin'
    - **Motto:** *"The house of Elrond was a refuge for the weary and the oppressed, and a treasury of good counsel and wise lore."*
    - **Role:** Independently audits the codebase with a fresh pair of eyes before human review. Scrutinizes architectural elegance, edge cases, accessibility, visual hierarchy, and maintainability. Identifies session friction, annoyances, and pitfalls to codify as permanent rules in `AGENTS.md` and `SKILL.md`. Posts actionable code review comments directly on the GitHub PR for Gimli to iterate on.
 
+### Core Principles
+- **Layout Preference, Not a Metaphor Obsession:** "Digital garden" refers strictly to the structural and organizational layout preference (conceptual organization vs chronological blog). Never overload page headings, UI copy, or features with forced garden metaphors (e.g. avoid "tended", "sprouts", "seeds", "front porch"). Use clean, direct labels like "Recent Updates", "Hubs", "Notes", and "Overview".
+
 ---
 
 ## Sprint Execution Procedure
+
 
 ### Phase 1: Interactive Scoping & Human Sign-off (🧙‍♂️ Gandalf)
 

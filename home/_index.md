@@ -4,13 +4,14 @@ title: "Home"
 
 # :material-home-variant:{ .anim-pulse .anim-flip } Home
 
-Welcome to my digital garden. This is a collection of notes, summaries, reading logs, and technical references cultivated over time.
+Welcome to my notes. This is a personal notebook and collection of references, summaries, reading logs, and technical write-ups cultivated over time.
 
-Unlike a chronological blog, these pages grow and evolve as I learn. Feel free to explore by topic, dive into the [complete sitemap & directory](sitemap.md), or check out recently tended notes below.
+Unlike a chronological blog, these notes are organized conceptually. Feel free to explore by topic, browse the [complete sitemap & directory](sitemap.md), or check out recent updates below.
 
-# :material-compass-outline:{ .anim-rotate } Garden Hubs
+# :material-compass-outline:{ .anim-rotate } Hubs
 
-Explore the main sections of this garden, or browse the [complete sitemap & directory](sitemap.md) for every page and note.
+Explore the main sections of the site, or browse the [complete sitemap & directory](sitemap.md) for every page and note.
+
 
 <div class="grid cards" markdown>
 
@@ -50,7 +51,7 @@ Explore the main sections of this garden, or browse the [complete sitemap & dire
 
 # :material-star-shooting-outline:{ .anim-pulse } Featured Notes
 
-A few highlighted notes from across the garden:
+A few highlights from across the site:
 
 <div class="grid cards" markdown>
 
@@ -86,11 +87,12 @@ A few highlighted notes from across the garden:
 
 </div>
 
-# :material-clock-outline:{ .anim-rotate } Recently Tended
+# :material-clock-outline:{ .anim-rotate } Recent Updates
 
-The latest updates and freshly edited notes across the garden:
+The latest updates and freshly edited notes:
 
 {{< recently-updated count="5" >}}
+
 
 ---
 

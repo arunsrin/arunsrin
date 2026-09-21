@@ -66,11 +66,16 @@ def run_tests():
     assert sitemap_link_match, "Sidebar nav-tree missing link to /sitemap/"
     print("  ✓ Sidebar nav contains properly structured /sitemap/ link.")
 
-    # 3. Recently Tended stream audit
-    print("3. Auditing Recently Tended stream on homepage:")
+    # 3. Recent Updates stream audit
+    print("3. Auditing Recent Updates stream on homepage:")
+    assert "Recent Updates" in index_html, "Missing 'Recent Updates' heading on homepage"
+    assert "Recently Tended" not in index_html, "Found outdated 'Recently Tended' metaphor on homepage"
+    assert "Garden Hubs" not in index_html, "Found outdated 'Garden Hubs' metaphor on homepage"
+
     stream_match = re.search(r'class=["\']?recently-updated-stream["\']?>(.*?)</div>\s*<hr', index_html, re.DOTALL)
     assert stream_match, "Could not find .recently-updated-stream in public/index.html"
     stream_html = stream_match.group(1)
+
 
     # Extract all cards
     cards = re.findall(r'<a\s+[^>]*?class=["\']?recent-note-card["\']?[^>]*?href=["\']?([^>\s"\']+)["\']?[^>]*>(.*?)</a>', stream_html, re.DOTALL)

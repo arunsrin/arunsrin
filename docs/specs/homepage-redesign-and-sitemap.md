@@ -10,7 +10,8 @@ This feature transforms the site entry points:
    - **Hero / Welcome intro** to the digital garden.
    - **Category Hub cards** (Tech Notes, Books, Games, Other Media) linking to the main hubs and pointing to the full Sitemap.
    - **Featured Notes section:** 3 curated showcase notes (1 Book, 1 Tech, 1 Game; Research omitted for now) as replaceable placeholders.
-   - **Dynamic 'Recently Updated Notes' stream:** Built natively with Hugo GitInfo (`enableGitInfo = true`, `.Site.RegularPages.ByLastmod.Reverse | first 5`), displaying note title, formatted update date, section badge, and link. Excludes `about.md` and `sitemap.md`.
+   - **Dynamic 'Recent Updates' stream:** Built natively with Hugo GitInfo (`enableGitInfo = true`, `.Site.RegularPages.ByLastmod.Reverse | first 5`), displaying note title, formatted update date, section badge, and link. Excludes `about.md` and `sitemap.md`.
+
    - **About & External Links** cleanly maintained.
 
 ---

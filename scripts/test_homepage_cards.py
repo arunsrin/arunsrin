@@ -49,14 +49,14 @@ def run_tests():
         home_md = fp.read()
 
     # Verify Hub cards
-    hub_grid_m = re.search(r'# :material-compass-outline:\{[^\}]+\}\s+Garden Hubs.*?(<div class="grid cards" markdown>.*?</div>)', home_md, re.DOTALL)
-    assert hub_grid_m, "Could not find Garden Hubs card grid in home/_index.md"
+    hub_grid_m = re.search(r'# :material-compass-outline:\{[^\}]+\}\s+Hubs.*?(<div class="grid cards" markdown>.*?</div>)', home_md, re.DOTALL)
+    assert hub_grid_m, "Could not find Hubs card grid in home/_index.md"
     hub_grid = hub_grid_m.group(1)
     assert re.search(r':material-console:\{[^\}]+\}\s+__Tech Notes__\s*\n\s*---', hub_grid), "Tech Notes hub missing bold title or divider"
     assert re.search(r':material-book:\{[^\}]+\}\s+__Books__\s*\n\s*---', hub_grid), "Books hub missing bold title or divider"
     assert re.search(r':material-controller:\{[^\}]+\}\s+__Games__\s*\n\s*---', hub_grid), "Games hub missing bold title or divider"
     assert re.search(r':material-television:\{[^\}]+\}\s+__Other Media__\s*\n\s*---', hub_grid), "Other Media hub missing bold title or divider"
-    assert "sitemap.md" in hub_grid, "Garden Hubs missing direct sitemap link references"
+    assert "sitemap.md" in hub_grid, "Hubs missing direct sitemap link references"
 
     # Verify Featured Notes grid
     feat_grid_m = re.search(r'# :material-star-shooting-outline:\{[^\}]+\}\s+Featured Notes.*?(<div class="grid cards" markdown>.*?</div>)', home_md, re.DOTALL)
@@ -66,9 +66,15 @@ def run_tests():
     assert "Kubernetes" in feat_grid, "Featured notes missing 'Kubernetes'"
     assert "Xbox Series X" in feat_grid, "Featured notes missing 'Xbox Series X'"
 
-    # Verify Recently Tended shortcode
-    assert re.search(r'\{\{<\s*recently-updated\b', home_md), "Recently Tended shortcode missing from home/_index.md"
-    print("  ✓ Homepage markdown has Hubs, Featured Notes, and Recently Tended stream.")
+    # Verify Recent Updates section and shortcode
+    assert re.search(r'# :material-clock-outline:\{[^\}]+\}\s+Recent Updates', home_md), "Recent Updates heading missing from home/_index.md"
+    assert re.search(r'\{\{<\s*recently-updated\b', home_md), "Recently updated shortcode missing from home/_index.md"
+
+    # Negative assertions: no overused garden metaphors
+    assert "Garden Hubs" not in home_md, "Overused metaphor 'Garden Hubs' still present in home/_index.md"
+    assert "Recently Tended" not in home_md, "Overused metaphor 'Recently Tended' still present in home/_index.md"
+    print("  ✓ Homepage markdown has Hubs, Featured Notes, and Recent Updates stream (garden metaphors toned down).")
+
 
     # 2. Verify Homepage generated HTML
     print("2. Verifying generated HTML in public/index.html:")

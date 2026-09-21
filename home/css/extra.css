@@ -343,7 +343,7 @@ mark.search-highlight {
   background-color: var(--code-bg, rgba(2, 132, 199, 0.08));
 }
 
-/* --- Recently Tended Notes Stream --- */
+/* --- Recent Updates Stream --- */
 .recently-updated-stream {
   display: flex;
   flex-direction: column;
