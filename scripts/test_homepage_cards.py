@@ -52,13 +52,14 @@ def run_tests():
     hub_grid_m = re.search(r'# :material-compass-outline:\{[^\}]+\}\s+Hubs.*?(<div class="grid cards" markdown>.*?</div>)', home_md, re.DOTALL)
     assert hub_grid_m, "Could not find Hubs card grid in home/_index.md"
     hub_grid = hub_grid_m.group(1)
-    assert re.search(r':material-console:\{[^\}]+\}\s+__Tech Notes__\s*\n\s*---', hub_grid), "Tech Notes hub missing bold title or divider"
+    assert re.search(r':material-console:\{[^\}]+\}\s+__Tech__\s*\n\s*---', hub_grid), "Tech hub missing bold title or divider"
     assert re.search(r':material-book:\{[^\}]+\}\s+__Books__\s*\n\s*---', hub_grid), "Books hub missing bold title or divider"
     assert re.search(r':material-controller:\{[^\}]+\}\s+__Games__\s*\n\s*---', hub_grid), "Games hub missing bold title or divider"
-    assert "Explore Tech Notes" in hub_grid, "Tech Notes hub missing Explore link"
+    assert re.search(r':material-compass-outline:\{[^\}]+\}\s+__Other Interests__\s*\n\s*---', hub_grid), "Other Interests hub missing bold title or divider"
+    assert "Explore Tech" in hub_grid, "Tech hub missing Explore link"
     assert "Explore Books" in hub_grid, "Books hub missing Explore link"
     assert "Explore Games" in hub_grid, "Games hub missing Explore link"
-    assert "Explore Media" in hub_grid, "Other Media hub missing Explore link"
+    assert "Explore Other Interests" in hub_grid, "Other Interests hub missing Explore link"
     assert "sitemap.md" not in hub_grid, "Sitemap link should not be present inside Hub cards"
     # Negative assertion: Posts has its own dedicated section, removed from Hubs
     assert "posts/index.md" not in hub_grid, "Posts card should not be present inside Hub cards"
@@ -110,10 +111,10 @@ def run_tests():
         sitemap_md = fp.read()
 
     # Comprehensive 4 cards
-    assert re.search(r':material-console:\{[^\}]+\}\s+__Tech Notes__\s*\n\s*---', sitemap_md), "Sitemap Tech Notes card missing bold title or divider"
+    assert re.search(r':material-console:\{[^\}]+\}\s+__Tech__\s*\n\s*---', sitemap_md), "Sitemap Tech card missing bold title or divider"
     assert re.search(r':material-book:\{[^\}]+\}\s+__Books__\s*\n\s*---', sitemap_md), "Sitemap Books card missing bold title or divider"
     assert re.search(r':material-controller:\{[^\}]+\}\s+__Games__\s*\n\s*---', sitemap_md), "Sitemap Games card missing bold title or divider"
-    assert re.search(r':material-television:\{[^\}]+\}\s+__Other Media__\s*\n\s*---', sitemap_md), "Sitemap Other Media card missing bold title or divider"
+    assert re.search(r':material-compass-outline:\{[^\}]+\}\s+__Other Interests__\s*\n\s*---', sitemap_md), "Sitemap Other Interests card missing bold title or divider"
     assert "Me and my [books]" in sitemap_md, "Sitemap missing 'Me and my [books]'"
     assert "Me and my [games]" in sitemap_md, "Sitemap missing 'Me and my [games]'"
     assert re.search(r'\*\*By Genre\*\*', sitemap_md), "Sitemap Games card missing **By Genre** header"
@@ -185,7 +186,7 @@ def run_tests():
     cards = parser.top_cards
     assert len(cards) == 4, f"Expected 4 top-level cards in sitemap main grid, found {len(cards)}"
 
-    expected_titles = ["Tech Notes", "Books", "Games", "Other Media"]
+    expected_titles = ["Tech", "Books", "Games", "Other Interests"]
     for i, (card, expected) in enumerate(zip(cards, expected_titles), 1):
         first_p = card['first_p'] or ""
         assert expected in first_p, f"Card {i} title paragraph '{first_p}' does not contain '{expected}'"

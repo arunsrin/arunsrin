@@ -42,7 +42,8 @@ def run_tests():
 
     assert re.search(r'<title>.*?Sitemap.*?</title>', sitemap_html, re.IGNORECASE), "Sitemap page missing <title> tag with 'Sitemap'"
     assert re.search(r'class=["\']?main-content["\']?', sitemap_html), "Sitemap page missing main-content container"
-    assert "Tech Notes" in sitemap_html, "Sitemap missing Tech Notes section"
+    assert "Tech" in sitemap_html, "Sitemap missing Tech section"
+    assert "Other Interests" in sitemap_html, "Sitemap missing Other Interests section"
     assert "Book Reviews" in sitemap_html, "Sitemap missing Book Reviews section"
     assert "Role Models" in sitemap_html, "Sitemap missing Role Models section"
 

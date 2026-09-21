@@ -1,0 +1,23 @@
+{{ $level := .level | default 1 }}
+{{ range .context.Pages.ByWeight }}
+  {{ if .IsSection }}
+    <li class="section-tree-item section-tree-folder" style="margin: 0.75rem 0; padding-bottom: 0.5rem; {{ if eq $level 1 }}border-bottom: 1px solid var(--border-color);{{ end }}">
+      <a href="{{ .RelPermalink }}" style="font-weight: 600; text-decoration: none; color: var(--link-color); font-size: {{ if eq $level 1 }}1.05rem{{ else }}0.98rem{{ end }};">
+        {{ with .Params.icon }}{{ . }} {{ else }}📁 {{ end }}{{ .Title }}
+      </a>
+      {{ with .Description }}<p style="margin: 0.2rem 0; font-size: 0.9rem; color: var(--text-muted);">{{ . }}</p>{{ end }}
+      {{ if .Pages }}
+        <ul class="section-tree-sublist" style="list-style: none; padding-left: 1.5rem; margin-top: 0.4rem;">
+          {{ partial "section-tree.html" (dict "context" . "level" (add $level 1)) }}
+        </ul>
+      {{ end }}
+    </li>
+  {{ else }}
+    <li class="section-tree-item section-tree-page" style="margin: {{ if eq $level 1 }}0.75rem 0{{ else }}0.35rem 0{{ end }}; {{ if eq $level 1 }}padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-color);{{ end }}">
+      <a href="{{ .RelPermalink }}" style="font-weight: {{ if eq $level 1 }}600{{ else }}400{{ end }}; text-decoration: none; color: var(--link-color); font-size: {{ if eq $level 1 }}1.05rem{{ else }}0.95rem{{ end }};">
+        {{ with .Params.icon }}{{ . }} {{ else }}📄 {{ end }}{{ .Title }}
+      </a>
+      {{ with .Description }}<p style="margin: 0.15rem 0; font-size: 0.85rem; color: var(--text-muted);">{{ . }}</p>{{ end }}
+    </li>
+  {{ end }}
+{{ end }}

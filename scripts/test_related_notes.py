@@ -104,7 +104,7 @@ def run_tests():
     assert "/tech/k8s/" in docker_rel, "Docker missing reference to Kubernetes"
     print("  ✓ Docker note features 'Referenced' card to Kubernetes")
 
-    prod_html = load_html("other-interests/research/productivity")
+    prod_html = load_html("other-interests/productivity")
     prod_rel = get_related_section(prod_html)
     assert "/tech/editors/" in prod_rel, "Productivity missing reference to Editors"
     assert "related-badge-reference" in prod_rel, "Productivity missing related-badge-reference"
@@ -119,7 +119,7 @@ def run_tests():
 
     flow_html = load_html("books/non-fiction/psychology/flow")
     flow_rel = get_related_section(flow_html)
-    assert "/other-interests/research/productivity/" in flow_rel, "Flow missing related note to Productivity"
+    assert "/other-interests/productivity/" in flow_rel, "Flow missing related note to Productivity"
     print("  ✓ Flow note connects to Productivity via #productivity")
 
     # 5. Anti-Spurious Match Protection

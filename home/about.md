@@ -40,7 +40,7 @@ These days I primarily write content using vim on a terminal or
 [Typora](https://typora.io/) if I want a more wysiwyg experience.
 
 I use Gemini's antigravity to build new features in a loop; see
-[AI](tech/ai.md) for more.
+[AI](other-interests/ai.md) for more.
 
 ## 🌐 External Links
 

@@ -62,6 +62,9 @@ echo "=== 16. Validating Fill-Paragraph Prose Linter ==="
 echo "=== 17. Validating /now & /uses Pages Scaffolding & Navigation ==="
 "$PYTHON_CMD" "$SCRIPT_DIR/test_now_and_uses.py"
 
+echo "=== 18. Validating 4 Main Hubs & Page Re-categorisation ==="
+"$PYTHON_CMD" "$SCRIPT_DIR/test_hubs_and_recategorisation.py"
+
 echo "=== All checks passed successfully! ==="
 
 
