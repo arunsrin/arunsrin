@@ -32,12 +32,35 @@ These days I primarily write content using vim on a terminal or [Typora](https:/
 
 I use Gemini's antigravity to build new features in a loop; see [AI](tech/ai.md) for more.
 
+## 🌐 External Links
+
+- :material-skull:{ .anim-pulse }[My Blog](https://arunsrin.wordpress.com) - I used to cross-post my
+  content here too; there were times when I liked WordPress (to post
+  my artwork) and times when I liked this Hugo site. Structurally,
+  I prefer the digital-garden feel of this site over the
+  chronological format of a blog. Abandoned at this point.
+
+- :material-unicorn-variant:{ .anim-bounce }[Asha's blog](https://pinkwedelia.wordpress.com) - My daughter's
+WordPress blog. She writes all the content; I just help with uploading
+images and post tagging/categorization.
+
+- :material-bird:{ .anim-flip }[Siddharth's blog](https://astrogrug.wordpress.com) - My son's
+WordPress. I help him with choosing titles and uploading pics; he
+figures out the rest.
+
+- Books I own, on [LibraryThing](https://www.librarything.com/catalog/indeliblestamp)
+  and [GoodReads](https://www.goodreads.com/user/show/103052357-arun-s).
+  
+- [Github Profile](https://github.com/arunsrin/) - Mostly this site and my dotfiles.
+  
+- :material-skull:{ .anim-pulse }[My Steam Profile](https://steamcommunity.com/id/indeliblestamp) - Not used much.
+
+- [My TrueAchievements Profile](https://www.trueachievements.com/gamer/arunsrin) - I'm not an
+achievement hunter but it tracks my Xbox progress quite well.
+
 ## 📖 Books I own
 
 This is not up to date and I've stowed most of them away. But it is a good representation of my tastes.
 
 ![Books I own](/static/mybooks.png)
 
-[tech/ai.md]: 
-
-[tech/ai.md]: 
