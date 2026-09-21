@@ -25,7 +25,7 @@ This feature modernizes both components:
 - CSS rule `.site-header`:
   ```css
   .site-header {
-    background: var(--header-bg); /* ~50-54% alpha gradient */
+    background: var(--header-bg); /* Horizontal fade: turquoise on left, fully transparent on right */
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.25);
@@ -37,17 +37,16 @@ This feature modernizes both components:
   }
   ```
 - In light mode:
-  `--header-bg: linear-gradient(135deg, rgba(64, 224, 208, 0.50), rgba(47, 164, 231, 0.52) 75%, rgba(44, 154, 217, 0.54));`
+  `--header-bg: linear-gradient(to right, rgba(64, 224, 208, 0.72) 0%, rgba(47, 164, 231, 0.45) 50%, rgba(44, 154, 217, 0.12) 80%, rgba(44, 154, 217, 0.00) 100%);`
 - In dark mode:
-  ```css
-  [data-theme="dark"] .site-header {
-    background: rgba(15, 23, 42, 0.55);
-    border-bottom: 1px solid rgba(51, 65, 85, 0.5);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
-  }
-  ```
+  `--header-bg: linear-gradient(to right, rgba(15, 23, 42, 0.78) 0%, rgba(15, 23, 42, 0.48) 50%, rgba(15, 23, 42, 0.12) 80%, rgba(15, 23, 42, 0.00) 100%);`
 
-### 2.2 Full-Height Chessboard Watermark Integration
+### 2.2 Concise Header Navigation Controls (`layouts/partials/header.html`)
+- **Theme Toggle Button:** Concise emoji pill (`<span id="theme-icon">🌙</span>`) without redundant text label (`width: ~36px`).
+- **Search Input:** Compact `/` pill (`width: 54px`, expands smoothly to `220px` on focus/click, wired to `/` and `Ctrl+K` keyboard shortcuts).
+- **Watermark Visibility Clearance:** Unclutters >130px of horizontal space in the top-right corner, ensuring the complete chessboard watermark pattern is unobstructed.
+
+### 2.3 Full-Height Chessboard Watermark Integration
 - In `layouts/partials/head.html`:
   ```css
   .chess-watermark.corner-top-right,
@@ -57,7 +56,7 @@ This feature modernizes both components:
   ```
   The watermark tile grid starts at the very top edge (`top: 0`) and is visible through the frosted glass title bar, creating a unified, atmospheric corner pattern.
 
-### 2.3 Compact Modern Sidebar Architecture
+### 2.4 Compact Modern Sidebar Architecture
 - **Palette:** `--bg-sidebar` updated from `#f1f5f9` to `#f8fafc` (light mode) and `#0f172a` (dark mode) to eliminate dull flat grey.
 - **Typography:** Explicit `font-family: var(--font-family-sans);` (`Ubuntu`) on `.sidebar-left` and navigation tree.
 - **Spacing:**

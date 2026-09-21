@@ -124,6 +124,19 @@ def run_tests():
         )
     print("  ✓ Zero inline event handlers found (100% Rocket Loader safe).")
 
+    # 6. Concise Header Controls & Watermark Clearance
+    print("6. Auditing concise header controls and watermark clearance:")
+    assert re.search(r'placeholder=["\']?\/["\']?', html_content), (
+        "Search input missing concise placeholder='/'"
+    )
+    assert 'theme-label' not in html_content, (
+        "Theme toggle button still contains legacy 'theme-label' text"
+    )
+    assert re.search(r'--header-bg:\s*linear-gradient\(\s*to\s+right\s*,', html_content), (
+        "Missing horizontal to-right header gradient in CSS"
+    )
+    print("  ✓ Search input concise placeholder='/' and emoji-only theme toggle verified.")
+
     print("\n✓ All title bar and sidebar UX tests passed successfully!")
 
 if __name__ == "__main__":

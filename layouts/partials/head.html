@@ -26,7 +26,7 @@
   --text-muted: #64748b;
   --border-color: #e2e8f0;
   --link-color: #0284c7;
-  --header-bg: linear-gradient(135deg, rgba(64, 224, 208, 0.50), rgba(47, 164, 231, 0.52) 75%, rgba(44, 154, 217, 0.54));
+  --header-bg: linear-gradient(to right, rgba(64, 224, 208, 0.72) 0%, rgba(47, 164, 231, 0.45) 50%, rgba(44, 154, 217, 0.12) 80%, rgba(44, 154, 217, 0.00) 100%);
   --header-text: #ffffff;
   --card-bg: #ffffff;
   --code-bg: #f8fafc;
@@ -34,10 +34,10 @@
   --admonition-border: #0284c7;
 
   /* Chess Watermark (Crisper sky blue & azure contrast for glass diffusion) */
-  --chess-dark-sq: rgba(47, 164, 231, 0.30);
+  --chess-dark-sq: rgba(47, 164, 231, 0.32);
   --chess-light-sq: rgba(64, 224, 208, 0.05);
-  --chess-border: rgba(2, 132, 199, 0.35);
-  --chess-piece: rgba(2, 132, 199, 0.55);
+  --chess-border: rgba(2, 132, 199, 0.38);
+  --chess-piece: rgba(2, 132, 199, 0.60);
 }
 
 [data-theme="dark"] {
@@ -48,7 +48,7 @@
   --text-muted: #94a3b8;
   --border-color: #334155;
   --link-color: #38bdf8;
-  --header-bg: rgba(15, 23, 42, 0.55);
+  --header-bg: linear-gradient(to right, rgba(15, 23, 42, 0.78) 0%, rgba(15, 23, 42, 0.48) 50%, rgba(15, 23, 42, 0.12) 80%, rgba(15, 23, 42, 0.00) 100%);
 
   --header-text: #f8fafc;
   --card-bg: #1e293b;
@@ -57,10 +57,10 @@
   --admonition-border: #38bdf8;
 
   /* Chess Watermark */
-  --chess-dark-sq: rgba(56, 189, 248, 0.22);
-  --chess-light-sq: rgba(56, 189, 248, 0.03);
-  --chess-border: rgba(56, 189, 248, 0.32);
-  --chess-piece: rgba(56, 189, 248, 0.55);
+  --chess-dark-sq: rgba(56, 189, 248, 0.25);
+  --chess-light-sq: rgba(56, 189, 248, 0.04);
+  --chess-border: rgba(56, 189, 248, 0.38);
+  --chess-piece: rgba(56, 189, 248, 0.60);
 }
 
 body {
@@ -122,19 +122,29 @@ code, pre {
 }
 
 .theme-toggle-btn {
-  background: transparent;
-  border: 1px solid rgba(255,255,255,0.4);
-  color: #fff;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
   border-radius: 0.375rem;
-  padding: 0.35rem 0.65rem;
+  padding: 0.35rem 0.55rem;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 1rem;
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  justify-content: center;
+  line-height: 1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
 }
 .theme-toggle-btn:hover {
-  background: rgba(255,255,255,0.15);
+  background: var(--bg-secondary);
+  border-color: var(--link-color);
+  transform: scale(1.05);
+}
+[data-theme="dark"] .theme-toggle-btn {
+  background: rgba(30, 41, 59, 0.7);
+  border-color: var(--border-color);
+  color: var(--text-color);
 }
 
 .search-container {
@@ -142,22 +152,38 @@ code, pre {
 }
 
 .search-input {
-  background: rgba(255,255,255,0.2);
-  border: 1px solid rgba(255,255,255,0.3);
-  color: #fff;
-  padding: 0.4rem 0.75rem;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  padding: 0.35rem 0.65rem;
   border-radius: 0.375rem;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   outline: none;
-  width: 180px;
-  transition: width 0.3s ease;
+  width: 54px;
+  text-align: center;
+  transition: width 0.25s ease, background 0.2s ease, border-color 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  font-family: var(--font-family-mono);
+  font-weight: 700;
 }
 .search-input::placeholder {
-  color: rgba(255,255,255,0.7);
+  color: var(--text-muted);
+  font-family: var(--font-family-mono);
+  font-weight: 700;
 }
 .search-input:focus {
-  width: 260px;
-  background: rgba(255,255,255,0.3);
+  width: 220px;
+  text-align: left;
+  background: var(--card-bg);
+  border-color: var(--link-color);
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.15);
+  font-family: var(--font-family-sans);
+  font-weight: normal;
+}
+[data-theme="dark"] .search-input {
+  background: rgba(30, 41, 59, 0.7);
+  border-color: var(--border-color);
+  color: var(--text-color);
 }
 
 .layout-container {
@@ -835,10 +861,10 @@ footer.site-footer {
     max-width: 100%;
   }
   .search-input {
-    width: 130px;
+    width: 48px;
   }
   .search-input:focus {
-    width: 180px;
+    width: 150px;
   }
 }
 
