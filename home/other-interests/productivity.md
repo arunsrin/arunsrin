@@ -43,8 +43,8 @@ I like and highly recommend the following tools:
   and does enough in a text box that you don't need to keep clicking
   around. It has an MCP server that you can connect to an LLM, so
   gemini/antigravity also uses it to track its own backlog (see
-  [AI](ai.md)). I use some bits from the GTD methodology, and
-  make heavy use of scheduling and reminders to get stuff done at
+  [AI](ai.md)). I use some bits from the GTD methodology, and make
+  heavy use of scheduling and reminders to get stuff done at
   (hopefully) the right team.
 - ~~MS To Do~~ - this has an indispensable feature called 'Plan My
   Day' which is the first thing I do every morning. Makes it quite
@@ -55,9 +55,9 @@ I like and highly recommend the following tools:
   great interface, 3 levels of 'folder' hierarchy and great
   integration with my stylus. I pretty much use this as a
   whiteboarding app these days and nothing much else.
-- [Vim](../tech/editors.md) / [Typora](https://typora.io/) - I'm
-  torn between markdown as a store of data and OneNote. Typora seems
-  to bridge both worlds with a really nice UI and seamless integration
+- [Vim](../tech/editors.md) / [Typora](https://typora.io/) - I'm torn
+  between markdown as a store of data and OneNote. Typora seems to
+  bridge both worlds with a really nice UI and seamless integration
   for images. I use this at work for taking notes, documenting what I
   did each day, and so on. I have everything in a single `notes`
   folder and my LLM has access to it as well, so that is where I read

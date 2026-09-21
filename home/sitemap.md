@@ -121,21 +121,34 @@ this digital garden.
     ---
 
     - [:material-brain:{ .anim-rotate }AI](other-interests/ai.md)
-    - [:material-check-circle:{ .anim-flip }Productivity](other-interests/productivity.md)
-    - [:material-television-classic:{ .anim-flip }Movies](other-interests/media.md)
+    - [:material-check-circle:{ .anim-flip
+      }Productivity](other-interests/productivity.md)
+    - [:material-television-classic:{ .anim-flip
+      }Movies](other-interests/media.md)
     - **People**
-        - [:material-dna:{ .anim-flip }Richard Dawkins](other-interests/people/dawkins.md)
-        - [:material-weather-night:{ .anim-heart }Carl Sagan](other-interests/people/sagan.md)
-        - [:material-penguin:{ .anim-rotate }Richard Stallman](other-interests/people/stallman.md)
-        - [:material-thought-bubble:{ .anim-heart }Noam Chomsky](other-interests/people/chomsky.md)
+        - [:material-dna:{ .anim-flip }Richard
+          Dawkins](other-interests/people/dawkins.md)
+        - [:material-weather-night:{ .anim-heart }Carl
+          Sagan](other-interests/people/sagan.md)
+        - [:material-penguin:{ .anim-rotate }Richard
+          Stallman](other-interests/people/stallman.md)
+        - [:material-thought-bubble:{ .anim-heart }Noam
+          Chomsky](other-interests/people/chomsky.md)
     - **Research**
-        - [:material-cash-multiple:{ .anim-pulse }Capitalism](other-interests/research/capitalism.md)
-        - [:material-thermometer:{ .anim-pulse }Climate Change](other-interests/research/climate-change.md)
-        - [:material-virus:{ .anim-fade }COVID-19](other-interests/research/covid-19.md)
-        - [:material-currency-btc:{ .anim-heart }Cryptocurrencies](other-interests/research/cryptocurrencies.md)
-        - [:material-thought-bubble:{ .anim-heart }Philosophy](other-interests/research/philosophy.md)
-        - [:material-lock-check:{ .anim-bounce }Online Privacy and the Internet](other-interests/research/privacy-internet.md)
-        - [:material-thought-bubble:{ .anim-heart }Scepticism](other-interests/research/scepticism.md)
+        - [:material-cash-multiple:{ .anim-pulse
+          }Capitalism](other-interests/research/capitalism.md)
+        - [:material-thermometer:{ .anim-pulse }Climate
+          Change](other-interests/research/climate-change.md)
+        - [:material-virus:{ .anim-fade
+          }COVID-19](other-interests/research/covid-19.md)
+        - [:material-currency-btc:{ .anim-heart
+          }Cryptocurrencies](other-interests/research/cryptocurrencies.md)
+        - [:material-thought-bubble:{ .anim-heart
+          }Philosophy](other-interests/research/philosophy.md)
+        - [:material-lock-check:{ .anim-bounce }Online Privacy and the
+          Internet](other-interests/research/privacy-internet.md)
+        - [:material-thought-bubble:{ .anim-heart
+          }Scepticism](other-interests/research/scepticism.md)
 
 </div>
 
