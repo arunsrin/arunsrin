@@ -45,11 +45,11 @@ def run_tests():
 
     # 1. Frosted Glass Title Bar
     print("1. Auditing Frosted Glass Title Bar styles:")
-    assert re.search(r'backdrop-filter:\s*blur\(14px\)', html_content), (
-        "Missing backdrop-filter: blur(14px) on .site-header"
+    assert re.search(r'backdrop-filter:\s*blur\(8px\)', html_content), (
+        "Missing backdrop-filter: blur(8px) on .site-header"
     )
-    assert re.search(r'-webkit-backdrop-filter:\s*blur\(14px\)', html_content), (
-        "Missing -webkit-backdrop-filter: blur(14px) on .site-header"
+    assert re.search(r'-webkit-backdrop-filter:\s*blur\(8px\)', html_content), (
+        "Missing -webkit-backdrop-filter: blur(8px) on .site-header"
     )
     # Minification strips spaces and leading zero: border-bottom:1px solid rgba(255,255,255,.25)
     assert re.search(r'border-bottom:\s*1px\s+solid\s+rgba\(\s*255\s*,\s*255\s*,\s*255\s*,\s*0?\.25\s*\)', html_content), (

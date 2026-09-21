@@ -25,22 +25,25 @@ This feature modernizes both components:
 - CSS rule `.site-header`:
   ```css
   .site-header {
-    background: linear-gradient(135deg, rgba(64, 224, 208, 0.88), rgba(47, 164, 231, 0.88) 75%, rgba(44, 154, 217, 0.88));
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: var(--header-bg); /* ~50-54% alpha gradient */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.25);
     box-shadow: 0 4px 20px rgba(47, 164, 231, 0.12);
     position: sticky;
     top: 0;
     z-index: 1000;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
   }
   ```
+- In light mode:
+  `--header-bg: linear-gradient(135deg, rgba(64, 224, 208, 0.50), rgba(47, 164, 231, 0.52) 75%, rgba(44, 154, 217, 0.54));`
 - In dark mode:
   ```css
   [data-theme="dark"] .site-header {
-    background: rgba(15, 23, 42, 0.85);
+    background: rgba(15, 23, 42, 0.55);
     border-bottom: 1px solid rgba(51, 65, 85, 0.5);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
   }
   ```
 
