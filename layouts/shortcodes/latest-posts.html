@@ -1,0 +1,28 @@
+{{- $count := default 3 (.Get "count") -}}
+{{- $posts := (where site.RegularPages "Section" "posts").ByDate.Reverse -}}
+<div class="grid cards latest-posts-grid">
+  <ul>
+    {{- range first $count $posts }}
+      <li>
+        <p>
+          <span class="card-icon" style="margin-right: 0.35rem;">📝</span>
+          <strong><a href="{{ .RelPermalink }}" style="color: var(--text-color); text-decoration: none;">{{ .Title }}</a></strong>
+        </p>
+        <hr>
+        {{- if not .Date.IsZero }}
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0 0 0.5rem 0;">
+            <em>{{ .Date.Format "Jan 02, 2006" }} &bull; {{ .ReadingTime }} min read</em>
+          </p>
+        {{- end }}
+        {{- with or .Description .Summary }}
+          <p style="margin: 0.25rem 0 0.75rem 0; color: var(--text-color); font-size: 0.95rem; line-height: 1.5; flex: 1;">{{ . }}</p>
+        {{- end }}
+        <p style="margin-top: auto; padding-top: 0.5rem; margin-bottom: 0;">
+          <a href="{{ .RelPermalink }}" style="color: var(--link-color); font-weight: 600; text-decoration: none; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 0.25rem;">
+            Read Post &rarr;
+          </a>
+        </p>
+      </li>
+    {{- end }}
+  </ul>
+</div>

@@ -6,6 +6,6 @@ tags:
   - meta
 ---
 
-Opening up a small chronological space on the site for throwaway notes, announcements, and timely dispatches alongside the evergreen digital garden.
+I'm opening up a small chronological space on the site for throwaway notes, announcements, and thoughts.
 
 *(Note: This inaugural sample post was drafted by Gemini / Antigravity to verify template rendering, tags, and RSS feeds during development.)*

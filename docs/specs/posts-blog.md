@@ -67,11 +67,14 @@ Hugo automatically creates `home/posts/my-title.md` pre-populated with title, ti
    - Sequential post navigation: "← Older Post" and "Newer Post →" (`.PrevInSection` and `.NextInSection`).
    - Related notes/posts component (`related-notes.html`).
 3. **Sidebar Specialization for Posts (`layouts/partials/sidebar.html`):**
-   - When `.Section == "posts"`:
-     - Root summary links to `/posts/` (default archive view).
-     - Sub-dropdown `✨ Latest`: lists the 5 most recent posts for quick access.
-     - Sub-dropdown `🗄️ Archive`: links to `/posts/` (All Posts) and displays year counts.
-     - Prevents hundreds of future posts from cluttering the root navigation tree.
+   - Clean, flat 2-level hierarchy without clutter or duplicate dropdowns:
+     - Section header link: `Posts` (`/posts/`).
+       - Active when viewing `/posts/` (archive) or when viewing older posts.
+     - Single direct child link: `Latest` (points to the latest post, e.g. `/posts/hello-posts/`).
+       - Active when viewing the latest post.
+     - Zero emojis in the sidebar navigation entries.
+     - No redundant `Archive` or `All Posts` duplicate links (since `Posts` already links to `/posts/`).
+     - Pagination configured to 6 posts per page Bryce Wray style with next/prev navigation.
 
 ### 2.4 Visual Styling (`home/css/extra.css`)
 - Reuses the site's design tokens and light blue palette (`#40E0D0`, `#2fa4e7`, `#0284c7`, and `#38bdf8` in dark mode).
@@ -81,6 +84,14 @@ Hugo automatically creates `home/posts/my-title.md` pre-populated with title, ti
 ### 2.5 Tag Taxonomy Architecture
 - The digital garden's evergreen notes maintain their strict 32-tag taxonomy in `scripts/test_tags.py`.
 - Posts in `home/posts/` are validated for kebab-case formatting and absence of reserved hierarchy tags, allowing the author to tag posts freely with tags like `meta`, `announcement`, etc. without causing evergreen taxonomy regression failures.
+
+### 2.6 Homepage Integration & Stream Simplification
+- **Dedicated Latest Posts Showcase:** Inserted directly between Hubs and Featured Notes on `home/_index.md` using the dynamic shortcode `{{< latest-posts count="3" >}}`.
+- **3-Column Card Grid:** Styled in `extra.css` with `repeat(auto-fill, minmax(270px, 1fr))` and 3-column desktop layout (`repeat(3, 1fr)`), presenting up to 3 latest posts in 3 columns.
+- **Hubs & Stream Cleanliness:**
+  - `Hubs` retains the 4 primary digital garden topic areas (Tech Notes, Books, Games, Other Media).
+  - The redundant `Posts` cell inside `Hubs` is omitted since `Latest Posts` has its own dedicated showcase directly below.
+  - The older `Recent Updates` stream is retired from the front page in favor of the first-class `Latest Posts` block.
 
 ---
 

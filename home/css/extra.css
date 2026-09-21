@@ -67,6 +67,16 @@ html {
     margin: 1.75rem 0;
 }
 
+/* 3-column layout for Latest Posts showcase */
+.grid.cards.latest-posts-grid > ul {
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+}
+@media (min-width: 900px) {
+    .grid.cards.latest-posts-grid > ul {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
 .grid.cards > ul > li {
     background: var(--card-bg);
     border: 1px solid var(--border-color);

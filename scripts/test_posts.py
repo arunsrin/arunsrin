@@ -59,8 +59,8 @@ def run_tests():
     # Title and header
     assert re.search(r'<title>.*?Posts.*?</title>', archive_html, re.IGNORECASE), "Missing <title> tag with 'Posts'"
     assert re.search(r'class=["\']?posts-section-header["\']?', archive_html), "Missing .posts-section-header container"
-    assert re.search(r'<a\s+[^>]*?class=["\']?posts-rss-badge["\']?[^>]*>', archive_html), "Missing .posts-rss-badge element"
-    assert re.search(r'<a\s+[^>]*?href=["\']?/posts/index\.xml["\']?[^>]*>', archive_html), "Missing /posts/index.xml RSS link"
+    # Negative check: RSS badge removed from page header per user request
+    assert "posts-rss-badge" not in archive_html, "RSS badge should not be present in /posts/ page header"
 
     # Breadcrumbs
     assert re.search(r'class=["\']?breadcrumbs["\']?', archive_html), "Missing breadcrumbs navigation"
@@ -125,8 +125,8 @@ def run_tests():
     print("  ✓ Negative check passed: 'digital-gardens-and-chronological-streams' is completely eliminated.")
 
 
-    # 3. Verify RSS Feed
-    print("\n3. Auditing Posts RSS Feed (public/posts/index.xml):")
+    # 3. Verify RSS Feed & Auto-Discovery
+    print("\n3. Auditing Posts RSS Feed & Discovery:")
     if not os.path.exists(posts_rss):
         print(f"Error: {posts_rss} does not exist.")
         sys.exit(1)
@@ -139,18 +139,37 @@ def run_tests():
     assert "Hello, Posts" in rss_content, "RSS missing inaugural post 'Hello, Posts'"
     print("  ✓ Validated RSS feed structure and inaugural post in public/posts/index.xml.")
 
+    # Sidebar RSS link with conventional SVG icon
+    assert re.search(r'<a\s+href=["\']?/posts/index\.xml["\']?[^>]*>.*?RSS Feed.*?</a>', archive_html, re.DOTALL), "Sidebar missing RSS Feed link under Site"
+    assert re.search(r'<svg\s+class=["\']?rss-sidebar-icon["\']?', archive_html), "Sidebar missing conventional SVG RSS icon"
+    print("  ✓ Sidebar contains RSS Feed link with conventional SVG icon under Site.")
 
-    # 4. Controlled Sidebar Navigation & Sub-Dropdowns
+    # RSS Auto-discovery tag in <head> across pages
+    discovery_pages = [posts_index, home_index, hello_path]
+    for dp in discovery_pages:
+        with open(dp, "r", encoding="utf-8") as fp:
+            page_src = fp.read()
+        assert re.search(r'<link\s+[^>]*?rel=["\']?alternate["\']?[^>]*?type=["\']?application/rss\+xml["\']?[^>]*?href=["\']?[^"\'>\s]*?/posts/index\.xml["\']?', page_src), f"Missing RSS auto-discovery link tag in <head> of {dp}"
+    print("  ✓ Verified <link rel='alternate' type='application/rss+xml'> auto-discovery in <head> across all pages.")
+
+
+    # 4. Controlled Sidebar Navigation (Posts & Latest)
     print("\n4. Auditing Controlled Sidebar Navigation:")
-    # Posts details wrapper
-    assert re.search(r'<details\s+class=["\']?nav-section-details["\']?[^>]*>.*?<summary[^>]*>.*?href=["\']?/posts/["\']?[^>]*>Posts</a>', archive_html, re.DOTALL), "Sidebar missing Posts section with link to /posts/"
+    # Posts details wrapper on archive page
+    assert re.search(r'<details\s+class=["\']?nav-section-details["\']?\s+open>.*?<summary[^>]*>.*?href=["\']?/posts/["\']?\s+class=["\']?active["\']?>Posts</a>', archive_html, re.DOTALL), "Sidebar on /posts/ should have Posts highlighted as active"
+    assert re.search(r'<li><a\s+href=["\']?/posts/hello-posts/["\']?>Latest</a></li>', archive_html), "Sidebar on /posts/ should have inactive Latest link"
 
-    # Sub-dropdowns: Latest and Archive
-    assert "✨ Latest" in archive_html, "Sidebar missing '✨ Latest' sub-dropdown"
-    assert "🗄️ Archive" in archive_html, "Sidebar missing '🗄️ Archive' sub-dropdown"
-    assert re.search(r'<a\s+href=["\']?/posts/["\']?[^>]*>.*?All Posts</a>', archive_html), "Sidebar missing 'All Posts' link"
-    assert re.search(r'href=["\']?/posts/#year-\d{4}["\']?', archive_html), "Sidebar missing year group anchor link"
-    print("  ✓ Sidebar contains '✨ Latest' and '🗄️ Archive' sub-dropdowns.")
+    # Posts details wrapper on single post page (hello-posts)
+    assert re.search(r'<details\s+class=["\']?nav-section-details["\']?\s+open>.*?<summary[^>]*>.*?href=["\']?/posts/["\']?>Posts</a>', hello_html, re.DOTALL), "Sidebar on /posts/hello-posts/ should have open Posts section without active class"
+    assert re.search(r'<li><a\s+href=["\']?/posts/hello-posts/["\']?\s+class=["\']?active["\']?>Latest</a></li>', hello_html), "Sidebar on /posts/hello-posts/ should have Latest highlighted as active"
+
+    # Negative checks: No emojis, no duplicate 'Archive' or 'All Posts', no year breakdown in sidebar
+    assert "✨ Latest" not in archive_html, "Sidebar should not contain emoji '✨ Latest'"
+    assert "🗄️ Archive" not in archive_html, "Sidebar should not contain emoji '🗄️ Archive'"
+    assert "All Posts" not in archive_html, "Sidebar should not contain duplicate 'All Posts' sub-link"
+    print("  ✓ Sidebar contains clean Posts header and single Latest sub-link.")
+    print("  ✓ Active highlighting verified: Posts active on archive page, Latest active on latest post page.")
+    print("  ✓ Negative checks passed: Zero emojis, zero duplicate Archive/All Posts links.")
 
 
     # 5. Archetype & README Documentation
@@ -174,13 +193,18 @@ def run_tests():
     print("\n6. Auditing Site Navigation & Discovery:")
     with open(home_index, "r", encoding="utf-8") as fp:
         home_html = fp.read()
-    assert re.search(r'href=["\']?/posts/["\']?>.*?Explore Posts</a>', home_html), "Homepage Hubs missing 'Explore Posts' link"
+    assert re.search(r'href=["\']?/posts/["\']?>.*?Explore Posts.*?</a>', home_html), "Homepage missing 'Explore Posts Archive' link"
+
+    # Homepage Latest Posts showcase between Hubs and Featured Notes
+    assert re.search(r'Latest Posts.*?Featured Notes', home_html, re.DOTALL), "Homepage missing 'Latest Posts' section between Hubs and Featured Notes"
+    assert re.search(r'class=["\']?grid cards latest-posts-grid["\']?', home_html), "Homepage missing .latest-posts-grid container"
+    assert re.search(r'href=["\']?/posts/hello-posts/["\']?[^>]*>Hello, Posts</a>', home_html), "Homepage Latest Posts grid missing 'Hello, Posts' card link"
 
     with open(sitemap_html, "r", encoding="utf-8") as fp:
         sitemap_content = fp.read()
     assert re.search(r'id=["\']?posts["\']?', sitemap_content), "Sitemap missing anchor target id='posts'"
     assert re.search(r'href=["\']?/posts/["\']?', sitemap_content), "Sitemap missing link to /posts/"
-    print("  ✓ Homepage Hub card and Sitemap anchor targets verified.")
+    print("  ✓ Homepage Hub card, Latest Posts showcase (3-column grid), and Sitemap anchor targets verified.")
 
 
     # 7. Rocket Loader & Event Handler Safety

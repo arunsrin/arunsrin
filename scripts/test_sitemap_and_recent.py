@@ -66,47 +66,20 @@ def run_tests():
     assert sitemap_link_match, "Sidebar nav-tree missing link to /sitemap/"
     print("  ✓ Sidebar nav contains properly structured /sitemap/ link.")
 
-    # 3. Recent Updates stream audit
-    print("3. Auditing Recent Updates stream on homepage:")
-    assert "Recent Updates" in index_html, "Missing 'Recent Updates' heading on homepage"
+    # 3. Homepage stream audit (Latest Posts showcase & retirement of Recent Updates)
+    print("3. Auditing homepage stream (Latest Posts showcase):")
+    assert "Latest Posts" in index_html, "Missing 'Latest Posts' heading on homepage"
+    assert re.search(r'class=["\']?grid cards latest-posts-grid["\']?', index_html), "Missing .latest-posts-grid in public/index.html"
+    assert "Hello, Posts" in index_html, "Missing 'Hello, Posts' card in Latest Posts grid"
+
+    # Negative assertions: retired Recent Updates and metaphors
+    assert "Recent Updates" not in index_html, "Retired 'Recent Updates' heading should not be present on homepage"
+    assert "recently-updated-stream" not in index_html, "Retired 'recently-updated-stream' should not be present on homepage"
     assert "Recently Tended" not in index_html, "Found outdated 'Recently Tended' metaphor on homepage"
     assert "Garden Hubs" not in index_html, "Found outdated 'Garden Hubs' metaphor on homepage"
+    print("  ✓ Latest Posts showcase verified on homepage; retired Recent Updates confirmed absent.")
 
-    stream_match = re.search(r'class=["\']?recently-updated-stream["\']?>(.*?)</div>\s*<hr', index_html, re.DOTALL)
-    assert stream_match, "Could not find .recently-updated-stream in public/index.html"
-    stream_html = stream_match.group(1)
-
-
-    # Extract all cards
-    cards = re.findall(r'<a\s+[^>]*?class=["\']?recent-note-card["\']?[^>]*?href=["\']?([^>\s"\']+)["\']?[^>]*>(.*?)</a>', stream_html, re.DOTALL)
-    assert len(cards) == 5, f"Expected exactly 5 recent note cards, found {len(cards)}"
-
-    for href, card_body in cards:
-        # Verify title
-        title_m = re.search(r'class=["\']?recent-note-title["\']?>([^<]+)</span>', card_body)
-        assert title_m and title_m.group(1).strip(), f"Card with href '{href}' is missing a valid title"
-
-        # Verify date
-        date_m = re.search(r'class=["\']?recent-note-date["\']?>([^<]+)</span>', card_body)
-        assert date_m and date_m.group(1).strip(), f"Card with href '{href}' is missing a valid date"
-
-        # Verify section badge
-        section_m = re.search(r'class=["\']?recent-note-section["\']?>([^<]+)</span>', card_body)
-        assert section_m and section_m.group(1).strip(), f"Card with href '{href}' is missing a section badge"
-
-        # Verify target file exists in public/
-        clean_path = href.strip("/")
-        target_html = os.path.join(public_dir, clean_path, "index.html")
-        assert os.path.exists(target_html), f"Stream link '{href}' does not resolve to an existing public page at '{target_html}'"
-
-        # Negative checks: no about or sitemap
-        assert href != "/about/" and href != "/about", f"Prohibited page /about/ found in stream: {href}"
-        assert href != "/sitemap/" and href != "/sitemap", f"Prohibited page /sitemap/ found in stream: {href}"
-
-    print(f"  ✓ Validated {len(cards)} stream cards: all have titles, dates, sections, and resolve to existing public pages.")
-    print("  ✓ Negative assertions verified: /about/ and /sitemap/ excluded.")
-
-    print("\n✓ ALL SITEMAP & RECENT STREAM TESTS PASSED!")
+    print("\n✓ ALL SITEMAP & HOMEPAGE STREAM TESTS PASSED!")
 
 if __name__ == "__main__":
     run_tests()

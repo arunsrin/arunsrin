@@ -60,6 +60,13 @@ def run_tests():
     assert "Explore Games" in hub_grid, "Games hub missing Explore link"
     assert "Explore Media" in hub_grid, "Other Media hub missing Explore link"
     assert "sitemap.md" not in hub_grid, "Sitemap link should not be present inside Hub cards"
+    # Negative assertion: Posts has its own dedicated section, removed from Hubs
+    assert "posts/index.md" not in hub_grid, "Posts card should not be present inside Hub cards"
+
+
+    # Verify Latest Posts showcase section and shortcode
+    assert re.search(r'# :material-post-outline:\{[^\}]+\}\s+Latest Posts', home_md), "Latest Posts heading missing from home/_index.md"
+    assert re.search(r'\{\{<\s*latest-posts\b', home_md), "latest-posts shortcode missing from home/_index.md"
 
 
     # Verify Featured Notes grid
@@ -71,14 +78,12 @@ def run_tests():
     assert "Xbox Series X" in feat_grid, "Featured notes missing 'Xbox Series X'"
 
 
-    # Verify Recent Updates section and shortcode
-    assert re.search(r'# :material-clock-outline:\{[^\}]+\}\s+Recent Updates', home_md), "Recent Updates heading missing from home/_index.md"
-    assert re.search(r'\{\{<\s*recently-updated\b', home_md), "Recently updated shortcode missing from home/_index.md"
-
-    # Negative assertions: no overused garden metaphors
+    # Negative assertions: Recent Updates retired in favor of Latest Posts, no overused metaphors
+    assert "Recent Updates" not in home_md, "Recent Updates section should be retired in favor of Latest Posts in home/_index.md"
+    assert "recently-updated" not in home_md, "recently-updated shortcode should be removed from home/_index.md"
     assert "Garden Hubs" not in home_md, "Overused metaphor 'Garden Hubs' still present in home/_index.md"
     assert "Recently Tended" not in home_md, "Overused metaphor 'Recently Tended' still present in home/_index.md"
-    print("  ✓ Homepage markdown has Hubs, Featured Notes, and Recent Updates stream (garden metaphors toned down).")
+    print("  ✓ Homepage markdown has 4 Hubs, Latest Posts showcase, and Featured Notes.")
 
 
     # 2. Verify Homepage generated HTML
@@ -86,26 +91,14 @@ def run_tests():
     with open(public_index, "r", encoding="utf-8") as fp:
         home_html = fp.read()
 
-    # Verify Recently Tended stream cards
-    recent_cards = re.findall(r'class=["\']?recent-note-card["\']?', home_html)
-    assert len(recent_cards) == 5, f"Expected 5 recently updated cards, found {len(recent_cards)}"
+    # Verify Latest Posts grid
+    latest_grid_m = re.search(r'class=["\']?grid cards latest-posts-grid["\']?', home_html)
+    assert latest_grid_m, "Could not find .latest-posts-grid in public/index.html"
+    assert "Hello, Posts" in home_html, "Homepage Latest Posts grid missing 'Hello, Posts'"
 
-    # Check dates, titles, and sections in stream
-    recent_titles = re.findall(r'class=["\']?recent-note-title["\']?>([^<]+)</span>', home_html)
-    recent_dates = re.findall(r'class=["\']?recent-note-date["\']?>([^<]+)</span>', home_html)
-    assert len(recent_titles) == 5, f"Expected 5 recent note titles, found {len(recent_titles)}"
-    assert len(recent_dates) == 5, f"Expected 5 recent note dates, found {len(recent_dates)}"
-
-    # Date format validation (e.g. 'Sep 20, 2026')
-    for d in recent_dates:
-        assert re.match(r'^[A-Z][a-z]{2}\s+\d{1,2},\s+\d{4}$', d.strip()), f"Date '{d}' does not match expected format 'Mon DD, YYYY'"
-
-    # Anti-leak negative assertions
-    stream_chunk_m = re.search(r'class=["\']?recently-updated-stream["\']?>(.*?)</div>\s*<hr', home_html, re.DOTALL)
-    if stream_chunk_m:
-        stream_chunk = stream_chunk_m.group(1)
-        assert 'href="/about/"' not in stream_chunk, "Leak: /about/ found inside Recently Tended stream!"
-        assert 'href="/sitemap/"' not in stream_chunk, "Leak: /sitemap/ found inside Recently Tended stream!"
+    # Negative check: Retired recently-updated-stream is absent
+    assert "recently-updated-stream" not in home_html, "Retired recently-updated-stream should not be present in public/index.html"
+    print("  ✓ Homepage HTML contains 3-column Latest Posts grid and zero retired Recent Updates elements.")
 
     # Sidebar sitemap link check
     assert re.search(r'<a\s+href=["\']?/sitemap/["\']?[^>]*>.*?Sitemap</a>', home_html, re.DOTALL), "Sidebar missing /sitemap/ link!"

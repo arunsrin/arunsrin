@@ -8,12 +8,7 @@
   </nav>
 
   <header class="posts-section-header">
-    <div class="posts-header-main">
-      <h1>{{ with .Params.icon }}{{ . }} {{ end }}{{ .Title }}</h1>
-      <a href="/posts/index.xml" class="posts-rss-badge" title="Subscribe via RSS feed" aria-label="Subscribe to posts via RSS">
-        <span class="rss-icon">📡</span> RSS Feed
-      </a>
-    </div>
+    <h1>{{ with .Params.icon }}{{ . }} {{ end }}{{ .Title }}</h1>
     {{ with .Description }}
       <p class="posts-section-desc">{{ . }}</p>
     {{ end }}
@@ -25,7 +20,7 @@
     </div>
   {{ end }}
 
-  {{ $paginator := .Paginate (.Pages.ByDate.Reverse) 10 }}
+  {{ $paginator := .Paginate (.Pages.ByDate.Reverse) 6 }}
   <div class="posts-list-stream">
     {{ $currentYear := "" }}
     {{ range $paginator.Pages }}
