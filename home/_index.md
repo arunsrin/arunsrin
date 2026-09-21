@@ -6,8 +6,6 @@ title: "Home"
 
 Welcome to my notes. This is a personal notebook and collection of references, summaries, reading logs, and technical write-ups cultivated over time.
 
-Feel free to explore by topic, browse the [complete sitemap & directory](sitemap.md), or check out the latest posts below.
-
 
 # :material-compass-outline:{ .anim-rotate } Hubs
 

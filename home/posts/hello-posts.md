@@ -1,7 +1,7 @@
 ---
 title: "Hello, Posts"
 date: 2026-09-21T12:00:00+05:30
-description: "A quick inaugural note opening up this chronological space alongside the digital garden."
+description: "A quick inaugural note opening up this blog."
 tags:
   - meta
 ---
