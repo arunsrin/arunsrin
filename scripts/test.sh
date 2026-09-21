@@ -65,6 +65,9 @@ echo "=== 17. Validating /now & /uses Pages Scaffolding & Navigation ==="
 echo "=== 18. Validating 4 Main Hubs & Page Re-categorisation ==="
 "$PYTHON_CMD" "$SCRIPT_DIR/test_hubs_and_recategorisation.py"
 
+echo "=== 19. Validating Multi-Tag Explorer Hub & Topic Cloud ==="
+"$PYTHON_CMD" "$SCRIPT_DIR/test_tags_explorer.py"
+
 echo "=== All checks passed successfully! ==="
 
 

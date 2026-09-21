@@ -51,6 +51,7 @@
   <ul>
     <li><a href="/now/" class="{{ if eq .RelPermalink "/now/" }}active{{ end }}">⏳ Now</a></li>
     <li><a href="/uses/" class="{{ if eq .RelPermalink "/uses/" }}active{{ end }}">🛠️ Uses</a></li>
+    <li><a href="/tags/" class="{{ if or (eq .RelPermalink "/tags/") (hasPrefix .RelPermalink "/tags/") }}active{{ end }}">🏷️ Tags</a></li>
     <li><a href="/about/" class="{{ if eq .RelPermalink "/about/" }}active{{ end }}">ℹ️ About</a></li>
     <li><a href="/sitemap/" class="{{ if eq .RelPermalink "/sitemap/" }}active{{ end }}">🗺️ Sitemap</a></li>
     <li>
