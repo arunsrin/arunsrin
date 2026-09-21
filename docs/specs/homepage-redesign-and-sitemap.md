@@ -57,9 +57,10 @@ This feature transforms the site entry points:
 ### 2.4 Featured Notes Section
 - Initial starter placeholders:
   - **Books:** *Think Like a Stoic* (Massimo Pigliucci) — `/books/non-fiction/philosophy/think-like-a-stoic/`
-  - **Tech:** *Kubernetes* — `/tech/k8s/`
+  - **Tech:** *OpenSSL* — `/tech/openssl/`
   - **Games:** *Xbox Series X* — `/games/xbox/`
 - Designed for easy customization and editing by the author.
+
 
 ### 2.5 Deep-Link Anchor Targets & Scroll Offsets
 - The 4 Garden Hub cards on the homepage link directly to sitemap sections via URL fragments:

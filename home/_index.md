@@ -65,15 +65,16 @@ A few highlights from across the site:
 
     [:material-file-document-outline: Read Review](books/non-fiction/philosophy/think-like-a-stoic.md)
 
--   :material-kubernetes:{ .lg .middle .anim-fade } __Kubernetes__
+-   :material-lock:{ .lg .middle .anim-bounce } __OpenSSL__
 
     ---
 
-    *DevOps & Cloud Orchestration*
+    *Security & Cryptography*
 
-    Core concepts, architectural notes, and command cheat sheets for container orchestration with k8s.
+    Commands and one-liners for certificates, keys, CSR verification, and TLS connections.
 
-    [:material-file-document-outline: Read Notes](tech/k8s.md)
+    [:material-file-document-outline: Read Notes](tech/openssl.md)
+
 
 -   :fontawesome-brands-xbox:{ .lg .middle .anim-pulse } __Xbox Series X__
 

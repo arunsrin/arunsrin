@@ -63,8 +63,9 @@ def run_tests():
     assert feat_grid_m, "Could not find Featured Notes card grid in home/_index.md"
     feat_grid = feat_grid_m.group(1)
     assert "Think Like a Stoic" in feat_grid, "Featured notes missing 'Think Like a Stoic'"
-    assert "Kubernetes" in feat_grid, "Featured notes missing 'Kubernetes'"
+    assert "OpenSSL" in feat_grid, "Featured notes missing 'OpenSSL'"
     assert "Xbox Series X" in feat_grid, "Featured notes missing 'Xbox Series X'"
+
 
     # Verify Recent Updates section and shortcode
     assert re.search(r'# :material-clock-outline:\{[^\}]+\}\s+Recent Updates', home_md), "Recent Updates heading missing from home/_index.md"
