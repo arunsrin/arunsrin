@@ -7,15 +7,19 @@ Validates:
 2. /tags/ Explorer Hub HTML Structure:
    - Breadcrumbs navigation (Home / Tags).
    - Explorer header with title and subtitle.
-   - Interactive controls: search input (#tag-search-input), view toggle buttons (A-Z vs Frequency), and live counter.
-3. Alphabetical View:
+   - Interactive controls: search input (#tag-search-input), view toggle buttons (Frequency default vs A-Z), and live counter.
+3. Frequency View (Default):
+   - Container #view-frequency visible by default.
+   - Pills sorted strictly descending by note count (monotonic non-increasing order).
+4. Alphabetical View:
+   - Container #view-alphabetical initially hidden with display:none.
    - Letter navigation bar (.tag-letter-nav) with letter links.
    - Letter groups (.tag-letter-group) with anchor-targeted headings (#letter-X).
-4. Frequency View:
-   - Container #view-frequency with pills ordered descending by note frequency.
-5. All 33 canonical tags:
-   - Every canonical tag present with exact expected frequency count badge and data attributes.
-   - Every tag pill links to /tags/<tag>/.
+   - Tags inside each letter group start with that letter and are sorted alphabetically.
+5. Dynamic Taxonomy Verification (Zero Hardcoded Counts):
+   - Dynamically scans markdown files in home/ to determine live tag frequencies.
+   - Asserts every active tag appears as a pill with its dynamically computed count.
+   - Asserts count badge text synchronizes with data-count.
 6. Cloudflare Rocket Loader & Zero Inline Handlers:
    - Physical check verifying ZERO inline event handlers (onclick, oninput, etc.) in /tags/ HTML.
 7. Homepage Topic Cloud:
@@ -26,8 +30,7 @@ Validates:
    - Active class applied on /tags/ page.
    - Correct sequence: Now -> Uses -> Tags -> About -> Sitemap.
 9. Negative assertions:
-   - Prohibited directory/hierarchy tags ('books', 'tech', 'games', 'intro', 'research') absent.
-   - Troublesome singletons absent.
+   - Prohibited directory/hierarchy tags ('books', 'tech', 'games', 'intro', 'research', etc.) absent.
 """
 
 import os
@@ -40,42 +43,6 @@ if hasattr(sys.stdout, "reconfigure"):
 if hasattr(sys.stderr, "reconfigure"):
     sys.stderr.reconfigure(encoding="utf-8")
 
-TARGET_TAXONOMY = {
-    "science": 10,
-    "fiction": 9,
-    "devops": 8,
-    "sysadmin": 7,
-    "programming": 6,
-    "philosophy": 5,
-    "tools": 5,
-    "history": 4,
-    "linux": 4,
-    "media": 4,
-    "people": 4,
-    "psychology": 4,
-    "security": 4,
-    "literary": 3,
-    "math": 3,
-    "medicine": 3,
-    "monitoring": 3,
-    "politics": 3,
-    "productivity": 3,
-    "writing": 3,
-    "climate": 2,
-    "containers": 2,
-    "data": 2,
-    "databases": 2,
-    "environment": 2,
-    "fantasy": 2,
-    "finance": 2,
-    "gaming": 2,
-    "nabokov": 2,
-    "reading": 2,
-    "sci-fi": 2,
-    "windows": 2,
-    "ai": 2,
-}
-
 PROHIBITED_TAGS = [
     "books",
     "tech",
@@ -87,11 +54,48 @@ PROHIBITED_TAGS = [
     "home",
 ]
 
+def parse_markdown_tags(home_dir):
+    """
+    Dynamically scans all markdown files in home/ to extract live tag frequencies.
+    Prevents brittle hardcoded counts as new content is authored.
+    """
+    tag_counts = {}
+    for root, _, files in os.walk(home_dir):
+        for f in files:
+            if not f.endswith(".md"):
+                continue
+            fp = os.path.join(root, f)
+            with open(fp, "r", encoding="utf-8") as file_handle:
+                content = file_handle.read()
+            m = re.match(r"^---\r?\n(.*?)\r?\n---", content, re.DOTALL)
+            if not m:
+                continue
+            fm = m.group(1)
+            # Block tags:
+            # tags:
+            #   - tag1
+            block_m = re.search(r"^tags:\s*\n((?:\s+-\s*.*\r?\n?)*)", fm, re.MULTILINE)
+            if block_m and block_m.group(1).strip():
+                for line in block_m.group(1).strip().splitlines():
+                    t = re.sub(r"^\s*-\s*", "", line).strip().strip("'\"")
+                    if t:
+                        tag_counts[t] = tag_counts.get(t, 0) + 1
+            # Inline tags:
+            # tags: [tag1, tag2]
+            inline_m = re.search(r"^tags:\s*\[(.*?)\]", fm, re.MULTILINE)
+            if inline_m:
+                for t in inline_m.group(1).split(","):
+                    t = t.strip().strip("'\"")
+                    if t:
+                        tag_counts[t] = tag_counts.get(t, 0) + 1
+    return tag_counts
+
 def run_tests():
     root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     tags_html_path = os.path.join(root_dir, "public", "tags", "index.html")
     home_html_path = os.path.join(root_dir, "public", "index.html")
     about_html_path = os.path.join(root_dir, "public", "about", "index.html")
+    home_dir = os.path.join(root_dir, "home")
 
     print("--- Multi-Tag Explorer Hub (/tags/) Regression Test Suite ---")
 
@@ -118,50 +122,101 @@ def run_tests():
     assert "Tags Explorer" in tags_html, "Title 'Tags Explorer' missing in /tags/"
     print("  ✓ Breadcrumbs and Tags Explorer header verified.")
 
-    # 3. Interactive Controls
+    # 3. Interactive Controls (Frequency View as Default)
     print("3. Validating interactive controls (search filter, view toggle, counter)...")
     assert re.search(r'id=["\']?tag-search-input["\']?', tags_html), "Search input #tag-search-input missing!"
-    assert re.search(r'id=["\']?toggle-alphabetical["\']?[^>]*aria-pressed=["\']?false["\']?', tags_html), "Toggle button #toggle-alphabetical should have aria-pressed=false by default!"
     assert re.search(r'id=["\']?toggle-frequency["\']?[^>]*class=["\']?[^>"\']*active', tags_html), "Toggle button #toggle-frequency should be active by default!"
     assert re.search(r'id=["\']?toggle-frequency["\']?[^>]*aria-pressed=["\']?true["\']?', tags_html), "Toggle button #toggle-frequency should have aria-pressed=true by default!"
+    assert re.search(r'id=["\']?toggle-alphabetical["\']?[^>]*aria-pressed=["\']?false["\']?', tags_html), "Toggle button #toggle-alphabetical should have aria-pressed=false by default!"
     assert re.search(r'id=["\']?tag-visible-count["\']?', tags_html), "Counter element #tag-visible-count missing!"
     assert re.search(r'id=["\']?tag-empty-state["\']?', tags_html), "Empty state element #tag-empty-state missing!"
     assert re.search(r'id=["\']?tag-clear-filter-btn["\']?', tags_html), "Clear filter button #tag-clear-filter-btn missing!"
     print("  ✓ All interactive control elements present in generated HTML (Frequency default).")
 
-    # 4. Alphabetical View & Letter Navigation
-    print("4. Validating Alphabetical view and letter navigation...")
-    assert re.search(r'id=["\']?view-alphabetical["\']?', tags_html), "#view-alphabetical container missing!"
-    assert re.search(r'id=["\']?view-alphabetical["\']?[^>]*style=["\']?[^>"\']*display:\s*none', tags_html), "#view-alphabetical must be initially hidden with display:none"
-    assert re.search(r'class=["\']?[^>"\']*tag-letter-nav', tags_html), ".tag-letter-nav container missing!"
-    assert re.search(r'class=["\']?[^>"\']*tag-letter-group', tags_html), ".tag-letter-group elements missing!"
-    
-    # Check letter anchor targets
-    expected_letters = ["A", "C", "D", "E", "F", "G", "H", "L", "M", "N", "P", "R", "S", "T", "W"]
-    for letter in expected_letters:
-        assert f'id="letter-{letter}"' in tags_html or f'id=letter-{letter}' in tags_html, f"Anchor id letter-{letter} missing!"
-        assert f'data-letter="{letter}"' in tags_html or f'data-letter={letter}' in tags_html, f"data-letter {letter} missing!"
-    print(f"  ✓ Letter navigation and letter group headings verified for all {len(expected_letters)} letters.")
-
-    # 5. Frequency View
-    print("5. Validating Frequency view container...")
+    # 4. Frequency View Verification & Sort Order Invariant
+    print("4. Validating Frequency view container and descending count sort...")
     assert re.search(r'id=["\']?view-frequency["\']?', tags_html), "#view-frequency container missing!"
     assert re.search(r'class=["\']?[^>"\']*tag-frequency-wrap', tags_html), ".tag-frequency-wrap missing!"
     # Frequency view must be initially visible (no display:none)
     freq_hidden = re.search(r'id=["\']?view-frequency["\']?[^>]*style=["\']?[^>"\']*display:\s*none', tags_html)
     assert not freq_hidden, "#view-frequency must be visible by default (not display:none)"
-    print("  ✓ Frequency view container verified as active default.")
 
-    # 6. Validate All 33 Canonical Tags & Frequencies
-    print("6. Validating presence and note counts of all 33 canonical tags in /tags/...")
-    for tag, expected_count in TARGET_TAXONOMY.items():
-        # Check pill exists with data-tag and correct href
-        pill_pattern = rf'<a[^>]+href=["\']?/tags/{tag}/["\']?[^>]+data-tag=["\']?{tag}["\']?[^>]*>'
-        assert re.search(pill_pattern, tags_html), f"Tag pill for '{tag}' linking to /tags/{tag}/ missing!"
-        # Check count badge exists for this tag
-        badge_pattern = rf'data-tag=["\']?{tag}["\']?[^>]*data-count=["\']?{expected_count}["\']?'
-        assert re.search(badge_pattern, tags_html), f"Expected count {expected_count} for tag '{tag}' missing in data-count!"
-    print(f"  ✓ All {len(TARGET_TAXONOMY)} canonical tags correctly generated with expected count badges.")
+    # Extract all pills in frequency view
+    freq_section_m = re.search(r'id=["\']?view-frequency["\']?(.*?)</div>\s*</div>', tags_html, re.DOTALL)
+    assert freq_section_m, "Could not extract frequency view markup"
+    freq_html = freq_section_m.group(1)
+
+    pill_matches = re.findall(
+        r'<a[^>]+data-tag=["\']?([^"\'>\s]+)["\']?[^>]+data-count=["\']?(\d+)["\']?[^>]*>.*?class=["\']?tag-count-badge["\']?>(\d+)</span>',
+        freq_html,
+        re.DOTALL
+    )
+    assert len(pill_matches) > 0, "Zero pills found in frequency view!"
+    
+    counts = []
+    for tag_name, attr_count_str, badge_count_str in pill_matches:
+        attr_count = int(attr_count_str)
+        badge_count = int(badge_count_str)
+        assert attr_count >= 1, f"Tag '{tag_name}' has non-positive count: {attr_count}"
+        assert attr_count == badge_count, f"Tag '{tag_name}' data-count ({attr_count}) does not match badge text ({badge_count})!"
+        counts.append(attr_count)
+
+    # Invariant: Counts must be sorted descending (non-increasing)
+    assert counts == sorted(counts, reverse=True), f"Frequency view tags are not sorted descending by count! Observed: {counts}"
+    print(f"  ✓ Frequency view verified: {len(counts)} tags sorted in strict descending order (counts {counts[0]} -> {counts[-1]}).")
+
+    # 5. Alphabetical View Verification & Letter Group Invariants
+    print("5. Validating Alphabetical view, letter navigation, and alphabetical sorting...")
+    assert re.search(r'id=["\']?view-alphabetical["\']?', tags_html), "#view-alphabetical container missing!"
+    assert re.search(r'id=["\']?view-alphabetical["\']?[^>]*style=["\']?[^>"\']*display:\s*none', tags_html), "#view-alphabetical must be initially hidden with display:none"
+    assert re.search(r'class=["\']?[^>"\']*tag-letter-nav', tags_html), ".tag-letter-nav container missing!"
+    assert re.search(r'class=["\']?[^>"\']*tag-letter-group', tags_html), ".tag-letter-group elements missing!"
+
+    # Extract all letter groups
+    group_matches = re.findall(
+        r'<div[^>]+class=["\']?[^>"\']*tag-letter-group[^>"\']*["\']?[^>]+data-letter=["\']?([A-Z])["\']?[^>]*>(.*?)</div>\s*</div>',
+        tags_html,
+        re.DOTALL
+    )
+    assert len(group_matches) > 0, "Zero letter groups found in alphabetical view!"
+
+    discovered_letters = []
+    for letter, group_html in group_matches:
+        discovered_letters.append(letter)
+        # Check header ID and scroll margin
+        assert f'id="letter-{letter}"' in group_html or f'id=letter-{letter}' in group_html, f"Anchor id letter-{letter} missing!"
+        # Check nav link exists
+        assert f'data-nav-letter="{letter}"' in tags_html or f'data-nav-letter={letter}' in tags_html, f"Nav link for letter {letter} missing!"
+        # Check pills inside this group start with this letter
+        group_pills = re.findall(r'data-tag=["\']?([^"\'>\s]+)["\']?', group_html)
+        assert len(group_pills) > 0, f"Letter group {letter} has zero pills!"
+        for g_tag in group_pills:
+            assert g_tag.upper().startswith(letter), f"Tag '{g_tag}' in letter group '{letter}' does not start with '{letter}'!"
+        # Check pills in this group are sorted alphabetically
+        assert group_pills == sorted(group_pills), f"Tags in letter group '{letter}' are not sorted alphabetically: {group_pills}"
+
+    assert discovered_letters == sorted(discovered_letters), f"Letter groups are not in alphabetical order: {discovered_letters}"
+    print(f"  ✓ Alphabetical view verified: {len(discovered_letters)} letter groups ({', '.join(discovered_letters)}) correctly grouped and sorted.")
+
+    # 6. Dynamic Content Parity (Zero Hardcoded Counts)
+    print("6. Dynamically auditing tag frequencies against live markdown content in home/...")
+    live_markdown_tags = parse_markdown_tags(home_dir)
+    print(f"   Discovered {len(live_markdown_tags)} tags dynamically across markdown notes.")
+
+    # Match every tag in markdown against the generated HTML in /tags/
+    for live_tag, expected_count in live_markdown_tags.items():
+        pill_pattern = rf'<a[^>]+href=["\']?/tags/{live_tag}/["\']?[^>]+data-tag=["\']?{live_tag}["\']?[^>]*>'
+        assert re.search(pill_pattern, tags_html), f"Live tag '{live_tag}' linking to /tags/{live_tag}/ missing in generated HTML!"
+        badge_pattern = rf'data-tag=["\']?{live_tag}["\']?[^>]*data-count=["\']?{expected_count}["\']?'
+        assert re.search(badge_pattern, tags_html), f"Live tag '{live_tag}' expected dynamic count {expected_count}, but was missing in data-count!"
+    print(f"  ✓ Dynamic parity verified: All {len(live_markdown_tags)} live markdown tags accurately reflected on /tags/ without hardcoding.")
+
+    # Check total counter matches discovered tag count
+    counter_m = re.search(r'id=["\']?tag-visible-count["\']?>(\d+)</strong>\s*of\s*(\d+)', tags_html)
+    assert counter_m, "Could not extract tag counter numbers from /tags/"
+    visible_cnt, total_cnt = int(counter_m.group(1)), int(counter_m.group(2))
+    assert visible_cnt == total_cnt == len(live_markdown_tags), f"Counter ({visible_cnt}/{total_cnt}) does not match live tag count ({len(live_markdown_tags)})!"
+    print(f"  ✓ Live counter correctly reports {total_cnt} tags matching content.")
 
     # 7. Rocket Loader Safety & Zero Inline Handlers
     print("7. Verifying Cloudflare Rocket Loader safety (0 inline HTML handlers)...")
@@ -191,14 +246,13 @@ def run_tests():
     print("  ✓ Sidebar navigation link verified with active state and correct order.")
 
     # 10. Negative Assertions
-    print("10. Running negative assertions against prohibited tags...")
+    print("10. Running negative assertions against prohibited directory/hierarchy tags...")
     for ptag in PROHIBITED_TAGS:
-        # Check no pill exists with data-tag=ptag
         prohibited_pill = re.search(rf'data-tag=["\']?{ptag}["\']?', tags_html)
         assert not prohibited_pill, f"Prohibited tag '{ptag}' found in /tags/ pills!"
     print(f"  ✓ All {len(PROHIBITED_TAGS)} prohibited directory/hierarchy tags verified absent.")
 
-    print("\n✓ ALL 10 MULTI-TAG EXPLORER HUB REGRESSION TESTS PASSED SUCCESSFULLY!")
+    print("\n✓ ALL 10 MULTI-TAG EXPLORER HUB REGRESSION TESTS PASSED (ZERO HARDCODED COUNTS)!")
 
 if __name__ == "__main__":
     run_tests()
