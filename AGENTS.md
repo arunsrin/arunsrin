@@ -102,6 +102,9 @@ cd .worktrees/<feature-name> && hugo server --bind 0.0.0.0 --port 1314 -b http:/
     - **Non-Destructive Git Workflows:** Git permissions are strictly scoped to standard non-destructive development operations (`git status`, `git diff`, `git log`, `git add`, `git commit`, `git push origin <branch>`, `git pull origin master`, `git worktree *`). Destructive commands (`git reset --hard`, `git clean -fd`, `git push --force`, `git branch -D master`) must be explicitly placed in the `deny` list.
     - **GitHub CLI Scoping:** GitHub CLI operations are scoped strictly to pull request lifecycle management (`gh pr *`).
     - **Adversarial Denylist Precedence:** Because Antigravity evaluates rules with `Deny > Ask > Allow` precedence, dangerous patterns (`rm -rf *`, `Remove-Item -Recurse *`, `git reset --hard *`, force pushes) are kept on permanent denial to prevent destructive accidents.
+19. **GitHub Actions Auto-Commit Push Hygiene & CommonMark Hard Breaks:**
+    - **Explicit Refspec for CI Pushes:** When configuring GitHub Actions to commit and push changes back to pull requests, never use bare `git push` (which fails in detached HEAD checkout states). Always use explicit refspecs: `git push origin HEAD:${{ github.head_ref }}` and guard with `github.event.pull_request.head.repo.full_name == github.repository` to prevent 403 permission failures on PRs submitted from repository forks.
+    - **CommonMark Hard Line Break Preservation:** Markdown prose linters, wrappers, and formatters must never blindly apply `str.strip()` to line endings without first detecting and preserving CommonMark trailing double spaces (`  `) or trailing backslashes (`\`).
 
 
 ## 5. Backlog Management (Todoist Integration)
