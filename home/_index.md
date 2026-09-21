@@ -6,7 +6,7 @@ title: "Home"
 
 Welcome to my notes. This is a personal notebook and collection of references, summaries, reading logs, and technical write-ups cultivated over time.
 
-Unlike a chronological blog, these notes are organized conceptually. Feel free to explore by topic, browse the [complete sitemap & directory](sitemap.md), or check out recent updates below.
+Feel free to explore by topic, browse the [complete sitemap & directory](sitemap.md), or check out recent updates below.
 
 # :material-compass-outline:{ .anim-rotate } Hubs
 
@@ -100,8 +100,7 @@ The latest updates and freshly edited notes:
 
 # :material-penguin:{ .anim-flip .anim-fade } About
 
-See [About](about.md) for more about me. This site is built using the
-lovely [Hugo](https://gohugo.io/), a fast static site
+See [About](about.md) for more about me. This site is built using the lovely [Hugo](https://gohugo.io/), a fast static site
 generator. The content is written in markdown using GNU Emacs. It is
 hosted on [Cloudflare](https://cloudflare.com/).
 
@@ -121,16 +120,12 @@ images and post tagging/categorization.
 WordPress. I help him with choosing titles and uploading pics; he
 figures out the rest.
 
-- Books I own, on
-  [LibraryThing](https://www.librarything.com/catalog/indeliblestamp)
-  and
-  [GoodReads](https://www.goodreads.com/user/show/103052357-arun-s).
-
-- [Github Profile](https://github.com/arunsrin/) - Mostly this site
-  and my dotfiles.
-
+- Books I own, on [LibraryThing](https://www.librarything.com/catalog/indeliblestamp)
+  and [GoodReads](https://www.goodreads.com/user/show/103052357-arun-s).
+  
+- [Github Profile](https://github.com/arunsrin/) - Mostly this site and my dotfiles.
+  
 - :material-skull:{ .anim-pulse }[My Steam Profile](https://steamcommunity.com/id/indeliblestamp) - Not used much.
 
-- [My TrueAchievements
-Profile](https://www.trueachievements.com/gamer/arunsrin) - I'm not an
+- [My TrueAchievements Profile](https://www.trueachievements.com/gamer/arunsrin) - I'm not an
 achievement hunter but it tracks my Xbox progress quite well.
