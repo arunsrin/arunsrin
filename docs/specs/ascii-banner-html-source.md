@@ -55,6 +55,8 @@ Hugo uses `tdewolff/minify` during `hugo --gc --minify`. To ensure the HTML bann
    Placing the comment immediately after `<!DOCTYPE html>` ensures standards mode is reliably triggered in all modern and legacy browsers, while keeping the Easter egg within the first 15 lines of view-source.
 4. **Automated Test Coverage & CI Parity:**
    A dedicated Python test suite (`scripts/test_ascii_banner.py`) is added, integrated into both `./scripts/test.ps1` and `./scripts/test.sh`, and dynamically verified by `scripts/test_ci_parity.py`.
+5. **Master Branch Inviolability & Zero Pre-Commit to Master:**
+   The living specification and all implementation files must reside strictly on the isolated feature branch (`ascii-banner-html-source`). Zero direct commits or pushes may be made to `master` or `origin/master`. Master advances exclusively via GitHub PR merge after explicit author local verification.
 
 ---
 
@@ -70,3 +72,5 @@ Hugo uses `tdewolff/minify` during `hugo --gc --minify`. To ensure the HTML bann
    - `scripts/test_ascii_banner.py` passes with exit code 0.
    - `./scripts/test.ps1` and `./scripts/test.sh` pass cleanly with zero warnings.
    - `scripts/test_ci_parity.py` validates dynamic test discovery without CI drift.
+5. **Zero Direct Master Push Enforcement:**
+   - All feature and specification changes are encapsulated within PR #34. No further direct pushes to `master` occur without explicit human instruction.
