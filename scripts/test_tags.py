@@ -54,6 +54,7 @@ TARGET_TAXONOMY = {
     "reading": 2,
     "sci-fi": 2,
     "windows": 2,
+    "ai": 2,
 }
 
 PROHIBITED_TAGS = {
@@ -111,7 +112,6 @@ TROUBLESOME_SINGLETONS = [
     "emacs",
     "editors",
     "browsers",
-    "ai",
     # Game genre / section singletons
     "action",
     "adventure",
@@ -208,12 +208,12 @@ CANONICAL_FILE_TAGS = {
     os.path.join("other-interests", "research", "cryptocurrencies.md"): ["finance"],
     os.path.join("other-interests", "research", "philosophy.md"): ["philosophy"],
     os.path.join("other-interests", "research", "privacy-internet.md"): ["security"],
-    os.path.join("other-interests", "research", "productivity.md"): ["productivity", "tools"],
+    os.path.join("other-interests", "research", "productivity.md"): ["productivity", "tools", "ai"],
     os.path.join("other-interests", "research", "scepticism.md"): ["science", "philosophy"],
 
     # Tech
     os.path.join("tech", "_index.md"): ["programming"],
-    os.path.join("tech", "ai.md"): ["tools", "productivity"],
+    os.path.join("tech", "ai.md"): ["tools", "productivity", "ai"],
     os.path.join("tech", "ansible.md"): ["devops"],
     os.path.join("tech", "aws.md"): ["devops"],
     os.path.join("tech", "browsers.md"): ["tools"],
@@ -414,10 +414,10 @@ def validate_tags(home_dir):
         sys.exit(1)
     print(f"  ✓ All {len(TROUBLESOME_SINGLETONS)} troublesome singletons are successfully eliminated.")
 
-    # Assert exact 32 unique tags matching target taxonomy
-    print(f"8. Validating Exact 32 Tag Taxonomy & Target Frequencies...")
-    if len(tag_counts) != 32:
-        print(f"  ❌ FAILED: Expected exactly 32 unique tags, found {len(tag_counts)}: {sorted(tag_counts.keys())}")
+    # Assert exact 33 unique tags matching target taxonomy
+    print(f"8. Validating Exact 33 Tag Taxonomy & Target Frequencies...")
+    if len(tag_counts) != 33:
+        print(f"  ❌ FAILED: Expected exactly 33 unique tags, found {len(tag_counts)}: {sorted(tag_counts.keys())}")
         sys.exit(1)
 
     taxonomy_mismatches = []
@@ -431,7 +431,7 @@ def validate_tags(home_dir):
         for t, exp, act in taxonomy_mismatches:
             print(f"     - '{t}': expected={exp}, actual={act}")
         sys.exit(1)
-    print(f"  ✓ Target taxonomy verified: EXACTLY 32 unique tags matching target distribution.")
+    print(f"  ✓ Target taxonomy verified: EXACTLY 33 unique tags matching target distribution.")
 
     print("\n✓ ALL 8 TAG TAXONOMY REGRESSION TESTS PASSED SUCCESSFULLY!")
 

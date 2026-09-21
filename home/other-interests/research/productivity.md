@@ -3,6 +3,7 @@ title: "Productivity"
 tags:
   - productivity
   - tools
+  - ai
 ---
 
 # :material-check-circle:{ .anim-flip } Productivity
