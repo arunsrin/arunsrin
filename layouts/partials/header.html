@@ -10,12 +10,12 @@
   
   <div class="nav-controls">
     <div class="search-container">
-      <input type="text" id="site-search" class="search-input" placeholder="Search notes... (Ctrl+K)" autocomplete="off">
-      <div id="search-results" style="display:none; position:absolute; right:0; top:110%; width:340px; background:var(--card-bg); border:1px solid var(--border-color); box-shadow:0 4px 12px rgba(0,0,0,0.15); border-radius:0.5rem; max-height:350px; overflow-y:auto; z-index:1001; padding:0.5rem;"></div>
+      <input type="text" id="site-search" class="search-input" placeholder="/" title="Search notes (/ or Ctrl+K)" aria-label="Search notes (/ or Ctrl+K)" autocomplete="off">
+      <div id="search-results" style="display:none; position:absolute; right:0; top:110%; width:min(340px, calc(100vw - 1.5rem)); max-width:calc(100vw - 1.5rem); background:var(--card-bg); border:1px solid var(--border-color); box-shadow:0 4px 12px rgba(0,0,0,0.15); border-radius:0.5rem; max-height:350px; overflow-y:auto; z-index:1001; padding:0.5rem;"></div>
     </div>
 
-    <button id="theme-toggle" class="theme-toggle-btn" title="Toggle dark mode">
-      <span id="theme-icon">🌙</span> <span id="theme-label">Theme</span>
+    <button id="theme-toggle" class="theme-toggle-btn" title="Toggle dark mode" aria-label="Toggle dark mode">
+      <span id="theme-icon">🌙</span>
     </button>
   </div>
 </header>
@@ -102,6 +102,9 @@
 
   document.addEventListener('keydown', (e) => {
     if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      e.preventDefault();
+      searchInput.focus();
+    } else if (e.key === '/' && !e.ctrlKey && !e.metaKey && !e.altKey && document.activeElement !== searchInput && !['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) {
       e.preventDefault();
       searchInput.focus();
     }

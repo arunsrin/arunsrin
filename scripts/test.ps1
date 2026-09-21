@@ -101,6 +101,13 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
 
+Write-Host "`n=== 13. Validating Title Bar & Sidebar UX ===" -ForegroundColor Cyan
+& $pythonCmd "$PSScriptRoot/test_title_sidebar_ux.py"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Title Bar & Sidebar UX validation failed!"
+    exit $LASTEXITCODE
+}
+
 Write-Host "`n=== All checks passed successfully! ===" -ForegroundColor Green
 
 exit 0

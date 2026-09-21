@@ -47,6 +47,10 @@ echo "=== 11. Validating Tag Taxonomy Regression ==="
 echo "=== 12. Validating Sitemap & Recently Tended Stream ==="
 "$PYTHON_CMD" "$SCRIPT_DIR/test_sitemap_and_recent.py"
 
+echo "=== 13. Validating Title Bar & Sidebar UX ==="
+"$PYTHON_CMD" "$SCRIPT_DIR/test_title_sidebar_ux.py"
+
 echo "=== All checks passed successfully! ==="
+
 
 
