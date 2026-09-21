@@ -8,17 +8,17 @@ tags:
 
 # :material-pencil:{ .anim-flip } Hate Inc.
 
-*Full Title*: Hate Inc.: Why Today's Media Makes Us Despise One Another
+*Full Title*: Hate Inc.: Why Today's Media Makes Us Despise One
+Another
 
 *Author*: Matt Taibbi
 
 I've been reading Taibbi for a while now and this was a nice
 refreshing step back from his usual acerbic style. He covers the media
-industry's complicity in creating a toxic political
-environment. Towards the end is where the book gets really
-interesting: as an inward-looking view into how the left-leaning media
-is as bad in creating filter bubbles as the usual suspects in the
-right.
+industry's complicity in creating a toxic political environment.
+Towards the end is where the book gets really interesting: as an
+inward-looking view into how the left-leaning media is as bad in
+creating filter bubbles as the usual suspects in the right.
 
 
 Here are some snippets I saved from the book.
@@ -30,8 +30,8 @@ Here are some snippets I saved from the book.
 
 > They’re just getting it from the New York Times, so it’s the same
 > sources of information. They’re just putting it out in trivialized
-> form, so that people with a ten- year-old mentality can handle
-> it. It’s a very dangerous thing. They’re not doing any of the things
+> form, so that people with a ten- year-old mentality can handle it.
+> It’s a very dangerous thing. They’re not doing any of the things
 > that the media do. They don’t frame things. They don’t select. They
 > don’t send reporters out. They don’t investigate, you know, they
 > just collect information and hand it over to kids to look at in ten

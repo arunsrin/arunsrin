@@ -19,8 +19,8 @@ Put something like this in your `~/.gitconfig`:
 [includeIf "gitdir:~/code/"]
     path = ~/.gitconfig.personal
 ```
-If your work repos are in `~/work`, you can have a separate user/email etc for
-repos in that folder.
+If your work repos are in `~/work`, you can have a separate user/email
+etc for repos in that folder.
 
 ## Delete a tag that's already pushed
 
@@ -42,8 +42,8 @@ git push -f
 
 `git commit --allow-empty -m "blah blah"`
 
-Useful if you have a gitops workflow and just want to raise a PR to trigger
-something from there.
+Useful if you have a gitops workflow and just want to raise a PR to
+trigger something from there.
 
 ## Show parents of a merge commit
 
@@ -99,7 +99,8 @@ git reset HEAD@{1}
 
 ## Some great ones to investigate a repo
 
-These are all from [this excellent post](https://piechowski.io/post/git-commands-before-reading-code/):
+These are all from [this excellent
+post](https://piechowski.io/post/git-commands-before-reading-code/):
 
 What changes the most:
 
@@ -133,10 +134,12 @@ git log --oneline --since="1 year ago" | grep -iE 'revert|hotfix|emergency|rollb
 
 ## Using git stash to save changes temporarily
 
--   First do a `git add` (if its a new file to be tracked), then `git stash`
+-   First do a `git add` (if its a new file to be tracked), then `git
+    stash`
 -   Check with `git stash list`
 -   Reapply with `git stash apply`
--   Otherwise use `git stash pop` to recover the files and discard the stash
+-   Otherwise use `git stash pop` to recover the files and discard the
+    stash
 -   Creating a branch from a stash:
 
 ``` sh
@@ -177,8 +180,7 @@ Instead of the overloaded `git checkout`, use:
 -   To see commits that have not yet merged to main:
 
 ``` sh
-git log --no-merges main..
-```
+git log --no-merges main.. ```
 
 ...
 
@@ -188,8 +190,10 @@ git log --no-merges main..
 
 `git pull --rebase origin main`
 
--   And make it permanent with this: `git config --global pull.rebase true`
--   This removes the superfluous 'merge commit' that comes up normally.
+-   And make it permanent with this: `git config --global pull.rebase
+    true`
+-   This removes the superfluous 'merge commit' that comes up
+    normally.
 -   Finally:
 
 ``` sh
@@ -292,8 +296,6 @@ git log --graph --all --decorate --stat --date=iso
 
 Put something like this in your *.gitconfig*
 
-    [alias]
-        st = status --branch --short
-        wat = log --graph --decorate --oneline -15
-        follow = log --follow -p
+    [alias] st = status --branch --short wat = log --graph --decorate
+    --oneline -15 follow = log --follow -p
 

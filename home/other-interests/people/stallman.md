@@ -9,15 +9,16 @@ tags:
 ## Why
 
 Stallman is the heart of the Free Software Foundation and the reason
-for the GNU in [GNU/Linux](../../tech/linux/index.md). He represents a certain
-purity and conviction that is hard to get in our industry these days. 
+for the GNU in [GNU/Linux](../../tech/linux/index.md). He represents a
+certain purity and conviction that is hard to get in our industry
+these days.
 
-I sit strongly on the GPL side of the GPL vs MIT license
-debate. Software that use GPL licenses are like life forms that
-contain genes, in the sense that the license carries the promise that
-the software can evolve and take new forms, while continuing to be
-open and accessible. MIT-based Licenses don't ensure their own
-survival in the same way.
+I sit strongly on the GPL side of the GPL vs MIT license debate.
+Software that use GPL licenses are like life forms that contain genes,
+in the sense that the license carries the promise that the software
+can evolve and take new forms, while continuing to be open and
+accessible. MIT-based Licenses don't ensure their own survival in the
+same way.
 
 I see Popper's [Paradox of
 Intolerance](https://en.wikipedia.org/wiki/Paradox_of_tolerance) as

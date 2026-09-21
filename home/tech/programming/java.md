@@ -7,23 +7,34 @@ tags:
 
 # :material-language-java:{ .anim-fade } Java
 
-Most of these notes are from the book *Java Projects* by *Peter Verhas*.
+Most of these notes are from the book *Java Projects* by *Peter
+Verhas*.
 
 ## Maven build lifecycle targets
 
-- `validate` - validate the project is correct and all necessary information is available
-- `compile` - compile the source code of the project
-- `test` - test the compiled source code using a suitable unit testing framework. These tests should not require the code be packaged or deployed
-- `package` - take the compiled code and package it in its distributable format, such as a JAR.
-- `verify` - run any checks on results of integration tests to ensure quality criteria are met
-- `install` - install the package into the local repository, for use as a dependency in other projects locally
-- `deploy` - done in the build environment, copies the final package to the remote repository for sharing with other developers and projects.
+- `validate` - validate the project is correct and all necessary
+  information is available
+- `compile` - compile the source code of the project
+- `test` - test the compiled source code using a suitable unit testing
+  framework. These tests should not require the code be packaged or
+  deployed
+- `package` - take the compiled code and package it in its
+  distributable format, such as a JAR.
+- `verify` - run any checks on results of integration tests to ensure
+  quality criteria are met
+- `install` - install the package into the local repository, for use
+  as a dependency in other projects locally
+- `deploy` - done in the build environment, copies the final package
+  to the remote repository for sharing with other developers and
+  projects.
 
-From [the official documentation](https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html).
+From [the official
+documentation](https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html).
 
 ## JConsole over SSH with SOCKS Proxy
 
-This is from [here](http://stackoverflow.com/questions/15093376/jconsole-over-ssh-local-port-forwarding): 
+This is from
+[here](http://stackoverflow.com/questions/15093376/jconsole-over-ssh-local-port-forwarding):
 Create the SSH socks proxy locally on some free port (e.g. 7777):
 
 ```
@@ -41,7 +52,8 @@ jconsole -J-DsocksProxyHost=localhost -J-DsocksProxyPort=7777 service:jmx:rmi://
 
 - `/list -start` - shows modules imported at startup.
 - `/edit <number>` - edit that line in a new window.
-- `/set editor "vi"` - use vi instead of the default graphical edit pad.
+- `/set editor "vi"` - use vi instead of the default graphical edit
+  pad.
 - `/save abc.java` - save current buffer to file.
 - `/load abc.java` - load from file into shell.
 - `/-1` - execute last snippet.
@@ -94,7 +106,7 @@ jar -tf hello.jar
 
     - `transport=dt_socket` - for connecting a debugging client over
       the network.
-    
+
     - `server=y` - this one is the server half of the debugging.
 
     - `suspend=y` - don't start executing until a client debugger
@@ -141,7 +153,7 @@ jar -tf hello.jar
 
 ## Field types
 
-- `static` - One instance per class, not per  object.
+- `static` - One instance per class, not per object.
 
 - `final` - Initialized exactly once, either where declared or
 - somewhere in the constructor. Immutable after that.
@@ -159,8 +171,8 @@ jar -tf hello.jar
 - `final` keyword?
 
     - *Answer*: when used with a variable, it (a) blocks reassignment,
-      and (b) limits existence to that block. e.g. a `final String tmp = orig`
-      inside a for loop cannot be reassigned with a different
+      and (b) limits existence to that block. e.g. a `final String tmp
+      = orig` inside a for loop cannot be reassigned with a different
       value. The value does not exist outside the block it is defined
       in. Good practice to declare this often as it means a variable
       is guaranteed not to change in value.

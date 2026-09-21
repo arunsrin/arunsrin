@@ -6,11 +6,13 @@ tags:
 
 # :material-controller-classic:{ .anim-heart } Xbox Series X
 
-I love my Xbox because this is the console where I have formed memories of:
+I love my Xbox because this is the console where I have formed
+memories of:
 
 - playing co-op games with my kids (like Rayman Legends),
 - playing through an entire series (like Gears and Halo),
-- discovering games through Game Pass that I'd've never otherwise tried (like Immortality)
+- discovering games through Game Pass that I'd've never otherwise
+  tried (like Immortality)
 
 ## 🕹️ Game History by Category
 

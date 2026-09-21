@@ -22,12 +22,11 @@ Some simple APIs to warm up.
 ## Fundamentals
 
 An `Index` is loosely analogous to a table, and a document to a
-record.  One Index can have only one `Type`.
+record. One Index can have only one `Type`.
 
-`Types` are logical groupings same/similar documents in an
-`Index`. e.g.  Employees could be one Type and Orders could be
-another, even if both were json documents and both had several common
-fields.
+`Types` are logical groupings same/similar documents in an `Index`.
+e.g. Employees could be one Type and Orders could be another, even if
+both were json documents and both had several common fields.
 
 `Documents`: basic unit of information. Contains multiple fields like
 date, logMessage, processName, etc. Internal fields that Elastic
@@ -48,9 +47,11 @@ the primary or the replica shards.
 
 ### Core DataTypes
 
-- String datatypes: 
-	- `text` - general lengthy text, elastic can do full-text search on this
-	- `keyword` - let's you run some analytics on string fields, i.e. something you want to sort, filter, aggregate
+- String datatypes:
+	- `text` - general lengthy text, elastic can do full-text search on
+   this
+	- `keyword` - let's you run some analytics on string fields, i.e.
+   something you want to sort, filter, aggregate
 - Numeric datatypes:
 	- `byte`/`short`/`integer`/`long`
 	- `float`/`double`
@@ -59,16 +60,19 @@ the primary or the replica shards.
 - `date` datatype
 - `boolean` datatype
 - `binary` datatype - arbitrary binary content, base64-encoded
-- Range datatypes: `integer_range`, `float_range`, `long_range`, `double_range`, `date_range`
+- Range datatypes: `integer_range`, `float_range`, `long_range`,
+  `double_range`, `date_range`
 
 ### Complex DataTypes
 - `array` - no mixing, list of same types
 - `object` - allows inner objects within json documents
-- `nested` - arrays of inner objects, where each inner object needs to be independently queriable
+- `nested` - arrays of inner objects, where each inner object needs to
+  be independently queriable
 
 ### Other DataTypes
 - `geo-point` datatype - stores geo-points as lat and long
-- `geo-shape` datatype - store geometric shapes like polygons, maps, etc. Allows queries that search within a shape
+- `geo-shape` datatype - store geometric shapes like polygons, maps,
+  etc. Allows queries that search within a shape
 - `ip` datatype - ipv4/ipv6
 
 ### Indexes
@@ -149,7 +153,7 @@ Console UI, it's turned on by default.
 
 ### Searching
 
-Use the `_search` API: 
+Use the `_search` API:
 
 ```
 GET /_search
@@ -241,22 +245,22 @@ these as a base.
 Types of term queries:
 
 - `range` query - e.g. to show all Products where the Price attibute
-is >10 and <=20.
+  is >10 and <=20.
 	- You can boost the weight of the results by suppplying a `boost`
-      multipler.
+   multipler.
 	- You can query date ranges e.g. from `now-7d` to `now`.
 - `exists` query - Just tell if the field exists or not.
 - Term query - e.g do an exact match for a certain manufacturer in a
   Product index. Use the `keyword` type for this since keywords are
-  not indexed. 
+  not indexed.
 	  - You can get the keyword by querying `<fieldname>.raw`
 - Terms query - Same as above, but you can give multiple terms to
   search for.
-  
+
 And a few others, see the full list of
 [term-levelqueries](https://www.elastic.co/guide/en/elasticsearch/reference/current/term-level-queries.html)
 here.
-  
+
 `match` queries do the actual full-text searching. However if you
 search in a keyword (like `datacenter.raw` which is a keyword field),
 it skips all that and does an exact match.
@@ -282,9 +286,9 @@ GET <index_name>/_search
 }
 ```
 
-- The size is set to 0 so we don't get raw results, but only
-  the aggregated ones.
-  
+- The size is set to 0 so we don't get raw results, but only the
+  aggregated ones.
+
 You can also bucketize by numerical ranges, e.g. show me everything
 between 1 and 100, 100 and 1000, etc.
 
@@ -345,8 +349,8 @@ I already know this quite well. Input/Filter/Output sections etc.
 - `csv` - Tell it to `autodetect_columns` otherwise set yours
   explicitly, and it will extract csv data.
 - `mutate` - You can `convert` fields here (Age to integer), `rename`
-  them (FName to FirstName), `strip` them, `uppercase` them,
-  etc. Looks quite powerful
+  them (FName to FirstName), `strip` them, `uppercase` them, etc.
+  Looks quite powerful
 - `grok` - most poweful. match a line against an expression. Use
   `%{PATTERN:FIELDNAME:type}` to match a pattern with a field and set
   its type. Some in-built patterns are `TIMERSTAMP_ISO8601`,
@@ -399,8 +403,8 @@ and output part of logstash, and pipelines do the filter part.
 - `filebeat` - takes files and sends them to elastic, kafka, logstash,
   etc.
     - You can use an out of the box module, consisting of path to look
-    for logs, elastic Ingest pipeline to send to, elastic templates
-    contianing field definitions, and sample kibana dashboards.
+      for logs, elastic Ingest pipeline to send to, elastic templates
+      contianing field definitions, and sample kibana dashboards.
 - `metricbeat` - like collectd.
 - `packetbeat` - real time packet analyzer, understands Application
   layer like HTTP, MySQL, Redis etc.
@@ -421,8 +425,8 @@ redis, kafka, amazon*. Full list
 
 ### Initial Setup
 
-You must first create an index-pattern that aggregates your
-indexes. Then you would see all its fields, and can make each of them
+You must first create an index-pattern that aggregates your indexes.
+Then you would see all its fields, and can make each of them
 searchable, aggregatable, etc.
 
 ### Queries
@@ -447,7 +451,8 @@ Example: `response:200 or geoip.city_name:Diedorf`
 
 Kibana supports these 2 aggregations:
 - Bucket: like a GROUP BY.
-- Metric: you can plot Count, Average, Sum, Min, Max, Standard Deviation, etc.
+- Metric: you can plot Count, Average, Sum, Min, Max, Standard
+  Deviation, etc.
 
 ## X-Pack
 

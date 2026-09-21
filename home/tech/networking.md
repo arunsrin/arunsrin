@@ -9,7 +9,8 @@ tags:
 
 ## iperf
 
-This link is quite nice: https://www.golinuxcloud.com/linux-monitor-network-traffic/
+This link is quite nice:
+https://www.golinuxcloud.com/linux-monitor-network-traffic/
 
 How to use iperf:
 
@@ -23,8 +24,8 @@ Then the client:
 
 `iperf3 -i 5 -t 60 -c <IP/hostname of the server>`
 
-It gives a nice report but apparently isn’t good for latency checks, only
-bandwidth.
+It gives a nice report but apparently isn’t good for latency checks,
+only bandwidth.
 ## UDP Client (Python 3)
 
 ``` python
@@ -112,8 +113,7 @@ curl -X POST --header "Content-Type: application/json" -d '{"test": true}' http:
 
 ## If more than 10 telnet sessions to a server fail
 
-`per_source = 10`
-in `/etc/xinetd.d/telnet` or `/etc/xinetd.conf`
+`per_source = 10` in `/etc/xinetd.d/telnet` or `/etc/xinetd.conf`
 
 ## Start xinetd with debugs turned on
 
@@ -138,7 +138,8 @@ bash-4.2 ~$
 
 ## Test tcp connections with nc
 
-(from <http://unix.stackexchange.com/questions/73767/how-to-check-whether-firewall-opened-for-a-port-but-not-listening-on-the-port>)
+(from
+<http://unix.stackexchange.com/questions/73767/how-to-check-whether-firewall-opened-for-a-port-but-not-listening-on-the-port>)
 
 ``` sh
 nc -vz targetServer portNum

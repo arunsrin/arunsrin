@@ -53,7 +53,7 @@ to Persia.
 
 After Darius II, relations broke down again. The Athenian writer
 Xenophon describes this in his *Anabasis*. Artaxerxes finally
-established a King's peace there. 
+established a King's peace there.
 
 Meanwhile in Macedon, Amyntas was succeeded by Alexander I. Kings were
 polygamous so they had a lot of heirs, leading to a period of
@@ -95,8 +95,8 @@ The army was made up of:
 - Flanked by soldiers with swords, spears and round shields,
 - Light-armed trooops with javelins, bows and slings.
 
-A large number of camp-followers, attendants, slaves, hangers-on
-etc. were also present, pretty much outnumbering the soliders.
+A large number of camp-followers, attendants, slaves, hangers-on etc.
+were also present, pretty much outnumbering the soliders.
 
 A *siege train* comprising catapults, battering rams, siege towers
 (that were dismantled and loaded into carts), also followed the main
@@ -115,12 +115,12 @@ they allied with him.
 A more formalized agreement was then made, known as the *League of
 Corinth*. This was a campaign led by Philip (the *hegemon*) against
 Persia. After his death, Alexader renewed the alliance but Thebes
-revolted. As punishment for the rebellion, Alexander attacked
-them. They were completely destroyed..
+revolted. As punishment for the rebellion, Alexander attacked them.
+They were completely destroyed..
 
 Sparta was the only city outside of these happenings. They were not
-part of the *League* and had lost a lot of territory and
-dominance. They chose to side with Darius instead.
+part of the *League* and had lost a lot of territory and dominance.
+They chose to side with Darius instead.
 
 Athens was Alexander's favoured city. The politicians were divided in
 their support of Alexander.
@@ -152,10 +152,10 @@ power. Two events that happened in Alexander's time there are:
 
 ## Alexandria
 
-Through trade, had become the largest city in the world at that
-time. Joined the Mediterranean world to the East. The Library gathered
-all of Greek literature. After Alexander's death, Ptolemy took control
-of Egypt and proclaimed himself King. He used Memphis as his capital
+Through trade, had become the largest city in the world at that time.
+Joined the Mediterranean world to the East. The Library gathered all
+of Greek literature. After Alexander's death, Ptolemy took control of
+Egypt and proclaimed himself King. He used Memphis as his capital
 though. He and his successors made Alexandria the cultural hub that
 it's famous for, not Alexander. Also, Alexander founded many other
 cities called Alexandria during his conquests. So overall it is not
@@ -214,9 +214,9 @@ his capital from Maceondia to Susa and Babylon.
 
 ## The Burning of Persepolis
 
-The palace of Persepolis had been built by Darius and
-Xerxes. Alexander had it burned as symbolic revenge for their attacks
-on Athens.
+The palace of Persepolis had been built by Darius and Xerxes.
+Alexander had it burned as symbolic revenge for their attacks on
+Athens.
 
 ## Dressing as a Persian
 
@@ -232,7 +232,7 @@ was the one practising frugality and self control.
 There is some controversy around whether or not he expected people to
 prostrate themselves in his presence, an act that historians claimed
 normal in Persian courts (it was not; it was only required of defeated
-enemies). 
+enemies).
 
 ## Alexander's Queens
 
@@ -279,9 +279,9 @@ turnin back the same way he came.
 ## To the Ocean
 
 No texts from India survive, so we're stuck with the unreliable
-Alexander historians again. He faced fierce resistance in
-Punjab. Chandragupta Maurya visited him here, and would take over most
-of India after Alexander left.
+Alexander historians again. He faced fierce resistance in Punjab.
+Chandragupta Maurya visited him here, and would take over most of
+India after Alexander left.
 
 ## The Gedrosian Desert
 
@@ -301,14 +301,14 @@ arduous desert journey.
 # Doomed to die: Alexander in Babylon
 
 Final chapter of his life. The scholars who produced astronomical
-diaries were also chroniclers of the kings. So we have good records
-of the events without the moral commentary.
+diaries were also chroniclers of the kings. So we have good records of
+the events without the moral commentary.
 
 Eight years earlier, in September 331, there had been a lunar eclipse
 that foretold that the king would die, his son would not succeed him,
-and the new ruler would come from the west and rule for eight
-years. Darius indeed did die, and Alexander succeeded him. And those
-eight years were up.
+and the new ruler would come from the west and rule for eight years.
+Darius indeed did die, and Alexander succeeded him. And those eight
+years were up.
 
 A few months before he entered, there was a lunar and solar eclipse,
 again a bad omen, that the King of the World would die.
@@ -343,9 +343,9 @@ journey as a descent into tyranny.
 
 As Rome went from one king to another, portrayals of Alexander changed
 accordingly. Under Caligula's rule he was portrayed negatively; under
-Hadrian and Trajan, positively. 
+Hadrian and Trajan, positively.
 
-In medieval times, stories around Alexander became more fanciful. 
+In medieval times, stories around Alexander became more fanciful.
 
 More scrutiny happened in the Enlightement Age with new translations
 and editions. His 'civilizing mission' was used to justify British

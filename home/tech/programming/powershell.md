@@ -8,8 +8,8 @@ tags:
 
 # :material-powershell:{ .anim-bounce } Powershell
 
-These notes are from **Mastering PowerShell Scripting - Fourth Edition**, by
-Chris Dent.
+These notes are from **Mastering PowerShell Scripting - Fourth
+Edition**, by Chris Dent.
 
 ## Discovery, Basics
 
@@ -17,18 +17,18 @@ Chris Dent.
 
 `Get-help Get-Process` gets you help about the `Get-Process` command.
 
-Very cool, you can also add a `-Examples` to specifically see a bunch of
-examples :)
+Very cool, you can also add a `-Examples` to specifically see a bunch
+of examples :)
 
-`Get-Command` shows all available commands, and you can use a regex like this
-to filter the output:
+`Get-Command` shows all available commands, and you can use a regex
+like this to filter the output:
 
 ```
 Get-Command Get-*ip*
 ```
 
-`Get-Alias` prints all the aliases, as always use regexes to filter, e.g.
-`Get-Alias s*`. Some linux equivalents:
+`Get-Alias` prints all the aliases, as always use regexes to filter,
+e.g. `Get-Alias s*`. Some linux equivalents:
 
 ```
 Copy-Item -> cp
@@ -53,29 +53,32 @@ get-content .\helloworld.txt
 
 ## Common parameters
 
-Almost all commands support commonparameters like these: 
+Almost all commands support commonparameters like these:
 
 - `Debug`
-- `ErrorAction`: what to do on non-terminating errors, e.g. ignore, enquire,
-continue, stop
+- `ErrorAction`: what to do on non-terminating errors, e.g. ignore,
+  enquire, continue, stop
 - `ErrorVariable`: variable that stores all stderr
-- `InformationAction`, `InformationVariable`, `OutBuffer`, `OutVariable`:
-similar to above
+- `InformationAction`, `InformationVariable`, `OutBuffer`,
+  `OutVariable`: similar to above
 - `Verbose`
 - `Confirm`: prompt before executing
-- `PassThru`: return the same object back, e.g. `Start-Process notepad -PassThru`
+- `PassThru`: return the same object back, e.g. `Start-Process notepad
+  -PassThru`
 
 More in `Get-Help about_CommonParameters`
 
 ## Providers
 
-Specialized interfaces to a service or dataset, e.g. `Alias`, `Environment`,
-`Filesystem`, `Function`, `Variable`, `Registry`, `Certificate`, `WSMan`.
+Specialized interfaces to a service or dataset, e.g. `Alias`,
+`Environment`, `Filesystem`, `Function`, `Variable`, `Registry`,
+`Certificate`, `WSMan`.
 
 More in `Get-Help about_Providers` and `Get-Help
 about_<ProviderName>_Provider`.
 
-To see all content in a provider, do this: `get-childitem environment::`
+To see all content in a provider, do this: `get-childitem
+environment::`
 
 ## Splatting
 
@@ -89,7 +92,7 @@ Name = 'explorer'
 Get-process @splat
 ```
 
-Useful for readability, breaking long lines into smaller chunks. And for
-setting a conditional parameter in the dictionary and invoking the command with
-it.
+Useful for readability, breaking long lines into smaller chunks. And
+for setting a conditional parameter in the dictionary and invoking the
+command with it.
 

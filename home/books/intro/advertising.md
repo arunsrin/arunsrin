@@ -11,50 +11,49 @@ tags:
 I have a low impression of the advertising industry but it should be
 interesting to read an advocate's perspective.
 
-Lol the author blames policymakers for mandating content labels
-(this product is 90% sugar) over end result (it's tasty and you'll
-love eating it).
+Lol the author blames policymakers for mandating content labels (this
+product is 90% sugar) over end result (it's tasty and you'll love
+eating it).
 
 ## Types
 
 - Classifieds: ads which people look for; newspaper/internet
 - Display: ads which look for people; intrusive by nature;
-newspaper/tv/radio/internet
+  newspaper/tv/radio/internet
 
 ## Advertising tripartite
 
-1. Advertisers e.g. soda companies. The ones who pay money to reach
-an audience.
+1. Advertisers e.g. soda companies. The ones who pay money to reach an
+   audience.
 2. Media e.g. news channels, papers, radio stations. They have an ad
-arm that is hopefully independent of the content arm.
+   arm that is hopefully independent of the content arm.
 3. Advertising agencies e.g. the people who create the ads.
 
 ## History and Ecosystem
 Media and agency split is apparently about 90/10% these days.
 
-Earlier there was a flat 15% cut to the advertising agencies, so
-they competed by providing 'full-service': direct mail marketing,
-door to door distribution, market research, press relations, trade
-exhibitions etc. For two reasons this changed:
+Earlier there was a flat 15% cut to the advertising agencies, so they
+competed by providing 'full-service': direct mail marketing, door to
+door distribution, market research, press relations, trade exhibitions
+etc. For two reasons this changed:
 
-- Their best practitioners left and started their own businesses.
-And the cost of providing 'full' service was loss making for the
-bigger clients.
-Media buying, which was not loss-making, was looked down upon by the
-'creative' folks, so those specialists as well broke away from the
-big agencies, taking clients with them.
+- Their best practitioners left and started their own businesses. And
+  the cost of providing 'full' service was loss making for the bigger
+  clients. Media buying, which was not loss-making, was looked down
+  upon by the 'creative' folks, so those specialists as well broke
+  away from the big agencies, taking clients with them.
 - Governments felt the 15% flat rate was anti-competitive.
 
 So the current ecosystem has the 'full-service' agencies, the
-'creative agencies' and the 'media agencies' and 'planners' who
-bring all these together.
+'creative agencies' and the 'media agencies' and 'planners' who bring
+all these together.
 
 Then there are the small shops that offer full services to survive,
-and the marketing services conglomerate who own all of these
-divisions throughout the world.
+and the marketing services conglomerate who own all of these divisions
+throughout the world.
 
-So although commissions have reduced to 10%, the number of
-specialized divisions to talk to is more nowadays.
+So although commissions have reduced to 10%, the number of specialized
+divisions to talk to is more nowadays.
 
 ---
 
@@ -62,8 +61,8 @@ specialized divisions to talk to is more nowadays.
 
 Is advertising mandatory ? Not at all. E.g. manufacturing companies,
 movie industries, etc either reach their customers directly or their
-customers focus more on the output than the brand (e.g. a movie can
-be successful without the audience knowing the publisher)
+customers focus more on the output than the brand (e.g. a movie can be
+successful without the audience knowing the publisher)
 
 > "I know half of all the money I spend on advertising is wasted, but
 > I have no means of knowing which half."
@@ -98,7 +97,7 @@ Low profile. Specific target markets. e.g. dentists.
 
 ## Television
 
-*Cost per thousand viewers* again the metric. 
+*Cost per thousand viewers* again the metric.
 
 Apparently television viewership has not fallen because of the
 internet (I wonder how popular Netflix, Prime Video etc were at the
@@ -175,7 +174,7 @@ it is (my comments are in braces like these):
   assessment of their product against the competition??)
   - Everyone needs to be reminded about what products they like
     (seriously?!)
-	
+
 --- 
 
 # Closing thoughts

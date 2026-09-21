@@ -6,7 +6,8 @@ tags:
 
 # :material-pencil:{ .anim-rotate } Good Math
 
-*Full Title:* Good Math: A Geek's Guide to the Beauty of Numbers, Logic, and Computation
+*Full Title:* Good Math: A Geek's Guide to the Beauty of Numbers,
+Logic, and Computation
 
 *Author*: Mark C. Chu-Carroll
 
@@ -15,7 +16,8 @@ was interesting, but there were large jumps in difficulty in some of
 the later chapters.
 
 ## Continuous fractions 
-This was the most fascinating part of the book for me. I hadn't heard of these before!
+This was the most fascinating part of the book for me. I hadn't heard
+of these before!
 
 For example, the square root of 2 in decimal form is approximately
 1.4142135623730951. But if you represent it as a continued fraction,
@@ -37,9 +39,9 @@ reveal the underlying structure of the numbers.
 
 ## First Order Predicate Logic
 
-This chapter was not easy. But the section on prolog looked
-neat. Every statement is essentially a proof that the language
-satisfies.  Now we're into CTL i.e computational tree logic maybe?
+This chapter was not easy. But the section on prolog looked neat.
+Every statement is essentially a proof that the language satisfies.
+Now we're into CTL i.e computational tree logic maybe?
 
 FOPL has no notion of time, so it's not easy to make logical
 statements and assertions with it when there is a time context e.g
@@ -60,20 +62,20 @@ about objects.
 
 A `predicate` is a statement that says something about some object or
 objects. We’ll write predicates as either uppercase letters or as
-words starting with an uppercase letter (A,B,Married), and we’ll
-write objects in quotes. 
+words starting with an uppercase letter (A,B,Married), and we’ll write
+objects in quotes.
 
 Every predicate is followed by a list of comma-separated objects (or
-variables representing objects).  One very important restriction is
-that predicates are not objects. That’s why this is
-called first-order predicate logic: you can’t use a predicate to make
-a statement about another predicate. So you can’t say something
-like `Transitive(GreaterThan)`: that’s a second-order statement, which
-isn’t expressible in first-order logic.  We can combine logical
-statements using AND (written `∧`) and OR (`∨`). We can negate a statement
-by prefixing it with not (written `¬`). And we can introduce a variable
-to a statement using two logical quantifiers: for all possible values
-, and for at least one value.
+variables representing objects). One very important restriction is
+that predicates are not objects. That’s why this is called first-order
+predicate logic: you can’t use a predicate to make a statement about
+another predicate. So you can’t say something like
+`Transitive(GreaterThan)`: that’s a second-order statement, which
+isn’t expressible in first-order logic. We can combine logical
+statements using AND (written `∧`) and OR (`∨`). We can negate a
+statement by prefixing it with not (written `¬`). And we can introduce
+a variable to a statement using two logical quantifiers: for all
+possible values , and for at least one value.
 
 ## Naive set theory
 
@@ -110,8 +112,8 @@ set and build a second order set that's larger than it.
 
 Anyway once you have the final 'axiom of choice', you have this set
 theory combined with fopl to create all of maths. Integers come
-naturally.  Axiom of pairing can be used to get the rational
-numbers. Dedekind cuts can be used to get the reals. And so on.
+naturally. Axiom of pairing can be used to get the rational numbers.
+Dedekind cuts can be used to get the reals. And so on.
 
 *Todo* add a note on what a dedekind cut is. From what I remember, you
 can define 2 sets, one that has all elements lesser than `sqrt(2)` and

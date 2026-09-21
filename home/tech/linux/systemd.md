@@ -10,11 +10,13 @@ tags:
 
 ## Socket activation
 
-Systemd has a neat little feature where a daemon can turn on whenever a
-connection is made to it. Works with Unix and network sockets. [More details
-here](http://0pointer.de/blog/projects/socket-activation.html). Essentially you
-create a socket file alongside your service file. The advantage is that you
-don't need to start your services in a specific order.
+Systemd has a neat little feature where a daemon can turn on whenever
+a connection is made to it. Works with Unix and network sockets. [More
+details
+here](http://0pointer.de/blog/projects/socket-activation.html).
+Essentially you create a socket file alongside your service file. The
+advantage is that you don't need to start your services in a specific
+order.
 
 ## Flush old logs in journalctl
 
@@ -39,9 +41,11 @@ journalctl -u httpd -f
 
 ## Store logs on disk
 
-(from <http://unix.stackexchange.com/questions/159221/how-display-log-messages-from-previous-boots-under-centos-7>)
+(from
+<http://unix.stackexchange.com/questions/159221/how-display-log-messages-from-previous-boots-under-centos-7>)
 
-On CentOS 7, you have to enable the persistent storage of log messages:
+On CentOS 7, you have to enable the persistent storage of log
+messages:
 
 ``` sh
 # mkdir /var/log/journal
@@ -49,7 +53,7 @@ On CentOS 7, you have to enable the persistent storage of log messages:
 # systemctl restart systemd-journald
 ```
 
-Otherwise, the journal log messages are not retained between
-boots. This is the default on Fedora 19+.
+Otherwise, the journal log messages are not retained between boots.
+This is the default on Fedora 19+.
 
 
