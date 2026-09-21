@@ -20,17 +20,29 @@
       <input type="search" id="tag-search-input" class="tag-search-input" placeholder="Filter tags (e.g. linux, devops, books)..." autocomplete="off" aria-label="Filter tags">
     </div>
     <div class="tag-view-toggle" role="group" aria-label="Tag view toggle">
-      <button type="button" id="toggle-alphabetical" class="tag-toggle-btn active" data-view="alphabetical" aria-pressed="true">
-        🔤 Alphabetical
-      </button>
-      <button type="button" id="toggle-frequency" class="tag-toggle-btn" data-view="frequency" aria-pressed="false">
+      <button type="button" id="toggle-frequency" class="tag-toggle-btn active" data-view="frequency" aria-pressed="true">
         🔥 By Frequency
+      </button>
+      <button type="button" id="toggle-alphabetical" class="tag-toggle-btn" data-view="alphabetical" aria-pressed="false">
+        🔤 Alphabetical
       </button>
     </div>
   </div>
 
   <div class="tag-counter-bar">
     <span id="tag-counter-text">Showing <strong id="tag-visible-count">{{ len .Data.Terms }}</strong> of {{ len .Data.Terms }} tags</span>
+  </div>
+
+  <div id="view-frequency" class="tag-view-container">
+    <div class="tag-pills-wrap tag-frequency-wrap">
+      {{ range .Data.Terms.ByCount }}
+        <a href="{{ .Page.RelPermalink }}" class="tag-pill tag-explorer-pill tag-frequency-pill" data-tag="{{ lower .Term }}" data-count="{{ .Count }}">
+          <span class="tag-icon">🏷️</span>
+          <span class="tag-name">{{ .Term }}</span>
+          <span class="tag-count-badge">{{ .Count }}</span>
+        </a>
+      {{ end }}
+    </div>
   </div>
 
   {{- $letters := slice -}}
@@ -41,7 +53,7 @@
     {{- end -}}
   {{- end -}}
 
-  <div id="view-alphabetical" class="tag-view-container">
+  <div id="view-alphabetical" class="tag-view-container" style="display: none;">
     <nav class="tag-letter-nav" aria-label="Jump to letter">
       {{ range $letters }}
         <a href="#letter-{{ . }}" class="tag-letter-nav-link" data-nav-letter="{{ . }}">{{ . }}</a>
@@ -72,18 +84,6 @@
     </div>
   </div>
 
-  <div id="view-frequency" class="tag-view-container" style="display: none;">
-    <div class="tag-pills-wrap tag-frequency-wrap">
-      {{ range .Data.Terms.ByCount }}
-        <a href="{{ .Page.RelPermalink }}" class="tag-pill tag-explorer-pill tag-frequency-pill" data-tag="{{ lower .Term }}" data-count="{{ .Count }}">
-          <span class="tag-icon">🏷️</span>
-          <span class="tag-name">{{ .Term }}</span>
-          <span class="tag-count-badge">{{ .Count }}</span>
-        </a>
-      {{ end }}
-    </div>
-  </div>
-
   <div id="tag-empty-state" class="tag-empty-state" style="display: none;">
     <p>No tags found matching &ldquo;<strong id="tag-empty-query"></strong>&rdquo;</p>
     <button type="button" id="tag-clear-filter-btn" class="tag-clear-btn">Clear Filter</button>
@@ -106,7 +106,7 @@
 
     if (!searchInput || !toggleAlphaBtn || !toggleFreqBtn || !viewAlpha || !viewFreq) return;
 
-    let currentView = 'alphabetical';
+    let currentView = 'frequency';
 
     function setView(view) {
       currentView = view;

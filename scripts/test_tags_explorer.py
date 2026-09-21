@@ -121,16 +121,18 @@ def run_tests():
     # 3. Interactive Controls
     print("3. Validating interactive controls (search filter, view toggle, counter)...")
     assert re.search(r'id=["\']?tag-search-input["\']?', tags_html), "Search input #tag-search-input missing!"
-    assert re.search(r'id=["\']?toggle-alphabetical["\']?', tags_html), "Toggle button #toggle-alphabetical missing!"
-    assert re.search(r'id=["\']?toggle-frequency["\']?', tags_html), "Toggle button #toggle-frequency missing!"
+    assert re.search(r'id=["\']?toggle-alphabetical["\']?[^>]*aria-pressed=["\']?false["\']?', tags_html), "Toggle button #toggle-alphabetical should have aria-pressed=false by default!"
+    assert re.search(r'id=["\']?toggle-frequency["\']?[^>]*class=["\']?[^>"\']*active', tags_html), "Toggle button #toggle-frequency should be active by default!"
+    assert re.search(r'id=["\']?toggle-frequency["\']?[^>]*aria-pressed=["\']?true["\']?', tags_html), "Toggle button #toggle-frequency should have aria-pressed=true by default!"
     assert re.search(r'id=["\']?tag-visible-count["\']?', tags_html), "Counter element #tag-visible-count missing!"
     assert re.search(r'id=["\']?tag-empty-state["\']?', tags_html), "Empty state element #tag-empty-state missing!"
     assert re.search(r'id=["\']?tag-clear-filter-btn["\']?', tags_html), "Clear filter button #tag-clear-filter-btn missing!"
-    print("  ✓ All interactive control elements present in generated HTML.")
+    print("  ✓ All interactive control elements present in generated HTML (Frequency default).")
 
     # 4. Alphabetical View & Letter Navigation
     print("4. Validating Alphabetical view and letter navigation...")
     assert re.search(r'id=["\']?view-alphabetical["\']?', tags_html), "#view-alphabetical container missing!"
+    assert re.search(r'id=["\']?view-alphabetical["\']?[^>]*style=["\']?[^>"\']*display:\s*none', tags_html), "#view-alphabetical must be initially hidden with display:none"
     assert re.search(r'class=["\']?[^>"\']*tag-letter-nav', tags_html), ".tag-letter-nav container missing!"
     assert re.search(r'class=["\']?[^>"\']*tag-letter-group', tags_html), ".tag-letter-group elements missing!"
     
@@ -145,9 +147,10 @@ def run_tests():
     print("5. Validating Frequency view container...")
     assert re.search(r'id=["\']?view-frequency["\']?', tags_html), "#view-frequency container missing!"
     assert re.search(r'class=["\']?[^>"\']*tag-frequency-wrap', tags_html), ".tag-frequency-wrap missing!"
-    # Frequency view must be initially hidden
-    assert re.search(r'id=["\']?view-frequency["\']?[^>]*style=["\']?[^>"\']*display:\s*none', tags_html), "#view-frequency must be initially hidden with display:none"
-    print("  ✓ Frequency view container verified.")
+    # Frequency view must be initially visible (no display:none)
+    freq_hidden = re.search(r'id=["\']?view-frequency["\']?[^>]*style=["\']?[^>"\']*display:\s*none', tags_html)
+    assert not freq_hidden, "#view-frequency must be visible by default (not display:none)"
+    print("  ✓ Frequency view container verified as active default.")
 
     # 6. Validate All 33 Canonical Tags & Frequencies
     print("6. Validating presence and note counts of all 33 canonical tags in /tags/...")

@@ -12,9 +12,9 @@ As a visitor or reader exploring arunsrin's digital garden, I want an interactiv
 
 ---
 
-## 2. Author Decisions (Phase 1 Interview)
-During the Phase 1 interview, the author confirmed:
-1. **Organization on `/tags/`**: Alphabetical by default (grouped by letter A-Z) with a toggle button to switch to 'By Frequency' (most frequent first).
+## 2. Author Decisions (Phase 1 Interview & Author Review)
+During the Phase 1 interview and review iterations, the author confirmed:
+1. **Organization on `/tags/`**: By Frequency by default (most frequent first) with a toggle button to switch to 'Alphabetical' (grouped by letter A-Z).
 2. **Homepage Topic Cloud**: Place a clean tag cloud shortcode (`{{< tag-cloud >}}`) right before the 'About' section on the homepage (`home/_index.md`), displaying all tags with counts and an action link to `/tags/`.
 3. **Sidebar Link Placement**: Under the `Site` section in `layouts/partials/sidebar.html`, ordered as:
    - `⏳ Now`
@@ -44,10 +44,10 @@ During the Phase 1 interview, the author confirmed:
    - An instant search input (`#tag-search-input`) filters visible tag pills and letter group sections in real-time on keystroke.
    - Dynamic counter updates to indicate visible count (e.g. `Showing 33 of 33 tags`, `Showing 4 of 33 tags`).
    - Friendly empty state displayed when no tags match the query.
-3. **Dual-Mode Organization (A-Z vs. Frequency)**:
-   - **Alphabetical View (Default)**: Tags grouped under uppercase letter headings (A, C, D, ...) with count badges `(N)`.
-   - **Frequency View**: Tags sorted descending by frequency count, displaying all tags with count badges.
-   - View toggle controls allow switching between Alphabetical and Frequency modes with clear active button state.
+3. **Dual-Mode Organization (Frequency vs. Alphabetical)**:
+   - **Frequency View (Default)**: Tags sorted descending by frequency count, displaying all tags with count badges.
+   - **Alphabetical View**: Tags grouped under uppercase letter headings (A, C, D, ...) with count badges `(N)` and letter jump navigation bar.
+   - View toggle controls allow switching between Frequency and Alphabetical modes with clear active button state.
 4. **Pill Grid Styling & Theme Integration**:
    - Tag pills adhere to `--link-color` (`#0284c7` in light mode, `#38bdf8` in dark mode) and background variables.
    - Count badges styled cleanly inside each pill.
