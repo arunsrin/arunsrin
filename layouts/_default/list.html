@@ -42,14 +42,7 @@
     <section class="section-pages" style="margin-top: 2rem;">
       <h2>Pages in this section</h2>
       <ul style="list-style: none; padding-left: 0;">
-        {{ range .Pages.ByWeight }}
-          <li style="margin: 0.75rem 0; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-color);">
-            <a href="{{ .RelPermalink }}" style="font-weight: 600; text-decoration: none; color: var(--link-color); font-size: 1.05rem;">
-              {{ with .Params.icon }}{{ . }} {{ else }}{{ if .IsSection }}📁{{ else }}📄{{ end }} {{ end }}{{ .Title }}
-            </a>
-            {{ with .Description }}<p style="margin: 0.2rem 0; font-size: 0.9rem; color: var(--text-muted);">{{ . }}</p>{{ end }}
-          </li>
-        {{ end }}
+        {{ partial "section-tree.html" (dict "context" . "level" 1) }}
       </ul>
     </section>
   {{ end }}

@@ -17,14 +17,14 @@ Explore the main sections of the site, or browse the [complete sitemap
 
 <div class="grid cards" markdown>
 
--   :material-console:{ .lg .middle .anim-rotate } __Tech Notes__
+-   :material-console:{ .lg .middle .anim-rotate } __Tech__
 
     ---
 
     Practical one-liners, cheat sheets, and deep dives on Linux,
-    Kubernetes, AI, databases, and development tooling.
+    Kubernetes, databases, and development tooling.
 
-    [:material-arrow-right:{ .anim-pulse } Explore Tech Notes](tech/index.md)
+    [:material-arrow-right:{ .anim-pulse } Explore Tech](tech/index.md)
 
 -   :material-book:{ .lg .middle .anim-bounce } __Books__
 
@@ -44,14 +44,14 @@ Explore the main sections of the site, or browse the [complete sitemap
 
     [:material-arrow-right:{ .anim-pulse } Explore Games](games/index.md)
 
--   :material-television:{ .lg .middle .anim-flip } __Other Media__
+-   :material-compass-outline:{ .lg .middle .anim-rotate } __Other Interests__
 
     ---
 
-    Favorite films, television shows, and other media that have left a
-    lasting impression.
+    Topics, reflections, and deep dives across AI, productivity,
+    movies, inspiring thinkers, and research.
 
-    [:material-arrow-right:{ .anim-pulse } Explore Media](other-interests/media.md)
+    [:material-arrow-right:{ .anim-pulse } Explore Other Interests](other-interests/index.md)
 
 </div>
 

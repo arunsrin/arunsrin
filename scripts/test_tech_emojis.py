@@ -115,8 +115,8 @@ def run_tests():
     # 4. Check /tech/ H1 heading
     h1_match = re.search(r'<h1[^>]*>(.*?)</h1>', tech_html)
     assert h1_match, "No <h1> found in public/tech/index.html"
-    assert ":material-console:{ .anim-rotate } Tech Notes" in h1_match.group(1), f"H1 heading in /tech/index.html missing animated console icon: {h1_match.group(1)}"
-    print("  ✓ Tech Notes H1 heading has animated console icon.")
+    assert ":material-console:{ .anim-rotate } Tech" in h1_match.group(1), f"H1 heading in /tech/index.html missing animated console icon: {h1_match.group(1)}"
+    print("  ✓ Tech H1 heading has animated console icon.")
 
     # 5. Check sub-sections (/tech/linux/ and /tech/programming/)
     print("3. Verifying sub-section pages (/tech/linux/ and /tech/programming/):")

@@ -93,7 +93,7 @@ console.log('--- Search Relevance & Scoring Test Suite ---');
 // 1. Direct Target Queries must rank #1
 const exactTargetTests = [
   { query: 'python', expectedPermalink: '/tech/programming/python/' },
-  { query: 'ai', expectedPermalink: '/tech/ai/' },
+  { query: 'ai', expectedPermalink: '/other-interests/ai/' },
   { query: 'programming', expectedPermalink: '/tech/programming/' },
   { query: 'go', expectedPermalink: '/tech/programming/go/' },
   { query: 'docker', expectedPermalink: '/tech/docker/' },

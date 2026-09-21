@@ -5,6 +5,8 @@ tags:
   - tools
   - productivity
   - ai
+aliases:
+  - /tech/ai/
 ---
 
 # :material-brain:{ .anim-bounce } AI

@@ -197,23 +197,25 @@ CANONICAL_FILE_TAGS = {
 
     # Other Interests
     os.path.join("other-interests", "_index.md"): ["media"],
+    os.path.join("other-interests", "ai.md"): ["tools", "productivity", "ai"],
     os.path.join("other-interests", "media.md"): ["media"],
+    os.path.join("other-interests", "people", "_index.md"): [],
     os.path.join("other-interests", "people", "chomsky.md"): ["people", "politics"],
     os.path.join("other-interests", "people", "dawkins.md"): ["people", "science"],
     os.path.join("other-interests", "people", "sagan.md"): ["people", "science"],
     os.path.join("other-interests", "people", "stallman.md"): ["people"],
+    os.path.join("other-interests", "productivity.md"): ["productivity", "tools", "ai"],
+    os.path.join("other-interests", "research", "_index.md"): [],
     os.path.join("other-interests", "research", "capitalism.md"): ["politics"],
     os.path.join("other-interests", "research", "climate-change.md"): ["science", "climate", "environment"],
     os.path.join("other-interests", "research", "covid-19.md"): ["science", "medicine"],
     os.path.join("other-interests", "research", "cryptocurrencies.md"): ["finance"],
     os.path.join("other-interests", "research", "philosophy.md"): ["philosophy"],
     os.path.join("other-interests", "research", "privacy-internet.md"): ["security"],
-    os.path.join("other-interests", "research", "productivity.md"): ["productivity", "tools", "ai"],
     os.path.join("other-interests", "research", "scepticism.md"): ["science", "philosophy"],
 
     # Tech
     os.path.join("tech", "_index.md"): ["programming"],
-    os.path.join("tech", "ai.md"): ["tools", "productivity", "ai"],
     os.path.join("tech", "ansible.md"): ["devops"],
     os.path.join("tech", "aws.md"): ["devops"],
     os.path.join("tech", "browsers.md"): ["tools"],

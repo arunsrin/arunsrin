@@ -11,14 +11,13 @@ this digital garden.
 
 <div class="grid cards" markdown>
 
--   <span id="tech-notes" class="heading-anchor-target"></span>:material-console:{ .lg .middle .anim-rotate } __Tech Notes__
+-   <span id="tech" class="heading-anchor-target"></span><span id="tech-notes" class="heading-anchor-target"></span>:material-console:{ .lg .middle .anim-rotate } __Tech__
 
     ---
 
     One-liners for a variety of tools I use regularly.. Linux, openssl
     and so on.
 
-    - [:material-brain:{ .anim-rotate }AI](tech/ai.md)
     - [:simple-ansible:{ .anim-fade }Ansible](tech/ansible.md)
     - [:material-cloud:{ .anim-rotate }AWS](tech/aws.md)
     - [:material-web:{ .anim-heart }Browsers](tech/browsers.md)
@@ -117,12 +116,26 @@ this digital garden.
     - [:material-chess-knight:{ .anim-fade } RPG &
       Strategy](games/rpg-strategy/index.md)
 
--   <span id="other-media" class="heading-anchor-target"></span>:material-television:{ .lg .middle .anim-flip } __Other Media__
-
+-   <span id="other-interests" class="heading-anchor-target"></span><span id="other-media" class="heading-anchor-target"></span>:material-compass-outline:{ .lg .middle .anim-rotate } __Other Interests__
 
     ---
 
-    - [Movies and TV](other-interests/media.md) that I really like
+    - [:material-brain:{ .anim-rotate }AI](other-interests/ai.md)
+    - [:material-check-circle:{ .anim-flip }Productivity](other-interests/productivity.md)
+    - [:material-television-classic:{ .anim-flip }Movies](other-interests/media.md)
+    - **People**
+        - [:material-dna:{ .anim-flip }Richard Dawkins](other-interests/people/dawkins.md)
+        - [:material-weather-night:{ .anim-heart }Carl Sagan](other-interests/people/sagan.md)
+        - [:material-penguin:{ .anim-rotate }Richard Stallman](other-interests/people/stallman.md)
+        - [:material-thought-bubble:{ .anim-heart }Noam Chomsky](other-interests/people/chomsky.md)
+    - **Research**
+        - [:material-cash-multiple:{ .anim-pulse }Capitalism](other-interests/research/capitalism.md)
+        - [:material-thermometer:{ .anim-pulse }Climate Change](other-interests/research/climate-change.md)
+        - [:material-virus:{ .anim-fade }COVID-19](other-interests/research/covid-19.md)
+        - [:material-currency-btc:{ .anim-heart }Cryptocurrencies](other-interests/research/cryptocurrencies.md)
+        - [:material-thought-bubble:{ .anim-heart }Philosophy](other-interests/research/philosophy.md)
+        - [:material-lock-check:{ .anim-bounce }Online Privacy and the Internet](other-interests/research/privacy-internet.md)
+        - [:material-thought-bubble:{ .anim-heart }Scepticism](other-interests/research/scepticism.md)
 
 </div>
 
@@ -192,7 +205,7 @@ passionate about.
     - [:material-currency-btc:{ .anim-heart
       }Cryptocurrencies](other-interests/research/cryptocurrencies.md)
     - [:material-check-circle:{ .anim-heart
-      }Productivity](other-interests/research/productivity.md)
+      }Productivity](other-interests/productivity.md)
     - [:material-thermometer:{ .anim-pulse }Climate
       Change](other-interests/research/climate-change.md)
     - [:material-thought-bubble:{ .anim-heart

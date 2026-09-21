@@ -136,6 +136,13 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
 
+Write-Host "`n=== 18. Validating 4 Main Hubs & Page Re-categorisation ===" -ForegroundColor Cyan
+& $pythonCmd "$PSScriptRoot/test_hubs_and_recategorisation.py"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "4 Main Hubs & Page Re-categorisation validation failed!"
+    exit $LASTEXITCODE
+}
+
 Write-Host "`n=== All checks passed successfully! ===" -ForegroundColor Green
 
 exit 0

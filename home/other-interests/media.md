@@ -1,5 +1,6 @@
 ---
 title: "Movies"
+icon: ":material-television-classic:{ .anim-flip }"
 tags:
   - media
 ---

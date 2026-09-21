@@ -4,6 +4,9 @@ tags:
   - productivity
   - tools
   - ai
+icon: ":material-check-circle:{ .anim-flip }"
+aliases:
+  - /other-interests/research/productivity/
 ---
 
 # :material-check-circle:{ .anim-flip } Productivity
@@ -40,7 +43,7 @@ I like and highly recommend the following tools:
   and does enough in a text box that you don't need to keep clicking
   around. It has an MCP server that you can connect to an LLM, so
   gemini/antigravity also uses it to track its own backlog (see
-  [AI][tech/ai.md]). I use some bits from the GTD methodology, and
+  [AI](ai.md)). I use some bits from the GTD methodology, and
   make heavy use of scheduling and reminders to get stuff done at
   (hopefully) the right team.
 - ~~MS To Do~~ - this has an indispensable feature called 'Plan My
@@ -52,7 +55,7 @@ I like and highly recommend the following tools:
   great interface, 3 levels of 'folder' hierarchy and great
   integration with my stylus. I pretty much use this as a
   whiteboarding app these days and nothing much else.
-- [Vim](../../tech/editors.md) / [Typora](https://typora.io/) - I'm
+- [Vim](../tech/editors.md) / [Typora](https://typora.io/) - I'm
   torn between markdown as a store of data and OneNote. Typora seems
   to bridge both worlds with a really nice UI and seamless integration
   for images. I use this at work for taking notes, documenting what I
