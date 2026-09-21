@@ -1,0 +1,208 @@
+{{ define "main" }}
+<article class="tag-explorer-page">
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="/">🏠 Home</a></li>
+      <li><span class="breadcrumb-separator">/</span> <span class="breadcrumb-current">Tags</span></li>
+    </ol>
+  </nav>
+
+  <header class="tag-explorer-header">
+    <h1>🏷️ Tags Explorer</h1>
+    <p class="tag-explorer-subtitle">
+      Browse the digital garden by cross-disciplinary topics. Filter in real-time or sort by note frequency.
+    </p>
+  </header>
+
+  <div class="tag-filter-controls">
+    <div class="tag-search-wrapper">
+      <span class="tag-search-icon" aria-hidden="true">🔍</span>
+      <input type="search" id="tag-search-input" class="tag-search-input" placeholder="Filter tags (e.g. linux, devops, books)..." autocomplete="off" aria-label="Filter tags">
+    </div>
+    <div class="tag-view-toggle" role="group" aria-label="Tag view toggle">
+      <button type="button" id="toggle-frequency" class="tag-toggle-btn active" data-view="frequency" aria-pressed="true">
+        🔥 By Frequency
+      </button>
+      <button type="button" id="toggle-alphabetical" class="tag-toggle-btn" data-view="alphabetical" aria-pressed="false">
+        🔤 Alphabetical
+      </button>
+    </div>
+  </div>
+
+  <div class="tag-counter-bar">
+    <span id="tag-counter-text">Showing <strong id="tag-visible-count">{{ len .Data.Terms }}</strong> of {{ len .Data.Terms }} tags</span>
+  </div>
+
+  <div id="view-frequency" class="tag-view-container">
+    <div class="tag-pills-wrap tag-frequency-wrap">
+      {{ range .Data.Terms.ByCount }}
+        <a href="{{ .Page.RelPermalink }}" class="tag-pill tag-explorer-pill tag-frequency-pill" data-tag="{{ lower .Term }}" data-count="{{ .Count }}">
+          <span class="tag-icon">🏷️</span>
+          <span class="tag-name">{{ .Term }}</span>
+          <span class="tag-count-badge">{{ .Count }}</span>
+        </a>
+      {{ end }}
+    </div>
+  </div>
+
+  {{- $letters := slice -}}
+  {{- range .Data.Terms.Alphabetical -}}
+    {{- $first := upper (substr .Term 0 1) -}}
+    {{- if not (in $letters $first) -}}
+      {{- $letters = $letters | append $first -}}
+    {{- end -}}
+  {{- end -}}
+
+  <div id="view-alphabetical" class="tag-view-container" style="display: none;">
+    <nav class="tag-letter-nav" aria-label="Jump to letter">
+      {{ range $letters }}
+        <a href="#letter-{{ . }}" class="tag-letter-nav-link" data-nav-letter="{{ . }}">{{ . }}</a>
+      {{ end }}
+    </nav>
+
+    <div class="tag-alphabetical-groups">
+      {{ range $letters }}
+        {{ $letter := . }}
+        <div class="tag-letter-group" data-letter="{{ $letter }}">
+          <h2 class="tag-letter-heading heading-anchor-target" id="letter-{{ $letter }}">
+            {{ $letter }}
+            <a href="#letter-{{ $letter }}" class="heading-anchor" aria-label="Anchor for {{ $letter }}">#</a>
+          </h2>
+          <div class="tag-pills-wrap">
+            {{ range $.Data.Terms.Alphabetical }}
+              {{ if eq (upper (substr .Term 0 1)) $letter }}
+                <a href="{{ .Page.RelPermalink }}" class="tag-pill tag-explorer-pill" data-tag="{{ lower .Term }}" data-count="{{ .Count }}">
+                  <span class="tag-icon">🏷️</span>
+                  <span class="tag-name">{{ .Term }}</span>
+                  <span class="tag-count-badge">{{ .Count }}</span>
+                </a>
+              {{ end }}
+            {{ end }}
+          </div>
+        </div>
+      {{ end }}
+    </div>
+  </div>
+
+  <div id="tag-empty-state" class="tag-empty-state" style="display: none;">
+    <p>No tags found matching &ldquo;<strong id="tag-empty-query"></strong>&rdquo;</p>
+    <button type="button" id="tag-clear-filter-btn" class="tag-clear-btn">Clear Filter</button>
+  </div>
+</article>
+
+<script>
+(function() {
+  function initTagExplorer() {
+    const searchInput = document.getElementById('tag-search-input');
+    const toggleAlphaBtn = document.getElementById('toggle-alphabetical');
+    const toggleFreqBtn = document.getElementById('toggle-frequency');
+    const viewAlpha = document.getElementById('view-alphabetical');
+    const viewFreq = document.getElementById('view-frequency');
+    const counterText = document.getElementById('tag-visible-count');
+    const emptyState = document.getElementById('tag-empty-state');
+    const emptyQuery = document.getElementById('tag-empty-query');
+    const clearBtn = document.getElementById('tag-clear-filter-btn');
+    const letterGroups = document.querySelectorAll('.tag-letter-group');
+
+    if (!searchInput || !toggleAlphaBtn || !toggleFreqBtn || !viewAlpha || !viewFreq) return;
+
+    let currentView = 'frequency';
+
+    function setView(view) {
+      currentView = view;
+      if (view === 'alphabetical') {
+        viewAlpha.style.display = '';
+        viewFreq.style.display = 'none';
+        toggleAlphaBtn.classList.add('active');
+        toggleAlphaBtn.setAttribute('aria-pressed', 'true');
+        toggleFreqBtn.classList.remove('active');
+        toggleFreqBtn.setAttribute('aria-pressed', 'false');
+      } else {
+        viewAlpha.style.display = 'none';
+        viewFreq.style.display = '';
+        toggleFreqBtn.classList.add('active');
+        toggleFreqBtn.setAttribute('aria-pressed', 'true');
+        toggleAlphaBtn.classList.remove('active');
+        toggleAlphaBtn.setAttribute('aria-pressed', 'false');
+      }
+      applyFilter();
+    }
+
+    toggleAlphaBtn.addEventListener('click', function() { setView('alphabetical'); });
+    toggleFreqBtn.addEventListener('click', function() { setView('frequency'); });
+
+    function applyFilter() {
+      const query = searchInput.value.toLowerCase().trim();
+      const visibleUniqueTags = new Set();
+
+      const activeContainer = currentView === 'alphabetical' ? viewAlpha : viewFreq;
+      const allPills = activeContainer.querySelectorAll('.tag-explorer-pill');
+
+      allPills.forEach(function(pill) {
+        const tagName = pill.getAttribute('data-tag') || '';
+        const match = !query || tagName.includes(query);
+        pill.style.display = match ? '' : 'none';
+        if (match) {
+          visibleUniqueTags.add(tagName);
+        }
+      });
+
+      if (currentView === 'alphabetical') {
+        letterGroups.forEach(function(group) {
+          const pillsInGroup = group.querySelectorAll('.tag-explorer-pill');
+          let groupHasVisible = false;
+          pillsInGroup.forEach(function(p) {
+            if (p.style.display !== 'none') {
+              groupHasVisible = true;
+            }
+          });
+          group.style.display = groupHasVisible ? '' : 'none';
+
+          const letter = group.getAttribute('data-letter');
+          const navLink = document.querySelector('.tag-letter-nav-link[data-nav-letter="' + letter + '"]');
+          if (navLink) {
+            if (groupHasVisible) {
+              navLink.classList.remove('disabled');
+              navLink.style.opacity = '1';
+              navLink.style.pointerEvents = 'auto';
+            } else {
+              navLink.classList.add('disabled');
+              navLink.style.opacity = '0.25';
+              navLink.style.pointerEvents = 'none';
+            }
+          }
+        });
+      }
+
+      const visibleCount = visibleUniqueTags.size;
+      if (counterText) {
+        counterText.textContent = String(visibleCount);
+      }
+
+      if (visibleCount === 0) {
+        emptyState.style.display = '';
+        if (emptyQuery) emptyQuery.textContent = query;
+      } else {
+        emptyState.style.display = 'none';
+      }
+    }
+
+    searchInput.addEventListener('input', applyFilter);
+
+    if (clearBtn) {
+      clearBtn.addEventListener('click', function() {
+        searchInput.value = '';
+        applyFilter();
+        searchInput.focus();
+      });
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTagExplorer);
+  } else {
+    initTagExplorer();
+  }
+})();
+</script>
+{{ end }}

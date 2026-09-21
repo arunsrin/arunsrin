@@ -107,6 +107,14 @@ A few highlights from across the site:
 
 </div>
 
+
+# :material-tag-multiple-outline:{ .anim-pulse } Explore by Topic
+
+Browse notes and references across all topics in the digital garden:
+
+{{< tag-cloud >}}
+
+
 ---
 
 # :material-penguin:{ .anim-flip .anim-fade } About

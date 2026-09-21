@@ -143,6 +143,13 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
 
+Write-Host "`n=== 19. Validating Multi-Tag Explorer Hub & Topic Cloud ===" -ForegroundColor Cyan
+& $pythonCmd "$PSScriptRoot/test_tags_explorer.py"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Multi-Tag Explorer Hub & Topic Cloud validation failed!"
+    exit $LASTEXITCODE
+}
+
 Write-Host "`n=== All checks passed successfully! ===" -ForegroundColor Green
 
 exit 0

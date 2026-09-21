@@ -1,0 +1,22 @@
+{{- $limit := int (.Get "limit" | default 0) -}}
+{{- $tags := site.Taxonomies.tags.ByCount -}}
+{{- if gt $limit 0 -}}
+  {{- $tags = first $limit $tags -}}
+{{- end -}}
+<div class="tag-cloud-container">
+  <div class="tag-cloud-pills">
+    {{- range $tags }}
+      <a href="/tags/{{ .Term | urlize }}/" class="tag-pill tag-cloud-pill" title="{{ .Count }} notes tagged with {{ .Term }}">
+        <span class="tag-icon">🏷️</span>
+        <span class="tag-name">{{ .Term }}</span>
+        <span class="tag-count-badge">{{ .Count }}</span>
+      </a>
+    {{- end }}
+  </div>
+  <div class="tag-cloud-footer">
+    <a href="/tags/" class="tag-cloud-all-link">
+      <span>Explore all tags with real-time filter</span>
+      <span class="tag-cloud-arrow">&rarr;</span>
+    </a>
+  </div>
+</div>
