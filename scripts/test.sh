@@ -59,6 +59,9 @@ echo "=== 15. Validating Chronological Posts & Dispatches Space ==="
 echo "=== 16. Validating Fill-Paragraph Prose Linter ==="
 "$PYTHON_CMD" "$SCRIPT_DIR/test_fill_paragraph.py"
 
+echo "=== 17. Validating /now & /uses Pages Scaffolding & Navigation ==="
+"$PYTHON_CMD" "$SCRIPT_DIR/test_now_and_uses.py"
+
 echo "=== All checks passed successfully! ==="
 
 

@@ -375,11 +375,11 @@ def validate_tags(home_dir):
 
     # Assert root and meta pages have zero tags
     print(f"4. Validating root and meta pages have zero orphan tags...")
-    meta_pages = ["_index.md", "about.md"]
+    meta_pages = ["_index.md", "about.md", "now.md", "uses.md"]
     for mp in meta_pages:
         tags = file_tags_map.get(mp, [])
         assert len(tags) == 0, f"Root/meta page '{mp}' must have zero tags, but has {tags}!"
-    print("  ✓ Root and meta pages (_index.md, about.md) have zero tags.")
+    print("  ✓ Root and meta pages (_index.md, about.md, now.md, uses.md) have zero tags.")
 
     # Assert zero singletons (count >= 2)
     print(f"5. Validating Min Frequency Guardrail (count >= 2, zero singletons)...")

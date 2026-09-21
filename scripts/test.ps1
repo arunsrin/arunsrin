@@ -129,6 +129,13 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
 
+Write-Host "`n=== 17. Validating /now & /uses Pages Scaffolding & Navigation ===" -ForegroundColor Cyan
+& $pythonCmd "$PSScriptRoot/test_now_and_uses.py"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "/now & /uses Pages Scaffolding & Navigation validation failed!"
+    exit $LASTEXITCODE
+}
+
 Write-Host "`n=== All checks passed successfully! ===" -ForegroundColor Green
 
 exit 0

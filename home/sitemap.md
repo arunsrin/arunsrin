@@ -233,3 +233,23 @@ passionate about.
       Chomsky](other-interests/people/chomsky.md)
 
 </div>
+
+---
+
+# :material-information-outline:{ .anim-pulse } Site Meta
+
+<span id="site-meta" class="heading-anchor-target"></span>
+
+- <span id="now"
+  class="heading-anchor-target"></span>[:material-clock-outline:{
+  .anim-pulse } Now](now.md) — What I'm currently reading, playing,
+  and thinking about.
+- <span id="uses"
+  class="heading-anchor-target"></span>[:material-tools:{ .anim-pulse
+  } Uses](uses.md) — Hardware, Emacs setup, Linux workstation, and
+  daily workflow.
+- <span id="about"
+  class="heading-anchor-target"></span>[:material-penguin:{
+  .anim-pulse } About](about.md) — About me, the tools I use, and this
+  site.
+
