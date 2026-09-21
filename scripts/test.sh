@@ -44,5 +44,9 @@ echo "=== 10. Validating GitHub CI Parity & Test Discovery ==="
 echo "=== 11. Validating Tag Taxonomy Regression ==="
 "$PYTHON_CMD" "$SCRIPT_DIR/test_tags.py"
 
+echo "=== 12. Validating Sitemap & Recently Tended Stream ==="
+"$PYTHON_CMD" "$SCRIPT_DIR/test_sitemap_and_recent.py"
+
 echo "=== All checks passed successfully! ==="
+
 

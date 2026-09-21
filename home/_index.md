@@ -4,18 +4,13 @@ title: "Home"
 
 # :material-home-variant:{ .anim-pulse .anim-flip } Home
 
-Welcome to my home page.
+Welcome to my digital garden. This is a collection of notes, summaries, reading logs, and technical references cultivated over time.
 
-# :material-arrow-down-bold-circle-outline:{ .anim-bounce .anim-heart } What's here
+Unlike a chronological blog, these pages grow and evolve as I learn. Feel free to explore by topic, dive into the [complete sitemap & directory](sitemap.md), or check out recently tended notes below.
 
-I read a lot of [books](books/index.md) and aim to turn that into a
-more active hobby that ties into writing. Consequently, you will find
-a list of books I've read, along with reviews for some of them.
+# :material-compass-outline:{ .anim-rotate } Garden Hubs
 
-On the software side, I've collected notes over time on various
-topics that interest me. Since they're not always as "burned in" as
-my Emacs or Readline keybindings, I've gathered them here for easy
-reference.
+Explore the main sections of this garden, or browse the [complete sitemap & directory](sitemap.md) for every page and note.
 
 <div class="grid cards" markdown>
 
@@ -23,88 +18,79 @@ reference.
 
     ---
 
-    One-liners for a variety of tools I use regularly.. Linux, openssl and
-    so on.
+    Practical one-liners, cheat sheets, and deep dives on Linux, Kubernetes, AI, databases, and development tooling.
 
-    - [:material-brain:{ .anim-rotate }AI](tech/ai.md)
-    - [:simple-ansible:{ .anim-fade }Ansible](tech/ansible.md)
-    - [:material-cloud:{ .anim-rotate }AWS](tech/aws.md)
-    - [:material-web:{ .anim-heart }Browsers](tech/browsers.md)
-    - [:material-database:{ .anim-bounce }Databases](tech/databases.md)
-    - [:simple-docker:{ .anim-fade }Docker](tech/docker.md)
-    - [:material-keyboard-outline:{ .anim-pulse }Editors](tech/editors.md)
-    - [:material-magnify:{ .anim-fade }Elastic Stack](tech/elastic.md)
-    - [:material-database:{ .anim-bounce }Git](tech/git.md)
-    - [:material-chart-bell-curve:{ .anim-rotate }Grafana](tech/grafana.md)
-    - [:material-ladybug:{ .anim-pulse }Kafka](tech/kafka.md)
-    - [:material-kubernetes:{ .anim-fade }Kubernetes](tech/k8s.md)
-    - [:material-penguin:{ .anim-rotate }Linux](tech/linux/index.md)
-        - [:material-penguin:{ .anim-rotate }Package Management](tech/linux/package-management.md)
-        - [:material-penguin:{ .anim-rotate }Learnings & Notes](tech/linux/learnings-and-notes.md)
-        - [:material-penguin:{ .anim-rotate }SystemD](tech/linux/systemd.md)
-    - [:material-lan:{ .anim-flip }Networking](tech/networking.md)
-    - [:material-lock:{ .anim-bounce }OpenSSL](tech/openssl.md)
-    - [:material-code-tags:{ .anim-rotate }Programming](tech/programming/index.md)
-        - [:simple-go:{ .anim-pulse }Go](tech/programming/go.md)
-        - [:material-language-java:{ .anim-fade }Java](tech/programming/java.md)
-        - [:material-powershell:{ .anim-bounce }Powershell](tech/programming/powershell.md)
-        - [:material-language-python:{ .anim-heart }Python](tech/programming/python.md)
-    - [:material-fire:{ .anim-heart }Prometheus](tech/prometheus.md)
-    - [:material-lock:{ .anim-bounce }Security](tech/security.md)
-    - [:material-microsoft-windows:{ .anim-fade }Windows](tech/windows.md)
+    [:material-arrow-right:{ .anim-pulse } Explore Tech Notes](tech/index.md) · [:material-map-marker-outline: Sitemap](sitemap.md#tech-notes)
 
 -   :material-book:{ .lg .middle .anim-bounce } __Books__
 
     ---
 
-    Me and my [books](books/index.md)
+    Reading lists, reflections, and in-depth reviews spanning science, philosophy, literary fiction, hard sci-fi, and history.
 
-    **Fiction**
-
-    - [:material-weather-night:{ .anim-heart } Hard Sci-Fi](books/fiction/sci-fi/index.md)
-    - [:material-view-column:{ .anim-bounce } Classics](books/fiction/classics/index.md)
-    - [:material-library:{ .anim-rotate } Literary Fiction](books/fiction/literary/index.md)
-    - [:material-auto-fix:{ .anim-rotate } Fantasy](books/fiction/fantasy/index.md)
-    - [:material-timer-sand:{ .anim-rotate } Historical Fiction](books/fiction/historical/index.md)
-    - [:material-incognito:{ .anim-bounce } Mystery & Thriller](books/fiction/mystery/index.md)
-
-    **Non-Fiction**
-
-    - [:material-dna:{ .anim-flip } Science](books/non-fiction/science/index.md)
-    - [:material-thought-bubble:{ .anim-heart } Philosophy](books/non-fiction/philosophy/index.md)
-    - [:material-history:{ .anim-rotate } History](books/non-fiction/history/index.md)
-    - [:material-brain:{ .anim-flip } Psychology](books/non-fiction/psychology/index.md)
-    - [:material-math-compass:{ .anim-pulse } Math](books/non-fiction/math/index.md)
-    - [:fontawesome-solid-pen-nib:{ .anim-flip } Literature & Writing](books/non-fiction/writing/index.md)
-
+    [:material-arrow-right:{ .anim-pulse } Explore Books](books/index.md) · [:material-map-marker-outline: Sitemap](sitemap.md#books)
 
 -   :material-controller:{ .lg .middle .anim-bounce } __Games__
 
     ---
 
-    Me and my [games](games/index.md)
+    Gaming logs, favorite interactive stories, and genre breakdowns across RPGs, shooters, sci-fi, and Xbox Series X.
 
-    Current-gen: I have an [:fontawesome-brands-xbox:{ .anim-pulse }Xbox Series X](games/xbox.md)
-
-    **By Genre**
-
-    - [:material-sword:{ .anim-pulse } Action & Adventure](games/action-adventure/index.md)
-    - [:material-chip:{ .anim-rotate } Sci-Fi & Cyberpunk](games/sci-fi-cyberpunk/index.md)
-    - [:material-auto-fix:{ .anim-bounce } Fantasy & Myth](games/fantasy-myth/index.md)
-    - [:material-target:{ .anim-pulse } Shooters](games/fps/index.md)
-    - [:material-drama-masks:{ .anim-heart } Story-Driven](games/story-interactive/index.md)
-    - [:material-puzzle:{ .anim-heart } Platformers & Puzzles](games/platform-puzzle/index.md)
-    - [:material-chess-knight:{ .anim-fade } RPG & Strategy](games/rpg-strategy/index.md)
+    [:material-arrow-right:{ .anim-pulse } Explore Games](games/index.md) · [:material-map-marker-outline: Sitemap](sitemap.md#games)
 
 -   :material-television:{ .lg .middle .anim-flip } __Other Media__
 
     ---
 
-    - [Movies and TV](other-interests/media.md) that I really like
+    Favorite films, television shows, and other media that have left a lasting impression.
 
+    [:material-arrow-right:{ .anim-pulse } Explore Media](other-interests/media.md) · [:material-map-marker-outline: Sitemap](sitemap.md#other-media)
 
 </div>
 
+# :material-star-shooting-outline:{ .anim-pulse } Featured Notes
+
+A few highlighted notes from across the garden:
+
+<div class="grid cards" markdown>
+
+-   :material-book-open-page-variant:{ .lg .middle .anim-rotate } __Think Like a Stoic__
+
+    ---
+
+    *Massimo Pigliucci*
+
+    Practical ancient philosophy applied to modern living, decision-making, and emotional resilience.
+
+    [:material-file-document-outline: Read Review](books/non-fiction/philosophy/think-like-a-stoic.md)
+
+-   :material-kubernetes:{ .lg .middle .anim-fade } __Kubernetes__
+
+    ---
+
+    *DevOps & Cloud Orchestration*
+
+    Core concepts, architectural notes, and command cheat sheets for container orchestration with k8s.
+
+    [:material-file-document-outline: Read Notes](tech/k8s.md)
+
+-   :fontawesome-brands-xbox:{ .lg .middle .anim-pulse } __Xbox Series X__
+
+    ---
+
+    *Gaming & Hardware*
+
+    Hardware setup, gaming impressions, Quick Resume, and favorite backward-compatible titles.
+
+    [:material-file-document-outline: Read Notes](games/xbox.md)
+
+</div>
+
+# :material-clock-outline:{ .anim-rotate } Recently Tended
+
+The latest updates and freshly edited notes across the garden:
+
+{{< recently-updated count="5" >}}
 
 ---
 
@@ -144,68 +130,3 @@ figures out the rest.
 - [My TrueAchievements
 Profile](https://www.trueachievements.com/gamer/arunsrin) - I'm not an
 achievement hunter but it tracks my Xbox progress quite well.
-
----
-
-# :material-sprout:{ .anim-heart .anim-heart } Digital Garden
-
-These pages cover other various topics I've researched or feel passionate about.
-
-<div class="grid cards" markdown>
-
--   :material-book:{ .lg .middle .anim-fade } __Book Reviews__
-
-    Some notes / reviews of books:
-
-    - [:material-pencil:{ .anim-rotate }Think Like a Stoic, by Massimo Pigliucci](books/non-fiction/philosophy/think-like-a-stoic.md)
-    - [:material-pencil:{ .anim-rotate }Immune, by Phillip Dettmer (kurzgesagt)](books/non-fiction/science/immune.md)
-    - [:material-pencil:{ .anim-rotate }Despair, by Vladimir Nabokov](books/fiction/literary/despair.md)
-    - [:material-pencil:{ .anim-rotate }Pale Fire, by Vladimir Nabokov](books/fiction/literary/pale-fire.md)
-    - [:material-pencil:{ .anim-rotate }The Happiness Hypothesis, by Jonathan Haidt](books/non-fiction/psychology/happiness.md)
-    - [:material-pencil:{ .anim-rotate }How to Read a Book, by Mortimer J. Adler and Charles Van Doren](books/non-fiction/writing/how-to-read-a-book.md)
-    - [:material-pencil:{ .anim-rotate }Eats, Shoots & Leaves, by Lynne Truss](books/non-fiction/writing/eats-shoots-leaves.md)
-    - [:material-pencil:{ .anim-rotate }Good Math, by Mark C. Chu-Carroll](books/non-fiction/math/good-math.md)
-    - [:material-pencil:{ .anim-rotate }Flow, Mihaly Csikszentmihalyi](books/non-fiction/psychology/flow.md)
-    - [:material-pencil:{ .anim-rotate }The Thinking Person's Guide to Climate Change, by Robert Henson](books/non-fiction/science/thinking-climate-change.md)
-    - [:material-pencil:{ .anim-rotate }Hate Inc., by Matt Taibbi](books/non-fiction/history/hate-inc.md)
-    - [:material-pencil:{ .anim-rotate }Crypto 101](books/non-fiction/science/crypto101.md)
-    - [:material-pencil:{ .anim-rotate }We are our brains, by Dick Shwaab](books/non-fiction/psychology/we-are-our-brains.md)
-    - [:material-pencil:{ .anim-rotate }The Art of the Infinite, by Robert M Kaplan](books/non-fiction/math/the-art-of-the-infinite.md)
-
--   :material-microscope:{ .lg .middle .anim-flip } __Research__
-
-    Curated notes and links on topics that interest me.
-
-    - [:material-virus:{ .anim-fade }COVID-19](other-interests/research/covid-19.md)
-    - [:material-currency-btc:{ .anim-heart }Cryptocurrencies](other-interests/research/cryptocurrencies.md)
-    - [:material-check-circle:{ .anim-heart }Productivity](other-interests/research/productivity.md)
-    - [:material-thermometer:{ .anim-pulse }Climate Change](other-interests/research/climate-change.md)
-    - [:material-thought-bubble:{ .anim-heart }Philosophy](other-interests/research/philosophy.md)
-    - [:material-thought-bubble:{ .anim-heart }Scepticism](other-interests/research/scepticism.md)
-    - [:material-lock-check:{ .anim-bounce }Online Privacy and the Internet](other-interests/research/privacy-internet.md)
-    - [:material-cash-multiple:{ .anim-pulse }Capitalism](other-interests/research/capitalism.md)
-
-
-    Here are notes on Oxford's *Very Short Introduction To..* series.
-
-    [:material-file-document-outline:{ .anim-pulse }Main page](books/intro/index.md)
-
-    - [:material-file-document-outline:{ .anim-pulse }Accounting](books/intro/accounting.md)
-    - [:material-file-document-outline:{ .anim-pulse }Advertising](books/intro/advertising.md)
-    - [:material-file-document-outline:{ .anim-pulse }Alexander](books/intro/alexander.md)
-    - [:material-file-document-outline:{ .anim-pulse }Anaesthesia](books/intro/anaesthesia.md)
-
-    ... and abandoned after this brief start.
-
--   :material-medal:{ .lg .middle .anim-bounce } __Role Models__
-
-    People whose work and principles I find inspiring.
-
-    - [:material-dna:{ .anim-flip }Richard Dawkins](other-interests/people/dawkins.md)
-    - [:material-weather-night:{ .anim-heart }Carl Sagan](other-interests/people/sagan.md)
-    - [:material-penguin:{ .anim-rotate }Richard Stallman](other-interests/people/stallman.md)
-    - [:material-thought-bubble:{ .anim-heart }Noam Chomsky](other-interests/people/chomsky.md)
-
-</div>
-
-

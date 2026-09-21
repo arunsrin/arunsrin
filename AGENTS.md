@@ -93,6 +93,8 @@ cd .worktrees/<feature-name> && hugo server --bind 0.0.0.0 --port 1314 -b http:/
     - The orchestrator (Gandalf) pre-gathers the git diff, commit history, and spec context and passes them directly in the subagent's prompt.
     - Review subagents inspect files exclusively via built-in read tools (`view_file`), which are inherently non-destructive and never prompt for permission.
     - Review subagents write and return their structured review verdict directly in their final response message to the orchestrator. The parent orchestrator (Gandalf) then posts the review comment to the GitHub PR using `gh pr comment`.
+16. **Fragment Anchor Integrity & Sticky Header Offsets:** Internal link checkers (`check_links.py`, `htmltest`) routinely strip or ignore URL fragments (`#hash`). Whenever internal markdown links reference URL fragment targets (e.g. `sitemap.md#tech-notes`), developers MUST ensure: (a) target elements have matching `id` attributes in generated HTML, (b) targets use the `.heading-anchor-target` class or have `scroll-margin-top: 80px` to prevent being obscured beneath sticky navigation headers, and (c) companion automated test suites include explicit assertions validating target anchor ID presence in generated HTML.
+
 
 ## 5. Backlog Management (Todoist Integration)
 The backlog of website features, improvements, and maintenance tasks is tracked in Todoist under the project **`Site updates 🌐`** (ID: `6hWVfCmh7qC5P3HW`) using the `td` CLI (`@doist/todoist-cli`, setup per [Todoist AI guide](https://www.todoist.com/help/todoist/todoist-and-ai/use-todoist-in-gemini-spark-dEb9IBNVY#h_01M1B8SXGM1ZKPKS66P8SK1EMN)).

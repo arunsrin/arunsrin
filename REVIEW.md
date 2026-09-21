@@ -80,10 +80,13 @@ Every review conducted by Elrond must ruthlessly audit the diff across these 10 
   - External styles or scripts must have cache-busting query strings or be inlined if <2KB.
   - Verify static assets in `static_root/_headers` do NOT mark mutable unhashed assets as `immutable`.
 
-### Gate 9: Negative Testing & Anti-Spurious Assertions
-- **The Trap:** Tests only check the "happy path" (that something exists), ignoring regressions, duplicate injections, or spurious data leaks.
+### Gate 9: Negative Testing, Anti-Spurious Assertions & Fragment Resolution
+- **The Trap:** Tests only check the "happy path" (that something exists), ignoring regressions, duplicate injections, or spurious data leaks. Furthermore, internal link checkers (`check_links.py`, `htmltest`) routinely strip or ignore URL fragments (`#hash`), letting broken anchor references slip through undetected.
 - **The Audit:**
   - Verify automated tests include negative assertions (e.g. verifying unrelated notes do NOT appear, verifying old buggy styles are completely absent).
+  - Verify all markdown links with URL fragments (e.g. `[link](page.md#anchor)`) target verified elements with corresponding `id` attributes in the generated HTML.
+  - Verify target anchors include `scroll-margin-top` offset to avoid being obscured by sticky headers.
+
 
 ### Gate 10: Interruption-Free Subagent Protocol
 - **The Trap:** Subagents running arbitrary shell commands (`git log`, `git diff`, `grep`) and spamming the author with interactive CLI permission prompts.

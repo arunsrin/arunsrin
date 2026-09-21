@@ -94,6 +94,14 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
 
+Write-Host "`n=== 12. Validating Sitemap & Recently Tended Stream ===" -ForegroundColor Cyan
+& $pythonCmd "$PSScriptRoot/test_sitemap_and_recent.py"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Sitemap & Recently Tended Stream validation failed!"
+    exit $LASTEXITCODE
+}
+
 Write-Host "`n=== All checks passed successfully! ===" -ForegroundColor Green
+
 exit 0
 
