@@ -30,7 +30,7 @@ Explore the main sections of the site, or browse the [complete sitemap
 
     ---
 
-    Reading lists, reflections, and in-depth reviews spanning science,
+    Reading lists, reflections, and reviews spanning science,
     philosophy, literary fiction, hard sci-fi, and history.
 
     [:material-arrow-right:{ .anim-pulse } Explore Books](books/index.md)
@@ -39,8 +39,8 @@ Explore the main sections of the site, or browse the [complete sitemap
 
     ---
 
-    Gaming logs, favorite interactive stories, and genre breakdowns
-    across RPGs, shooters, sci-fi, and Xbox Series X.
+    Gaming logs and brief reviews (mostly Xbox)
+    across RPGs, shooters, sci-fi, etc.
 
     [:material-arrow-right:{ .anim-pulse } Explore Games](games/index.md)
 
@@ -49,7 +49,7 @@ Explore the main sections of the site, or browse the [complete sitemap
     ---
 
     Topics, reflections, and deep dives across AI, productivity,
-    movies, inspiring thinkers, and research.
+    movies, etc.
 
     [:material-arrow-right:{ .anim-pulse } Explore Other Interests](other-interests/index.md)
 
