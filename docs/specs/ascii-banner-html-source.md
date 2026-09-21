@@ -19,11 +19,7 @@ The banner features a clean, high-contrast ASCII Owl of Athena (classical symbol
              ,___,
             (O,o)   "Examine thyself,
             /)__)    and inspect thy source."
-           --" "--
-  ========================================================
-   arunsrin's notes  ::  personal notebook & digital codex
-   https://www.arunsr.in
-  ========================================================
+            -" "-
 -->
 ```
 
@@ -35,11 +31,7 @@ The banner is placed in `layouts/_default/baseof.html` directly following the `<
              ,___,
             (O,o)   "Examine thyself,
             /)__)    and inspect thy source."
-           --" "--
-  ========================================================
-   arunsrin's notes  ::  personal notebook & digital codex
-   https://www.arunsr.in
-  ========================================================
+            -" "-
 -->
 <html lang="{{ or .Site.Language.Lang "en" }}">
 ...
@@ -69,7 +61,7 @@ Hugo uses `tdewolff/minify` during `hugo --gc --minify`. To ensure the HTML bann
 ## 4. Acceptance Criteria
 
 1. **HTML Source Comment Presence:**
-   - In the generated HTML of all pages, an HTML comment contains the ASCII Owl of Athena `(O,o)`, the quote `"Examine thyself, and inspect thy source."`, and the site reference `arunsrin's notes`.
+   - In the generated HTML of all pages, an HTML comment contains the ASCII Owl of Athena `(O,o)` and the quote `"Examine thyself, and inspect thy source."`.
 2. **Hugo Minification Preservation:**
    - When building with `hugo --gc --minify --panicOnWarning`, the banner comment remains fully intact in `public/index.html` and across all generated HTML files.
 3. **Multi-Page Coverage:**

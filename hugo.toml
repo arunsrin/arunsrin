@@ -13,6 +13,11 @@ enableGitInfo = true
   home = ['HTML', 'JSON']
   section = ['HTML']
 
+[minify]
+  [minify.tdewolff]
+    [minify.tdewolff.html]
+      keepComments = true
+
 [params]
   description = "The truth shall make ye fret."
   author = "Arun S"
