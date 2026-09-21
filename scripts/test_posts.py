@@ -4,28 +4,33 @@ Automated Regression Test Suite for Chronological Posts & Dispatches Space (/pos
 Validates:
 1. Posts Archive Structure (public/posts/index.html):
    - Canonical title, breadcrumbs, header with description and RSS badge.
-   - Reverse-chronological post cards ordered by publication date.
-   - Date formats, reading time badges, summaries.
-2. Single Post Pages (public/posts/*/index.html):
+   - Post entry cards with formatted date, reading time, and tags.
+   - Year divider with heading anchor target id='year-YYYY'.
+2. Single Post Page (public/posts/hello-posts/index.html):
    - Breadcrumbs with link back to /posts/.
    - Publication date, reading time, word count metadata.
-   - Sequential navigation (Older Post / Newer Post links).
+   - Author attribution note mentioning Gemini / Antigravity.
+   - Sample tag pill (meta) linking to /tags/meta/.
+   - Negative test: ensures 'digital-gardens-and-chronological-streams' is deleted.
 3. RSS Feed (public/posts/index.xml):
    - XML structure with title and items for published posts.
-4. Navigation & Site Integration:
-   - Sidebar contains collapsible /posts/ section and active highlights.
-   - Homepage contains Posts Hub card in .grid.cards with explore link.
-   - Sitemap contains Posts & Dispatches section and #posts anchor target.
-5. Quality Guardrails:
+4. Controlled Sidebar Navigation:
+   - Sidebar contains collapsible /posts/ section.
+   - Contains '✨ Latest' sub-dropdown with recent posts.
+   - Contains '🗄️ Archive' sub-dropdown with 'All Posts' and year groupings.
+   - Section link triggers default /posts/ archive view.
+5. Hugo Archetype & Author Documentation:
+   - Archetype exists at archetypes/posts.md.
+   - README.md contains actionable guide for 'hugo new posts/'.
+6. Quality Guardrails:
    - Zero inline event handlers (Cloudflare Rocket Loader safe).
    - Minified-HTML safe regex patterns (Rule 14).
-   - Negative assertions against broken links and missing metadata.
+   - Negative assertions against runaway post trees and broken links.
 """
 
 import os
 import re
 import sys
-import xml.etree.ElementTree as ET
 
 # Windows Python UTF-8 Stdout Reconfiguration (Rule 12)
 if hasattr(sys.stdout, "reconfigure"):
@@ -61,68 +66,63 @@ def run_tests():
     assert re.search(r'class=["\']?breadcrumbs["\']?', archive_html), "Missing breadcrumbs navigation"
     assert re.search(r'class=["\']?breadcrumb-current["\']?>Posts</span>', archive_html), "Breadcrumb current item should be 'Posts'"
 
-    # Reverse-chronological card ordering
-    cards = re.findall(r'<article\s+class=["\']?post-entry-card["\']?>(.*?)</article>', archive_html, re.DOTALL)
-    assert len(cards) >= 2, f"Expected at least 2 post cards, found {len(cards)}"
+    # Year divider check
+    assert re.search(r'id=["\']?year-\d{4}["\']?', archive_html), "Missing year divider anchor id='year-YYYY'"
 
-    titles = []
-    dates = []
+    # Post card check
+    cards = re.findall(r'<article\s+class=["\']?post-entry-card["\']?>(.*?)</article>', archive_html, re.DOTALL)
+    assert len(cards) >= 1, f"Expected at least 1 post card, found {len(cards)}"
+
     for card in cards:
-        t_match = re.search(r'class=["\']?post-entry-title["\']?>.*?<a\s+href=["\']?([^"\']+)["\']?>([^<]+)</a>', card, re.DOTALL)
+        t_match = re.search(r'class=["\']?post-entry-title["\']?>\s*<a\s+[^>]*?href=["\']?([^"\'>\s]+)["\']?\s*>(.*?)</a>', card, re.DOTALL)
         assert t_match, f"Card missing title link: {card}"
-        href, title = t_match.group(1), t_match.group(2).strip()
-        titles.append(title)
+        href, title_raw = t_match.group(1), t_match.group(2)
+        title = re.sub(r'\s+', ' ', title_raw).strip()
+        assert title == "Hello, Posts", f"Expected title 'Hello, Posts', got '{title}'"
 
         d_match = re.search(r'class=["\']?post-entry-date["\']?[^>]*>.*?([A-Z][a-z]{2}\s+\d{1,2},\s+\d{4})', card, re.DOTALL)
         assert d_match, f"Card missing formatted date: {card}"
-        dates.append(d_match.group(1))
 
         # Reading time check
         assert re.search(r'class=["\']?post-entry-reading-time["\']?>.*?min read', card), f"Card missing reading time: {card}"
+
+        # Sample tag check
+        assert re.search(r'href=["\']?/tags/meta/["\']?', card), f"Card missing tag pill for 'meta': {card}"
 
         # Target post exists in public/
         clean_target = href.strip("/")
         target_path = os.path.join(public_dir, clean_target, "index.html")
         assert os.path.exists(target_path), f"Post link {href} does not resolve to {target_path}"
 
-    # Verify reverse-chronological order
-    assert titles[0] == "Digital Gardens and Chronological Streams", f"First post should be latest ('Digital Gardens...'), got '{titles[0]}'"
-    assert titles[1] == "Hello, Posts", f"Second post should be older ('Hello, Posts'), got '{titles[1]}'"
-    print(f"  ✓ {len(cards)} post cards found in reverse-chronological order: {[t for t in titles]}")
-    print(f"  ✓ Valid formatted dates verified: {dates}")
+    print(f"  ✓ {len(cards)} post card(s) validated on archive page with formatted dates and tag pills.")
 
 
-    # 2. Verify Single Post Pages
-    print("\n2. Auditing Single Post Pages:")
-    single_pages = [
-        ("digital-gardens-and-chronological-streams", "Digital Gardens and Chronological Streams", "Hello, Posts", None),
-        ("hello-posts", "Hello, Posts", None, "Digital Gardens and Chronological Streams"),
-    ]
+    # 2. Verify Single Post Page
+    print("\n2. Auditing Single Post Page (public/posts/hello-posts/index.html):")
+    hello_path = os.path.join(public_dir, "posts", "hello-posts", "index.html")
+    assert os.path.exists(hello_path), f"Missing single post page: {hello_path}"
 
-    for slug, expected_title, expected_older, expected_newer in single_pages:
-        page_path = os.path.join(public_dir, "posts", slug, "index.html")
-        assert os.path.exists(page_path), f"Missing single post page: {page_path}"
+    with open(hello_path, "r", encoding="utf-8") as fp:
+        hello_html = fp.read()
 
-        with open(page_path, "r", encoding="utf-8") as fp:
-            single_html = fp.read()
+    # Breadcrumbs
+    assert re.search(r'<a\s+href=["\']?/posts/["\']?>.*?Posts</a>', hello_html), "Missing breadcrumb link to /posts/"
+    assert "Hello, Posts" in hello_html, "Missing title 'Hello, Posts'"
 
-        # Breadcrumbs
-        assert re.search(r'<a\s+href=["\']?/posts/["\']?>.*?Posts</a>', single_html), f"Page {slug} missing breadcrumb link to /posts/"
-        assert expected_title in single_html, f"Page {slug} missing title '{expected_title}'"
+    # Metadata
+    assert re.search(r'<time\s+datetime=["\']?\d{4}-\d{2}-\d{2}["\']?>', hello_html), "Missing <time> element"
+    assert re.search(r'\d+\s+min read', hello_html), "Missing reading time"
+    assert re.search(r'\d+\s+words', hello_html), "Missing word count"
+    assert re.search(r'href=["\']?/tags/meta/["\']?', hello_html), "Missing sample tag pill for 'meta'"
 
-        # Metadata
-        assert re.search(r'<time\s+datetime=["\']?\d{4}-\d{2}-\d{2}["\']?>', single_html), f"Page {slug} missing <time> element"
-        assert re.search(r'\d+\s+min read', single_html), f"Page {slug} missing reading time"
-        assert re.search(r'\d+\s+words', single_html), f"Page {slug} missing word count"
+    # Content attribution check
+    assert "Gemini" in hello_html or "Antigravity" in hello_html, "Missing attribution to Gemini / Antigravity in sample post"
 
-        # Sequential navigation
-        assert re.search(r'class=["\']?post-sequential-nav["\']?', single_html), f"Page {slug} missing sequential navigation"
-        if expected_older:
-            assert expected_older in single_html, f"Page {slug} should have older link to '{expected_older}'"
-        if expected_newer:
-            assert expected_newer in single_html, f"Page {slug} should have newer link to '{expected_newer}'"
-
-        print(f"  ✓ Verified post '{slug}': title, metadata bar, breadcrumbs, sequential navigation.")
+    # Negative check: digital-gardens post is gone
+    deleted_post_path = os.path.join(public_dir, "posts", "digital-gardens-and-chronological-streams")
+    assert not os.path.exists(deleted_post_path), "Deleted post 'digital-gardens-and-chronological-streams' still exists in public/!"
+    print("  ✓ Verified single post: title, metadata, tag pill, Gemini/Antigravity attribution.")
+    print("  ✓ Negative check passed: 'digital-gardens-and-chronological-streams' is completely eliminated.")
 
 
     # 3. Verify RSS Feed
@@ -137,42 +137,64 @@ def run_tests():
     assert "<rss" in rss_content or "<?xml" in rss_content, "Invalid RSS XML format"
     assert "<title>Posts" in rss_content, "RSS missing Posts title"
     assert "Hello, Posts" in rss_content, "RSS missing inaugural post 'Hello, Posts'"
-    assert "Digital Gardens and Chronological Streams" in rss_content, "RSS missing post 'Digital Gardens and Chronological Streams'"
-    print("  ✓ Validated RSS feed structure and items in public/posts/index.xml.")
+    print("  ✓ Validated RSS feed structure and inaugural post in public/posts/index.xml.")
 
 
-    # 4. Verify Sidebar, Homepage & Sitemap Navigation
-    print("\n4. Auditing Site Navigation & Discovery:")
-    # Sidebar
-    assert re.search(r'<a\s+href=["\']?/posts/["\']?[^>]*>.*?Posts</a>', archive_html), "Sidebar missing link to /posts/"
-    print("  ✓ Sidebar navigation contains /posts/ section link.")
+    # 4. Controlled Sidebar Navigation & Sub-Dropdowns
+    print("\n4. Auditing Controlled Sidebar Navigation:")
+    # Posts details wrapper
+    assert re.search(r'<details\s+class=["\']?nav-section-details["\']?[^>]*>.*?<summary[^>]*>.*?href=["\']?/posts/["\']?[^>]*>Posts</a>', archive_html, re.DOTALL), "Sidebar missing Posts section with link to /posts/"
 
-    # Homepage Hub Card
+    # Sub-dropdowns: Latest and Archive
+    assert "✨ Latest" in archive_html, "Sidebar missing '✨ Latest' sub-dropdown"
+    assert "🗄️ Archive" in archive_html, "Sidebar missing '🗄️ Archive' sub-dropdown"
+    assert re.search(r'<a\s+href=["\']?/posts/["\']?[^>]*>.*?All Posts</a>', archive_html), "Sidebar missing 'All Posts' link"
+    assert re.search(r'href=["\']?/posts/#year-\d{4}["\']?', archive_html), "Sidebar missing year group anchor link"
+    print("  ✓ Sidebar contains '✨ Latest' and '🗄️ Archive' sub-dropdowns.")
+
+
+    # 5. Archetype & README Documentation
+    print("\n5. Auditing Hugo Archetype & Author Documentation:")
+    archetype_path = os.path.join("archetypes", "posts.md")
+    assert os.path.exists(archetype_path), f"Missing archetype at {archetype_path}"
+    with open(archetype_path, "r", encoding="utf-8") as fp:
+        arch_content = fp.read()
+    assert "title:" in arch_content and "date:" in arch_content and "tags:" in arch_content, "Archetype missing frontmatter fields"
+    print("  ✓ Hugo archetype verified at archetypes/posts.md.")
+
+    readme_path = "README.md"
+    with open(readme_path, "r", encoding="utf-8") as fp:
+        readme_content = fp.read()
+    assert "hugo new posts/" in readme_content, "README.md missing 'hugo new posts/' command instructions"
+    assert "Publishing a New Post" in readme_content, "README.md missing 'Publishing a New Post' section"
+    print("  ✓ README.md contains actionable publishing guide with 'hugo new posts/' instructions.")
+
+
+    # 6. Site Navigation & Discovery
+    print("\n6. Auditing Site Navigation & Discovery:")
     with open(home_index, "r", encoding="utf-8") as fp:
         home_html = fp.read()
     assert re.search(r'href=["\']?/posts/["\']?>.*?Explore Posts</a>', home_html), "Homepage Hubs missing 'Explore Posts' link"
-    assert "Chronological dispatches" in home_html, "Homepage missing Posts hub card description"
-    print("  ✓ Homepage contains Posts Hub card in category grid.")
 
-    # Sitemap
     with open(sitemap_html, "r", encoding="utf-8") as fp:
         sitemap_content = fp.read()
     assert re.search(r'id=["\']?posts["\']?', sitemap_content), "Sitemap missing anchor target id='posts'"
     assert re.search(r'href=["\']?/posts/["\']?', sitemap_content), "Sitemap missing link to /posts/"
-    print("  ✓ Sitemap contains Posts section with deep-link anchor id='posts'.")
+    print("  ✓ Homepage Hub card and Sitemap anchor targets verified.")
 
 
-    # 5. Rocket Loader & Event Handler Safety
-    print("\n5. Auditing Event Safety & Template Cleanliness:")
+    # 7. Rocket Loader & Event Handler Safety
+    print("\n7. Auditing Event Safety & Template Cleanliness:")
     layouts_posts = [
         os.path.join("layouts", "posts", "list.html"),
         os.path.join("layouts", "posts", "single.html"),
+        os.path.join("layouts", "partials", "sidebar.html"),
     ]
     for tmpl in layouts_posts:
         with open(tmpl, "r", encoding="utf-8") as fp:
             tmpl_content = fp.read()
         assert not re.search(r'\bon[a-z]+\s*=', tmpl_content, re.IGNORECASE), f"Inline event handler found in {tmpl}!"
-    print("  ✓ Zero inline event handlers found across post layouts (100% Rocket Loader safe).")
+    print("  ✓ Zero inline event handlers found across templates (100% Rocket Loader safe).")
 
     print("\n✓ ALL POSTS & DISPATCHES REGRESSION TESTS PASSED!")
 

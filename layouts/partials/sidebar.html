@@ -16,10 +16,46 @@
         <a href="{{ .RelPermalink }}" class="{{ if eq $currentPage.RelPermalink .RelPermalink }}active{{ end }}">{{ .Title }}</a>
       </summary>
       <ul>
-        <li>
-          <a href="{{ .RelPermalink }}" class="{{ if eq $currentPage.RelPermalink .RelPermalink }}active{{ end }}">📌 Overview</a>
-        </li>
-        {{ partial "sidebar-tree.html" (dict "context" . "currentPage" $currentPage) }}
+        {{ if eq .Section "posts" }}
+          {{ $posts := where site.RegularPages "Section" "posts" }}
+          {{ $isPostPage := and (hasPrefix $currentPage.RelPermalink "/posts/") (ne $currentPage.RelPermalink "/posts/") }}
+          <li>
+            <details class="nav-sub-details" {{ if $isPostPage }}open{{ end }}>
+              <summary class="nav-sub-summary">
+                <span>✨ Latest</span>
+              </summary>
+              <ul>
+                {{ range first 5 $posts.ByDate.Reverse }}
+                  <li>
+                    <a href="{{ .RelPermalink }}" class="{{ if eq $currentPage.RelPermalink .RelPermalink }}active{{ end }}">{{ with .Params.icon }}{{ . }} {{ else }}📄 {{ end }}{{ .Title }}</a>
+                  </li>
+                {{ end }}
+              </ul>
+            </details>
+          </li>
+          <li>
+            <details class="nav-sub-details" {{ if or (eq $currentPage.RelPermalink "/posts/") (hasPrefix $currentPage.RelPermalink "/posts/page/") }}open{{ end }}>
+              <summary class="nav-sub-summary">
+                <a href="/posts/" class="{{ if or (eq $currentPage.RelPermalink "/posts/") (hasPrefix $currentPage.RelPermalink "/posts/page/") }}active{{ end }}">🗄️ Archive</a>
+              </summary>
+              <ul>
+                <li>
+                  <a href="/posts/" class="{{ if or (eq $currentPage.RelPermalink "/posts/") (hasPrefix $currentPage.RelPermalink "/posts/page/") }}active{{ end }}">📚 All Posts</a>
+                </li>
+                {{ range ($posts.GroupByDate "2006") }}
+                  <li>
+                    <a href="/posts/#year-{{ .Key }}">📅 {{ .Key }} ({{ len .Pages }})</a>
+                  </li>
+                {{ end }}
+              </ul>
+            </details>
+          </li>
+        {{ else }}
+          <li>
+            <a href="{{ .RelPermalink }}" class="{{ if eq $currentPage.RelPermalink .RelPermalink }}active{{ end }}">📌 Overview</a>
+          </li>
+          {{ partial "sidebar-tree.html" (dict "context" . "currentPage" $currentPage) }}
+        {{ end }}
       </ul>
     </details>
   {{ end }}

@@ -27,7 +27,15 @@
 
   {{ $paginator := .Paginate (.Pages.ByDate.Reverse) 10 }}
   <div class="posts-list-stream">
+    {{ $currentYear := "" }}
     {{ range $paginator.Pages }}
+      {{ $postYear := .Date.Format "2006" }}
+      {{ if and (not .Date.IsZero) (ne $postYear $currentYear) }}
+        {{ $currentYear = $postYear }}
+        <div class="posts-year-divider heading-anchor-target" id="year-{{ $postYear }}">
+          <h3>📅 {{ $postYear }}</h3>
+        </div>
+      {{ end }}
       <article class="post-entry-card">
         <div class="post-entry-header">
           <h2 class="post-entry-title">

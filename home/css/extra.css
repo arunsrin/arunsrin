@@ -481,6 +481,19 @@ mark.search-highlight {
   border-radius: var(--base-border-radius);
 }
 
+.posts-year-divider {
+  margin: 1.75rem 0 0.75rem 0;
+  padding-bottom: 0.35rem;
+  border-bottom: 2px solid rgba(2, 132, 199, 0.2);
+}
+
+.posts-year-divider h3 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--link-color);
+}
+
 .posts-list-stream {
   display: flex;
   flex-direction: column;
