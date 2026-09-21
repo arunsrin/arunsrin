@@ -189,6 +189,13 @@ def foo():
             if os.path.exists(temp_path):
                 os.remove(temp_path)
 
+    def test_11_hard_line_breaks_preserved(self):
+        """Hard line breaks (two trailing spaces or backslash) must be preserved across formatting."""
+        content = "First line with two spaces  \nSecond line follows directly.\n\nLine with backslash\\\nAnother line."
+        formatted = format_markdown(content, width=70)
+        self.assertIn("First line with two spaces  \nSecond line follows directly.", formatted)
+        self.assertIn("Line with backslash\\\nAnother line.", formatted)
+
 
 def run_tests():
     suite = unittest.TestLoader().loadTestsFromTestCase(TestFillParagraph)

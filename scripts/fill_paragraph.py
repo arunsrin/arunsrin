@@ -282,28 +282,52 @@ def format_markdown(content: str, width: int = 70) -> str:
             initial_prefix = indent + bullet + checkbox + spacing
             subsequent_prefix = " " * len(initial_prefix)
 
-            item_text = line[len(initial_prefix) :]
+            # Check for hard break
+            break_marker = ""
+            raw_content = line[len(initial_prefix) :]
+            if raw_content.endswith("  "):
+                break_marker = "  "
+                item_text = raw_content[:-2].rstrip()
+            elif raw_content.endswith("\\"):
+                break_marker = "\\"
+                item_text = raw_content[:-1].rstrip()
+            else:
+                item_text = raw_content.strip()
+
             item_lines = [item_text]
             i += 1
 
-            while i < n:
-                next_line = raw_lines[i]
-                if not next_line.strip():
-                    break
-                if (
-                    is_list_bullet(next_line)
-                    or is_heading(next_line)
-                    or is_table_row(next_line)
-                    or is_hr(next_line)
-                    or is_shortcode(next_line)
-                    or is_html_block(next_line)
-                    or is_blockquote(next_line)
-                    or is_standalone_link_or_image(next_line)
-                    or is_card_header(next_line)
-                ):
-                    break
-                item_lines.append(next_line.strip())
-                i += 1
+            if not break_marker:
+                while i < n:
+                    next_line = raw_lines[i]
+                    if not next_line.strip():
+                        break
+                    if (
+                        is_list_bullet(next_line)
+                        or is_heading(next_line)
+                        or is_table_row(next_line)
+                        or is_hr(next_line)
+                        or is_shortcode(next_line)
+                        or is_html_block(next_line)
+                        or is_blockquote(next_line)
+                        or is_standalone_link_or_image(next_line)
+                        or is_card_header(next_line)
+                    ):
+                        break
+
+                    if next_line.endswith("  "):
+                        item_lines.append(next_line[:-2].rstrip())
+                        break_marker = "  "
+                        i += 1
+                        break
+                    elif next_line.endswith("\\"):
+                        item_lines.append(next_line[:-1].rstrip())
+                        break_marker = "\\"
+                        i += 1
+                        break
+
+                    item_lines.append(next_line.strip())
+                    i += 1
 
             full_text = " ".join(item_lines).strip()
             protected = protect_spaces(full_text)
@@ -313,34 +337,62 @@ def format_markdown(content: str, width: int = 70) -> str:
                 initial_indent=initial_prefix,
                 subsequent_indent=subsequent_prefix,
             )
-            output_lines.extend(unprotect_spaces(wrapped).splitlines())
+            wrapped_lines = unprotect_spaces(wrapped).splitlines()
+            if break_marker and wrapped_lines:
+                wrapped_lines[-1] += break_marker
+            output_lines.extend(wrapped_lines)
             continue
 
         # 7. Handle regular prose paragraphs
         m_indent = re.match(r"^(\s*)", line)
         indent_prefix = m_indent.group(1) if m_indent else ""
 
-        para_lines = [line[len(indent_prefix) :].strip()]
+        break_marker = ""
+        raw_content = line[len(indent_prefix) :]
+        if raw_content.endswith("  "):
+            break_marker = "  "
+            para_text = raw_content[:-2].rstrip()
+        elif raw_content.endswith("\\"):
+            break_marker = "\\"
+            para_text = raw_content[:-1].rstrip()
+        else:
+            para_text = raw_content.strip()
+
+        para_lines = [para_text]
         i += 1
-        while i < n:
-            next_line = raw_lines[i]
-            if not next_line.strip():
-                break
-            if (
-                is_heading(next_line)
-                or is_table_row(next_line)
-                or is_hr(next_line)
-                or is_shortcode(next_line)
-                or is_html_block(next_line)
-                or is_ref_link(next_line)
-                or is_list_bullet(next_line)
-                or is_blockquote(next_line)
-                or is_standalone_link_or_image(next_line)
-                or is_card_header(next_line)
-            ):
-                break
-            para_lines.append(next_line.strip())
-            i += 1
+
+        if not break_marker:
+            while i < n:
+                next_line = raw_lines[i]
+                if not next_line.strip():
+                    break
+                if (
+                    is_heading(next_line)
+                    or is_table_row(next_line)
+                    or is_hr(next_line)
+                    or is_shortcode(next_line)
+                    or is_html_block(next_line)
+                    or is_ref_link(next_line)
+                    or is_list_bullet(next_line)
+                    or is_blockquote(next_line)
+                    or is_standalone_link_or_image(next_line)
+                    or is_card_header(next_line)
+                ):
+                    break
+
+                if next_line.endswith("  "):
+                    para_lines.append(next_line[:-2].rstrip())
+                    break_marker = "  "
+                    i += 1
+                    break
+                elif next_line.endswith("\\"):
+                    para_lines.append(next_line[:-1].rstrip())
+                    break_marker = "\\"
+                    i += 1
+                    break
+
+                para_lines.append(next_line.strip())
+                i += 1
 
         full_text = " ".join(para_lines).strip()
         protected = protect_spaces(full_text)
@@ -350,7 +402,10 @@ def format_markdown(content: str, width: int = 70) -> str:
             initial_indent=indent_prefix,
             subsequent_indent=indent_prefix,
         )
-        output_lines.extend(unprotect_spaces(wrapped).splitlines())
+        wrapped_lines = unprotect_spaces(wrapped).splitlines()
+        if break_marker and wrapped_lines:
+            wrapped_lines[-1] += break_marker
+        output_lines.extend(wrapped_lines)
 
     result = "\n".join(output_lines) + trailing_newlines
     return result

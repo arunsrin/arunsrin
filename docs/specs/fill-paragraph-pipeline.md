@@ -41,7 +41,7 @@ A dedicated, zero-dependency Python script designed specifically for Hugo/Goldma
   - Runs `python3 scripts/fill_paragraph.py --fix`.
   - Checks `git status --porcelain home`. If changes exist:
     - Commits changes as `github-actions[bot]`: `style(prose): fill paragraphs to 70 columns [skip ci]`.
-    - Pushes the commit back to the PR branch.
+    - Pushes the commit back to the PR branch using explicit refspec `git push origin HEAD:${{ github.head_ref }}` guarded by same-repository check (`head.repo.full_name == github.repository`).
   - Continues to Hugo build and test suites to verify that the site builds cleanly on the formatted files.
 
 ### 2.3 One-Time Batch Reformatting

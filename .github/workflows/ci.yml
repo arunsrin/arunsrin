@@ -22,7 +22,7 @@ jobs:
           fetch-depth: 0
 
       - name: Auto-Format Markdown Paragraphs & Commit Back (PR only)
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
         run: |
           python3 scripts/fill_paragraph.py --fix
           if [ -n "$(git status --porcelain home)" ]; then
@@ -30,7 +30,7 @@ jobs:
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git add home
             git commit -m "style(prose): fill paragraphs to 70 columns [skip ci]"
-            git push
+            git push origin HEAD:${{ github.head_ref }}
           fi
 
       - name: Setup Hugo
