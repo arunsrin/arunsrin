@@ -124,8 +124,8 @@ def run_tests():
         )
     print("  ✓ Zero inline event handlers found (100% Rocket Loader safe).")
 
-    # 6. Concise Header Controls & Watermark Clearance
-    print("6. Auditing concise header controls and watermark clearance:")
+    # 6. Concise Header Controls, Shortcut Listener & Watermark Clearance
+    print("6. Auditing concise header controls, shortcut listener, and watermark clearance:")
     assert re.search(r'placeholder=["\']?\/["\']?', html_content), (
         "Search input missing concise placeholder='/'"
     )
@@ -135,7 +135,22 @@ def run_tests():
     assert re.search(r'--header-bg:\s*linear-gradient\(\s*to\s+right\s*,', html_content), (
         "Missing horizontal to-right header gradient in CSS"
     )
-    print("  ✓ Search input concise placeholder='/' and emoji-only theme toggle verified.")
+    assert re.search(r'\[data-theme=["\']?dark["\']?\]\s*\{[^}]*--header-bg:\s*linear-gradient\(\s*to\s+right\s*,', html_content), (
+        "Missing dark mode horizontal to-right header gradient"
+    )
+    assert re.search(r'id=["\']?theme-toggle["\']?[^>]*aria-label=["\']?Toggle dark mode["\']?', html_content), (
+        "Missing aria-label on theme toggle button"
+    )
+    assert re.search(r'id=["\']?site-search["\']?[^>]*aria-label=["\']?Search notes', html_content), (
+        "Missing aria-label on site search input"
+    )
+    assert re.search(r"e\.key\s*===\s*['\"]\/['\"]", html_content), (
+        "Missing keyboard shortcut listener for '/' in header script"
+    )
+    assert re.search(r'\.site-header\s*\{\s*padding:\s*0?\.6rem\s+0?\.75rem', html_content), (
+        "Missing mobile-responsive padding on .site-header"
+    )
+    print("  ✓ Search input concise placeholder='/', '/' shortcut listener, and emoji theme toggle verified.")
 
     print("\n✓ All title bar and sidebar UX tests passed successfully!")
 

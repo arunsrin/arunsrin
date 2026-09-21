@@ -8,7 +8,7 @@ On the left, the navigation sidebar used a flat dull slate grey (`#f1f5f9`), exc
 
 This feature modernizes both components:
 1. **Translucent Frosted Glass Title Bar:**
-   - Semi-transparent gradient header (`backdrop-filter: blur(12px)` / `-webkit-backdrop-filter: blur(12px)`).
+   - Semi-transparent gradient header (`backdrop-filter: blur(8px)` / `-webkit-backdrop-filter: blur(8px)`).
    - Chessboard watermark begins at `top: 0`, extending smoothly behind the translucent header and fading down into the body.
    - Soft translucent bottom border and luminous shadow dissolving naturally into content.
 2. **Compact Modern Sidebar:**

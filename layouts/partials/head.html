@@ -856,15 +856,27 @@ footer.site-footer {
   .sidebar-left.open {
     transform: translateX(0);
   }
+  .site-header {
+    padding: 0.6rem 0.75rem;
+  }
+  .brand-container {
+    gap: 0.5rem;
+    font-size: 1.1rem;
+  }
+  .nav-controls {
+    gap: 0.4rem;
+  }
   .main-content {
     padding: 1.25rem;
     max-width: 100%;
   }
   .search-input {
-    width: 48px;
+    width: 42px;
+    padding: 0.35rem 0.4rem;
   }
   .search-input:focus {
-    width: 150px;
+    width: 110px;
+    max-width: calc(100vw - 210px);
   }
 }
 
