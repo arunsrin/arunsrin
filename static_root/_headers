@@ -5,17 +5,24 @@
   X-Frame-Options: SAMEORIGIN
   Referrer-Policy: strict-origin-when-cross-origin
 
-# CSS: Revalidate daily, serve stale while revalidating
+# CSS: Cache for 7 days (Pingdom requires >= 48h; Hugo templates use ?v={{ now.Unix }} for cache-busting)
 /css/*
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cache-Control: public, max-age=604800, stale-while-revalidate=604800
   Access-Control-Allow-Origin: *
 
-/static/*
+# Static vendor libraries and static images (safe for far-future caching)
+/static/iconify-icon.min.js
   Cache-Control: public, max-age=31536000, immutable
   Access-Control-Allow-Origin: *
 
+/static/mybooks.png
+  Cache-Control: public, max-age=31536000, immutable
+
 # Favicon
 /favicon.ico
+  Cache-Control: public, max-age=31536000, immutable
+
+/static/favicon.ico
   Cache-Control: public, max-age=31536000, immutable
 
 # Search index & dynamic quotes
@@ -29,4 +36,5 @@
 /static/quotes.js
   Cache-Control: public, max-age=86400, stale-while-revalidate=86400
   Access-Control-Allow-Origin: *
+
 
