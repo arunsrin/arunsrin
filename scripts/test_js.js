@@ -111,19 +111,36 @@ runTest('Verify ZERO inline event handlers (onclick, onload, etc.) across all ge
 
 // 4. Cloudflare _headers Caching Safety
 console.log('\n4. Cloudflare _headers Cache Safety Check:');
-runTest('Verify static_root/_headers does NOT use immutable on unhashed /css/* or /static/*', () => {
+runTest('Verify static_root/_headers does NOT use immutable on unhashed /css/* or wildcard /static/*', () => {
   const headersPath = path.resolve('static_root/_headers');
   assert(fs.existsSync(headersPath), 'static_root/_headers does not exist');
   const headers = fs.readFileSync(headersPath, 'utf8');
   
   const cssMatch = headers.match(/\/css\/\*\s+Cache-Control:[^\n]+/i);
-  if (cssMatch && cssMatch[0].includes('immutable')) {
+  assert(cssMatch, 'Expected /css/* Cache-Control rule in static_root/_headers');
+  if (cssMatch[0].includes('immutable')) {
     throw new Error('Forbidden "immutable" directive found for /css/* in static_root/_headers. Unhashed CSS files must use stale-while-revalidate.');
+  }
+
+  // Ensure /css/* has at least 48h (172800s) max-age for performance and YSlow/Pingdom compliance
+  const cssMaxAgeMatch = cssMatch[0].match(/max-age=(\d+)/i);
+  assert(cssMaxAgeMatch, 'Expected max-age in /css/* Cache-Control');
+  const cssMaxAge = parseInt(cssMaxAgeMatch[1], 10);
+  assert(cssMaxAge >= 172800, `Expected /css/* max-age >= 172800 (48 hours), got ${cssMaxAge}`);
+
+  // Ensure /static/* wildcard does not collide with quotes.json / quotes.js by adding immutable to all static files
+  const staticWildcardMatch = headers.match(/\/static\/\*\s+Cache-Control:[^\n]+/i);
+  if (staticWildcardMatch && staticWildcardMatch[0].includes('immutable')) {
+    throw new Error('Forbidden wildcard "/static/*" with immutable found. Explicitly name immutable assets to avoid colliding with quotes.json.');
   }
 
   const quotesJsonMatch = headers.match(/\/static\/quotes\.json\s+Cache-Control:[^\n]+/i);
   assert(quotesJsonMatch, 'Expected explicit Cache-Control for /static/quotes.json');
   assert(!quotesJsonMatch[0].includes('immutable'), 'quotes.json must not be immutable');
+
+  const quotesJsMatch = headers.match(/\/static\/quotes\.js\s+Cache-Control:[^\n]+/i);
+  assert(quotesJsMatch, 'Expected explicit Cache-Control for /static/quotes.js');
+  assert(!quotesJsMatch[0].includes('immutable'), 'quotes.js must not be immutable');
 });
 
 // 5. Unclosed HTML Tag Checker in Content Markdown

@@ -39,8 +39,8 @@ Explore the main sections of the site, or browse the [complete sitemap
 
     ---
 
-    Gaming logs and brief reviews (mostly Xbox)
-    across RPGs, shooters, sci-fi, etc.
+    Gaming logs and brief reviews (mostly Xbox) across RPGs, shooters,
+    sci-fi, etc.
 
     [:material-arrow-right:{ .anim-pulse } Explore Games](games/index.md)
 
