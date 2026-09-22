@@ -3,10 +3,6 @@
 <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} - {{ .Site.Title }}{{ end }}</title>
 <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
 
-<!-- Google Fonts: Ubuntu & Ubuntu Mono (proxied locally via Cloudflare Fonts) -->
-<link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
-
-
 <!-- Favicon -->
 <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
 
@@ -18,11 +14,13 @@
 
 <style>
 :root {
-  --font-family-sans: 'Ubuntu', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-family-mono: 'Ubuntu Mono', monospace;
+  --font-family-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-family-mono: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, "Ubuntu Mono", monospace;
+
   
   --bg-color: #ffffff;
   --bg-secondary: #f8fafc;
+
   --bg-sidebar: #f8fafc;
   --text-color: #1e293b;
   --text-muted: #64748b;
