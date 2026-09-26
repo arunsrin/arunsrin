@@ -150,6 +150,13 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
 
+Write-Host "`n=== 20. Validating Dev Container & Codespaces Configuration ===" -ForegroundColor Cyan
+& $pythonCmd "$PSScriptRoot/test_devcontainer.py"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Dev Container & Codespaces configuration validation failed!"
+    exit $LASTEXITCODE
+}
+
 Write-Host "`n=== All checks passed successfully! ===" -ForegroundColor Green
 
 exit 0

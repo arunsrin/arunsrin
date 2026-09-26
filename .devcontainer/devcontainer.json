@@ -1,23 +1,51 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the
-// README at: https://github.com/devcontainers/templates/tree/main/src/python
 {
-	"name": "Python 3",
-	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/python:0-3.11",
-
-	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
-
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [1313],
-	
-
-	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "hugo version"
-
-	// Configure tool-specific properties.
-	// "customizations": {},
-
-	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "root"
+  "name": "Hugo (arunsrin's notes)",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/devcontainers/features/hugo:1": {
+      "version": "latest",
+      "extended": true
+    },
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.11",
+      "installTools": false
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "forwardPorts": [1313, 1314],
+  "portsAttributes": {
+    "1313": {
+      "label": "Hugo Server",
+      "onAutoForward": "notify"
+    },
+    "1314": {
+      "label": "Worktree Preview",
+      "onAutoForward": "notify"
+    }
+  },
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y jq && chmod +x scripts/*.sh && hugo version",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "github.copilot",
+        "github.copilot-chat",
+        "vscodevim.vim",
+        "budparr.language-hugo-html",
+        "hugo-intel.hugo-vscode",
+        "yzhang.markdown-all-in-one",
+        "davidanson.vscode-markdownlint",
+        "bierner.markdown-emoji"
+      ],
+      "settings": {
+        "vim.useSystemClipboard": true,
+        "vim.hlsearch": true,
+        "[html]": {
+          "editor.defaultFormatter": "vscode.html-language-features"
+        }
+      }
+    }
+  }
 }
