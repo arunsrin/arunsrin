@@ -68,6 +68,9 @@ echo "=== 18. Validating 4 Main Hubs & Page Re-categorisation ==="
 echo "=== 19. Validating Multi-Tag Explorer Hub & Topic Cloud ==="
 "$PYTHON_CMD" "$SCRIPT_DIR/test_tags_explorer.py"
 
+echo "=== 20. Validating Dev Container & Codespaces Configuration ==="
+"$PYTHON_CMD" "$SCRIPT_DIR/test_devcontainer.py"
+
 echo "=== All checks passed successfully! ==="
 
 
