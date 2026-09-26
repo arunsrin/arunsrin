@@ -26,6 +26,7 @@ Validates:
 
 import json
 import os
+import re
 import sys
 
 # Windows Python UTF-8 Stdout Reconfiguration (Rule 12)
@@ -69,6 +70,23 @@ def run_tests():
     hugo_feat = features.get("ghcr.io/devcontainers/features/hugo:1")
     assert hugo_feat is not None, "Missing ghcr.io/devcontainers/features/hugo:1 feature!"
     assert hugo_feat.get("extended") is True, "Hugo feature must enable extended edition (extended: true)!"
+
+    # Verify exact Hugo version parity with GitHub Actions CI (.github/workflows/ci.yml) and Cloudflare Pages
+    ci_path = os.path.join(root_dir, ".github", "workflows", "ci.yml")
+    assert os.path.exists(ci_path), f"Missing CI workflow file at {ci_path}"
+    with open(ci_path, "r", encoding="utf-8") as f:
+        ci_content = f.read()
+    ci_match = re.search(r"hugo-version:\s*['\"]?([^'\"\s]+)['\"]?", ci_content)
+    assert ci_match, "Could not find 'hugo-version' in .github/workflows/ci.yml"
+    expected_version = ci_match.group(1)
+
+    dev_version = hugo_feat.get("version")
+    assert dev_version == expected_version, (
+        f"Hugo version mismatch! devcontainer.json specifies '{dev_version}', "
+        f"but CI (.github/workflows/ci.yml) specifies '{expected_version}'. "
+        f"Dev container and CI/Cloudflare must maintain exact version parity!"
+    )
+    print(f"  ✓ Hugo version '{dev_version}' strictly matches CI & Cloudflare Pages ({expected_version}).")
 
     python_feat = features.get("ghcr.io/devcontainers/features/python:1")
     assert python_feat is not None, "Missing ghcr.io/devcontainers/features/python:1 for test suite execution!"

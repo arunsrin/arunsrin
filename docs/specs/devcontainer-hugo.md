@@ -25,7 +25,7 @@ The dev container configuration uses the official Microsoft base image paired wi
 
 2. **Features:**
    - `ghcr.io/devcontainers/features/hugo:1`:
-     - `version`: `"latest"`
+     - `version`: `"0.147.7"` (pinned for 100% exact parity with `.github/workflows/ci.yml` and Cloudflare Pages default build image)
      - `extended`: `true` (installs Hugo Extended edition for Sass/SCSS and full asset pipeline compatibility)
    - `ghcr.io/devcontainers/features/python:1`:
      - `version`: `"3.11"`
