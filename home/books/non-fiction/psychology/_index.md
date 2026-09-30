@@ -9,6 +9,13 @@ tags:
 Understanding the mind, behavior, and the complexities of human
 nature.
 
+### Thinking Sideways, by Jennifer Shahade (2026)
+
+Well I kinda like chess and was curious about this book, and I'm glad
+to report it is a good one. Another refreshing change is that I took
+generous notes in my notebook while reading this book. There are
+interesting sections that cover memory, time management, and so on.
+
 ### The Anxious Generation, by Jonathan Haidt (2025)
 The gist of the book is to increase play-time outside and restrict
 phone/social-media usage for kids.
