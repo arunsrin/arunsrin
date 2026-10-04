@@ -71,7 +71,7 @@ def run_tests():
     print("3. Auditing homepage stream (Latest Posts showcase):")
     assert "Latest Posts" in index_html, "Missing 'Latest Posts' heading on homepage"
     assert re.search(r'class=["\']?grid cards latest-posts-grid["\']?', index_html), "Missing .latest-posts-grid in public/index.html"
-    assert "Hello, Posts" in index_html, "Missing 'Hello, Posts' card in Latest Posts grid"
+    assert re.search(r'class=["\']?grid cards latest-posts-grid["\']?.*?href=["\']?/posts/[^"\'>\s]+["\']?', index_html, re.DOTALL), "Homepage Latest Posts grid missing post card link"
 
     # Negative assertions: retired Recent Updates and metaphors
     assert "Recent Updates" not in index_html, "Retired 'Recent Updates' heading should not be present on homepage"
