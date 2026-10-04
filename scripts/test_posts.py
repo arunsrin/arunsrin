@@ -73,12 +73,13 @@ def run_tests():
     cards = re.findall(r'<article\s+class=["\']?post-entry-card["\']?>(.*?)</article>', archive_html, re.DOTALL)
     assert len(cards) >= 1, f"Expected at least 1 post card, found {len(cards)}"
 
+    post_entries = []
     for card in cards:
         t_match = re.search(r'class=["\']?post-entry-title["\']?>\s*<a\s+[^>]*?href=["\']?([^"\'>\s]+)["\']?\s*>(.*?)</a>', card, re.DOTALL)
         assert t_match, f"Card missing title link: {card}"
         href, title_raw = t_match.group(1), t_match.group(2)
         title = re.sub(r'\s+', ' ', title_raw).strip()
-        assert title == "Hello, Posts", f"Expected title 'Hello, Posts', got '{title}'"
+        assert title, f"Card has empty title: {card}"
 
         d_match = re.search(r'class=["\']?post-entry-date["\']?[^>]*>.*?([A-Z][a-z]{2}\s+\d{1,2},\s+\d{4})', card, re.DOTALL)
         assert d_match, f"Card missing formatted date: {card}"
@@ -86,15 +87,29 @@ def run_tests():
         # Reading time check
         assert re.search(r'class=["\']?post-entry-reading-time["\']?>.*?min read', card), f"Card missing reading time: {card}"
 
-        # Sample tag check
-        assert re.search(r'href=["\']?/tags/meta/["\']?', card), f"Card missing tag pill for 'meta': {card}"
+        # Tag pills check (verify tag links format if any tags present)
+        for tp in re.findall(r'href=["\']?(/tags/[^"\'>\s]+/)["\']?', card):
+            assert tp.startswith("/tags/"), f"Invalid tag link: {tp}"
 
         # Target post exists in public/
         clean_target = href.strip("/")
         target_path = os.path.join(public_dir, clean_target, "index.html")
         assert os.path.exists(target_path), f"Post link {href} does not resolve to {target_path}"
 
+        post_entries.append({"title": title, "href": href, "card": card})
+
+    # Validate that inaugural post "Hello, Posts" is present among archive posts
+    hello_entries = [p for p in post_entries if p["title"] == "Hello, Posts"]
+    assert len(hello_entries) == 1, "Archive missing inaugural post 'Hello, Posts'"
+    assert re.search(r'href=["\']?/tags/meta/["\']?', hello_entries[0]["card"]), "Hello, Posts card missing tag pill for 'meta'"
+
+    # Dynamically extract latest post (first item in reverse chronological archive list)
+    latest_post = post_entries[0]
+    latest_href = latest_post["href"]
+    latest_title = latest_post["title"]
+
     print(f"  ✓ {len(cards)} post card(s) validated on archive page with formatted dates and tag pills.")
+    print(f"  ✓ Latest post dynamically identified: '{latest_title}' ({latest_href})")
 
 
     # 2. Verify Single Post Page
@@ -117,6 +132,14 @@ def run_tests():
 
     # Content attribution check
     assert "Gemini" in hello_html or "Antigravity" in hello_html, "Missing attribution to Gemini / Antigravity in sample post"
+
+    # Also verify latest post single page if distinct from hello-posts
+    latest_path = os.path.join(public_dir, latest_href.strip("/"), "index.html")
+    assert os.path.exists(latest_path), f"Missing latest post page: {latest_path}"
+    with open(latest_path, "r", encoding="utf-8") as fp:
+        latest_html = fp.read()
+    assert re.search(r'<a\s+href=["\']?/posts/["\']?>.*?Posts</a>', latest_html), f"Missing breadcrumb link to /posts/ on {latest_href}"
+    assert latest_title in latest_html, f"Missing title '{latest_title}' on {latest_href}"
 
     # Negative check: digital-gardens post is gone
     deleted_post_path = os.path.join(public_dir, "posts", "digital-gardens-and-chronological-streams")
@@ -155,13 +178,18 @@ def run_tests():
 
     # 4. Controlled Sidebar Navigation (Posts & Latest)
     print("\n4. Auditing Controlled Sidebar Navigation:")
-    # Posts details wrapper on archive page
+    # Posts details wrapper on archive page: Posts is active, Latest points to latest_href (inactive)
     assert re.search(r'<details\s+class=["\']?nav-section-details["\']?\s+open>.*?<summary[^>]*>.*?href=["\']?/posts/["\']?\s+class=["\']?active["\']?>Posts</a>', archive_html, re.DOTALL), "Sidebar on /posts/ should have Posts highlighted as active"
-    assert re.search(r'<li><a\s+href=["\']?/posts/hello-posts/["\']?>Latest</a></li>', archive_html), "Sidebar on /posts/ should have inactive Latest link"
+    assert re.search(rf'<li><a\s+href=["\']?{re.escape(latest_href)}["\']?>Latest</a></li>', archive_html), f"Sidebar on /posts/ should have inactive Latest link pointing to {latest_href}"
 
-    # Posts details wrapper on single post page (hello-posts)
-    assert re.search(r'<details\s+class=["\']?nav-section-details["\']?\s+open>.*?<summary[^>]*>.*?href=["\']?/posts/["\']?>Posts</a>', hello_html, re.DOTALL), "Sidebar on /posts/hello-posts/ should have open Posts section without active class"
-    assert re.search(r'<li><a\s+href=["\']?/posts/hello-posts/["\']?\s+class=["\']?active["\']?>Latest</a></li>', hello_html), "Sidebar on /posts/hello-posts/ should have Latest highlighted as active"
+    # Posts details wrapper on latest post page: Posts is inactive, Latest link is active
+    assert re.search(r'<details\s+class=["\']?nav-section-details["\']?\s+open>.*?<summary[^>]*>.*?href=["\']?/posts/["\']?>Posts</a>', latest_html, re.DOTALL), f"Sidebar on latest post ({latest_href}) should have open Posts section without active class on Posts summary"
+    assert re.search(rf'<li><a\s+href=["\']?{re.escape(latest_href)}["\']?\s+class=["\']?active["\']?>Latest</a></li>', latest_html), f"Sidebar on latest post ({latest_href}) should have Latest highlighted as active"
+
+    # Posts details wrapper on older post page (e.g. hello-posts when it is not the latest post)
+    if latest_href != "/posts/hello-posts/":
+        assert re.search(r'<details\s+class=["\']?nav-section-details["\']?\s+open>.*?<summary[^>]*>.*?href=["\']?/posts/["\']?\s+class=["\']?active["\']?>Posts</a>', hello_html, re.DOTALL), "Sidebar on older post should have open Posts section with active class on Posts summary"
+        assert re.search(rf'<li><a\s+href=["\']?{re.escape(latest_href)}["\']?>Latest</a></li>', hello_html), f"Sidebar on older post should have inactive Latest link pointing to {latest_href}"
 
     # Negative checks: No emojis, no duplicate 'Archive' or 'All Posts', no year breakdown in sidebar
     assert "✨ Latest" not in archive_html, "Sidebar should not contain emoji '✨ Latest'"
@@ -198,7 +226,7 @@ def run_tests():
     # Homepage Latest Posts showcase between Hubs and Featured Notes
     assert re.search(r'Latest Posts.*?Featured Notes', home_html, re.DOTALL), "Homepage missing 'Latest Posts' section between Hubs and Featured Notes"
     assert re.search(r'class=["\']?grid cards latest-posts-grid["\']?', home_html), "Homepage missing .latest-posts-grid container"
-    assert re.search(r'href=["\']?/posts/hello-posts/["\']?[^>]*>Hello, Posts</a>', home_html), "Homepage Latest Posts grid missing 'Hello, Posts' card link"
+    assert re.search(rf'href=["\']?{re.escape(latest_href)}["\']?[^>]*>{re.escape(latest_title)}</a>', home_html), f"Homepage Latest Posts grid missing '{latest_title}' card link"
 
     with open(sitemap_html, "r", encoding="utf-8") as fp:
         sitemap_content = fp.read()

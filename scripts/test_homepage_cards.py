@@ -95,7 +95,7 @@ def run_tests():
     # Verify Latest Posts grid
     latest_grid_m = re.search(r'class=["\']?grid cards latest-posts-grid["\']?', home_html)
     assert latest_grid_m, "Could not find .latest-posts-grid in public/index.html"
-    assert "Hello, Posts" in home_html, "Homepage Latest Posts grid missing 'Hello, Posts'"
+    assert re.search(r'class=["\']?grid cards latest-posts-grid["\']?.*?href=["\']?/posts/[^"\'>\s]+["\']?', home_html, re.DOTALL), "Homepage Latest Posts grid missing post card links"
 
     # Negative check: Retired recently-updated-stream is absent
     assert "recently-updated-stream" not in home_html, "Retired recently-updated-stream should not be present in public/index.html"
