@@ -117,6 +117,11 @@ Here are some thoughtful links that go deeper:
   the economic unsustainability of it all. I'm not an expert here but
   I suppose time will tell if he is right.
 
-- [Coding is not solved](https://blog.alexewerlof.com/p/coding-is-not-solved) - A comprehensive look at the state of AI for coding, in late-2026.
+- [Coding is not
+  solved](https://blog.alexewerlof.com/p/coding-is-not-solved) - A
+  comprehensive look at the state of AI for coding, in late-2026.
 
-- [How to burst the AI bubble: Strike at its roots](https://arstechnica.com/gadgets/2026/06/how-to-burst-the-ai-bubble-strike-at-its-roots/) - Perceptive and intelligent as always, here is an interview with Cory Doctorow.
+- [How to burst the AI bubble: Strike at its
+  roots](https://arstechnica.com/gadgets/2026/06/how-to-burst-the-ai-bubble-strike-at-its-roots/) -
+  Perceptive and intelligent as always, here is an interview with Cory
+  Doctorow.
