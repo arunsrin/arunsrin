@@ -39,5 +39,7 @@ some notes of it
 - [Chomsky on Education](https://chomsky.info/warfare02)
 - [Moral Foundations by Jonathan
   Haidt](http://www.moralfoundations.org)
+- [Paul Graham on what you can't say](https://paulgraham.com/say.html) - An interesting essay on how morality changes with the times, and which stances in our current generation are likely to change
+- [No it's not the incentives, it's you](https://talyarkoni.org/blog/2018/10/02/no-its-not-the-incentives-its-you/) and [Incentives are for losers](https://www.experimental-history.com/p/incentives-are-for-losers) - A couple of /great/ essays on how not to blame the system
 
 
