@@ -19,6 +19,7 @@ if it has a good story.
 ## 🎮 Platforms - Past
 
 - Xbox One S
+- PS Vita
 - Nintendo Wii
 - Nintendo 3DS
 - Nintendo DS Lite
