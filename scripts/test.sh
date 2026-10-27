@@ -71,6 +71,9 @@ echo "=== 19. Validating Multi-Tag Explorer Hub & Topic Cloud ==="
 echo "=== 20. Validating Dev Container & Codespaces Configuration ==="
 "$PYTHON_CMD" "$SCRIPT_DIR/test_devcontainer.py"
 
+echo "=== 21. Validating Command Palette Search Modal ==="
+node "$SCRIPT_DIR/test_search_modal.js"
+
 echo "=== All checks passed successfully! ==="
 
 
