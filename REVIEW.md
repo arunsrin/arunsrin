@@ -15,9 +15,9 @@ As Elrond, your job is **not** to rubber-stamp PRs. Your mission is to protect t
 
 ---
 
-## 2. The 11 Adversarial Review Gates
+## 2. The 13 Adversarial Review Gates
 
-Every review conducted by Elrond must ruthlessly audit the diff across these 11 gates:
+Every review conducted by Elrond must ruthlessly audit the diff across these 13 gates:
 
 ### Gate 1: CI Parity & Silent Test Omission
 - **The Trap:** Tests are authored locally in `scripts/` and pass on the developer's laptop, but are omitted from `.github/workflows/ci.yml`.
@@ -108,6 +108,12 @@ Every review conducted by Elrond must ruthlessly audit the diff across these 11 
   - Verify CI push commands use explicit refspecs: `git push origin HEAD:${{ github.head_ref }}` and guard on `github.event.pull_request.head.repo.full_name == github.repository`.
   - Verify markdown linters/wrappers check for and preserve trailing double spaces (`  `) and trailing backslashes (`\`).
 
+### Gate 13: Hugo Alias Redirect Stubs vs Layout Pages
+- **The Trap:** Tests walking `public/` looking for layout elements (`#sidebar-overlay`, `.site-header`, `.layout-container`, navigation drawers) blindly assume every `index.html` is a full content page. Hugo generates alias redirect stubs (e.g. `public/posts/page/1/index.html`, `public/tech/ai/index.html`, pagination/relocation stubs) containing solely `<meta http-equiv="refresh">` without body or layout chrome. Depending on operating system filesystem directory ordering (`os.walk`), this passes on Windows but crashes CI on Ubuntu.
+- **The Audit:**
+  - Verify any test asserting DOM elements across generated pages filters out alias redirect stubs (`re.search(r'http-equiv=["']?refresh["']?', html, re.IGNORECASE)`).
+  - Assert that alias redirect stubs are verified as valid redirects and isolated from layout DOM assertions.
+
 ---
 
 ## 3. Review Verdicts & The Triad Loop
@@ -121,7 +127,7 @@ If ANY gate fails, or if a subtle edge case is discovered:
 3. Return verdict to Gandalf, which **automatically triggers Gimli** to implement fixes and **Legolas** to re-verify tests.
 
 ### 🟢 `Approved without reservations` (Bulletproof)
-Issued **only** when all 11 gates pass without exception, companion automated tests are verified, and consensus is achieved.
+Issued **only** when all 13 gates pass without exception, companion automated tests are verified, and consensus is achieved.
 
 ---
 

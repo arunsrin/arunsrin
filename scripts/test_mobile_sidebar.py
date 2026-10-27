@@ -93,24 +93,42 @@ def run_tests():
     sample_pages = [
         os.path.join(root_dir, "public", "index.html"),
         os.path.join(root_dir, "public", "about", "index.html"),
+        os.path.join(root_dir, "public", "tech", "index.html"),
+        os.path.join(root_dir, "public", "books", "index.html"),
+        os.path.join(root_dir, "public", "games", "index.html"),
+        os.path.join(root_dir, "public", "posts", "index.html"),
+        os.path.join(root_dir, "public", "sitemap", "index.html"),
     ]
+    sample_pages = [p for p in sample_pages if os.path.exists(p)]
 
-    # Find a couple of tech and book pages if available
+    # Dynamically find additional content pages while strictly ignoring Hugo alias redirect stubs
     for root, dirs, files in os.walk(os.path.join(root_dir, "public")):
         for f in files:
             if f == "index.html":
-                p = os.path.join(root, f)
-                if p not in sample_pages:
-                    sample_pages.append(p)
-                if len(sample_pages) >= 5:
+                p_item = os.path.join(root, f)
+                if p_item not in sample_pages:
+                    with open(p_item, "r", encoding="utf-8", errors="ignore") as fp:
+                        head_chunk = fp.read(1024)
+                    # Hugo generates alias redirect stubs (<meta http-equiv="refresh" ...>)
+                    # without full layout markup; skip these.
+                    if re.search(r'http-equiv=["\']?refresh["\']?', head_chunk, re.IGNORECASE):
+                        continue
+                    sample_pages.append(p_item)
+                if len(sample_pages) >= 12:
                     break
-        if len(sample_pages) >= 5:
+        if len(sample_pages) >= 12:
             break
+
+    assert len(sample_pages) >= 5, f"Expected at least 5 sample pages to test, found {len(sample_pages)}"
 
     for page_path in sample_pages:
         rel_p = os.path.relpath(page_path, root_dir)
         with open(page_path, "r", encoding="utf-8") as fp:
             html = fp.read()
+
+        # Extra safety check against alias redirect stubs
+        if re.search(r'http-equiv=["\']?refresh["\']?', html, re.IGNORECASE):
+            continue
 
         assert re.search(r'id=["\']?sidebar-overlay["\'\s>]', html), f"Missing #sidebar-overlay in {rel_p}"
         assert re.search(r'class=["\']?[^"\'>]*sidebar-overlay', html), f"Missing class='sidebar-overlay' in {rel_p}"
@@ -127,6 +145,29 @@ def run_tests():
         )
 
     print(f"  ✓ Verified DOM presence and nesting across {len(sample_pages)} generated pages.")
+
+    # 2b. Explicitly verify alias redirect stubs are recognized and isolated
+    print("2b. Verifying Hugo alias redirect stubs are recognized and isolated:")
+    known_alias_candidates = [
+        os.path.join(root_dir, "public", "posts", "page", "1", "index.html"),
+        os.path.join(root_dir, "public", "tech", "ai", "index.html"),
+        os.path.join(root_dir, "public", "other-interests", "research", "productivity", "index.html"),
+    ]
+    verified_aliases = 0
+    for alias_path in known_alias_candidates:
+        if os.path.exists(alias_path):
+            with open(alias_path, "r", encoding="utf-8") as fp:
+                alias_html = fp.read()
+            assert re.search(r'http-equiv=["\']?refresh["\']?', alias_html, re.IGNORECASE), (
+                f"Expected alias redirect stub in {os.path.relpath(alias_path, root_dir)}"
+            )
+            # Confirm alias stub does not contain layout chrome
+            assert not re.search(r'id=["\']?sidebar-overlay["\'\s>]', alias_html), (
+                f"Unexpected #sidebar-overlay found in alias redirect {os.path.relpath(alias_path, root_dir)}"
+            )
+            verified_aliases += 1
+    assert verified_aliases > 0, "Expected at least one Hugo alias redirect stub to be present for verification"
+    print(f"  ✓ Verified {verified_aliases} alias redirect stubs cleanly isolated from layout assertions.")
 
     # 3. Verify JavaScript logic in header.html
     print("3. Verifying JavaScript drawer logic and Rocket Loader safety:")
