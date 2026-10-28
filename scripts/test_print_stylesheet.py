@@ -68,6 +68,8 @@ def run_tests():
         r"\.toc-wrapper",
         r"\.table-of-contents",
         r"\.related-notes",
+        r"\.link-preview-card",
+        r"#link-preview-card",
         r"\.copy-code-btn",
         r"\.external-icon",
     ]

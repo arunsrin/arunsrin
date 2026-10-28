@@ -77,7 +77,10 @@ node "$SCRIPT_DIR/test_search_modal.js"
 echo "=== 22. Validating Symmetrical Search Emoji Header Button ==="
 "$PYTHON_CMD" "$SCRIPT_DIR/test_search_button.py"
 
-echo "=== 23. Validating Dedicated Print & PDF Export Stylesheet ==="
+echo "=== 23. Validating Internal Link Hover Previews ==="
+"$PYTHON_CMD" "$SCRIPT_DIR/test_hover_previews.py"
+
+echo "=== 24. Validating Dedicated Print & PDF Export Stylesheet ==="
 "$PYTHON_CMD" "$SCRIPT_DIR/test_print_stylesheet.py"
 
 echo "=== All checks passed successfully! ==="
