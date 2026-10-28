@@ -121,7 +121,8 @@ code, pre {
   gap: 1rem;
 }
 
-.theme-toggle-btn {
+.theme-toggle-btn,
+.search-btn {
   background: rgba(255, 255, 255, 0.7);
   border: 1px solid var(--border-color);
   color: var(--text-color);
@@ -136,12 +137,14 @@ code, pre {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
   transition: all 0.2s ease;
 }
-.theme-toggle-btn:hover {
+.theme-toggle-btn:hover,
+.search-btn:hover {
   background: var(--bg-secondary);
   border-color: var(--link-color);
   transform: scale(1.05);
 }
-[data-theme="dark"] .theme-toggle-btn {
+[data-theme="dark"] .theme-toggle-btn,
+[data-theme="dark"] .search-btn {
   background: rgba(30, 41, 59, 0.7);
   border-color: var(--border-color);
   color: var(--text-color);
@@ -149,41 +152,14 @@ code, pre {
 
 .search-container {
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
-.search-input {
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px solid var(--border-color);
-  color: var(--text-color);
-  padding: 0.35rem 0.65rem;
-  border-radius: 0.375rem;
-  font-size: 0.88rem;
-  outline: none;
-  width: 54px;
-  text-align: center;
-  transition: width 0.25s ease, background 0.2s ease, border-color 0.2s ease;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  font-family: var(--font-family-mono);
-  font-weight: 700;
-}
-.search-input::placeholder {
-  color: var(--text-muted);
-  font-family: var(--font-family-mono);
-  font-weight: 700;
-}
-.search-input:focus {
-  width: 220px;
-  text-align: left;
-  background: var(--card-bg);
-  border-color: var(--link-color);
-  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.15);
-  font-family: var(--font-family-sans);
-  font-weight: normal;
-}
-[data-theme="dark"] .search-input {
-  background: rgba(30, 41, 59, 0.7);
-  border-color: var(--border-color);
-  color: var(--text-color);
+.search-icon {
+  font-size: 1rem;
+  line-height: 1;
+  display: inline-block;
 }
 
 .layout-container {
@@ -869,14 +845,6 @@ footer.site-footer {
   .main-content {
     padding: 1.25rem;
     max-width: 100%;
-  }
-  .search-input {
-    width: 42px;
-    padding: 0.35rem 0.4rem;
-  }
-  .search-input:focus {
-    width: 110px;
-    max-width: calc(100vw - 210px);
   }
 }
 

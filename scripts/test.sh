@@ -74,6 +74,9 @@ echo "=== 20. Validating Dev Container & Codespaces Configuration ==="
 echo "=== 21. Validating Command Palette Search Modal ==="
 node "$SCRIPT_DIR/test_search_modal.js"
 
+echo "=== 22. Validating Symmetrical Search Emoji Header Button ==="
+"$PYTHON_CMD" "$SCRIPT_DIR/test_search_button.py"
+
 echo "=== All checks passed successfully! ==="
 
 
