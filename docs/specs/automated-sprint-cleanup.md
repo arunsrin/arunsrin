@@ -32,12 +32,14 @@ As a digital garden author and agentic pair programmer, I want automated, cross-
 
 1. **CLI Subcommand in `site_sprint.py`**:
    - `python scripts/site_sprint.py cleanup [feature-name]` supports optional feature name (auto-detecting if only one worktree is active), `--task-id`, `--no-merge`, and `--merge-method` (`squash`, `merge`, `rebase`).
-2. **Server Process Termination**:
-   - Safely identifies and terminates any processes listening on ports 1313 and 1314 or running Hugo server instances across Windows and Linux.
+2. **Server Process Termination & Port Scoping**:
+   - Safely identifies and terminates only the processes listening on the specified ports (default: 1313 and 1314) across Windows (`Get-NetTCPConnection` + `Stop-Process`) and Linux (`fuser -k`).
+   - Strictly avoids blanket process killers (`taskkill /IM hugo.exe` or `pkill -f hugo`) to prevent terminating active developer preview sessions during test runs.
 3. **Automated PR Merge**:
    - Merges the feature PR using `gh pr merge <branch> --squash --delete-branch` (unless `--no-merge` is specified).
    - If the PR is already in `MERGED` state, logs the status and proceeds smoothly.
-4. **Worktree & Branch Teardown**:
+4. **Worktree & Branch Teardown (NTFS Lock Prevention)**:
+   - Switches working directory to repository root (`os.chdir(root_dir)`) to prevent Windows NTFS directory locking on worktree removal.
    - Removes `.worktrees/<feature-name>` using `git worktree remove --force`.
    - Prunes worktree records using `git worktree prune`.
    - Deletes local branch `git branch -D <feature-name>`.
@@ -49,6 +51,6 @@ As a digital garden author and agentic pair programmer, I want automated, cross-
 7. **Native Shell Wrappers**:
    - `scripts/cleanup.ps1` provides seamless execution in PowerShell.
    - `scripts/cleanup.sh` provides seamless execution in WSL / Linux.
-8. **Automated Regression Testing**:
-   - `scripts/test_cleanup_tooling.py` validates CLI parser options, server termination routines, and shell script wrappers.
+8. **Automated Regression Testing & Negative Assertions**:
+   - `scripts/test_cleanup_tooling.py` validates CLI parser options, negative argument validation, server termination routines, and shell script wrappers.
    - All tests pass in `./scripts/test.ps1` and `./scripts/test.sh`.

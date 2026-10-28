@@ -24,15 +24,23 @@ def run_cmd(cmd: List[str], cwd: Optional[str] = None) -> subprocess.CompletedPr
         exe = shutil.which(resolved_cmd[0])
         if exe:
             resolved_cmd[0] = exe
-    return subprocess.run(
-        resolved_cmd,
-        cwd=cwd,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        text=True,
-        encoding="utf-8",
-        errors="replace",
-    )
+    try:
+        return subprocess.run(
+            resolved_cmd,
+            cwd=cwd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+        )
+    except FileNotFoundError:
+        return subprocess.CompletedProcess(
+            resolved_cmd,
+            returncode=127,
+            stdout="",
+            stderr=f"Command not found: {resolved_cmd[0]}",
+        )
 
 
 def get_pending_tasks() -> List[Dict[str, Any]]:
@@ -259,17 +267,16 @@ def kill_preview_servers(ports: Optional[List[int]] = None):
             "ForEach-Object { Stop-Process -Id $_ -Force -ErrorAction SilentlyContinue }"
         )
         run_cmd(["powershell", "-NoProfile", "-Command", ps_cmd])
-        run_cmd(["taskkill", "/F", "/IM", "hugo.exe"])
     else:
         for p in ports:
             run_cmd(["fuser", "-k", f"{p}/tcp"])
-        run_cmd(["pkill", "-f", "hugo server"])
     print("✓ Preview servers stopped.")
 
 
 def cmd_cleanup(feature: Optional[str] = None, task_id: Optional[str] = None, no_merge: bool = False, merge_method: str = "squash"):
     """Execute complete post-review cleanup: merge PR, stop servers, delete worktree, sync master, complete task."""
     root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    os.chdir(root_dir)
     print("=" * 64)
     print("🧹 Autonomous Sprint Cleanup & Teardown")
     print("=" * 64)

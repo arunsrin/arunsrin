@@ -54,7 +54,7 @@ def test_cleanup_tooling():
     print("  ✓ Parameter forwarding and syntax validated across cleanup.ps1 and cleanup.sh.")
 
     # 3. Validate CLI Help & Subcommand Options
-    print("\n3. Validating 'site_sprint.py cleanup --help' CLI output:")
+    print("\n3. Validating 'site_sprint.py cleanup --help' CLI output and argument validation:")
     python_bin = sys.executable
     proc = subprocess.run([python_bin, site_sprint_path, "cleanup", "--help"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, encoding="utf-8")
     assert proc.returncode == 0, f"cleanup --help failed: {proc.stderr}"
@@ -64,6 +64,11 @@ def test_cleanup_tooling():
     assert "--merge-method" in help_text, "Missing --merge-method in cleanup help"
     assert "squash" in help_text, "Missing squash merge choice in cleanup help"
     print("  ✓ CLI parser successfully exposes all cleanup arguments.")
+
+    # Gate 9: Negative test - invalid merge method must be rejected
+    neg_proc = subprocess.run([python_bin, site_sprint_path, "cleanup", "--merge-method", "invalid-method"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, encoding="utf-8")
+    assert neg_proc.returncode != 0, "CLI must reject invalid --merge-method"
+    print("  ✓ Negative test: invalid arguments cleanly rejected.")
 
     # 4. Validate Server Process Termination Function
     print("\n4. Validating kill_preview_servers graceful execution on idle ports:")
