@@ -49,7 +49,7 @@ Every review conducted by Elrond must ruthlessly audit the diff across these 13 
   - Check for DOM query timing issues (elements queried before they exist in the DOM tree).
 
 ### Gate 5: Cross-Platform & Terminal Console Safety
-- **The Trap:** Python test scripts printing Unicode checkmarks (`\u2713`) or emojis crash on Windows PowerShell (`cp1252` encoding).
+- **The Trap:** Python test scripts printing Unicode checkmarks (`\u2713`) or emojis crash on Windows PowerShell (`cp1252` encoding). Process termination helpers executing blanket process killers (`taskkill /IM hugo.exe` or `pkill -f hugo`) kill live preview servers across the machine.
 - **The Audit:**
   - Every Python script (`scripts/*.py`) must reconfigure standard output:
     ```python
@@ -59,6 +59,7 @@ Every review conducted by Elrond must ruthlessly audit the diff across these 13 
         sys.stderr.reconfigure(encoding="utf-8")
     ```
   - Scripts must execute cleanly on both Windows PowerShell (`./scripts/test.ps1`) and WSL/Linux (`./scripts/test.sh`).
+  - Process termination and cleanup helpers must strictly scope termination to specific port-bound PIDs and never use blanket process killers.
 
 ### Gate 6: Hugo HTML Minification Regex Resilience
 - **The Trap:** Hugo `--minify` strips quotes on simple attributes (`id=sidebar-overlay` instead of `id="sidebar-overlay"`). Fragile regexes expecting quotes will produce false test failures.

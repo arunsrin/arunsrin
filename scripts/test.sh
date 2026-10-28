@@ -80,10 +80,10 @@ echo "=== 22. Validating Symmetrical Search Emoji Header Button ==="
 echo "=== 23. Validating Internal Link Hover Previews ==="
 "$PYTHON_CMD" "$SCRIPT_DIR/test_hover_previews.py"
 
-echo "=== 24. Validating Dedicated Print & PDF Export Stylesheet ==="
+echo "=== 24. Validating Sprint Cleanup Tooling ==="
+"$PYTHON_CMD" "$SCRIPT_DIR/test_cleanup_tooling.py"
+
+echo "=== 25. Validating Dedicated Print & PDF Export Stylesheet ==="
 "$PYTHON_CMD" "$SCRIPT_DIR/test_print_stylesheet.py"
 
 echo "=== All checks passed successfully! ==="
-
-
-

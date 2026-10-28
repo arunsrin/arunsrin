@@ -266,15 +266,8 @@ Once the Triad (Gimli, Legolas, Elrond) has reached unanimous consensus:
 6. **Sign-off, Merge & Cleanup:**
    Once the author explicitly reviews and gives sign-off, Gandalf automatically executes the merge and cleanup:
    ```bash
-   # Merge PR via gh
-   gh pr merge <feature-name> --merge --delete-branch
-
-   # Sync root repository master
-   git pull origin master
-
-   # Safely remove the worktree
-   git worktree remove .worktrees/<feature-name>
-
-   # Mark Todoist task complete
-   td task complete <task-id>
+   # Automated cross-platform sprint cleanup (stops preview servers, merges PR, deletes worktree, syncs master, completes task):
+   ./scripts/cleanup.ps1 <feature-name> -TaskId <task-id>    # Windows PowerShell
+   ./scripts/cleanup.sh <feature-name> --task-id <task-id>   # WSL / Linux / macOS
+   # or: python scripts/site_sprint.py cleanup <feature-name> --task-id <task-id>
    ```
