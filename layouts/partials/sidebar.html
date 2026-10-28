@@ -33,7 +33,7 @@
           {{ $latest := index $posts 0 }}
           {{ if $latest }}
             <li>
-              <a href="{{ $latest.RelPermalink }}" class="{{ if eq $currentPage.RelPermalink $latest.RelPermalink }}active{{ end }}">Latest</a>
+              <a href="{{ $latest.RelPermalink }}"{{ if eq $currentPage.RelPermalink $latest.RelPermalink }} class="active"{{ end }}>Latest</a>
             </li>
           {{ end }}
         {{ else }}

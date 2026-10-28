@@ -9,6 +9,7 @@ sections or modifying the author's prose.
 import glob
 import os
 import re
+import shutil
 import sys
 import tempfile
 import subprocess
@@ -165,9 +166,10 @@ def run_tests():
 
     print(f"  ✓ Verified {checked_pages} non-tech pages: 0 spurious freshness banner leaks detected")
 
-    # 4.4 Opt-Out Verification via Synthetic Note Build
+    # 4.4 Opt-Out Verification via Synthetic Note Build into isolated temp directory
     print("\n6. Verifying Opt-Out Frontmatter ('freshness_warning: false'):")
     opt_out_file = os.path.join(root_dir, "home", "tech", "_test_opt_out_freshness.md")
+    temp_dir = tempfile.mkdtemp()
     try:
         with open(opt_out_file, "w", encoding="utf-8") as f:
             f.write(
@@ -180,9 +182,9 @@ def run_tests():
                 "Testing opt-out.\n"
             )
 
-        # Run fast build in quiet mode
+        # Build strictly into isolated temp_dir to preserve public/ untouched for subsequent test suites
         res = subprocess.run(
-            ["hugo", "--quiet"],
+            ["hugo", "--destination", temp_dir, "--gc", "--minify", "--quiet"],
             cwd=root_dir,
             capture_output=True,
             text=True,
@@ -191,7 +193,7 @@ def run_tests():
             print(f"  ✗ Hugo build failed during opt-out test: {res.stderr}")
             sys.exit(1)
 
-        test_html_path = os.path.join(public_dir, "tech", "_test_opt_out_freshness", "index.html")
+        test_html_path = os.path.join(temp_dir, "tech", "_test_opt_out_freshness", "index.html")
         if not os.path.exists(test_html_path):
             print(f"  ✗ Generated test page not found: {test_html_path}")
             sys.exit(1)
@@ -205,11 +207,11 @@ def run_tests():
         print("  ✓ Freshness banner successfully suppressed when 'freshness_warning: false'")
 
     finally:
-        # Clean up temporary test file
+        # Clean up temporary test file and temp directory (public/ remains intact)
         if os.path.exists(opt_out_file):
             os.remove(opt_out_file)
-        # Rebuild site to restore clean public/ directory
-        subprocess.run(["hugo", "--quiet"], cwd=root_dir, capture_output=True)
+        if os.path.exists(temp_dir):
+            shutil.rmtree(temp_dir, ignore_errors=True)
 
     print("\n✓ ALL FRESHNESS BANNER TESTS PASSED CLEANLY (100% SUCCESS)")
 
