@@ -8,13 +8,15 @@ Validates:
 3. Zero inline event handlers (Rocket Loader safety).
 4. CSS styling presence (.link-preview-card, .link-preview-card.visible, @media (hover: none)).
 5. Link eligibility & negative testing (anti-spurious isolation: external links, breadcrumbs, anchors #, asset files, and touch suppression).
-6. Excerpt cleaning logic (stripping markdown headings, icon shortcodes, and code fences).
+6. Excerpt cleaning & HTML entity decoding (stripping markdown headings, icon shortcodes, code fences, and resolving &rsquo; / &ldquo; / &amp;).
+7. Debounced mouseout cancellation and relative URL resolution audit.
 """
 
 import sys
 import os
 import re
 import json
+import html
 
 # Windows Python UTF-8 Stdout Reconfiguration (Rule 12)
 if hasattr(sys.stdout, "reconfigure"):
@@ -142,18 +144,37 @@ def test_hover_previews():
 
     print("  ✓ All 7 link eligibility and anti-spurious tests passed cleanly")
 
-    # 6. Excerpt cleaning verification
-    print("\n6. Validating excerpt text sanitizer:")
-    raw_sample = "## Overview\n\nThis is a :material-book: guide to ```python\nprint('hello')\n``` modern software architecture."
-    clean_sample = re.sub(r'(:[a-z0-9_-]+:(\s*\{[^}]*\})?)', '', raw_sample)
+    # 6. Excerpt cleaning & HTML entity decoding verification (Gate 8 & Gate 7)
+    print("\n6. Validating excerpt text sanitizer and HTML entity decoding:")
+    raw_sample = "## Overview\n\nBooks I&rsquo;ve read: a :material-book: guide to ```python\nprint('hello')\n``` modern &ldquo;architecture&rdquo; &amp; design."
+    
+    # Simulate decoder + cleanExcerpt
+    decoded_sample = html.unescape(raw_sample)
+    clean_sample = re.sub(r'(:[a-z0-9_-]+:(\s*\{[^}]*\})?)', '', decoded_sample)
     clean_sample = re.sub(r'```[\s\S]*?```', '', clean_sample)
     clean_sample = re.sub(r'#{1,6}\s+', '', clean_sample)
     clean_sample = re.sub(r'\s+', ' ', clean_sample).strip()
 
+    assert "&rsquo;" not in clean_sample, "HTML entity &rsquo; leaked into excerpt"
+    assert "&ldquo;" not in clean_sample, "HTML entity &ldquo; leaked into excerpt"
+    assert "&amp;" not in clean_sample, "HTML entity &amp; leaked into excerpt"
+    assert "Books I’ve read" in clean_sample, f"Failed entity decoding, got: {clean_sample}"
+    assert "“architecture” & design" in clean_sample, f"Failed quote decoding, got: {clean_sample}"
     assert ":material-book:" not in clean_sample, "Iconify shortcode not stripped"
     assert "print('hello')" not in clean_sample, "Code block not stripped"
-    assert "Overview" in clean_sample, "Prose text preserved"
-    print(f"  ✓ Excerpt correctly cleaned: '{clean_sample}'")
+    print(f"  ✓ Excerpt correctly decoded and sanitized: '{clean_sample}'")
+
+    # 7. JavaScript Architecture & Debounce Safety Audit
+    print("\n7. Validating JavaScript architecture & mouseout debounce cancellation:")
+    assert "decodeEntities" in partial_code, "Missing decodeEntities function in link-preview.html"
+    assert "clearTimeout(showTimer)" in partial_code, "Missing clearTimeout(showTimer) in link-preview.html"
+    assert "window.location.href" in partial_code, "normalizePath must resolve against window.location.href"
+    
+    # Assert mouseout unconditionally cancels showTimer upon leaving an anchor
+    mouseout_block = re.search(r"document\.addEventListener\('mouseout'[\s\S]*?\}\);", partial_code)
+    assert mouseout_block, "Missing mouseout listener block"
+    assert "clearTimeout(showTimer)" in mouseout_block.group(0), "mouseout must cancel pending showTimer to prevent ghost popups"
+    print("  ✓ Verified debounce timer cancellation, entity decoding, and URL resolution in client JS")
 
     print("\n=== All Hover Preview tests passed successfully! ===")
 

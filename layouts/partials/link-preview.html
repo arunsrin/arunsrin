@@ -16,7 +16,7 @@
   function normalizePath(p) {
     if (!p) return '';
     try {
-      const u = new URL(p, window.location.origin);
+      const u = new URL(p, window.location.href);
       let path = u.pathname.toLowerCase();
       if (path.length > 1 && path.endsWith('/')) {
         path = path.slice(0, -1);
@@ -79,10 +79,17 @@
     return { label: 'Note', icon: '📄' };
   }
 
+  function decodeEntities(text) {
+    if (!text || !text.includes('&')) return text;
+    const txt = document.createElement('textarea');
+    txt.innerHTML = text;
+    return txt.value;
+  }
+
   function cleanExcerpt(content, maxLen) {
     if (!content) return '';
     const len = maxLen || 180;
-    let text = content
+    let text = decodeEntities(content)
       .replace(/(:[a-z0-9_-]+:(\s*\{[^}]*\})?)/gi, '')
       .replace(/```[\s\S]*?```/g, '')
       .replace(/`[^`]+`/g, '')
@@ -180,7 +187,7 @@
     card.style.visibility = 'hidden';
     card.classList.add('visible');
     positionCard(link);
-    card.style.visibility = 'visible';
+    card.style.visibility = '';
     card.setAttribute('aria-hidden', 'false');
   }
 
@@ -191,6 +198,7 @@
       activeLink.removeAttribute('aria-describedby');
       activeLink = null;
     }
+    card.style.visibility = '';
     card.classList.remove('visible');
     card.setAttribute('aria-hidden', 'true');
   }
@@ -224,9 +232,12 @@
 
   document.addEventListener('mouseout', function(e) {
     const link = e.target.closest('a');
-    if (link && link === activeLink) {
+    if (link) {
+      if (e.relatedTarget && link.contains(e.relatedTarget)) return;
       clearTimeout(showTimer);
-      hideTimer = setTimeout(hidePreview, 180);
+      if (link === activeLink) {
+        hideTimer = setTimeout(hidePreview, 180);
+      }
     } else if (card.contains(e.target)) {
       const related = e.relatedTarget;
       if (!card.contains(related) && (!activeLink || !activeLink.contains(related))) {

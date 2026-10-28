@@ -39,6 +39,7 @@ Every review conducted by Elrond must ruthlessly audit the diff across these 13 
   - Verify event delegation uses `e.target.closest('a')` or similar robust matching.
   - Ensure `closest()` does not inadvertently intercept ancestor elements (e.g. expanding an accordion summary `<details>/<summary>` must not trigger link navigation).
   - Verify native browser link navigation is preserved (`preventDefault()` is only used when strictly intended).
+  - **Debounced Hover Cancellation:** When implementing debounced hover interactions (previews, tooltips, flyout menus), verify that `mouseout` unconditionally cancels the pending show timer (`clearTimeout(showTimer)`), even before the target becomes `activeLink`, preventing orphaned ghost popups.
 
 ### Gate 4: Cloudflare Rocket Loader & Unobtrusive JavaScript
 - **The Trap:** Inline event handlers (`onclick="..."`, `onload="..."`, `onchange="..."`) are silently suppressed or intercepted by Cloudflare Rocket Loader.
