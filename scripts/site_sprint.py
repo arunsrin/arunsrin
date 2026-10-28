@@ -273,9 +273,21 @@ def kill_preview_servers(ports: Optional[List[int]] = None):
     print("✓ Preview servers stopped.")
 
 
+def get_repo_root() -> str:
+    """Resolve the main repository root directory even when invoked from inside an isolated worktree."""
+    proc = run_cmd(["git", "rev-parse", "--git-common-dir"])
+    if proc.returncode == 0 and proc.stdout.strip():
+        common_git = os.path.abspath(proc.stdout.strip())
+        return os.path.dirname(common_git)
+    base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    if ".worktrees" in base:
+        base = base.split(".worktrees")[0].rstrip("/\\")
+    return base
+
+
 def cmd_cleanup(feature: Optional[str] = None, task_id: Optional[str] = None, no_merge: bool = False, merge_method: str = "squash"):
     """Execute complete post-review cleanup: merge PR, stop servers, delete worktree, sync master, complete task."""
-    root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    root_dir = get_repo_root()
     os.chdir(root_dir)
     print("=" * 64)
     print("🧹 Autonomous Sprint Cleanup & Teardown")

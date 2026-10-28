@@ -79,11 +79,17 @@ def test_cleanup_tooling():
     site_sprint.kill_preview_servers([59998, 59999])
     print("  ✓ kill_preview_servers executed gracefully without exceptions.")
 
-    # 5. Validate Worktree Discovery Function
-    print("\n5. Validating find_feature_worktrees functionality:")
+    # 5. Validate Worktree Discovery & Repo Root Resolution Functions
+    print("\n5. Validating find_feature_worktrees and get_repo_root functionality:")
     worktrees = site_sprint.find_feature_worktrees()
     assert isinstance(worktrees, list), "find_feature_worktrees must return a list"
     print(f"  ✓ find_feature_worktrees returned {len(worktrees)} active worktrees.")
+
+    repo_root = site_sprint.get_repo_root()
+    assert os.path.exists(repo_root), f"Repo root '{repo_root}' does not exist"
+    assert not repo_root.endswith(".worktrees"), "Repo root must not resolve to .worktrees"
+    assert os.path.exists(os.path.join(repo_root, "home")), "Repo root must contain 'home' directory"
+    print(f"  ✓ get_repo_root correctly resolved main repository root: {repo_root}")
 
     print("\n=== All Cleanup Tooling tests passed successfully! ===")
 
