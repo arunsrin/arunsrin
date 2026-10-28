@@ -9,6 +9,9 @@
   </div>
   
   <div class="nav-controls">
+    <button type="button" id="random-note-btn" class="random-btn" title="Surprise me / Random note (r)" aria-label="Surprise me / Random note (r)">
+      <span class="random-icon">🎲</span>
+    </button>
     <div class="search-container">
       <button type="button" id="site-search" class="search-btn" title="Search notes (/ or Ctrl+K)" aria-label="Search notes (/ or Ctrl+K)">
         <span class="search-icon">🔍</span>
@@ -144,6 +147,83 @@
         console.error('Failed to load search index', err);
       }
     }
+  }
+
+  // Random Note Dice Roll Logic
+  const randomNoteBtn = document.getElementById('random-note-btn');
+  let isRollingRandom = false;
+
+  const UTILITY_EXCLUDED_PATHS = new Set([
+    '/',
+    '/sitemap/',
+    '/now/',
+    '/uses/',
+    '/posts/',
+    '/books/',
+    '/games/',
+    '/tech/',
+    '/other-interests/',
+    '/tags/'
+  ]);
+
+  function isCandidateRandomNote(item) {
+    if (!item || !item.permalink || !item.title) return false;
+    let path = item.permalink.toLowerCase();
+    if (!path.endsWith('/')) path += '/';
+    if (UTILITY_EXCLUDED_PATHS.has(path)) return false;
+    if (path.startsWith('/tags/') || path.startsWith('/posts/page/')) return false;
+    return true;
+  }
+
+  async function triggerRandomNote() {
+    if (isRollingRandom) return;
+    isRollingRandom = true;
+
+    if (randomNoteBtn) {
+      randomNoteBtn.classList.add('rolling');
+    }
+
+    try {
+      if (!searchIndex) {
+        await loadSearchIndex();
+      }
+
+      if (Array.isArray(searchIndex) && searchIndex.length > 0) {
+        let currentPath = window.location.pathname.toLowerCase();
+        if (!currentPath.endsWith('/')) currentPath += '/';
+
+        let candidates = searchIndex.filter(item => {
+          if (!isCandidateRandomNote(item)) return false;
+          let p = item.permalink.toLowerCase();
+          if (!p.endsWith('/')) p += '/';
+          return p !== currentPath;
+        });
+
+        if (candidates.length === 0) {
+          candidates = searchIndex.filter(isCandidateRandomNote);
+        }
+
+        if (candidates.length > 0) {
+          const randomIndex = Math.floor(Math.random() * candidates.length);
+          const target = candidates[randomIndex];
+          setTimeout(() => {
+            window.location.href = target.permalink;
+          }, 280);
+          return;
+        }
+      }
+    } catch (err) {
+      console.error('Failed to navigate to random note', err);
+    }
+
+    setTimeout(() => {
+      if (randomNoteBtn) randomNoteBtn.classList.remove('rolling');
+      isRollingRandom = false;
+    }, 450);
+  }
+
+  if (randomNoteBtn) {
+    randomNoteBtn.addEventListener('click', triggerRandomNote);
   }
 
   function getCategory(permalink) {
@@ -532,6 +612,9 @@
     } else if (e.key === '/' && !e.ctrlKey && !e.metaKey && !e.altKey && !isModalOpen && !['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) {
       e.preventDefault();
       openSearchModal();
+    } else if ((e.key === 'r' || e.key === 'R') && !e.ctrlKey && !e.metaKey && !e.altKey && !isModalOpen && !['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName) && !document.activeElement?.isContentEditable) {
+      e.preventDefault();
+      triggerRandomNote();
     } else if (e.key === 'Escape' && isModalOpen) {
       e.preventDefault();
       closeSearchModal();

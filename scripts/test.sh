@@ -89,4 +89,7 @@ echo "=== 25. Validating Dedicated Print & PDF Export Stylesheet ==="
 echo "=== 26. Validating Outdated Content Freshness Callout Banner ==="
 "$PYTHON_CMD" "$SCRIPT_DIR/test_freshness_banner.py"
 
+echo "=== 27. Validating Surprise Me / Random Note Dice Roll ==="
+"$PYTHON_CMD" "$SCRIPT_DIR/test_random_note.py"
+
 echo "=== All checks passed successfully! ==="
