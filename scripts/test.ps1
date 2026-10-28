@@ -178,6 +178,13 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
 
+Write-Host "`n=== 24. Validating Sprint Cleanup Tooling ===" -ForegroundColor Cyan
+& $pythonCmd "$PSScriptRoot/test_cleanup_tooling.py"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Sprint Cleanup Tooling validation failed!"
+    exit $LASTEXITCODE
+}
+
 Write-Host "`n=== All checks passed successfully! ===" -ForegroundColor Green
 
 exit 0
