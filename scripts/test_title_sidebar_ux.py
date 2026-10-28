@@ -126,8 +126,8 @@ def run_tests():
 
     # 6. Concise Header Controls, Shortcut Listener & Watermark Clearance
     print("6. Auditing concise header controls, shortcut listener, and watermark clearance:")
-    assert re.search(r'placeholder=["\']?\/["\']?', html_content), (
-        "Search input missing concise placeholder='/'"
+    assert re.search(r'id=["\']?site-search["\']?[^>]*class=["\']?[^"\'>]*search-btn', html_content), (
+        "Search button missing class='search-btn'"
     )
     assert 'theme-label' not in html_content, (
         "Theme toggle button still contains legacy 'theme-label' text"
@@ -150,7 +150,7 @@ def run_tests():
     assert re.search(r'\.site-header\s*\{\s*padding:\s*0?\.6rem\s+0?\.75rem', html_content), (
         "Missing mobile-responsive padding on .site-header"
     )
-    print("  ✓ Search input concise placeholder='/', '/' shortcut listener, and emoji theme toggle verified.")
+    print("  ✓ Search button with emoji 🔍, '/' shortcut listener, and emoji theme toggle verified.")
 
     print("\n✓ All title bar and sidebar UX tests passed successfully!")
 

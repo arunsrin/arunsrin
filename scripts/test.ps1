@@ -164,6 +164,13 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
 
+Write-Host "`n=== 22. Validating Symmetrical Search Emoji Header Button ===" -ForegroundColor Cyan
+& $pythonCmd "$PSScriptRoot/test_search_button.py"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Symmetrical Search Emoji Header Button validation failed!"
+    exit $LASTEXITCODE
+}
+
 Write-Host "`n=== All checks passed successfully! ===" -ForegroundColor Green
 
 exit 0
