@@ -171,6 +171,13 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
 
+Write-Host "`n=== 23. Validating Dedicated Print & PDF Export Stylesheet ===" -ForegroundColor Cyan
+& $pythonCmd "$PSScriptRoot/test_print_stylesheet.py"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Dedicated Print & PDF Export Stylesheet validation failed!"
+    exit $LASTEXITCODE
+}
+
 Write-Host "`n=== All checks passed successfully! ===" -ForegroundColor Green
 
 exit 0

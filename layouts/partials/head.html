@@ -920,9 +920,256 @@ footer.site-footer {
   }
 }
 
+/* ==========================================================================
+   Print & PDF Export Stylesheet
+   ========================================================================== */
 @media print {
-  .chess-watermark {
+  @page {
+    margin: 1.5cm;
+    size: auto;
+  }
+
+  /* Force clean white paper and deep contrast black text */
+  *,
+  *::before,
+  *::after {
+    background: transparent !important;
+    color: #111111 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #111111 !important;
+    font-size: 11pt !important;
+    line-height: 1.5 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Hide screen chrome, navigation drawers, search, widgets, and peripheral elements */
+  .site-header,
+  .sidebar-left,
+  .sidebar-right,
+  .mobile-menu-btn,
+  .sidebar-overlay,
+  #sidebar-overlay,
+  .reading-progress-bar,
+  #reading-progress,
+  .chess-watermark,
+  .site-footer,
+  .fortune-card,
+  #quote-container,
+  .back-to-top-btn,
+  #back-to-top-btn,
+  .search-container,
+  #search-modal,
+  .search-dialog,
+  #search-dialog,
+  .theme-toggle-btn,
+  #theme-toggle,
+  .toc-container,
+  .toc-wrapper,
+  .table-of-contents,
+  .related-notes,
+  .copy-code-btn,
+  .external-icon {
     display: none !important;
   }
+
+  /* Expand layout to 100% full width */
+  .layout-container {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .main-content {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+  }
+
+  article,
+  .content {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Headings & Pagination Discipline */
+  h1, h2, h3, h4, h5, h6 {
+    break-after: avoid;
+    page-break-after: avoid;
+    color: #0f172a !important;
+  }
+
+  h1 {
+    font-size: 20pt !important;
+    margin-top: 0 !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  h2 {
+    font-size: 15pt !important;
+    margin-top: 1.5rem !important;
+    margin-bottom: 0.5rem !important;
+    border-bottom: 1px solid #cbd5e1 !important;
+    padding-bottom: 0.3rem !important;
+  }
+
+  h3 {
+    font-size: 13pt !important;
+    margin-top: 1.25rem !important;
+    margin-bottom: 0.4rem !important;
+  }
+
+  /* Breadcrumbs and Metadata */
+  .breadcrumbs {
+    font-size: 9pt !important;
+    margin-bottom: 0.75rem !important;
+    color: #64748b !important;
+    border: none !important;
+    padding: 0 !important;
+  }
+
+  .breadcrumbs a {
+    color: #475569 !important;
+    text-decoration: none !important;
+  }
+
+  .page-meta {
+    font-size: 9.5pt !important;
+    color: #475569 !important;
+    margin-bottom: 1.5rem !important;
+    padding-bottom: 0.5rem !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+  }
+
+  .meta-stats span {
+    color: #475569 !important;
+  }
+
+  .meta-tags .tag-pill {
+    border: 1px solid #cbd5e1 !important;
+    background: transparent !important;
+    color: #334155 !important;
+    font-size: 8.5pt !important;
+    padding: 0.15rem 0.4rem !important;
+  }
+
+  /* Links */
+  a,
+  a:visited {
+    color: #0284c7 !important;
+    text-decoration: underline !important;
+  }
+
+  /* Selective External Link URL Footnoting */
+  a.external-link::after,
+  article .content a[href^="http"]:not([href*="arunsr.in"])::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+    font-weight: normal;
+    color: #64748b !important;
+    word-break: break-all;
+  }
+
+  /* Neutralize link expansion for internal, anchor, tag, and breadcrumb links */
+  a[href^="#"]::after,
+  a[href^="/"]::after,
+  .breadcrumbs a::after,
+  .tag-pill::after,
+  .meta-tags a::after {
+    content: "" !important;
+  }
+
+  /* Atomic Block Pagination & Formatting */
+  pre,
+  code,
+  .content pre,
+  table,
+  .content table,
+  blockquote,
+  .admonition,
+  img,
+  figure,
+  .grid.cards > ul > li {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Code Blocks */
+  pre,
+  .content pre {
+    border: 1px solid #cbd5e1 !important;
+    background-color: #f8fafc !important;
+    color: #0f172a !important;
+    padding: 0.75rem 1rem !important;
+    font-size: 9pt !important;
+    line-height: 1.4 !important;
+    overflow: visible !important;
+    white-space: pre-wrap !important;
+    word-break: break-all !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  code {
+    font-size: 9pt !important;
+    color: #0f172a !important;
+  }
+
+  /* Blockquotes & Admonitions */
+  blockquote,
+  .admonition {
+    border-left: 3.5px solid #0284c7 !important;
+    background: #f8fafc !important;
+    padding: 0.6rem 1rem !important;
+    margin: 1rem 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Tables */
+  table,
+  .content table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    border: 1px solid #cbd5e1 !important;
+    margin: 1rem 0 !important;
+    font-size: 9.5pt !important;
+  }
+
+  th,
+  td,
+  .content th,
+  .content td {
+    border: 1px solid #cbd5e1 !important;
+    padding: 0.5rem 0.75rem !important;
+    color: #111111 !important;
+  }
+
+  th,
+  .content th {
+    background-color: #f1f5f9 !important;
+    font-weight: 600 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Images */
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
 }
+
 </style>

@@ -114,6 +114,13 @@ Every review conducted by Elrond must ruthlessly audit the diff across these 13 
   - Verify any test asserting DOM elements across generated pages filters out alias redirect stubs (`re.search(r'http-equiv=["']?refresh["']?', html, re.IGNORECASE)`).
   - Assert that alias redirect stubs are verified as valid redirects and isolated from layout DOM assertions.
 
+### Gate 14: Print & Fixed-Page Export Invariance
+- **The Trap:** Print stylesheets only hide headers/footers but fail to account for fixed page boundaries. Code blocks with horizontal scrollbars (`overflow-x: auto`) get physically cut off on paper/PDF. Dark mode tokens bleed into print, wasting ink or causing illegible contrast. Unscoped URL footnoting floods paragraphs with relative anchor fragments.
+- **The Audit:**
+  - Verify code blocks (`pre`) declare `white-space: pre-wrap !important; word-break: break-all !important; overflow: visible !important;` alongside `break-inside: avoid;`.
+  - Verify dark-mode variables are neutralized with universal white background and high-contrast dark text.
+  - Verify URL footnoting (`attr(href)`) is strictly scoped to external links, explicitly neutralizing internal/anchor links.
+
 ---
 
 ## 3. Review Verdicts & The Triad Loop
