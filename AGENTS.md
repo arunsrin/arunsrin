@@ -158,4 +158,4 @@ When you trigger the `/site-sprint` command (or ask to run an autonomous sprint)
 4. **🚀 Human Sign-off, Merge & Cleanup:**
    - Author reviews live on :1314 vs :1313 and grants sign-off.
    - If author requests changes during review, the Triad loop iterates (Gimli -> Legolas -> Elrond) while Hugo LiveReload updates :1314 in real time.
-   - Upon explicit author sign-off, Gandalf merges the PR via `gh pr merge`, pulls master in root repo, safely removes the worktree, and completes the Todoist task.
+   - Upon explicit author sign-off, Gandalf executes automated cross-platform sprint cleanup via `./scripts/cleanup.ps1 <feature-name>` (PowerShell) or `./scripts/cleanup.sh <feature-name>` (WSL/Linux), which stops servers, merges the PR, removes the worktree, syncs master, and completes the Todoist task.

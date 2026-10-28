@@ -162,7 +162,7 @@ def cmd_create_pr(task_id: str, title: str, body: str, branch: Optional[str] = N
     if branch:
         cmd.extend(["--head", branch])
     
-    print(f"Creating GitHub Pull Request...")
+    print("Creating GitHub Pull Request...")
     proc = run_cmd(cmd)
     if proc.returncode != 0:
         print(f"Failed to create PR: {proc.stderr.strip()}", file=sys.stderr)
@@ -246,6 +246,133 @@ def cmd_preview(target: Optional[str] = None, port: int = 1314):
         print("\n✓ Preview server stopped.")
 
 
+def kill_preview_servers(ports: Optional[List[int]] = None):
+    """Terminate background Hugo preview servers on specified ports (default: 1313 and 1314) across platforms."""
+    if ports is None:
+        ports = [1313, 1314]
+    print(f"Stopping preview servers on ports {ports}...")
+    if sys.platform == "win32":
+        port_list = ", ".join(str(p) for p in ports)
+        ps_cmd = (
+            f"Get-NetTCPConnection -LocalPort {port_list} -ErrorAction SilentlyContinue | "
+            "Select-Object -ExpandProperty OwningProcess -Unique | "
+            "ForEach-Object { Stop-Process -Id $_ -Force -ErrorAction SilentlyContinue }"
+        )
+        run_cmd(["powershell", "-NoProfile", "-Command", ps_cmd])
+        run_cmd(["taskkill", "/F", "/IM", "hugo.exe"])
+    else:
+        for p in ports:
+            run_cmd(["fuser", "-k", f"{p}/tcp"])
+        run_cmd(["pkill", "-f", "hugo server"])
+    print("✓ Preview servers stopped.")
+
+
+def cmd_cleanup(feature: Optional[str] = None, task_id: Optional[str] = None, no_merge: bool = False, merge_method: str = "squash"):
+    """Execute complete post-review cleanup: merge PR, stop servers, delete worktree, sync master, complete task."""
+    root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    print("=" * 64)
+    print("🧹 Autonomous Sprint Cleanup & Teardown")
+    print("=" * 64)
+
+    # 1. Resolve feature name
+    feature_name = None
+    if feature:
+        feature_name = feature.replace(".worktrees/", "").replace(".worktrees\\", "").strip("/\\")
+    else:
+        active = find_feature_worktrees()
+        if len(active) == 1:
+            feature_name = os.path.basename(active[0])
+            print(f"Auto-detected active feature worktree: '{feature_name}'")
+        elif len(active) > 1:
+            print("Multiple active worktrees detected:")
+            for i, p in enumerate(active, 1):
+                print(f"  {i}. {os.path.basename(p)}")
+            print("Please specify the feature to clean up: cleanup <feature-name>", file=sys.stderr)
+            sys.exit(1)
+        else:
+            proc = run_cmd(["git", "branch", "--show-current"])
+            curr = proc.stdout.strip()
+            if curr and curr != "master":
+                feature_name = curr
+                print(f"No active worktree found, using current branch: '{feature_name}'")
+
+    # 2. Terminate preview servers
+    kill_preview_servers([1313, 1314])
+
+    # 3. Merge PR via GitHub CLI
+    if not no_merge and feature_name:
+        print(f"\n1. Merging Pull Request for branch '{feature_name}'...")
+        view_proc = run_cmd(["gh", "pr", "view", feature_name, "--json", "state,url"])
+        if view_proc.returncode == 0:
+            try:
+                pr_info = json.loads(view_proc.stdout)
+                if pr_info.get("state") == "MERGED":
+                    print(f"✓ PR is already merged: {pr_info.get('url')}")
+                else:
+                    merge_cmd = ["gh", "pr", "merge", feature_name, f"--{merge_method}", "--delete-branch"]
+                    merge_proc = run_cmd(merge_cmd)
+                    if merge_proc.returncode == 0:
+                        print(f"✓ PR successfully merged ({merge_method}) and remote branch deleted.")
+                    else:
+                        print(f"Warning: Failed to merge PR: {merge_proc.stderr.strip()}", file=sys.stderr)
+            except Exception as e:
+                print(f"Warning: Error parsing PR status: {e}", file=sys.stderr)
+        else:
+            print(f"Note: No open PR found for branch '{feature_name}' (or already merged).")
+
+    # 4. Remove worktree and local branch
+    if feature_name:
+        print(f"\n2. Removing worktree for '{feature_name}'...")
+        wt_path = os.path.join(root_dir, ".worktrees", feature_name)
+        if os.path.exists(wt_path):
+            rem_proc = run_cmd(["git", "worktree", "remove", wt_path, "--force"], cwd=root_dir)
+            if rem_proc.returncode == 0:
+                print(f"✓ Removed worktree directory: {wt_path}")
+            else:
+                print(f"Note on worktree removal: {rem_proc.stderr.strip()}")
+        run_cmd(["git", "worktree", "prune"], cwd=root_dir)
+        del_proc = run_cmd(["git", "branch", "-D", feature_name], cwd=root_dir)
+        if del_proc.returncode == 0:
+            print(f"✓ Deleted local branch: {feature_name}")
+        else:
+            print(f"Note: Local branch '{feature_name}' already removed.")
+
+    # 5. Sync root repository master
+    print("\n3. Syncing root repository master...")
+    run_cmd(["git", "checkout", "master"], cwd=root_dir)
+    pull_proc = run_cmd(["git", "pull", "origin", "master"], cwd=root_dir)
+    if pull_proc.returncode == 0:
+        print("✓ Root master is up to date with origin/master.")
+    else:
+        print(f"Warning on git pull: {pull_proc.stderr.strip()}", file=sys.stderr)
+
+    # 6. Complete Todoist task
+    if task_id:
+        print(f"\n4. Completing Todoist task '{task_id}'...")
+        td_proc = run_cmd(["td", "task", "complete", task_id])
+        if td_proc.returncode == 0:
+            print(f"✓ Todoist task '{task_id}' marked complete.")
+        else:
+            print(f"Note: Could not complete Todoist task: {td_proc.stderr.strip()}")
+    elif feature_name:
+        all_tasks = get_pending_tasks()
+        matched_tasks = [
+            t for t in all_tasks
+            if feature_name.lower().replace("-", " ") in t.get("content", "").lower()
+               or feature_name.lower() in t.get("content", "").lower()
+        ]
+        if len(matched_tasks) == 1:
+            tid = matched_tasks[0].get("id")
+            print(f"\n4. Found matching Todoist task ({tid}: {matched_tasks[0].get('content')}). Completing...")
+            td_proc = run_cmd(["td", "task", "complete", tid])
+            if td_proc.returncode == 0:
+                print(f"✓ Todoist task '{tid}' marked complete.")
+
+    print("\n" + "=" * 64)
+    print("✨ Cleanup complete! Working tree is clean and synced on master.")
+    print("=" * 64)
+
+
 def main():
     parser = argparse.ArgumentParser(description="Multi-Agent Sprint & Backlog Tooling")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -267,6 +394,12 @@ def main():
     pr_parser.add_argument("--branch", default=None, help="Branch name (default: current)")
     pr_parser.add_argument("--base", default="master", help="Base branch (default: master)")
 
+    cleanup_parser = subparsers.add_parser("cleanup", help="Automated sprint teardown: merge PR, stop servers, remove worktree, sync master")
+    cleanup_parser.add_argument("feature", nargs="?", default=None, help="Feature name or branch (default: auto-detect)")
+    cleanup_parser.add_argument("--task-id", default=None, help="Todoist task ID to complete")
+    cleanup_parser.add_argument("--no-merge", action="store_true", help="Skip merging the pull request")
+    cleanup_parser.add_argument("--merge-method", choices=["squash", "merge", "rebase"], default="squash", help="PR merge method (default: squash)")
+
     args = parser.parse_args()
 
     if args.command == "status":
@@ -279,6 +412,8 @@ def main():
         cmd_preview(args.feature, args.port)
     elif args.command == "create-pr":
         cmd_create_pr(args.task_id, args.title, args.body, args.branch, args.base)
+    elif args.command == "cleanup":
+        cmd_cleanup(args.feature, args.task_id, args.no_merge, args.merge_method)
 
 
 if __name__ == "__main__":
