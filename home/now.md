@@ -6,18 +6,12 @@ title: "Now"
 
 ## What I'm doing
 
-- Reading a book on Chess (Jennifer Shahade's *Thinking Sideways*)
-- Experimenting with cozy games, for a change (*Rune Factory:
-  Guardians of Azuma*)
+- Reading George Elliot's *Middlemarch*
 - Enjoying my current workflow with antigravity in building new
   features in this site
+- Experimenting with cozy games, for a change (*Rune Factory:
+  Guardians of Azuma*)
 
-
-## What I'm NOT doing
-
-I'm not tracking my read books in Goodreads any more. Things are quite
-peaceful when I'm not mentally thinking of some target number of books
-to read.
 
 ## What's on my mind
 
