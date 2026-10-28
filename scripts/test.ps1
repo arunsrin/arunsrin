@@ -164,28 +164,40 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
 
-Write-Host "`n=== 22. Validating Symmetrical Search Emoji Header Button ===" -ForegroundColor Cyan
+Write-Host "
+=== 22. Validating Symmetrical Search Emoji Header Button ===" -ForegroundColor Cyan
 & $pythonCmd "$PSScriptRoot/test_search_button.py"
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Symmetrical Search Emoji Header Button validation failed!"
     exit $LASTEXITCODE
 }
 
-Write-Host "`n=== 23. Validating Internal Link Hover Previews ===" -ForegroundColor Cyan
+Write-Host "
+=== 23. Validating Internal Link Hover Previews ===" -ForegroundColor Cyan
 & $pythonCmd "$PSScriptRoot/test_hover_previews.py"
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Internal Link Hover Previews validation failed!"
     exit $LASTEXITCODE
 }
 
-Write-Host "`n=== 24. Validating Sprint Cleanup Tooling ===" -ForegroundColor Cyan
+Write-Host "
+=== 24. Validating Sprint Cleanup Tooling ===" -ForegroundColor Cyan
 & $pythonCmd "$PSScriptRoot/test_cleanup_tooling.py"
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Sprint Cleanup Tooling validation failed!"
     exit $LASTEXITCODE
 }
 
-Write-Host "`n=== All checks passed successfully! ===" -ForegroundColor Green
-
+Write-Host "
+=== 25. Validating Dedicated Print & PDF Export Stylesheet ===" -ForegroundColor Cyan
+& $pythonCmd "$PSScriptRoot/test_print_stylesheet.py"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Dedicated Print & PDF Export Stylesheet validation failed!"
+    exit $LASTEXITCODE
+}
+
+Write-Host "
+=== All checks passed successfully! ===" -ForegroundColor Green
+
 exit 0
 
