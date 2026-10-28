@@ -197,6 +197,14 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Write-Host "
+=== 26. Validating Surprise Me / Random Note Dice Roll ===" -ForegroundColor Cyan
+& $pythonCmd "$PSScriptRoot/test_random_note.py"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Surprise Me / Random Note Dice Roll validation failed!"
+    exit $LASTEXITCODE
+}
+
+Write-Host "
 === All checks passed successfully! ===" -ForegroundColor Green
 
 exit 0
