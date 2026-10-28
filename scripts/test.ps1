@@ -197,6 +197,14 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Write-Host "
+=== 26. Validating Outdated Content Freshness Callout Banner ===" -ForegroundColor Cyan
+& $pythonCmd "$PSScriptRoot/test_freshness_banner.py"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Outdated Content Freshness Callout Banner validation failed!"
+    exit $LASTEXITCODE
+}
+
+Write-Host "
 === All checks passed successfully! ===" -ForegroundColor Green
 
 exit 0
