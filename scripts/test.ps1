@@ -171,6 +171,13 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
 
+Write-Host "`n=== 23. Validating Internal Link Hover Previews ===" -ForegroundColor Cyan
+& $pythonCmd "$PSScriptRoot/test_hover_previews.py"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Internal Link Hover Previews validation failed!"
+    exit $LASTEXITCODE
+}
+
 Write-Host "`n=== All checks passed successfully! ===" -ForegroundColor Green
 
 exit 0

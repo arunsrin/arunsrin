@@ -1174,3 +1174,107 @@ mark.search-highlight {
 
 
 
+
+
+/* ==========================================================================
+   Internal Link Hover Preview Card (Gwern / Wikipedia Style)
+   ========================================================================== */
+.link-preview-card {
+  position: absolute;
+  z-index: 1250;
+  max-width: 340px;
+  min-width: 260px;
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-top: 3px solid var(--link-color);
+  border-radius: 0.65rem;
+  padding: 0.85rem 1rem;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+  pointer-events: none;
+  font-family: var(--font-family-sans);
+  text-align: left;
+}
+
+.link-preview-card.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.link-preview-card .preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.45rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.link-preview-card .preview-cat-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-weight: 600;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  padding: 0.15rem 0.45rem;
+  border-radius: 0.35rem;
+}
+
+.link-preview-card .preview-read-time {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.link-preview-card .preview-title {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--link-color);
+  text-decoration: none;
+  line-height: 1.35;
+  margin-bottom: 0.4rem;
+}
+
+.link-preview-card .preview-title:hover {
+  text-decoration: underline;
+}
+
+.link-preview-card .preview-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-bottom: 0.45rem;
+}
+
+.link-preview-card .preview-tag-pill {
+  font-size: 0.72rem;
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  padding: 0.1rem 0.45rem;
+}
+
+.link-preview-card .preview-excerpt {
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--text-muted);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media (hover: none) {
+  .link-preview-card {
+    display: none !important;
+  }
+}

@@ -1,0 +1,251 @@
+<div id="link-preview-card" class="link-preview-card" role="tooltip" aria-hidden="true"></div>
+
+<script>
+(function() {
+  if (window.matchMedia && window.matchMedia('(hover: none)').matches) return;
+
+  let indexCache = null;
+  let isFetching = false;
+  let fetchCallbacks = [];
+  let showTimer = null;
+  let hideTimer = null;
+  let activeLink = null;
+  const card = document.getElementById('link-preview-card');
+  if (!card) return;
+
+  function normalizePath(p) {
+    if (!p) return '';
+    try {
+      const u = new URL(p, window.location.origin);
+      let path = u.pathname.toLowerCase();
+      if (path.length > 1 && path.endsWith('/')) {
+        path = path.slice(0, -1);
+      }
+      return path;
+    } catch (e) {
+      let s = String(p).toLowerCase().split('#')[0].split('?')[0];
+      return s.length > 1 && s.endsWith('/') ? s.slice(0, -1) : s;
+    }
+  }
+
+  function loadIndex(cb) {
+    if (indexCache) {
+      if (cb) cb(indexCache);
+      return;
+    }
+    if (cb) fetchCallbacks.push(cb);
+    if (isFetching) return;
+    isFetching = true;
+
+    fetch('/index.json')
+      .then(res => {
+        if (!res.ok) throw new Error('Failed to fetch search index');
+        return res.json();
+      })
+      .then(data => {
+        const map = new Map();
+        if (Array.isArray(data)) {
+          for (const item of data) {
+            if (item && item.permalink) {
+              const norm = normalizePath(item.permalink);
+              map.set(norm, item);
+            }
+          }
+        }
+        indexCache = map;
+        isFetching = false;
+        const cbs = fetchCallbacks;
+        fetchCallbacks = [];
+        for (const fn of cbs) {
+          try { fn(indexCache); } catch (e) {}
+        }
+      })
+      .catch(err => {
+        console.error('Hover preview index error:', err);
+        isFetching = false;
+        fetchCallbacks = [];
+      });
+  }
+
+  function getCategory(permalink) {
+    const p = (permalink || '').toLowerCase();
+    if (p.startsWith('/tech/')) return { label: 'Tech', icon: '💻' };
+    if (p.startsWith('/books/')) return { label: 'Books', icon: '📚' };
+    if (p.startsWith('/games/')) return { label: 'Games', icon: '🎮' };
+    if (p.startsWith('/other-interests/')) return { label: 'Research', icon: '🔬' };
+    if (p.startsWith('/posts/')) return { label: 'Posts', icon: '📝' };
+    if (p.startsWith('/tags/')) return { label: 'Tag', icon: '🏷️' };
+    if (p === '/' || p === '') return { label: 'Home', icon: '🏠' };
+    return { label: 'Note', icon: '📄' };
+  }
+
+  function cleanExcerpt(content, maxLen) {
+    if (!content) return '';
+    const len = maxLen || 180;
+    let text = content
+      .replace(/(:[a-z0-9_-]+:(\s*\{[^}]*\})?)/gi, '')
+      .replace(/```[\s\S]*?```/g, '')
+      .replace(/`[^`]+`/g, '')
+      .replace(/#{1,6}\s+/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+    if (text.length > len) {
+      text = text.slice(0, len).trim() + '…';
+    }
+    return text;
+  }
+
+  function escapeHtml(str) {
+    return String(str || '').replace(/[&<>"']/g, c => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    }[c]));
+  }
+
+  function isEligibleLink(link) {
+    if (!link || link.tagName !== 'A') return false;
+    // Must be inside article or .content
+    if (!link.closest('.content') && !link.closest('article')) return false;
+    // Exclude navigation, breadcrumbs, page-meta, related-notes, tags
+    if (link.closest('.breadcrumbs') || link.closest('.page-meta') || link.closest('.related-notes') || link.classList.contains('tag-pill')) return false;
+    // Exclude external links
+    if (link.classList.contains('external-link') || link.getAttribute('target') === '_blank') return false;
+    const href = link.getAttribute('href');
+    if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('javascript:')) return false;
+    // Exclude static assets
+    if (/\.(pdf|png|jpe?g|gif|svg|webp|zip|tar|gz|mp4|webm|ico|xml|json)$/i.test(href)) return false;
+    // Exclude if pointing to same page
+    const normTarget = normalizePath(href);
+    const normCurrent = normalizePath(window.location.pathname);
+    if (normTarget === normCurrent) return false;
+    return true;
+  }
+
+  function positionCard(link) {
+    const linkRect = link.getBoundingClientRect();
+    const cardRect = card.getBoundingClientRect();
+    const scrollX = window.scrollX || window.pageXOffset;
+    const scrollY = window.scrollY || window.pageYOffset;
+    const padding = 12;
+
+    // Default position: below link
+    let top = linkRect.bottom + scrollY + 8;
+    // Flip above if overflowing viewport bottom and space available above
+    if (linkRect.bottom + cardRect.height + padding > window.innerHeight && linkRect.top > cardRect.height + padding) {
+      top = linkRect.top + scrollY - cardRect.height - 8;
+    }
+
+    // Align with left of link, clamp to viewport width
+    let left = linkRect.left + scrollX;
+    const viewportWidth = document.documentElement.clientWidth || window.innerWidth;
+    if (left + cardRect.width + padding > viewportWidth + scrollX) {
+      left = viewportWidth + scrollX - cardRect.width - padding;
+    }
+    if (left < scrollX + padding) {
+      left = scrollX + padding;
+    }
+
+    card.style.top = top + 'px';
+    card.style.left = left + 'px';
+  }
+
+  function showPreview(link, item) {
+    if (!link || !item) return;
+    activeLink = link;
+    link.setAttribute('aria-describedby', 'link-preview-card');
+
+    const cat = getCategory(item.permalink);
+    const readingTime = item.readingTime || 1;
+    const excerpt = cleanExcerpt(item.content, 180);
+
+    let tagsHtml = '';
+    if (Array.isArray(item.tags) && item.tags.length > 0) {
+      const topTags = item.tags.slice(0, 3);
+      tagsHtml = '<div class="preview-tags">' + topTags.map(t => '<span class="preview-tag-pill">🏷️ ' + escapeHtml(t) + '</span>').join('') + '</div>';
+    }
+
+    card.innerHTML = `
+      <div class="preview-header">
+        <span class="preview-cat-badge">${cat.icon} ${escapeHtml(cat.label)}</span>
+        <span class="preview-read-time">⏱️ ${readingTime} min read</span>
+      </div>
+      <a class="preview-title" href="${escapeHtml(item.permalink)}">${escapeHtml(item.title)}</a>
+      ${tagsHtml}
+      ${excerpt ? `<p class="preview-excerpt">${escapeHtml(excerpt)}</p>` : ''}
+    `;
+
+    card.style.visibility = 'hidden';
+    card.classList.add('visible');
+    positionCard(link);
+    card.style.visibility = 'visible';
+    card.setAttribute('aria-hidden', 'false');
+  }
+
+  function hidePreview() {
+    clearTimeout(showTimer);
+    clearTimeout(hideTimer);
+    if (activeLink) {
+      activeLink.removeAttribute('aria-describedby');
+      activeLink = null;
+    }
+    card.classList.remove('visible');
+    card.setAttribute('aria-hidden', 'true');
+  }
+
+  // Pre-load on idle
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(() => loadIndex());
+  }
+
+  // Event Delegation for Links
+  document.addEventListener('mouseover', function(e) {
+    const link = e.target.closest('a');
+    if (link && isEligibleLink(link)) {
+      clearTimeout(hideTimer);
+      if (activeLink === link && card.classList.contains('visible')) return;
+
+      clearTimeout(showTimer);
+      showTimer = setTimeout(() => {
+        loadIndex(index => {
+          const norm = normalizePath(link.getAttribute('href'));
+          const item = index.get(norm);
+          if (item) {
+            showPreview(link, item);
+          }
+        });
+      }, 250);
+    } else if (card.contains(e.target)) {
+      clearTimeout(hideTimer);
+    }
+  });
+
+  document.addEventListener('mouseout', function(e) {
+    const link = e.target.closest('a');
+    if (link && link === activeLink) {
+      clearTimeout(showTimer);
+      hideTimer = setTimeout(hidePreview, 180);
+    } else if (card.contains(e.target)) {
+      const related = e.relatedTarget;
+      if (!card.contains(related) && (!activeLink || !activeLink.contains(related))) {
+        hideTimer = setTimeout(hidePreview, 180);
+      }
+    }
+  });
+
+  // Close on Escape, click outside, or window scroll
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') hidePreview();
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!card.contains(e.target)) hidePreview();
+  });
+
+  window.addEventListener('scroll', function() {
+    if (card.classList.contains('visible')) hidePreview();
+  }, { passive: true });
+})();
+</script>
