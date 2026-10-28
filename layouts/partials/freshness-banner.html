@@ -1,0 +1,23 @@
+{{/* Content freshness advisory banner for technical notes */}}
+{{ if and (eq .Section "tech") .IsPage }}
+  {{ if not (eq .Params.freshness_warning false) }}
+    {{ $lastmod := .Lastmod }}
+    {{ if $lastmod.IsZero }}
+      {{ $lastmod = .Date }}
+    {{ end }}
+    {{ if not $lastmod.IsZero }}
+      {{ $ageSeconds := sub now.Unix $lastmod.Unix }}
+      {{/* 730 days * 86400 seconds/day = 63072000 seconds (2 years) */}}
+      {{ if gt $ageSeconds 63072000 }}
+        {{ $days := div $ageSeconds 86400 }}
+        {{ $years := div $days 365 }}
+        <aside class="freshness-banner" role="note" aria-label="Content freshness advisory">
+          <span class="freshness-banner-icon" aria-hidden="true">⏳</span>
+          <div class="freshness-banner-body">
+            <strong>Advisory:</strong> This technical reference was last updated over {{ $years }} years ago ({{ $lastmod.Format "Jan 2006" }}). Some CLI flags, APIs, or commands may have changed.
+          </div>
+        </aside>
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}

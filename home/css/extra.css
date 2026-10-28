@@ -1278,3 +1278,41 @@ mark.search-highlight {
     display: none !important;
   }
 }
+
+
+/* Content Freshness Advisory Banner */
+.freshness-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin: 1.25rem 0 1.5rem 0;
+  padding: 0.85rem 1rem;
+  border-radius: 0.5rem;
+  background-color: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-left: 4px solid #0284c7;
+  color: var(--text-color);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+[data-theme="dark"] .freshness-banner {
+  background-color: rgba(245, 158, 11, 0.12);
+  border-color: rgba(245, 158, 11, 0.35);
+  border-left-color: #38bdf8;
+}
+
+.freshness-banner-icon {
+  font-size: 1.2rem;
+  line-height: 1.2;
+  flex-shrink: 0;
+}
+
+.freshness-banner-body {
+  flex: 1;
+}
+
+.freshness-banner-body strong {
+  color: inherit;
+  font-weight: 600;
+}

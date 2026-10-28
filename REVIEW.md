@@ -123,6 +123,13 @@ Every review conducted by Elrond must ruthlessly audit the diff across these 13 
   - Verify dark-mode variables are neutralized with universal white background and high-contrast dark text.
   - Verify URL footnoting (`attr(href)`) is strictly scoped to external links, explicitly neutralizing internal/anchor links.
 
+### Gate 14: Isolated Synthetic Test Builds & Output Immutability
+- **The Trap:** Automated tests that generate synthetic files or test edge cases execute ad-hoc `hugo` builds directly into `public/` without minification or clean isolation. When tests execute alphabetically in CI (e.g. `scripts/test_*.py`), an earlier test's unminified build overwrites `public/`, breaking later tests (like `test_posts.py`) that expect pristine, minified production HTML.
+- **The Audit:**
+  - Verify test suites with synthetic notes build strictly into an isolated temporary directory (`hugo --destination <temp_dir>`).
+  - Verify temporary build artifacts are cleaned up in a `finally` block.
+  - Verify `public/` is never modified or polluted during automated test execution.
+
 ---
 
 ## 3. Review Verdicts & The Triad Loop

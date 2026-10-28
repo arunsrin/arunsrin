@@ -6,7 +6,8 @@ publishDir = 'public'
 enableGitInfo = true
 
 [frontmatter]
-  lastmod = [":git", "lastmod", "date", "publishDate"]
+  date = ["date", "publishDate", "lastmod", ":git"]
+  lastmod = ["lastmod", "date", ":git", "publishDate"]
 
 
 [outputs]
