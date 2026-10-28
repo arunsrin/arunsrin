@@ -114,6 +114,9 @@ cd .worktrees/<feature-name> && hugo server --bind 0.0.0.0 --port 1314 -b http:/
 26. **Print Stylesheet & Fixed-Page Export Discipline:** When authoring @media print rules: (a) always pair reak-inside: avoid; with white-space: pre-wrap !important; word-break: break-all !important; overflow: visible !important; on code blocks (pre) to prevent horizontal code truncation where scrollbars cannot exist; (b) neutralize dark-mode tokens via universal ackground: transparent !important; color: #111111 !important; on * and ody to guarantee high contrast on paper regardless of active screen theme; and (c) scope link footnoting (ttr(href)) strictly to external links (.external-link), while explicitly suppressing internal links ([href^="/"], [href^="#"], breadcrumbs, tag pills) to avoid paragraph clutter.
 
 
+27. **Isolated Synthetic Test Builds & Output Immutability:** Automated test scripts that dynamically generate synthetic notes or execute ad-hoc builds during test runs (e.g. testing frontmatter opt-outs) must NEVER rebuild directly into the repository's main `public/` directory or run unminified `hugo` builds that corrupt generated assets for subsequent tests. Synthetic builds must strictly specify an isolated temporary output directory (`hugo --destination <temp_dir>`) and cleanly remove it in a `finally` block, leaving `public/` completely intact and pristine for all test suites regardless of test execution order.
+
+
 ## 5. Backlog Management (Todoist Integration)
 The backlog of website features, improvements, and maintenance tasks is tracked in Todoist under the project **`Site updates 🌐`** (ID: `6hWVfCmh7qC5P3HW`) using the `td` CLI (`@doist/todoist-cli`, setup per [Todoist AI guide](https://www.todoist.com/help/todoist/todoist-and-ai/use-todoist-in-gemini-spark-dEb9IBNVY#h_01M1B8SXGM1ZKPKS66P8SK1EMN)).
 

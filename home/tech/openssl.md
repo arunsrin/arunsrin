@@ -1,5 +1,6 @@
 ---
 title: "OpenSSL"
+lastmod: 2024-01-15
 icon: ":material-lock:{ .anim-bounce }"
 tags:
   - security

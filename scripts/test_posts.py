@@ -179,17 +179,22 @@ def run_tests():
     # 4. Controlled Sidebar Navigation (Posts & Latest)
     print("\n4. Auditing Controlled Sidebar Navigation:")
     # Posts details wrapper on archive page: Posts is active, Latest points to latest_href (inactive)
-    assert re.search(r'<details\s+class=["\']?nav-section-details["\']?\s+open>.*?<summary[^>]*>.*?href=["\']?/posts/["\']?\s+class=["\']?active["\']?>Posts</a>', archive_html, re.DOTALL), "Sidebar on /posts/ should have Posts highlighted as active"
-    assert re.search(rf'<li><a\s+href=["\']?{re.escape(latest_href)}["\']?>Latest</a></li>', archive_html), f"Sidebar on /posts/ should have inactive Latest link pointing to {latest_href}"
+    assert re.search(r'<details\s+class=["\']?nav-section-details["\']?\s+open>.*?<summary[^>]*>.*?<a\s+[^>]*?href=["\']?/posts/["\']?[^>]*?class=["\']?active["\']?[^>]*?>Posts</a>', archive_html, re.DOTALL) or re.search(r'<details\s+class=["\']?nav-section-details["\']?\s+open>.*?<summary[^>]*>.*?<a\s+[^>]*?class=["\']?active["\']?[^>]*?href=["\']?/posts/["\']?[^>]*?>Posts</a>', archive_html, re.DOTALL), "Sidebar on /posts/ should have Posts highlighted as active"
+    archive_latest_match = re.search(rf'<li><a\s+[^>]*?href=["\']?{re.escape(latest_href)}["\']?[^>]*?>Latest</a></li>', archive_html)
+    assert archive_latest_match, f"Sidebar on /posts/ should have Latest link pointing to {latest_href}"
+    assert 'class="active"' not in archive_latest_match.group(0) and 'class=active' not in archive_latest_match.group(0), f"Sidebar on /posts/ should have inactive Latest link pointing to {latest_href}"
 
     # Posts details wrapper on latest post page: Posts is inactive, Latest link is active
-    assert re.search(r'<details\s+class=["\']?nav-section-details["\']?\s+open>.*?<summary[^>]*>.*?href=["\']?/posts/["\']?>Posts</a>', latest_html, re.DOTALL), f"Sidebar on latest post ({latest_href}) should have open Posts section without active class on Posts summary"
-    assert re.search(rf'<li><a\s+href=["\']?{re.escape(latest_href)}["\']?\s+class=["\']?active["\']?>Latest</a></li>', latest_html), f"Sidebar on latest post ({latest_href}) should have Latest highlighted as active"
+    summary_posts_match = re.search(r'<details\s+class=["\']?nav-section-details["\']?\s+open>.*?<summary[^>]*>.*?(<a\s+[^>]*?href=["\']?/posts/["\']?[^>]*?>Posts</a>)', latest_html, re.DOTALL)
+    assert summary_posts_match and 'class="active"' not in summary_posts_match.group(1) and 'class=active' not in summary_posts_match.group(1), f"Sidebar on latest post ({latest_href}) should not have active class on Posts summary"
+    assert re.search(rf'<li><a\s+[^>]*?href=["\']?{re.escape(latest_href)}["\']?[^>]*?class=["\']?active["\']?[^>]*?>Latest</a></li>', latest_html) or re.search(rf'<li><a\s+[^>]*?class=["\']?active["\']?[^>]*?href=["\']?{re.escape(latest_href)}["\']?[^>]*?>Latest</a></li>', latest_html), f"Sidebar on latest post ({latest_href}) should have Latest highlighted as active"
 
     # Posts details wrapper on older post page (e.g. hello-posts when it is not the latest post)
     if latest_href != "/posts/hello-posts/":
-        assert re.search(r'<details\s+class=["\']?nav-section-details["\']?\s+open>.*?<summary[^>]*>.*?href=["\']?/posts/["\']?\s+class=["\']?active["\']?>Posts</a>', hello_html, re.DOTALL), "Sidebar on older post should have open Posts section with active class on Posts summary"
-        assert re.search(rf'<li><a\s+href=["\']?{re.escape(latest_href)}["\']?>Latest</a></li>', hello_html), f"Sidebar on older post should have inactive Latest link pointing to {latest_href}"
+        assert re.search(r'<details\s+class=["\']?nav-section-details["\']?\s+open>.*?<summary[^>]*>.*?<a\s+[^>]*?href=["\']?/posts/["\']?[^>]*?class=["\']?active["\']?[^>]*?>Posts</a>', hello_html, re.DOTALL) or re.search(r'<details\s+class=["\']?nav-section-details["\']?\s+open>.*?<summary[^>]*>.*?<a\s+[^>]*?class=["\']?active["\']?[^>]*?href=["\']?/posts/["\']?[^>]*?>Posts</a>', hello_html, re.DOTALL), "Sidebar on older post should have open Posts section with active class on Posts summary"
+        older_latest_match = re.search(rf'<li><a\s+[^>]*?href=["\']?{re.escape(latest_href)}["\']?[^>]*?>Latest</a></li>', hello_html)
+        assert older_latest_match, f"Sidebar on older post should have Latest link pointing to {latest_href}"
+        assert 'class="active"' not in older_latest_match.group(0) and 'class=active' not in older_latest_match.group(0), f"Sidebar on older post should have inactive Latest link pointing to {latest_href}"
 
     # Negative checks: No emojis, no duplicate 'Archive' or 'All Posts', no year breakdown in sidebar
     assert "✨ Latest" not in archive_html, "Sidebar should not contain emoji '✨ Latest'"

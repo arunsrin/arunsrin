@@ -197,7 +197,16 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Write-Host "
-=== 26. Validating Surprise Me / Random Note Dice Roll ===" -ForegroundColor Cyan
+Write-Host "
+=== 26. Validating Outdated Content Freshness Callout Banner ===" -ForegroundColor Cyan
+& $pythonCmd "$PSScriptRoot/test_freshness_banner.py"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Outdated Content Freshness Callout Banner validation failed!"
+    exit $LASTEXITCODE
+}
+
+Write-Host "
+=== 27. Validating Surprise Me / Random Note Dice Roll ===" -ForegroundColor Cyan
 & $pythonCmd "$PSScriptRoot/test_random_note.py"
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Surprise Me / Random Note Dice Roll validation failed!"
