@@ -197,7 +197,6 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Write-Host "
-Write-Host "
 === 26. Validating Outdated Content Freshness Callout Banner ===" -ForegroundColor Cyan
 & $pythonCmd "$PSScriptRoot/test_freshness_banner.py"
 if ($LASTEXITCODE -ne 0) {
@@ -210,6 +209,14 @@ Write-Host "
 & $pythonCmd "$PSScriptRoot/test_random_note.py"
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Surprise Me / Random Note Dice Roll validation failed!"
+    exit $LASTEXITCODE
+}
+
+Write-Host "
+=== 28. Validating Dark Mode Code Blocks with Dracula Theme ===" -ForegroundColor Cyan
+& $pythonCmd "$PSScriptRoot/test_code_blocks.py"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Dark Mode Code Blocks validation failed!"
     exit $LASTEXITCODE
 }
 

@@ -50,6 +50,7 @@ enableGitInfo = true
     codeFences = true
     guessSyntax = true
     lineNos = false
+    noClasses = false
     style = "github"
 
 [[module.mounts]]
