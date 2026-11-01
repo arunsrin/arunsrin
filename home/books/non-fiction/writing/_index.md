@@ -11,7 +11,12 @@ into the mechanics of language.
 
 ### Reading Like a Writer, by Francine Prose
 
-By an author appropriately named 'Prose', this book covers words, sentences, dialogue, and a lot lot more. I love the tons of examples selected from great books, and the deeper analysis before and after each extract. I don't know if I will ever write anything significant, ever, but this book taught me to also be a more careful and appreciative reader.
+By an author appropriately named 'Prose', this book covers words,
+sentences, dialogue, and a lot lot more. I love the tons of examples
+selected from great books, and the deeper analysis before and after
+each extract. I don't know if I will ever write anything significant,
+ever, but this book taught me to also be a more careful and
+appreciative reader.
 
 ### How to Read Literature Like a Professor, by Thomas Foster (2025)
 A fantastic analysis of literature that helps a reader go beneath the
