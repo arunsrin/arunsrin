@@ -221,6 +221,14 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Write-Host "
+=== 29. Validating Prominent Link to tools.arunsr.in ===" -ForegroundColor Cyan
+& $pythonCmd "$PSScriptRoot/test_tools_link.py"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Prominent Link to tools.arunsr.in validation failed!"
+    exit $LASTEXITCODE
+}
+
+Write-Host "
 === All checks passed successfully! ===" -ForegroundColor Green
 
 exit 0
