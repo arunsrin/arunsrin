@@ -95,4 +95,7 @@ echo "=== 27. Validating Surprise Me / Random Note Dice Roll ==="
 echo "=== 28. Validating Dark Mode Code Blocks with Dracula Theme ==="
 "$PYTHON_CMD" "$SCRIPT_DIR/test_code_blocks.py"
 
+echo "=== 29. Validating Prominent Link to tools.arunsr.in ==="
+"$PYTHON_CMD" "$SCRIPT_DIR/test_tools_link.py"
+
 echo "=== All checks passed successfully! ==="
