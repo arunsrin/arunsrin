@@ -20,12 +20,13 @@ Visual identity:
 Inside `.nav-controls` of `layouts/partials/header.html`:
 ```html
 <a href="https://tools.arunsr.in" id="header-tools-btn" class="tools-btn" title="Tools (tools.arunsr.in)" aria-label="Tools (tools.arunsr.in)" target="_blank" rel="noopener noreferrer">
-  <span class="tools-icon">🧰</span>
+  <span class="tools-icon">🧰</span><span class="tools-external-icon" aria-hidden="true">↗</span>
 </a>
 ```
 
 - Positioned in `.nav-controls` alongside `#random-note-btn`, `.search-container`, and `#theme-toggle`.
 - Rendered as a semantic `<a>` link with secure external navigation attributes (`target="_blank"` and `rel="noopener noreferrer"`).
+- Displays `🧰` with a clear diagonal arrow indicator `↗` (`.tools-external-icon`) differentiating it as an external destination from the internal site controls.
 - Accessible `aria-label` and `title` describing the destination.
 
 ### 2.2 Symmetrical Button Styling (`layouts/partials/head.html`)
@@ -90,7 +91,7 @@ Under the `<div class="nav-section-title">Site</div>` navigation list in `layout
 1. **Header Top-Right Link:**
    - `#header-tools-btn` with class `tools-btn` is rendered inside `.nav-controls`.
    - Links to `https://tools.arunsr.in` with `target="_blank"` and `rel="noopener noreferrer"`.
-   - Displays `🧰` emoji with `aria-label="Tools (tools.arunsr.in)"` and `title="Tools (tools.arunsr.in)"`.
+   - Displays `🧰` emoji alongside the diagonal arrow indicator `↗` (`<span class="tools-external-icon" aria-hidden="true">↗</span>`), with `aria-label="Tools (tools.arunsr.in)"` and `title="Tools (tools.arunsr.in)"`.
    - Inherits symmetrical glassmorphic button styling across light and dark themes.
 
 2. **Sidebar Navigation Link:**

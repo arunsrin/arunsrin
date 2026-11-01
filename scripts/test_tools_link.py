@@ -71,14 +71,20 @@ def run_tests():
     print("  ✓ <a id='header-tools-btn' class='tools-btn' href='https://tools.arunsr.in' target='_blank' rel='noopener noreferrer'> verified.")
 
     # 2. Header Content & Icon
-    print("\n2. Validating Header Tools Icon (🧰):")
+    print("\n2. Validating Header Tools Icon (🧰) and External Indicator (↗):")
     icon_match = re.search(
         r'<span[^>]*\bclass=["\']?[^"\'>]*\btools-icon\b[^"\'>]*["\']?[^>]*>🧰</span>',
         html,
         re.IGNORECASE
     )
     assert icon_match, "❌ FAILED: Missing <span class='tools-icon'>🧰</span> inside header!"
-    print("  ✓ Header tools icon <span class='tools-icon'>🧰</span> verified.")
+    ext_icon_match = re.search(
+        r'<span[^>]*\bclass=["\']?[^"\'>]*\btools-external-icon\b[^"\'>]*["\']?[^>]*>↗</span>',
+        html,
+        re.IGNORECASE
+    )
+    assert ext_icon_match, "❌ FAILED: Missing <span class='tools-external-icon'>↗</span> inside header!"
+    print("  ✓ Header tools icon <span class='tools-icon'>🧰</span> and external indicator ↗ verified.")
 
     # 3. Sidebar Structural Presence & Content
     print("\n3. Validating Sidebar Navigation Tools Link:")
@@ -123,6 +129,9 @@ def run_tests():
     )
     assert re.search(r'\.tools-icon\b', html), (
         "❌ FAILED: Missing .tools-icon CSS rule in generated HTML head!"
+    )
+    assert re.search(r'\.tools-external-icon\b', html), (
+        "❌ FAILED: Missing .tools-external-icon CSS rule in generated HTML head!"
     )
     assert re.search(r'\.nav-tree\s+a\.external-link\b', html), (
         "❌ FAILED: Missing .nav-tree a.external-link CSS rule in generated HTML head!"
