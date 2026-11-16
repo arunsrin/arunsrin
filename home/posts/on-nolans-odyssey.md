@@ -63,6 +63,9 @@ Brother, Where Art Thou?* for a better interpretation of the Odyssey,
 or Dan Simmons' masterful sci-fi rewrite of the Greek mythologies
 in *Ilium*), but this one just left me a bit tired.
 
+If this one-trick pony continues to run, this is how it will all 
+end:
+
 ---
 
 NOLAN
