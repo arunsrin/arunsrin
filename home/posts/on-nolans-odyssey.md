@@ -28,10 +28,12 @@ soldier's PTSD from killing too many people?
 Why else would he impose his own shallow morality and world-view on a
 story told a few thousand years back, when *any* student of history
 will tell you that the first lesson of reading historical fiction is
-to avoid [presentism](https://en.wikipedia.org/wiki/Presentism_(historical_analysis)). Note for example how the movie's Odysseus simply cannot
-be shown to even partially enjoy his captivity under Calypso. Oh no,
-Calypso has to be spiking his food and causing amnesia, because our
-white monogamous audience would be too confused by his behaviour.
+to avoid
+[presentism](https://en.wikipedia.org/wiki/Presentism_(historical_analysis)).
+Note for example how the movie's Odysseus simply cannot be shown to
+even partially enjoy his captivity under Calypso. Oh no, Calypso has
+to be spiking his food and causing amnesia, because our white
+monogamous audience would be too confused by his behaviour.
 
 Why else would he take powerful women (like the enigmatic and
 dangerous Circe) and reduce them to trauma-shocked victims of male
@@ -44,14 +46,14 @@ sympathetic to his plight.
 
 Why else would he constantly harp about unrelated asides (the Sea
 People; Zeus' Law) and try to shoehorn them into a forced 'twist' that
-he apparently is compelled to use in all his movies? Hey guess what, the
-Greeks were *invading* Troy and only a wild, desperate stretch would
-compare that to being their *guests*. So, you could hardly say they
-were guilty of breaking any laws of hospitality by tricking them with
-a gift horse. By any definition, it was the Trojans who were guests of
-the Greeks and guilty of breaching Zeus's law when Paris eloped with
-Helen. But that wouldn't fit the narrative would it, we can't show any
-complexity or the audience would get confused.
+he apparently is compelled to use in all his movies? Hey guess what,
+the Greeks were *invading* Troy and only a wild, desperate stretch
+would compare that to being their *guests*. So, you could hardly say
+they were guilty of breaking any laws of hospitality by tricking them
+with a gift horse. By any definition, it was the Trojans who were
+guests of the Greeks and guilty of breaching Zeus's law when Paris
+eloped with Helen. But that wouldn't fit the narrative would it, we
+can't show any complexity or the audience would get confused.
 
 On that last part, I hate how Nolan cannot leave the book as-is and
 has to contrive his own special twist to the end. I am all for each
