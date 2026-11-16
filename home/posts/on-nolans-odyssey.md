@@ -36,13 +36,15 @@ to be spiking his food and causing amnesia, because our white
 monogamous audience would be too confused by his behaviour.
 
 Why else would he take powerful women (like the enigmatic and
-dangerous Circe) and reduce them to trauma-shocked victims of male
-violence?
+dangerous Circe, or wise Athena) and reduce them to trauma-shocked
+victims of male violence?
 
 Why else would he remove all the Gods from the story, without which
 context is missing: Poseidon vows to make Odysseus' return a misery
 beacuse of what he did to the Cyclops Polyphemus; Athena however is
-sympathetic to his plight.
+sympathetic to his plight. Not to mention that incidents like the 
+one with Apollo's sheep simply don't make sense without those Gods
+standing by ready to make good on their curse.
 
 Why else would he constantly harp about unrelated asides (the Sea
 People; Zeus' Law) and try to shoehorn them into a forced 'twist' that
@@ -58,7 +60,9 @@ can't show any complexity or the audience would get confused.
 On that last part, I hate how Nolan cannot leave the book as-is and
 has to contrive his own special twist to the end. I am all for each
 new generation rewriting myths of old (see the Coen Brothers' *O
-Brother, Where Art Thou?* for a better interpretation of the Odyssey)
+Brother, Where Art Thou?* for a better interpretation of the Odyssey,
+or Dan Simmons' masterful sci-fi rewrite of the Greek mythologies
+in *Ilium*), but this one just left me a bit tired.
 
 ---
 
