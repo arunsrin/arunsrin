@@ -57,8 +57,7 @@ guests of the Greeks and guilty of breaching Zeus's law when Paris
 eloped with Helen. But that wouldn't fit the narrative would it, we
 can't show any complexity or the audience would get confused.
 
-On that last part, I hate how Nolan cannot leave the book as-is and
-has to contrive his own special twist to the end. I am all for each
+I am all for each
 new generation rewriting myths of old (see the Coen Brothers' *O
 Brother, Where Art Thou?* for a better interpretation of the Odyssey,
 or Dan Simmons' masterful sci-fi rewrite of the Greek mythologies
